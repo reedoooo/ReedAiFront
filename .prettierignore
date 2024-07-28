@@ -1,0 +1,5 @@
+package-lock.json
+node_modules/
+jsconfig.json
+*.md
+packages/create-react-admin/templates/**
