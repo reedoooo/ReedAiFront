@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import formFieldsConfigs from 'config/cleanup/formFieldsConfigs';
+import formFieldsConfigs from '../../cleanup/oldVersion/cleanup/formFieldsConfigs';
 
 const useFormikSchema = configName => {
   return Yup.object(

@@ -41,10 +41,6 @@ const UserProfile = Loadable(lazy(() => import('views/admin/profile')));
 
 const ChatBot = Loadable(lazy(() => import('views/admin/chat')));
 const Templates = Loadable(lazy(() => import('views/admin/templates')));
-const Chat = Loadable(
-  lazy(() => import('views/admin/templates/components/Chat'))
-);
-const base = `${window.location.origin}`;
 
 // Create a custom history object
 export const customHistory = createBrowserHistory();
@@ -143,27 +139,14 @@ const adminRoutes = [
         ],
       },
       {
-        name: 'Original Chat',
-        title: 'Original Chat',
-        path: 'chat-original',
-        breadcrumb: 'Original Chat',
-        element: <ChatLayout />,
+        name: 'Templates Home',
+        title: 'TemplatesHome',
+        path: 'templates-home',
+        breadcrumb: 'Templates Home',
+        element: <BlankLayout />,
         icon: <DocumentScannerRoundedIcon />,
         collapse: true,
         children: [
-          {
-            index: true,
-            name: 'Original Chat Ai',
-            title: 'ChatAi',
-            path: 'original-chat-ai',
-            breadcrumb: 'Original Chat Ai',
-            element: <Chat />,
-            link: `${base}/templates/original-chat-ai`,
-            icon: <ChatIcon />,
-            description: 'Original Chat Ai Description',
-            functionalStatus: true,
-            collapse: false,
-          },
           {
             name: 'Templates',
             title: 'Templates',

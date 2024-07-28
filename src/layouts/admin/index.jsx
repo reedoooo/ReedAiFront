@@ -7,6 +7,7 @@ import routes from '@/routes/index';
 import { useAuthStore } from 'contexts/AuthProvider';
 import { SidebarContext } from 'contexts/SidebarProvider';
 import useDisclosure from 'hooks/useDisclosure';
+import useRouter from 'hooks/useRouter';
 import { FooterAdmin } from 'layouts/navigation/footer/FooterAdmin';
 import AdminNavbar from 'layouts/navigation/navbar/NavbarAdmin';
 import { LoadingIndicator } from 'utils/app/LoadingIndicator';
@@ -55,7 +56,7 @@ const AdminLayout = props => {
   const controls = useAnimation();
   const chatBotRoute = location.pathname.includes('/admin/chat/chat-home');
   const isChatBotRoute = Boolean(chatBotRoute);
-
+  const { navigate } = useRouter();
   const HistoryTracker = () => {
     React.useEffect(() => {
       console.log(`Navigated to ${location.pathname}`);

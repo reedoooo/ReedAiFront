@@ -48,7 +48,6 @@ const StyledTabs = styled(motion(Tabs))({
   '& .Mui-selected': {
     backgroundColor: '#000',
     color: '#fff',
-    // padding: '10px',
     margin: '5px',
   },
 });

@@ -6,18 +6,20 @@ import { styled } from '@mui/material/styles';
 import { debounce } from 'lodash';
 import memoizeOne from 'memoize-one';
 import mongoose from 'mongoose';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Navigate } from 'react-router-dom';
 // import { Typewriter } from 'react-simple-typewriter';
 import {
   fetchMessageStream,
-  getWorkspaceByWorkspaceId,
-} from 'api/chat/chat_main';
-import {
   saveMessagesToSession,
-  getChatSessionBySessionId,
   getChatSessionMessagesBySessionId,
-} from 'api/index';
+} from 'api/chat/chat_main';
 import {
   ChatWindow,
   MessageContainer,
@@ -25,13 +27,63 @@ import {
   StyledChatContainer,
 } from 'components/chat/styled';
 import { MessageBox } from 'components/messages';
+import constants from 'config/constants';
 import { useAuthStore, useChatStore } from 'contexts';
 import { useMode } from 'hooks/useMode';
 import useTipTapEditor from 'hooks/useTipTapEditor';
 import { organizeMessages, safeParse } from 'utils/format';
 import 'styles/ChatStyles.css';
-
+const { API_URL, OPENAI_API_KEY } = constants;
 const MessageInput = React.lazy(() => import('./inputs/MessageInput'));
+export async function getChatSessionBySessionId(sessionId) {
+  try {
+    const response = await fetch(
+      'http://localhost:3001/api/chat/chatSessions/session',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sessionId }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const sessionData = await response.json();
+    return sessionData;
+  } catch (error) {
+    console.error('Error fetching session data:', error);
+    throw error;
+  }
+}
+
+export async function getWorkspaceByWorkspaceId(workspaceId) {
+  try {
+    const response = await fetch(
+      'http://localhost:3001/api/chat/workspaces/workspace',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ workspaceId }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const workspaceData = await response.json();
+    return workspaceData;
+  } catch (error) {
+    console.error('Error fetching workspace data:', error);
+    throw error;
+  }
+}
 
 export const ChatApp = () => {
   const { theme } = useMode();
@@ -46,19 +98,23 @@ export const ChatApp = () => {
   const chatSessions = userData.chatSessions;
   const activeSession = chatSessions.find(session => session.active === true);
   const workspaces = userData.workspaces;
-  const activeWorkspace = workspaces.find(space => space.active === true);
+  const activeWorkspace = workspaces.find(space => space.isHome === true);
 
   // --- state management for new state ---
-  const [validSession, setValidSession] = useState({});
-  const [validWorkspace, setValidWorkspace] = useState(
-    activeWorkspace ? activeWorkspace : {}
-  );
+  const [validSession, setValidSession] = useState(activeSession || {});
+  const [validSessionId, setValidSessionId] = useState();
+  const [validWorkspace, setValidWorkspace] = useState(activeWorkspace || {});
+  const [validWorkspaceId, setValidWorkspaceId] = useState();
   const [validSessionMessages, setValidSessionMessages] = useState([]);
 
-  // --- ids for user, session, and workspace ---
-  const sessionId = activeSession ? activeSession._id : null;
-  const workspaceId = activeWorkspace ? activeWorkspace._id : null;
-  const userId = userData._id;
+  // --- memoized IDs ---
+  const sessionId = useMemo(() => activeSession?._id || '', [activeSession]);
+  localStorage.setItem('sessionId', sessionId);
+  const workspaceId = useMemo(
+    () => activeWorkspace?._id || '',
+    [activeWorkspace]
+  );
+  const userId = useMemo(() => userData?._id || '', [userData]);
   const [isFirstMessage, setIsFirstMessage] = useState(true);
   // --- state management for messages ---
   const [messageParts, setMessageParts] = useState([]);
@@ -69,7 +125,6 @@ export const ChatApp = () => {
     }
     return savedMessages ? JSON.parse(savedMessages) : [];
   });
-  const [streamedResponse, setStreamedResponse] = useState({ sections: [] });
   const [userInput, setUserInput] = useState('');
   const [inputOnSubmit, setInputOnSubmit] = useState('');
   const [error, setError] = useState('');
@@ -103,22 +158,53 @@ export const ChatApp = () => {
 
   // --- functions for handling data ---
   const handleSaveMessagesToSession = useCallback(async () => {
-    try {
-      const response = await saveMessagesToSession({
-        userId,
-        workspaceId,
-        sessionId,
-        messages,
-      });
-      console.log('saveMessagesToSession', response);
+    const sessionId = localStorage.getItem('sessionId');
+    const userId = localStorage.getItem('userId');
+
+    if (!sessionId || !userId) {
+      console.error('No sessionId or userId available');
       return;
-    } catch (error) {
-      console.error(error);
     }
-  }, [messages, sessionId]);
+
+    console.log('handleSaveMessagesToSession', sessionId);
+
+    const id = encodeURIComponent(sessionId);
+    try {
+      const updatedMessages = messages.map(message => ({
+        content: message.content,
+        role: message.role,
+      }));
+
+      const body = {
+        sessionId: id,
+        messages: updatedMessages, // Assuming the server expects 'messages'
+      };
+
+      const response = await fetch(
+        '/api/chat/chatSessions/session/messages/save',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error saving messages: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      console.log('Messages saved successfully:', result);
+    } catch (error) {
+      console.error('Error saving messages:', error);
+    }
+  }, [messages]);
+
   const handleGetValidWorkspace = useCallback(async () => {
     try {
-      const response = await memoizedGetWorkspaceByWorkspaceId(workspaceId);
+      const response = await getWorkspaceByWorkspaceId(workspaceId);
       console.log('validWorkspace', response);
       setValidWorkspace(response);
       return;
@@ -126,16 +212,19 @@ export const ChatApp = () => {
       console.error(error);
     }
   }, [workspaceId]);
+
   const handleGetValidSession = useCallback(async () => {
     try {
-      const response = await memoizedGetChatSessionBySessionId(sessionId);
+      const response = await getChatSessionBySessionId(sessionId);
       console.log('validSession', response);
       setValidSession(response);
-      return;
+      return response;
     } catch (error) {
-      console.error(error);
+      console.error('Error fetching session data:', error);
+      throw error;
     }
   }, [sessionId]);
+
   const handleGetValidSessionMessages = useCallback(async () => {
     try {
       const response = await memoizedGetChatSessionMessagesBySessionId(
@@ -157,16 +246,18 @@ export const ChatApp = () => {
   // }, [isMessagesUpdated]);
 
   useEffect(() => {
-    if (!validWorkspace) {
+    if (!validWorkspaceId) {
       handleGetValidWorkspace();
+      setValidWorkspaceId(validWorkspace._id);
     }
-  }, [handleGetValidWorkspace]);
+  }, [handleGetValidWorkspace, validWorkspace, validWorkspaceId]);
 
   useEffect(() => {
-    if (!validSession) {
+    if (!validSessionId) {
       handleGetValidSession();
+      setValidSessionId(validSession._id);
     }
-  }, [handleGetValidSession]);
+  }, [handleGetValidSession, validSession, validSessionId]);
 
   useEffect(() => {
     const handleScroll = debounce(() => {
@@ -274,10 +365,8 @@ export const ChatApp = () => {
           return newMessages;
         });
         setMessageParts(prevParts => [...prevParts, value]);
-        console.log('JSON Part:', value);
       }
       localStorage.setItem('chatMessages', JSON.stringify(messages));
-      console.log('RAW Response:', assistantMessage.content);
 
       const data = safeParse(
         assistantMessage.content,
@@ -287,7 +376,6 @@ export const ChatApp = () => {
       const pageLayout = data.content;
       console.log(pageLayout);
 
-      setStreamedResponse({ pageLayout });
       assistantMessage.content = pageLayout;
       setMessages(prevMessages => {
         const newMessages = [...prevMessages];
@@ -339,12 +427,11 @@ export const ChatApp = () => {
     const uniqueMessages = filterMessagesWithContent(organizedMessages);
     localStorage.setItem('chatMessages', JSON.stringify(uniqueMessages));
     // Only call saveSessionMessages if there are messages and a valid sessionId
-    // if (sessionId && messages.length > 0 && !isMessagesUpdated) {
-    //   saveSessionMessages(uniqueMessages);
-    //   setIsMessagesUpdated(true);
-    // }
-    console.log('Organized and Unique Messages:', organizedMessages);
-  }, [validWorkspace, sessionId, messages]); // Dependency array includes messages to trigger useEffect when messages change
+    if (sessionId && messages.length > 0 && !isMessagesUpdated) {
+      handleSaveMessagesToSession();
+      setIsMessagesUpdated(true);
+    }
+  }, [sessionId, messages, handleSaveMessagesToSession, setIsMessagesUpdated]); // Dependency array includes messages to trigger useEffect when messages change
   if (isRedirectToSignin) {
     setIsRedirectToSignin(false);
     return <Navigate to="/auth/sign-in" />;

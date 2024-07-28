@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import MessageMarkdownMemoized from 'components/chat/cleanup/organized/Messages/message-markdown-memoized';
+import MessageMarkdownMemoized from 'components/chat/chat-cleanup/organized/Messages/message-markdown-memoized';
 import React from 'react';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';

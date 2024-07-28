@@ -76,12 +76,19 @@ const MessageOptions = ({ message, onRegenerate }) => {
 
 const SaveMessageDialog = ({ open, onClose, message }) => {
   const [fileName, setFileName] = useState('');
-
+  const saveFileForLocalStorage = {
+    content: message.content,
+    fileName,
+  };
   const handleSave = () => {
     const blob = new Blob([message.content], {
       type: 'text/plain;charset=utf-8',
     });
     saveAs(blob, `${fileName || 'assistant_message'}.txt`);
+    localStorage.setItem(
+      'assistant_message',
+      JSON.stringify(saveFileForLocalStorage) || 'null'
+    );
     onClose();
   };
 

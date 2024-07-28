@@ -97,7 +97,7 @@ export const Sidebar = props => {
         {route.children && route.children.length > 0 && (
           <Box sx={{ paddingLeft: `${paddingLeft}px` }}>
             {renderRoutes(route.children, paddingLeft + indent)}
-            <Divider />
+            {/* <Divider /> */}
           </Box>
         )}
       </Box>

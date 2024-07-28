@@ -17,32 +17,34 @@ import Upload from 'views/admin/profile/components/Upload';
 export default function Overview() {
   const userStorage = JSON.parse(localStorage.getItem('userStorage'));
   const user = userStorage.user || {};
-  const [profileImage, setProfileImage] = useState(user.userInfo.profileImage);
+  const [profileImage, setProfileImage] = useState(
+    userStorage.userInfo.profileImage || ''
+  );
 
-  // const getUserProfileImage = async () => {
-  //   try {
-  //     // Assuming the image URL is stored in user.profile.image
-  //     // const imageUrl = user.profile.image || avatar5;
-  //     const imagename = 'avatar1';
-  //     const nameWithExtension = imagename.includes('.')
-  //       ? imagename
-  //       : `${imagename}.png`;
-  //     const response = await fetch(
-  //       `http://localhost:3001/static/files/${nameWithExtension}`
-  //     );
-  //     if (!response.ok) {
-  //       throw new Error('Network response was not ok');
-  //     }
-  //     console.log('imageUrl', response.url);
-  //     setProfileImage(response.url);
-  //   } catch (error) {
-  //     console.error('Error fetching profile image:', error);
-  //     setProfileImage(avatar5); // Fallback to a default avatar if there's an error
-  //   }
-  // };
-  // useEffect(() => {
-  //   getUserProfileImage();
-  // }, []);
+  const getUserProfileImage = async () => {
+    try {
+      // Assuming the image URL is stored in user.profile.image
+      // const imageUrl = user.profile.image || avatar5;
+      const imagename = 'avatar1';
+      const nameWithExtension = imagename.includes('.')
+        ? imagename
+        : `${imagename}.png`;
+      const response = await fetch(
+        `http://localhost:3001/static/files/${nameWithExtension}`
+      );
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      console.log('imageUrl', response.url);
+      setProfileImage(response.url);
+    } catch (error) {
+      console.error('Error fetching profile image:', error);
+      setProfileImage(avatar5); // Fallback to a default avatar if there's an error
+    }
+  };
+  useEffect(() => {
+    getUserProfileImage();
+  }, []);
   const userData = {
     name: user.username,
     email: user.email,

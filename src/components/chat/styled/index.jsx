@@ -133,31 +133,56 @@ export const AnimatedTab = styled(motion(Tab))(({ theme }) => ({
   height: '50px',
   outline: 'none',
   backgroundColor: '#000',
-  width: '25%',
-  borderRadius: '10px',
-  '&.MuiSelected': {
-    backgroundColor: '#fff',
-    color: '#000',
+  width: '33%',
+  // borderRadius: '10px',
+  margin: '5px',
+  color: '#fff',
+  border: 'none',
+  borderRadius: '5px',
+  // padding: '12px 16px',
+  overflow: 'hidden',
+  fontSize: '0.875rem',
+  fontWeight: 500,
+  textTransform: 'capitalize',
+  '&.selected': {
+    backgroundColor: '#000',
+    color: '#fff', // Text color for active tab
   },
-  '&.ui-selected': {
-    backgroundColor: '#fff',
-    color: '#000',
+  '&.notSelected': {
+    backgroundColor: '#808080',
+    color: '#fff',
   },
-  // '& span': {
-  //   position: 'absolute',
-  //   left: '4px',
-  //   right: 0,
-  //   top: '6px',
-  //   bottom: 0,
-  //   zIndex: 1,
-  //   userSelect: 'none',
-  //   fontSize: '1rem',
-  //   color: '#E8E8FD',
+  // '&:hover': {
+  //   backgroundColor: '#000',
+  //   opacity: 0.5,
   // },
+  '&:focus': {
+    outline: 'none',
+  },
+  '& span': {
+    zIndex: 1,
+  },
+  '&::after': {
+    content: "''",
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    height: '2px',
+    backgroundColor: '#fff',
+    transformOrigin: 'left',
+    transform: 'scaleX(0)',
+    transition: 'transform 0.3s ease',
+  },
+  '&:hover::after, &:focus::after': {
+    transformOrigin: 'left',
+    transform: 'scaleX(1)',
+  },
   [theme.breakpoints.down('md')]: {
     width: '100%',
   },
 }));
+
 export const StyledChatContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',

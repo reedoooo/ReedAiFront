@@ -129,130 +129,133 @@ export const updateChatSession = async (sessionId, session_data) => {
     throw error;
   }
 };
-export const getChatSessionMessagesByMessagesIds = async messageIds => {
-  // const id = encodeURIComponent(sessionId);
-  try {
-    const response = await fetch(
-      `${API_URL}/chat/chat_messages/session/messages`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: {
-          messageIds,
-        },
-      }
-    );
+// export const getChatSessionMessagesByMessagesIds = async messageIds => {
+//   // const id = encodeURIComponent(sessionId);
+//   try {
+//     const response = await fetch(
+//       `${API_URL}/chat/chat_messages/session/messages`,
+//       {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: {
+//           messageIds,
+//         },
+//       }
+//     );
 
-    if (!response.ok) {
-      // Handle HTTP errors
-      throw new Error(
-        `HTTP error! status: ${response.status} message: ${response.statusText}`
-      );
-    }
+//     if (!response.ok) {
+//       // Handle HTTP errors
+//       throw new Error(
+//         `HTTP error! status: ${response.status} message: ${response.statusText}`
+//       );
+//     }
 
-    const messagesData = await response.json();
-    return messagesData;
-  } catch (error) {
-    console.error('Error fetching messages data:', error);
-    throw error;
-  }
-};
-export const getChatSessionsByWorkspaceId = async workspaceId => {
-  const response = await fetch(`/chat/chat_sessions/${workspaceId}`);
-  const data = await response.json();
+//     const messagesData = await response.json();
+//     return messagesData;
+//   } catch (error) {
+//     console.error('Error fetching messages data:', error);
+//     throw error;
+//   }
+// };
+// export const getChatSessionsByWorkspaceId = async workspaceId => {
+//   const response = await fetch(`/chat/chat_sessions/${workspaceId}`);
+//   const data = await response.json();
 
-  if (!data.chatSessions) {
-    throw new Error(data.error);
-  }
+//   if (!data.chatSessions) {
+//     throw new Error(data.error);
+//   }
 
-  return data.chatSessions;
-};
+//   return data.chatSessions;
+// };
 
-export const getChatSessionBySessionId = async sessionId => {
-  const id = encodeURIComponent(sessionId);
-  try {
-    const response = await fetch(
-      `${API_URL}/chat/chat_sessions/session/${id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+// export const getChatSessionBySessionId = async sessionId => {
+//   const id = encodeURIComponent(sessionId);
+//   try {
+//     const response = await fetch(
+//       `${API_URL}/chat/chat_sessions/session/${id}`,
+//       {
+//         method: 'GET',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//       }
+//     );
 
-    if (!response.ok) {
-      // Handle HTTP errors
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+//     if (!response.ok) {
+//       // Handle HTTP errors
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
 
-    const sessionData = await response.json();
-    return sessionData;
-  } catch (error) {
-    console.error('Error fetching session data:', error);
-    throw error;
-  }
-};
-export const getChatSessionMessagesBySessionId = async sessionId => {
-  const id = encodeURIComponent(sessionId);
-  try {
-    const response = await fetch(
-      `${API_URL}/chat/chat_messages/session/${id}/messages`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+//     const sessionData = await response.json();
+//     return sessionData;
+//   } catch (error) {
+//     console.error('Error fetching session data:', error);
+//     throw error;
+//   }
+// };
 
-    if (!response.ok) {
-      // Handle HTTP errors
-      throw new Error(
-        `HTTP error! status: ${response.status} message: ${response.statusText}`
-      );
-    }
+// export const getChatSessionMessagesBySessionId = async sessionId => {
+//   const id = encodeURIComponent(sessionId);
+//   try {
+//     const response = await fetch(
+//       `${API_URL}/chat/chat_messages/session/${id}/messages`,
+//       {
+//         method: 'GET',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//       }
+//     );
 
-    const messagesData = await response.json();
-    return messagesData;
-  } catch (error) {
-    console.error('Error fetching messages data:', error);
-    throw error;
-  }
-};
-export const saveMessagesToSession = async (
-  userId,
-  workspaceId,
-  sessionId,
-  messages
-) => {
-  const id = encodeURIComponent(sessionId);
-  try {
-    const updatedMessages = messages.map(message => ({
-      content: message.content,
-      role: message.role,
-    }));
-    const body = {
-      sessionId,
-      messages,
-      updatedMessages,
-    };
-    const response = await fetch(
-      `/api/chat/chat_sessions/session/${id}/messages/save`,
-      {
-        method: 'PUT',
-        body: JSON.stringify(body),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    console.log(response);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
+//     if (!response.ok) {
+//       // Handle HTTP errors
+//       throw new Error(
+//         `HTTP error! status: ${response.status} message: ${response.statusText}`
+//       );
+//     }
+
+//     const messagesData = await response.json();
+//     return messagesData;
+//   } catch (error) {
+//     console.error('Error fetching messages data:', error);
+//     throw error;
+//   }
+// };
+
+// export const saveMessagesToSession = async (
+//   userId,
+//   workspaceId,
+//   sessionId,
+//   messages
+// ) => {
+//   console.log('ID', sessionId);
+//   const id = encodeURIComponent(sessionId);
+//   try {
+//     const updatedMessages = messages?.map(message => ({
+//       content: message.content,
+//       role: message.role,
+//     }));
+//     const body = {
+//       sessionId,
+//       messages,
+//       updatedMessages,
+//     };
+//     const response = await fetch(
+//       `/api/chat/chat_sessions/session/${id}/messages/save`,
+//       {
+//         method: 'PUT',
+//         body: JSON.stringify(body),
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//       }
+//     );
+//     console.log(response);
+//     return response.data;
+//   } catch (error) {
+//     console.error(error);
+//     throw error;
+//   }
+// };

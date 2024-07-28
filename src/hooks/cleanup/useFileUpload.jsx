@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { pdfjs } from 'react-pdf';
-import formFieldsConfigs from 'config/cleanup/formFieldsConfigs';
+import formFieldsConfigs from '../../../cleanup/oldVersion/cleanup/formFieldsConfigs';
 
 const useFileUpload = setFormValues => {
   const { coverLetterConfigs } = formFieldsConfigs;

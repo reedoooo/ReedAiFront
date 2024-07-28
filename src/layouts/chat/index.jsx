@@ -6,6 +6,7 @@ import { useAuthStore } from 'contexts/AuthProvider';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useUserStore } from 'contexts/UserProvider';
 import useMode from 'hooks/useMode';
+import useRouter from 'hooks/useRouter';
 import { getLoadType } from 'utils/navigation';
 import LoadingOverlay from './components/LoadingStepsOverlay';
 
@@ -56,7 +57,7 @@ const ChatLayout = () => {
   const chatStore = useChatStore();
   const boxRef = useRef(null);
   const topCheckboxRef = useRef(null);
-
+  const { navigate } = useRouter();
   const [state, setState] = useState({
     isLoggedIn: false,
     isApiKeyValid: false,
@@ -101,6 +102,9 @@ const ChatLayout = () => {
       updateStep(0, 0, true); // Checking for active user
       updateStep(0, 1, true); // Setting user profile
       const storedUserData = JSON.parse(localStorage.getItem('userStorage'));
+      if (!storedUserData) {
+        return navigate('/auth/sign-in');
+      }
       storedUserData.user.profile && updateStep(1, 0, true); // Setting up workspaces
       storedUserData.user.chatSessions && updateStep(1, 1, true); // Checking for selected workspace
       storedUserData.user.assistants && updateStep(1, 2, true); // Setting up assistants

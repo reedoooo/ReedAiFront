@@ -25,6 +25,7 @@ import { StyledIconContainer } from 'components/themed/styled';
 import { authConfigs } from 'config/form-configs';
 import { useAuthStore } from 'contexts/AuthProvider';
 import useMode from 'hooks/useMode';
+import useRouter from 'hooks/useRouter';
 import { dispatch } from 'store/index';
 import { toggleDialogState } from 'store/Slices/appSlice';
 import LoadingIndicator from 'utils/app/LoadingIndicator';
@@ -41,7 +42,6 @@ const StyledInfoPanel = styled(Box)(({ theme }) => ({
 }));
 const GuestInfoPanel = () => {
   const { theme } = useMode();
-
   return (
     <StyledInfoPanel theme={theme}>
       <Typography variant="h6" color="textPrimary" gutterBottom theme={theme}>
@@ -76,11 +76,12 @@ export const AuthPages = () => {
   const { state, actions } = useAuthStore();
   const { handleAuthSubmit } = actions;
   const { formDisabled, isAuthenticated } = state;
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { theme } = useMode();
   const pageRef = React.createRef();
   const formRef = React.createRef();
   const searchParams = {};
+  const { navigate } = useRouter();
 
   const formik = useFormik({
     initialValues: {
@@ -137,9 +138,9 @@ export const AuthPages = () => {
     initDialogToggle();
     onClose();
   };
-
-  if (isAuthenticated) {
-    return <Navigate to="/admin/dashboard" />;
+  const storedUserData = JSON.parse(localStorage.getItem('userStorage'));
+  if (storedUserData) {
+    return navigate('/admin/dashboard');
   }
 
   if (state.status === 'loading') {

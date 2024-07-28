@@ -1,28 +1,26 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable react/no-children-prop */
-import { Box, Card, Typography, Avatar, styled } from '@mui/material';
+import {
+  Box,
+  Card,
+  Typography,
+  Avatar,
+  styled,
+  IconButton,
+} from '@mui/material';
 import memoizeOne from 'memoize-one';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { FaUser } from 'react-icons/fa';
+import { FaCopy, FaUser } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import rehypeHighlight from 'rehype-highlight';
-import rehypeRaw from 'rehype-raw';
-import rehypeSanitize from 'rehype-sanitize';
 import gfm from 'remark-gfm';
-import remarkGfm from 'remark-gfm';
-import remarkParse from 'remark-parse';
-import remarkRehype from 'remark-rehype';
-import sanitizeHtml from 'sanitize-html';
 import { AiIcon } from 'assets/humanIcons';
-import useTypeCheck from 'hooks/useContentTypeCheck';
 import useMode from 'hooks/useMode';
 import MessageOptions from './MessageOptions';
 
 function extractMarkdownContent(messageContent) {
   try {
-    // Check if the content is valid JSON
     if (
       typeof messageContent === 'string' &&
       messageContent.startsWith('{') &&
@@ -72,6 +70,57 @@ const TypographyWrapper = styled(Typography)({
   flexGrow: 1,
   overflowWrap: 'break-word',
 });
+
+const CodeBlockWithCopy = ({ children, language }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(children);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <Box sx={{ position: 'relative', overflowX: 'auto', maxWidth: '100%' }}>
+      <Box
+        sx={{
+          // mb: 1,
+          display: 'flex',
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          backgroundColor: '#333',
+          padding: 1, // equal to 24px (MuiBox)
+          color: '#fff',
+          borderRadius: '4px 4px 0 0',
+        }}
+      >
+        <Typography variant="caption" sx={{ fontWeight: 'bold', ml: 2 }}>
+          {language}
+        </Typography>
+        <IconButton size="small" onClick={handleCopy}>
+          <FaCopy />
+        </IconButton>
+      </Box>
+      <SyntaxHighlighter
+        children={String(children).replace(/\n$/, '')}
+        style={oneDark}
+        language={language}
+        PreTag="div"
+        // {...props}
+      />
+      {/* <SyntaxHighlighter style={oneDark} language={language} PreTag="div">
+        {children}
+      </SyntaxHighlighter> */}
+      {copied && (
+        <Typography variant="caption" color="success.main">
+          Copied!
+        </Typography>
+      )}
+    </Box>
+  );
+};
+
 export const RenderContent = ({ content, sender, maxWidth }) => {
   return (
     <ReactMarkdown
@@ -85,16 +134,12 @@ export const RenderContent = ({ content, sender, maxWidth }) => {
               component="div"
               sx={{
                 overflowX: 'auto',
-                maxWidth: maxWidth || '100%',
+                maxWidth: maxWidth || '90%',
               }}
             >
-              <SyntaxHighlighter
-                children={String(children).replace(/\n$/, '')}
-                style={oneDark}
-                language={match[1]}
-                PreTag="div"
-                {...props}
-              />
+              <CodeBlockWithCopy language={match[1]}>
+                {String(children).replace(/\n$/, '')}
+              </CodeBlockWithCopy>
             </Box>
           ) : (
             <code className={className} {...props}>
@@ -118,53 +163,7 @@ export const RenderContent = ({ content, sender, maxWidth }) => {
     />
   );
 };
-// export const RenderContent = ({ content, sender, maxwidth }) => {
-//   <ReactMarkdown
-//     children={content}
-//     remarkPlugins={[gfm]} // To support GitHub Flavored Markdown
-//     rehypePlugins={[rehypeRaw]} // To allow raw HTML
-//     // rehypePlugins={[rehypeRaw, rehypeHighlight, rehypeSanitize]}
-//     // remarkPlugins={[gfm, remarkGfm, remarkParse, remarkRehype]}
-//     components={{
-//       code({ node, inline, className, children, ...props }) {
-//         const match = /language-(\w+)/.exec(className || '');
-//         return !inline && match ? (
-//           <Box
-//             component="div"
-//             sx={{
-//               overflowX: 'auto',
-//               maxWidth: maxwidth || '100%',
-//             }}
-//           >
-//             <SyntaxHighlighter
-//               children={String(children).replace(/\n$/, '')}
-//               style={oneDark}
-//               language={match[1]}
-//               PreTag="div"
-//               {...props}
-//             />
-//           </Box>
-//         ) : (
-//           <code className={className} {...props}>
-//             {children}
-//           </code>
-//         );
-//       },
-//       a({ href, children, ...props }) {
-//         return (
-//           <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
-//             {children}
-//           </a>
-//         );
-//       },
-//       img({ alt, src, ...props }) {
-//         return (
-//           <img alt={alt} src={src} style={{ maxWidth: '100%' }} {...props} />
-//         );
-//       },
-//     }}
-//   />;
-// };
+
 export const ChatBubble = ({ message, sender }) => {
   const { theme } = useMode();
   const bubbleRef = useRef(null);
@@ -175,7 +174,7 @@ export const ChatBubble = ({ message, sender }) => {
       setMaxWidth(`${bubbleRef.current.clientWidth}px`);
     }
   }, [bubbleRef.current]);
-  // Define styles conditionally based on the sender
+
   const avatarStyle = {
     width: 40,
     height: 40,
@@ -187,30 +186,8 @@ export const ChatBubble = ({ message, sender }) => {
         : theme.palette.secondary.main,
   };
 
-  const bubbleStyles = {
-    backgroundColor: sender === 'user' ? '#26242C' : '#26242C',
-    // padding: 2,
-    // marginRight: 2,
-    margin: '10px',
-    padding: '10px',
-    borderRadius: '12px',
-    alignSelf: sender === 'user' ? 'flex-end' : 'flex-start',
-    display: 'flex',
-    alignItems: sender === 'user' ? 'flex-end' : 'flex-start',
-    justifyContent: sender === 'user' ? 'flex-end' : 'flex-start',
-    flexDirection: sender === 'user' ? 'row-reverse' : 'row',
-    mb: 2,
-    maxWidth: '90%',
-    flexGrow: 1,
-  };
-
   const icon = sender === 'user' ? <FaUser /> : <AiIcon />;
 
-  // const markdownContent = extractMarkdownContent(message.content);
-  // const contentToRender =
-  //   contentType === 'code' || contentType === 'markdown'
-  //     ? extractMarkdownContent(message.content)
-  //     : message.content;
   return (
     <ChatBubbleWrapper ref={bubbleRef} sender={sender} theme={theme}>
       <AvatarWrapper sx={avatarStyle} theme={theme} sender={sender}>
@@ -267,7 +244,6 @@ export const MessageBox = props => {
 
   return (
     <Box
-      className="lg:w-1/2 2xl:w-1/3 p-8 rounded-md bg-gray-100"
       sx={{
         borderRadius: 'theme.shape.borderRadius', // You can adjust this value based on the theme's border radius scale
         marginTop: 4, // Margin top using theme's spacing scale
@@ -276,8 +252,6 @@ export const MessageBox = props => {
       }}
     >
       <Box
-        id="resultContainer"
-        className="mt-4 h-48 overflow-y-auto"
         sx={{
           p: 2, // Padding using theme's spacing scale
           flexGrow: 1,

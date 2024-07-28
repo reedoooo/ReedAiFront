@@ -8,6 +8,7 @@ import { MdAddTask } from 'assets/humanIcons';
 import { IconBox, MiniStatistics } from 'components/index';
 import { careerTrackerTable } from 'config/data';
 import useMode from 'hooks/useMode';
+import useRouter from 'hooks/useRouter';
 import { JobStatusTracker } from './components';
 import DailyTraffic from './components/DailyTraffic';
 import { CalendarComponent } from './components/DashboardCalendar';
@@ -23,11 +24,10 @@ const MainDashboard = () => {
   const brandColor = '#422AFB';
   const boxBg = '#cdd5df';
   const [user, setUser] = useState({});
-
+  const { navigate } = useRouter();
   useEffect(() => {
     const sessionData = JSON.parse(localStorage.getItem('userStorage'));
-    console.log('sessionData: user', sessionData.user);
-    setUser(sessionData.user);
+    setUser(sessionData?.user);
   }, []);
 
   const FileTreeWidget = styled(TreeItem)(({ theme }) => ({
@@ -79,6 +79,10 @@ const MainDashboard = () => {
     { id: 'package.json', label: 'package.json' },
     { id: 'README.md', label: 'README.md' },
   ];
+  const storedUserData = JSON.parse(localStorage.getItem('userStorage'));
+  if (!storedUserData) {
+    return navigate('/auth/sign-in');
+  }
   return (
     <Box paddingTop={{ xs: '130px', md: '80px', xl: '80px' }}>
       {/* <----- Mini Statistics Section -----> */}

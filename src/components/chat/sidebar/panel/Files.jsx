@@ -79,6 +79,7 @@ const Files = () => {
             label="File Info"
             style={{ color: '#fff', borderRadius: '5px' }}
           />
+          <Tab label="List" style={{ color: '#fff', borderRadius: '5px' }} />
         </StyledTabs>
       </Box>
       {tab === 0 && (
@@ -121,6 +122,33 @@ const Files = () => {
         </Box>
       )}
       {tab === 1 && (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            justifyContent: 'space-between',
+          }}
+        >
+          <StyledTextField
+            label="File Description"
+            value={fileDescription}
+            onChange={e => setFileDescription(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+          <StyledButton variant="outlined" component="label">
+            Choose File <input type="file" hidden />
+          </StyledButton>
+          <Box>
+            <StyledButton variant="outlined" style={{ marginRight: '10px' }}>
+              Cancel
+            </StyledButton>
+            <StyledButton variant="outlined">Save</StyledButton>
+          </Box>
+        </Box>
+      )}
+      {tab === 2 && (
         <Box
           sx={{
             display: 'flex',

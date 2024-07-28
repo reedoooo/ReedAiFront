@@ -8,6 +8,7 @@ import {
   ChatIcon,
   FilePresentIcon,
   FingerprintIcon,
+  HomeIcon,
   KeyIcon,
   SettingsIcon,
 } from 'assets/humanIcons';
@@ -17,6 +18,7 @@ import ValidationIcon from 'components/themed/styled/ValidationIcon';
 import { useAuthStore } from 'contexts/AuthProvider';
 import { useChatStore } from 'contexts/ChatProvider';
 import useMode from 'hooks/useMode';
+import useRouter from 'hooks/useRouter';
 import { SidebarContainer, SidebarPanel } from '../styled';
 import Assistants from './panel/Assistants';
 import Chat from './panel/Chat';
@@ -35,6 +37,7 @@ export const ChatSidebar = () => {
   const [tab, setTab] = useState(null);
   const [showSidebar, setShowSidebar] = useState(true);
   const sideBarWidthRef = React.useRef(null);
+  const { navigate } = useRouter();
   const {
     state: { user, formDisabled, isAuthenticated },
     actions: { logout },
@@ -166,6 +169,24 @@ export const ChatSidebar = () => {
               />{' '}
             </IconButton>
           </Tooltip>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '100%',
+            backgroundColor: '#1C1C1C',
+            alignSelf: 'flex-end',
+            pt: '100%',
+            mt: 'auto',
+          }}
+        >
+          <Tooltip title="Home" placement="right">
+            <IconButton onClick={() => navigate('/admin/dashboard')}>
+              <HomeIcon sx={sidebarIconStyle} />
+            </IconButton>
+          </Tooltip>{' '}
         </Box>
       </SidebarPanel>
       <Drawer

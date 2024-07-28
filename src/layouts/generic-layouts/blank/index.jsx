@@ -1,9 +1,14 @@
+import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
 const BlankLayout = () => (
-  <>
+  <Box
+    sx={{
+      mt: 11,
+    }}
+  >
     <Outlet />
-  </>
+  </Box>
 );
 export default BlankLayout;
 // import { Box } from '@mui/material';

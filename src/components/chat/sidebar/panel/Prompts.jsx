@@ -135,7 +135,6 @@ const CurrentPromptRenderer = ({ prompt, isOpen, onToggle }) => {
     </motion.div>
   );
 };
-
 export const Prompts = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [animationKey, setAnimationKey] = useState(0);
@@ -415,7 +414,7 @@ export const Prompts = () => {
     },
   ];
   return (
-    <div className="w-full max-w-md px-2 py-16 sm:px-0">
+    <>
       <Box
         ref={itemRef}
         sx={{
@@ -451,51 +450,54 @@ export const Prompts = () => {
           Prompts
         </Typography>
       </Box>
-      <div className="w-full max-w-md px-2 py-16 sm:px-0">
+      <>
         <TabGroup selectedIndex={selectedIndex} onChange={setSelectedIndex}>
-          <StyledTabs theme={theme}>
-            <AnimatedTab
-              theme={theme}
-              label="Create"
-              {...a11yProps(0)}
-              component={motion.div}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              style={{ color: '#fff', borderRadius: '5px' }}
-            >
-              Create
-            </AnimatedTab>
-            <AnimatedTab
-              label="Edit"
-              {...a11yProps(1)}
-              component={motion.div}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              style={{ color: '#fff', borderRadius: '5px' }}
-            >
-              Edit
-            </AnimatedTab>
-            <AnimatedTab
-              label="All Prompts"
-              {...a11yProps(2)}
-              component={motion.div}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              style={{ color: '#fff', borderRadius: '5px' }}
-            >
-              All Prompts
-            </AnimatedTab>
-            <AnimatedTab
-              label="Suggested"
-              {...a11yProps(3)}
-              component={motion.div}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              style={{ color: '#fff', borderRadius: '5px' }}
-            >
-              Suggested
-            </AnimatedTab>
-          </StyledTabs>
+          <Box
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              padding: '1rem',
+              color: 'white',
+              borderRadius: '14px',
+              background: '#1c1c1c', // Slightly different background for the panel to distinguish it
+            }}
+          >
+            <StyledTabs theme={theme} color="cyan">
+              <AnimatedTab
+                theme={theme}
+                label="Create"
+                className={selectedIndex === 0 ? 'selected' : 'notSelected'}
+                // onClick={() => setSelectedIndex(index)}
+                {...a11yProps(0)}
+                component={motion.div}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                CREATE
+              </AnimatedTab>
+              <AnimatedTab
+                label="Edit"
+                className={selectedIndex === 1 ? 'selected' : 'notSelected'}
+                {...a11yProps(1)}
+                component={motion.div}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                EDIT
+              </AnimatedTab>
+              <AnimatedTab
+                label="Suggested"
+                className={selectedIndex === 2 ? 'selected' : 'notSelected'}
+                {...a11yProps(2)}
+                component={motion.div}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                SUGGESTED
+              </AnimatedTab>
+            </StyledTabs>
+          </Box>
           <TabPanels className="mt-2">
             <TabPanel
               value={'Create'}
@@ -582,52 +584,6 @@ export const Prompts = () => {
                 </Box>
               ))}
             </TabPanel>
-            <TabPanel value={'All Prompts'} index={1}>
-              <motion.div layout>
-                <Typography variant="h6">All Prompts</Typography>
-                <div style={{ height: 400, width: '100%' }}>
-                  <DataGrid
-                    rows={promptList.map((item, index) => ({
-                      id: index,
-                      ...item,
-                    }))}
-                    columns={columns}
-                    pageSize={5}
-                    rowsPerPageOptions={[5, 10, 20]}
-                    checkboxSelection
-                    disableSelectionOnClick
-                    style={{ color: '#fff' }}
-                  />
-                </div>
-                <Box display="flex" justifyContent="flex-end" mb={2}>
-                  <Button
-                    variant="contained"
-                    onClick={() => changeShowModal('add')}
-                  >
-                    Add
-                  </Button>
-                  <Button
-                    variant="contained"
-                    onClick={() => changeShowModal('local_import')}
-                  >
-                    Import
-                  </Button>
-                  <Button variant="contained" onClick={exportPromptTemplate}>
-                    Export
-                  </Button>
-                  <Popover
-                    open={isHovering}
-                    content={
-                      <Button onClick={handleClearPrompts}>
-                        Confirm clear data?
-                      </Button>
-                    }
-                  >
-                    <Button>Clear</Button>
-                  </Popover>
-                </Box>
-              </motion.div>
-            </TabPanel>
             <TabPanel value={'Suggested Prompts'} index={2}>
               <Typography variant="h6">Suggested Prompts</Typography>
               <StyledButton onClick={downloadPromptTemplate}>
@@ -706,8 +662,8 @@ export const Prompts = () => {
             </TabPanel>
           </TabPanels>
         </TabGroup>
-      </div>
-    </div>
+      </>
+    </>
   );
 };
 

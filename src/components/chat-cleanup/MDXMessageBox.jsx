@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 // ChatMessageBox.js
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import MarkdownRenderer from './MarkdownRenderer';
 
 export const MDXMessageBox = ({ streamedResponse }) => {

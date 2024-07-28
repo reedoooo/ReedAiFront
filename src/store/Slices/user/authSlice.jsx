@@ -46,7 +46,7 @@ const initialState = {
   isAuthenticated: !!getLocalStorageItem('userToken'),
   formDisabled: !!getLocalStorageItem('userToken'),
   isRedirectToSignin: false,
-  user: getLocalStorageItem('userStorage').user || {},
+  user: getLocalStorageItem('userStorage')?.user || {},
   token: getLocalStorageItem('userToken'),
 };
 // Async thunks

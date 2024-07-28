@@ -75,7 +75,7 @@ export default function AdminNavbar(props) {
   return (
     <NavbarContainer
       secondary={secondary}
-      message={message}
+      message={message ? message : ''}
       brandText={brandText}
       pathName={pathName}
       routes={routes}
