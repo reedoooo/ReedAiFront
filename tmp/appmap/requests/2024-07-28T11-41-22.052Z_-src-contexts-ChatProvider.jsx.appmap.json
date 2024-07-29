@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/contexts/ChatProvider.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/contexts/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"3a88-dRZxtOG9a0jV49X5PcCSuDH/+8M\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"3a88-iEkUHlOyWGP5C4YDV3ADKIwHPqY\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/contexts/ChatProvider.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/contexts/ChatProvider.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$(), _s2 = $RefreshSig$();\nimport __vite__cjsImport3_mongoose from \"/node_modules/.vite/deps/mongoose.js?v=a0a28a61\"; const mongoose = __vite__cjsImport3_mongoose.__esModule ? __vite__cjsImport3_mongoose.default : __vite__cjsImport3_mongoose;\nimport __vite__cjsImport4_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport4_react.__esModule ? __vite__cjsImport4_react.default : __vite__cjsImport4_react; const createContext = __vite__cjsImport4_react[\"createContext\"]; const useContext = __vite__cjsImport4_react[\"useContext\"]; const useEffect = __vite__cjsImport4_react[\"useEffect\"]; const useState = __vite__cjsImport4_react[\"useState\"];\nimport { useDispatch, useSelector } from \"/node_modules/.vite/deps/react-redux.js?v=bfc12e79\";\nimport avatar5 from \"/src/assets/img/avatars/avatar5.png?import\";\nimport {\n  setAbortController,\n  setFirstTokenReceived,\n  setIsGenerating,\n  setAssistantImages,\n  setAssistants,\n  setOpenaiAssistants,\n  setSelectedAssistant,\n  setIsPromptPickerOpen,\n  setSlashCommand,\n  setFocusPrompt,\n  setFocusFile,\n  setFocusTool,\n  setFocusAssistant,\n  setAtCommand,\n  setIsAssistantPickerOpen,\n  setIsFilePickerOpen,\n  setIsToolPickerOpen,\n  setToolCommand,\n  setHashtagCommand,\n  setCollections,\n  setChatFiles,\n  setFiles,\n  setChatImages,\n  setNewMessageImages,\n  setNewMessageFiles,\n  setShowFilesDisplay,\n  setFolders,\n  setChats,\n  setEnvKeyMap,\n  setAvailableHostedModels,\n  setAvailableLocalModels,\n  setAvailableOpenRouterModels,\n  setModels,\n  setChatFileItems,\n  setChatMessages,\n  setChatSettings,\n  setPrompts,\n  setSourceCount,\n  setUseRetrieval,\n  setApiKey,\n  setChatId,\n  setSessionId,\n  setSelectedTools,\n  setToolInUse,\n  setTools,\n  setSelectedWorkspace,\n  setHomeWorkSpace,\n  setWorkspaceImages,\n  setWorkspaces,\n  setProfile,\n  setSelectedPrompt,\n  fetchUserProfileImage,\n  fetchFileData\n} from \"/src/store/Slices/index.jsx\";\nexport const ChatContext = createContext(null);\nexport const ChatProvider = ({ children }) => {\n  _s();\n  const state = useSelector((state2) => {\n    return {\n      ...state2.activeChat,\n      ...state2.assistant,\n      ...state2.chatInputCommand,\n      ...state2.collection,\n      ...state2.file,\n      ...state2.folders,\n      ...state2.generalChat,\n      ...state2.model,\n      ...state2.passiveChat,\n      ...state2.baseChat,\n      ...state2.preset,\n      ...state2.profile,\n      ...state2.prompt,\n      ...state2.retrieval,\n      // ...state.session,\n      ...state2.tool,\n      ...state2.workspace\n    };\n  });\n  const { prompts } = state;\n  const [filedata, setFiledata] = useState(null);\n  const [user, setUser] = useState(null);\n  const dispatch = useDispatch();\n  useEffect(() => {\n    const userStorage = JSON.parse(localStorage.getItem(\"userStorage\"));\n    const user2 = userStorage?.user;\n    const userInfo = userStorage?.userInfo;\n    const initializeProfileImage = async () => {\n      try {\n        const userProfile = user2?.profile;\n        const imagename = \"avatar1\";\n        const imgWithExt = imagename.includes(\".\") ? imagename : `${imagename}.png`;\n        if (user2?.username) {\n          const action = await dispatch(fetchUserProfileImage(imgWithExt));\n          const imageUrl = action.payload || \"\";\n          dispatch(setProfile({ ...userProfile, profileImage: imageUrl }));\n        } else {\n          dispatch(\n            setProfile({\n              ...userProfile,\n              profileImage: \"assets/img/avatars/avatar5.png\"\n            })\n          );\n        }\n      } catch (error) {\n        console.error(\"Error initializing profile image:\", error);\n        dispatch(setProfile({ profileImage: avatar5 }));\n      }\n    };\n    if (!userInfo?.isImageRetrieved) {\n      initializeProfileImage();\n    }\n  }, [dispatch]);\n  useEffect(() => {\n    const localPngFiles = JSON.parse(localStorage.getItem(\"pngFiles\"));\n    const localJsonFiles = JSON.parse(localStorage.getItem(\"customPrompts\"));\n    if (localJsonFiles.length > 0) {\n      return;\n    }\n    dispatch(\n      fetchFileData({\n        url: \"http://localhost:3001/api/files/list-files\",\n        fileType: \"png\"\n      })\n    );\n    dispatch(\n      fetchFileData({\n        url: \"http://localhost:3001/api/files/static/chatgpt-prompts-custom.json\",\n        fileType: \"json\"\n      })\n    );\n  }, [dispatch]);\n  const initializeIds = async () => {\n    let chatId = localStorage.getItem(\"chatId\");\n    let sessionId = localStorage.getItem(\"sessionId\");\n    if (!chatId) {\n      chatId = new mongoose.Types.ObjectId();\n      localStorage.setItem(\"chatId\", chatId);\n    }\n    if (!sessionId) {\n      sessionId = new mongoose.Types.ObjectId();\n      localStorage.setItem(\"sessionId\", sessionId);\n    }\n    dispatch(setChatId(chatId));\n    dispatch(setSessionId(sessionId));\n  };\n  useEffect(() => {\n    const userStorage = JSON.parse(localStorage.getItem(\"userStorage\"));\n    setUser(userStorage?.user);\n    initializeIds();\n  }, []);\n  const reloadRoute = (id) => {\n    console.log(`Dummy reloadRoute called with id: ${id}`);\n  };\n  const syncChatSessions = () => {\n    console.log(`Dummy syncChatSessions called`);\n  };\n  const addChatSession = (historyData, chatData) => {\n    console.log(\n      `Dummy addChatSession called with historyData: ${historyData}, chatData: ${chatData}`\n    );\n  };\n  const updateChatSession = (id, edit) => {\n    console.log(`Dummy updateChatSession called with id: ${id}, edit: ${edit}`);\n  };\n  const updateChatSessionIfEdited = (id, edit) => {\n    console.log(\n      `Dummy updateChatSessionIfEdited called with id: ${id}, edit: ${edit}`\n    );\n  };\n  const deleteChatSession = (index) => {\n    console.log(`Dummy deleteChatSession called with index: ${index}`);\n  };\n  const syncChatMessages = (id) => {\n    console.log(`Dummy syncChatMessages called with id: ${id}`);\n  };\n  const setActive = (id) => {\n    console.log(`Dummy setActive called with id: ${id}`);\n  };\n  const setActiveLocal = (id) => {\n    console.log(`Dummy setActiveLocal called with id: ${id}`);\n  };\n  const addChatById = (id, chat) => {\n    console.log(`Dummy addChatById called with id: ${id}, chat: ${chat}`);\n  };\n  const updateChatById = (id, index, chat) => {\n    console.log(\n      `Dummy updateChatById called with id: ${id}, index: ${index}, chat: ${chat}`\n    );\n  };\n  const updateChatPartialById = (id, index, chat) => {\n    console.log(\n      `Dummy updateChatPartialById called with id: ${id}, index: ${index}, chat: ${chat}`\n    );\n  };\n  const deleteChatById = (id, index) => {\n    console.log(`Dummy deleteChatById called with id: ${id}, index: ${index}`);\n  };\n  const clearChatById = (id) => {\n    console.log(`Dummy clearChatById called with id: ${id}`);\n  };\n  const actions = {\n    // ===========================================\n    // [PROMPT STORE]\n    // ===========================================\n    // PROMPTS\n    setSelectedPrompt: (prompt) => dispatch(setSelectedPrompt(prompt)),\n    // ===========================================\n    // [ADDED CHAT STORE]\n    // ===========================================\n    // SESSIONS\n    reloadRoute: (id) => reloadRoute(id),\n    syncChatSessions: () => syncChatSessions(),\n    addChatSession: (historyData, chatData) => addChatSession(historyData, chatData),\n    updateChatSession: (id, edit) => updateChatSession(id, edit),\n    updateChatSessionIfEdited: (id, edit) => updateChatSessionIfEdited(id, edit),\n    deleteChatSession: (index) => deleteChatSession(index),\n    syncChatMessages: (id) => syncChatMessages(id),\n    setActive: (id) => setActive(id),\n    setActiveLocal: (id) => setActiveLocal(id),\n    addChatById: (id, chat) => addChatById(id, chat),\n    updateChatById: (id, index, chat) => updateChatById(id, index, chat),\n    updateChatPartialById: (id, index, chat) => updateChatPartialById(id, index, chat),\n    deleteChatById: (id, index) => deleteChatById(id, index),\n    clearChatById: (id) => clearChatById(id),\n    // ===========================================\n    // [MAIN CHAT STORE]\n    // ===========================================\n    // PROFILE STORE\n    setProfile: (profile) => dispatch(setProfile(profile)),\n    // --- ITEMS STORE ---\n    setAssistants: (assistants) => dispatch(setAssistants(assistants)),\n    setCollections: (collections) => dispatch(setCollections(collections)),\n    setChats: (chats) => dispatch(setChats(chats)),\n    setFiles: (files) => dispatch(setFiles(files)),\n    setFolders: (folders) => dispatch(setFolders(folders)),\n    setModels: (models) => dispatch(setModels(models)),\n    setPrompts: (prompts2) => dispatch(setPrompts(prompts2)),\n    setTools: (tools) => dispatch(setTools(tools)),\n    setWorkspaces: (workspaces) => dispatch(setWorkspaces(workspaces)),\n    // --- MODELS STORE ---\n    setEnvKeyMap: (envKeyMap) => dispatch(setEnvKeyMap(envKeyMap)),\n    setAvailableHostedModels: (models) => dispatch(setAvailableHostedModels(models)),\n    setAva... (39475 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.00036104198079556227
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/contexts/ChatProvider.jsx (200) — 2024-07-28T11:41:22.052Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/contexts/ChatProvider.jsx"
+        }
+      ]
+    }
+  ]
+}

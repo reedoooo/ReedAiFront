@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/contexts/UserProvider.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/contexts/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"e75-rsQwtsFyguv8E2eMASf7nuhAskE\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"e75-9SMKjod6v93pdWwIn/7TnRAfka8\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/contexts/UserProvider.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/contexts/UserProvider.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$(), _s2 = $RefreshSig$();\nimport __vite__cjsImport3_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport3_react.__esModule ? __vite__cjsImport3_react.default : __vite__cjsImport3_react; const createContext = __vite__cjsImport3_react[\"createContext\"]; const useContext = __vite__cjsImport3_react[\"useContext\"];\nimport { useDispatch, useSelector } from \"/node_modules/.vite/deps/react-redux.js?v=bfc12e79\";\nimport {\n  updateUserInfo,\n  resetUserInfo,\n  setUser,\n  setUserToken,\n  setUserId\n} from \"/src/store/Slices/user/userSlice.jsx\";\nconst UserContext = createContext(null);\nexport const UserProvider = ({ children }) => {\n  _s();\n  const state = useSelector((state2) => state2.user);\n  const dispatch = useDispatch();\n  const setUserDetails = ({ userId, userToken }) => {\n    dispatch(setUser({ userId }));\n    dispatch(setUserToken(userToken));\n  };\n  const setUserDetailsFromToken = (userToken) => {\n    dispatch(setUserToken(userToken));\n  };\n  const setUserIdFromToken = (userId) => {\n    dispatch(setUserId(userId));\n  };\n  const updateUser = (userInfo) => {\n    dispatch(updateUserInfo(userInfo));\n  };\n  const resetUser = () => {\n    dispatch(resetUserInfo());\n  };\n  const actions = {\n    setUserDetails,\n    setUserDetailsFromToken,\n    setUserIdFromToken,\n    updateUser,\n    resetUser\n  };\n  return /* @__PURE__ */ jsxDEV(UserContext.Provider, { value: { state, actions }, children }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/contexts/UserProvider.jsx\",\n    lineNumber: 47,\n    columnNumber: 5\n  }, this);\n};\n_s(UserProvider, \"lAwOUIsiQt7W5pDkNmeY6/8xQ4s=\", false, function() {\n  return [useSelector, useDispatch];\n});\n_c = UserProvider;\nexport const useUserStore = () => {\n  _s2();\n  return useContext(UserContext);\n};\n_s2(useUserStore, \"gDsCjeeItUuvgOWf1v4qoK9RF6k=\");\nexport default UserProvider;\nvar _c;\n$RefreshReg$(_c, \"UserProvider\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/contexts/UserProvider.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBOENJOztBQTlDSixvQkFBZ0JBLDZCQUFpQyxlQUFPO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQ3hELFNBQVNDLGFBQWFDLG1CQUFtQjtBQUN6QztBQUFBLEVBQ0VDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLE9BQ0s7QUFFUCxNQUFNQyxjQUFjUixjQUFjLElBQUk7QUFFL0IsYUFBTVMsZUFBZUEsQ0FBQyxFQUFFQyxTQUFTLE1BQU07QUFBQUMsS0FBQTtBQUM1QyxRQUFNQyxRQUFRVixZQUFZLENBQUFVLFdBQVNBLE9BQU1DLElBQUk7QUFDN0MsUUFBTUMsV0FBV2IsWUFBWTtBQUU3QixRQUFNYyxpQkFBaUJBLENBQUMsRUFBRUMsUUFBUUMsVUFBVSxNQUFNO0FBQ2hESCxhQUFTVCxRQUFRLEVBQUVXLE9BQU8sQ0FBQyxDQUFDO0FBQzVCRixhQUFTUixhQUFhVyxTQUFTLENBQUM7QUFBQSxFQUNsQztBQUVBLFFBQU1DLDBCQUEwQkEsQ0FBQUQsY0FBYTtBQUMzQ0gsYUFBU1IsYUFBYVcsU0FBUyxDQUFDO0FBQUEsRUFDbEM7QUFFQSxRQUFNRSxxQkFBcUJBLENBQUFILFdBQVU7QUFDbkNGLGFBQVNQLFVBQVVTLE1BQU0sQ0FBQztBQUFBLEVBQzVCO0FBRUEsUUFBTUksYUFBYUEsQ0FBQUMsYUFBWTtBQUM3QlAsYUFBU1gsZUFBZWtCLFFBQVEsQ0FBQztBQUFBLEVBQ25DO0FBRUEsUUFBTUMsWUFBWUEsTUFBTTtBQUN0QlIsYUFBU1YsY0FBYyxDQUFDO0FBQUEsRUFDMUI7QUFFQSxRQUFNbUIsVUFBVTtBQUFBLElBQ2RSO0FBQUFBLElBQ0FHO0FBQUFBLElBQ0FDO0FBQUFBLElBQ0FDO0FBQUFBLElBQ0FFO0FBQUFBLEVBQ0Y7QUFFQSxTQUNFLHVCQUFDLFlBQVksVUFBWixFQUFxQixPQUFPLEVBQUVWLE9BQU9XLFFBQVEsR0FDM0NiLFlBREg7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQUVBO0FBRUo7QUFBRUMsR0F0Q1dGLGNBQVk7QUFBQSxVQUNUUCxhQUNHRCxXQUFXO0FBQUE7QUFBQXVCLEtBRmpCZjtBQXdDTixhQUFNZ0IsZUFBZUEsTUFBQTtBQUFBQyxNQUFBO0FBQUEsU0FBTUMsV0FBV25CLFdBQVc7QUFBQztBQUFDa0IsSUFBN0NELGNBQVk7QUFFekIsZUFBZWhCO0FBQWEsSUFBQWU7QUFBQUksYUFBQUosSUFBQSIsIm5hbWVzIjpbImNyZWF0ZUNvbnRleHQiLCJ1c2VEaXNwYXRjaCIsInVzZVNlbGVjdG9yIiwidXBkYXRlVXNlckluZm8iLCJyZXNldFVzZXJJbmZvIiwic2V0VXNlciIsInNldFVzZXJUb2tlbiIsInNldFVzZXJJZCIsIlVzZXJDb250ZXh0IiwiVXNlclByb3ZpZGVyIiwiY2hpbGRyZW4iLCJfcyIsInN0YXRlIiwidXNlciIsImRpc3BhdGNoIiwic2V0VXNlckRldGFpbHMiLCJ1c2VySWQiLCJ1c2VyVG9rZW4iLCJzZXRVc2VyRGV0YWlsc0Zyb21Ub2tlbiIsInNldFVzZXJJZEZyb21Ub2tlbiIsInVwZGF0ZVVzZXIiLCJ1c2VySW5mbyIsInJlc2V0VXNlciIsImFjdGlvbnMiLCJfYyIsInVzZVVzZXJTdG9yZSIsIl9zMiIsInVzZUNvbnRleHQiLCIkUmVmcmVzaFJlZyQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiVXNlclByb3ZpZGVyLmpzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QsIHsgY3JlYXRlQ29udGV4dCwgdXNlQ29udGV4dCB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7IHVzZURpc3BhdGNoLCB1c2VTZWxlY3RvciB9IGZyb20gJ3JlYWN0LXJlZHV4JztcbmltcG9ydCB7XG4gIHVwZGF0ZVVzZXJJbmZvLFxuICByZXNldFVzZXJJbmZvLFxuICBzZXRVc2VyLFxuICBzZXRVc2VyVG9rZW4sXG4gIHNldFVzZXJJZCxcbn0gZnJvbSAnc3RvcmUvU2xpY2VzL3VzZXIvdXNlclNsaWNlJztcblxuY29uc3QgVXNlckNvbnRleHQgPSBjcmVhdGVDb250ZXh0KG51bGwpO1xuXG5leHBvcnQgY29uc3QgVXNlclByb3ZpZGVyID0gKHsgY2hpbGRyZW4gfSkgPT4ge1xuICBjb25zdCBzdGF0ZSA9IHVzZVNlbGVjdG9yKHN0YXRlID0+IHN0YXRlLnVzZXIpO1xuICBjb25zdCBkaXNwYXRjaCA9IHVzZURpc3BhdGNoKCk7XG5cbiAgY29uc3Qgc2V0VXNlckRldGFpbHMgPSAoeyB1c2VySWQsIHVzZXJUb2tlbiB9KSA9PiB7XG4gICAgZGlzcGF0Y2goc2V0VXNlcih7IHVzZXJJZCB9KSk7XG4gICAgZGlzcGF0Y2goc2V0VXNlclRva2VuKHVzZXJUb2tlbikpO1xuICB9O1xuXG4gIGNvbnN0IHNldFVzZXJEZXRhaWxzRnJvbVRva2VuID0gdXNlclRva2VuID0+IHtcbiAgICBkaXNwYXRjaChzZXRVc2VyVG9rZW4odXNlclRva2VuKSk7XG4gIH07XG5cbiAgY29uc3Qgc2V0VXNlcklkRnJvbVRva2VuID0gdXNlcklkID0+IHtcbiAgICBkaXNwYXRjaChzZXRVc2VySWQodXNlcklkKSk7XG4gIH07XG5cbiAgY29uc3QgdXBkYXRlVXNlciA9IHVzZXJJbmZvID0+IHtcbiAgICBkaXNwYXRjaCh1cGRhdGVVc2VySW5mbyh1c2VySW5mbykpO1xuICB9O1xuXG4gIGNvbnN0IHJlc2V0VXNlciA9ICgpID0+IHtcbiAgICBkaXNwYXRjaChyZXNldFVzZXJJbmZvKCkpO1xuICB9O1xuXG4gIGNvbnN0IGFjdGlvbnMgPSB7XG4gICAgc2V0VXNlckRldGFpbHMsXG4gICAgc2V0VXNlckRldGFpbHNGcm9tVG9rZW4sXG4gICAgc2V0VXNlcklkRnJvbVRva2VuLFxuICAgIHVwZGF0ZVVzZXIsXG4gICAgcmVzZXRVc2VyLFxuICB9O1xuXG4gIHJldHVybiAoXG4gICAgPFVzZXJDb250ZXh0LlByb3ZpZGVyIHZhbHVlPXt7IHN0YXRlLCBhY3Rpb25zIH19PlxuICAgICAge2NoaWxkcmVufVxuICAgIDwvVXNlckNvbnRleHQuUHJvdmlkZXI+XG4gICk7XG59O1xuXG5leHBvcnQgY29uc3QgdXNlVXNlclN0b3JlID0gKCkgPT4gdXNlQ29udGV4dChVc2VyQ29udGV4dCk7XG5cbmV4cG9ydCBkZWZhdWx0IFVzZXJQcm92aWRlcjtcbiJdLCJmaWxlIjoiL1VzZXJzL3JlZWR2b2d0L0Rlc2t0b3AvUmVlZEFpRnJvbnQvc3JjL2NvbnRleHRzL1VzZXJQcm92aWRlci5qc3gifQ=="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0002531670033931732
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/contexts/UserProvider.jsx (200) — 2024-07-28T11:41:22.028Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/contexts/UserProvider.jsx"
+        }
+      ]
+    }
+  ]
+}

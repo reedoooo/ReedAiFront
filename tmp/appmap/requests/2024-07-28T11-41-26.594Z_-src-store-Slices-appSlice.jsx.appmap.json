@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/store/Slices/appSlice.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/store/Slices/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"703-3FVNxGiEbfmXvdnquSifF6ECt+c\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"703-xfI0WyIW977MnWYfCQXwg7UFbg4\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createSlice } from \"/node_modules/.vite/deps/@reduxjs_toolkit.js?v=6cb72b4f\";\nconst LOCAL_NAME = \"appSetting\";\nfunction defaultSetting() {\n  return {\n    siderCollapsed: false,\n    theme: \"light\",\n    dialogState: {\n      viewDraftsDialogOpen: false,\n      profileDialogOpen: false,\n      addDraftDialogOpen: false,\n      authDialogOpen: false\n    },\n    draftsBarVisible: true,\n    initAddContentVisible: false,\n    formDisabled: true\n  };\n}\nfunction getLocalSetting() {\n  const localSetting = JSON.parse(localStorage.getItem(LOCAL_NAME) || \"{}\");\n  return { ...defaultSetting(), ...localSetting };\n}\nfunction setLocalSetting(setting) {\n  localStorage.setItem(LOCAL_NAME, JSON.stringify(setting));\n}\nconst appSlice = createSlice({\n  name: \"app\",\n  initialState: getLocalSetting(),\n  reducers: {\n    setSiderCollapsed: (state, action) => {\n      setLocalSetting({ ...state, siderCollapsed: action.payload });\n      state.siderCollapsed = action.payload;\n    },\n    setTheme: (state, action) => {\n      setLocalSetting({ ...state, theme: action.payload });\n      state.theme = action.payload;\n    },\n    // --- Nav Actions ---\n    toggleDialogState: (state, action) => {\n      const dialog = action.payload;\n      state.dialogState[dialog] = !state.dialogState[dialog];\n    },\n    toggleDraftsBar: (state) => {\n      state.draftsBarVisible = !state.draftsBarVisible;\n    },\n    toggleInitAddContentVisible: (state) => {\n      state.initAddContentVisible = !state.initAddContentVisible;\n    },\n    toggleFormDisabled: (state) => {\n      state.formDisabled = !state.formDisabled;\n    }\n  }\n});\nexport const {\n  setSiderCollapsed,\n  setTheme,\n  toggleDialogState,\n  toggleDraftsBar,\n  toggleInitAddContentVisible,\n  toggleFormDisabled\n} = appSlice.actions;\nexport default appSlice.reducer;\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBQUEsU0FBU0EsbUJBQW1CO0FBRTVCLE1BQU1DLGFBQWE7QUFFbkIsU0FBU0MsaUJBQWlCO0FBQ3hCLFNBQU87QUFBQSxJQUNMQyxnQkFBZ0I7QUFBQSxJQUNoQkMsT0FBTztBQUFBLElBQ1BDLGFBQWE7QUFBQSxNQUNYQyxzQkFBc0I7QUFBQSxNQUN0QkMsbUJBQW1CO0FBQUEsTUFDbkJDLG9CQUFvQjtBQUFBLE1BQ3BCQyxnQkFBZ0I7QUFBQSxJQUNsQjtBQUFBLElBQ0FDLGtCQUFrQjtBQUFBLElBQ2xCQyx1QkFBdUI7QUFBQSxJQUN2QkMsY0FBYztBQUFBLEVBQ2hCO0FBQ0Y7QUFFQSxTQUFTQyxrQkFBa0I7QUFDekIsUUFBTUMsZUFBZUMsS0FBS0MsTUFBTUMsYUFBYUMsUUFBUWpCLFVBQVUsS0FBSyxJQUFJO0FBQ3hFLFNBQU8sRUFBRSxHQUFHQyxlQUFlLEdBQUcsR0FBR1ksYUFBYTtBQUNoRDtBQUVBLFNBQVNLLGdCQUFnQkMsU0FBUztBQUNoQ0gsZUFBYUksUUFBUXBCLFlBQVljLEtBQUtPLFVBQVVGLE9BQU8sQ0FBQztBQUMxRDtBQUVBLE1BQU1HLFdBQVd2QixZQUFZO0FBQUEsRUFDM0J3QixNQUFNO0FBQUEsRUFDTkMsY0FBY1osZ0JBQWdCO0FBQUEsRUFDOUJhLFVBQVU7QUFBQSxJQUNSQyxtQkFBbUJBLENBQUNDLE9BQU9DLFdBQVc7QUFDcENWLHNCQUFnQixFQUFFLEdBQUdTLE9BQU96QixnQkFBZ0IwQixPQUFPQyxRQUFRLENBQUM7QUFDNURGLFlBQU16QixpQkFBaUIwQixPQUFPQztBQUFBQSxJQUNoQztBQUFBLElBQ0FDLFVBQVVBLENBQUNILE9BQU9DLFdBQVc7QUFDM0JWLHNCQUFnQixFQUFFLEdBQUdTLE9BQU94QixPQUFPeUIsT0FBT0MsUUFBUSxDQUFDO0FBQ25ERixZQUFNeEIsUUFBUXlCLE9BQU9DO0FBQUFBLElBQ3ZCO0FBQUE7QUFBQSxJQUVBRSxtQkFBbUJBLENBQUNKLE9BQU9DLFdBQVc7QUFDcEMsWUFBTUksU0FBU0osT0FBT0M7QUFDdEJGLFlBQU12QixZQUFZNEIsTUFBTSxJQUFJLENBQUNMLE1BQU12QixZQUFZNEIsTUFBTTtBQUFBLElBQ3ZEO0FBQUEsSUFDQUMsaUJBQWlCQSxDQUFBTixVQUFTO0FBQ3hCQSxZQUFNbEIsbUJBQW1CLENBQUNrQixNQUFNbEI7QUFBQUEsSUFDbEM7QUFBQSxJQUNBeUIsNkJBQTZCQSxDQUFBUCxVQUFTO0FBQ3BDQSxZQUFNakIsd0JBQXdCLENBQUNpQixNQUFNakI7QUFBQUEsSUFDdkM7QUFBQSxJQUNBeUIsb0JBQW9CQSxDQUFBUixVQUFTO0FBQzNCQSxZQUFNaEIsZUFBZSxDQUFDZ0IsTUFBTWhCO0FBQUFBLElBQzlCO0FBQUEsRUFDRjtBQUNGLENBQUM7QUFFTSxhQUFNO0FBQUEsRUFDWGU7QUFBQUEsRUFDQUk7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUU7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFDRixJQUFJYixTQUFTYztBQUViLGVBQWVkLFNBQVNlIiwibmFtZXMiOlsiY3JlYXRlU2xpY2UiLCJMT0NBTF9OQU1FIiwiZGVmYXVsdFNldHRpbmciLCJzaWRlckNvbGxhcHNlZCIsInRoZW1lIiwiZGlhbG9nU3RhdGUiLCJ2aWV3RHJhZnRzRGlhbG9nT3BlbiIsInByb2ZpbGVEaWFsb2dPcGVuIiwiYWRkRHJhZnREaWFsb2dPcGVuIiwiYXV0aERpYWxvZ09wZW4iLCJkcmFmdHNCYXJWaXNpYmxlIiwiaW5pdEFkZENvbnRlbnRWaXNpYmxlIiwiZm9ybURpc2FibGVkIiwiZ2V0TG9jYWxTZXR0aW5nIiwibG9jYWxTZXR0aW5nIiwiSlNPTiIsInBhcnNlIiwibG9jYWxTdG9yYWdlIiwiZ2V0SXRlbSIsInNldExvY2FsU2V0dGluZyIsInNldHRpbmciLCJzZXRJdGVtIiwic3RyaW5naWZ5IiwiYXBwU2xpY2UiLCJuYW1lIiwiaW5pdGlhbFN0YXRlIiwicmVkdWNlcnMiLCJzZXRTaWRlckNvbGxhcHNlZCIsInN0YXRlIiwiYWN0aW9uIiwicGF5bG9hZCIsInNldFRoZW1lIiwidG9nZ2xlRGlhbG9nU3RhdGUiLCJkaWFsb2ciLCJ0b2dnbGVEcmFmdHNCYXIiLCJ0b2dnbGVJbml0QWRkQ29udGVudFZpc2libGUiLCJ0b2dnbGVGb3JtRGlzYWJsZWQiLCJhY3Rpb25zIiwicmVkdWNlciJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJhcHBTbGljZS5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgY3JlYXRlU2xpY2UgfSBmcm9tICdAcmVkdXhqcy90b29sa2l0JztcblxuY29uc3QgTE9DQUxfTkFNRSA9ICdhcHBTZXR0aW5nJztcblxuZnVuY3Rpb24gZGVmYXVsdFNldHRpbmcoKSB7XG4gIHJldHVybiB7XG4gICAgc2lkZXJDb2xsYXBzZWQ6IGZhbHNlLFxuICAgIHRoZW1lOiAnbGlnaHQnLFxuICAgIGRpYWxvZ1N0YXRlOiB7XG4gICAgICB2aWV3RHJhZnRzRGlhbG9nT3BlbjogZmFsc2UsXG4gICAgICBwcm9maWxlRGlhbG9nT3BlbjogZmFsc2UsXG4gICAgICBhZGREcmFmdERpYWxvZ09wZW46IGZhbHNlLFxuICAgICAgYXV0aERpYWxvZ09wZW46IGZhbHNlLFxuICAgIH0sXG4gICAgZHJhZnRzQmFyVmlzaWJsZTogdHJ1ZSxcbiAgICBpbml0QWRkQ29udGVudFZpc2libGU6IGZhbHNlLFxuICAgIGZvcm1EaXNhYmxlZDogdHJ1ZSxcbiAgfTtcbn1cblxuZnVuY3Rpb24gZ2V0TG9jYWxTZXR0aW5nKCkge1xuICBjb25zdCBsb2NhbFNldHRpbmcgPSBKU09OLnBhcnNlKGxvY2FsU3RvcmFnZS5nZXRJdGVtKExPQ0FMX05BTUUpIHx8ICd7fScpO1xuICByZXR1cm4geyAuLi5kZWZhdWx0U2V0dGluZygpLCAuLi5sb2NhbFNldHRpbmcgfTtcbn1cblxuZnVuY3Rpb24gc2V0TG9jYWxTZXR0aW5nKHNldHRpbmcpIHtcbiAgbG9jYWxTdG9yYWdlLnNldEl0ZW0oTE9DQUxfTkFNRSwgSlNPTi5zdHJpbmdpZnkoc2V0dGluZykpO1xufVxuXG5jb25zdCBhcHBTbGljZSA9IGNyZWF0ZVNsaWNlKHtcbiAgbmFtZTogJ2FwcCcsXG4gIGluaXRpYWxTdGF0ZTogZ2V0TG9jYWxTZXR0aW5nKCksXG4gIHJlZHVjZXJzOiB7XG4gICAgc2V0U2lkZXJDb2xsYXBzZWQ6IChzdGF0ZSwgYWN0aW9uKSA9PiB7XG4gICAgICBzZXRMb2NhbFNldHRpbmcoeyAuLi5zdGF0ZSwgc2lkZXJDb2xsYXBzZWQ6IGFjdGlvbi5wYXlsb2FkIH0pO1xuICAgICAgc3RhdGUuc2lkZXJDb2xsYXBzZWQgPSBhY3Rpb24ucGF5bG9hZDtcbiAgICB9LFxuICAgIHNldFRoZW1lOiAoc3RhdGUsIGFjdGlvbikgPT4ge1xuICAgICAgc2V0TG9jYWxTZXR0aW5nKHsgLi4uc3RhdGUsIHRoZW1lOiBhY3Rpb24ucGF5bG9hZCB9KTtcbiAgICAgIHN0YXRlLnRoZW1lID0gYWN0aW9uLnBheWxvYWQ7XG4gICAgfSxcbiAgICAvLyAtLS0gTmF2IEFjdGlvbnMgLS0tXG4gICAgdG9nZ2xlRGlhbG9nU3RhdGU6IChzdGF0ZSwgYWN0aW9uKSA9PiB7XG4gICAgICBjb25zdCBkaWFsb2cgPSBhY3Rpb24ucGF5bG9hZDtcbiAgICAgIHN0YXRlLmRpYWxvZ1N0YXRlW2RpYWxvZ10gPSAhc3RhdGUuZGlhbG9nU3RhdGVbZGlhbG9nXTtcbiAgICB9LFxuICAgIHRvZ2dsZURyYWZ0c0Jhcjogc3RhdGUgPT4ge1xuICAgICAgc3RhdGUuZHJhZnRzQmFyVmlzaWJsZSA9ICFzdGF0ZS5kcmFmdHNCYXJWaXNpYmxlO1xuICAgIH0sXG4gICAgdG9nZ2xlSW5pdEFkZENvbnRlbnRWaXNpYmxlOiBzdGF0ZSA9PiB7XG4gICAgICBzdGF0ZS5pbml0QWRkQ29udGVudFZpc2libGUgPSAhc3RhdGUuaW5pdEFkZENvbnRlbnRWaXNpYmxlO1xuICAgIH0sXG4gICAgdG9nZ2xlRm9ybURpc2FibGVkOiBzdGF0ZSA9PiB7XG4gICAgICBzdGF0ZS5mb3JtRGlzYWJsZWQgPSAhc3RhdGUuZm9ybURpc2FibGVkO1xuICAgIH0sXG4gIH0sXG59KTtcblxuZXhwb3J0IGNvbnN0IHtcbiAgc2V0U2lkZXJDb2xsYXBzZWQsXG4gIHNldFRoZW1lLFxuICB0b2dnbGVEaWFsb2dTdGF0ZSxcbiAgdG9nZ2xlRHJhZnRzQmFyLFxuICB0b2dnbGVJbml0QWRkQ29udGVudFZpc2libGUsXG4gIHRvZ2dsZUZvcm1EaXNhYmxlZCxcbn0gPSBhcHBTbGljZS5hY3Rpb25zO1xuXG5leHBvcnQgZGVmYXVsdCBhcHBTbGljZS5yZWR1Y2VyO1xuIl0sImZpbGUiOiIvVXNlcnMvcmVlZHZvZ3QvRGVza3RvcC9SZWVkQWlGcm9udC9zcmMvc3RvcmUvU2xpY2VzL2FwcFNsaWNlLmpzeCJ9"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.006465249927714467
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/store/Slices/appSlice.jsx (200) — 2024-07-28T11:41:26.594Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/store/Slices/appSlice.jsx"
+        }
+      ]
+    }
+  ]
+}

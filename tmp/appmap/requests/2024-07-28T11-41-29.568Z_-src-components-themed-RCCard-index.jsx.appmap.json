@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/themed/RCCard/index.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/themed/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"dad-ToYPfTWUTYWreR+iPFOWmQJClDc\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"dad-iz9q9WSb6hXv59+Erbq5YNaMFoQ\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/themed/RCCard/index.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/index.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nimport __vite__cjsImport3_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport3_react.__esModule ? __vite__cjsImport3_react.default : __vite__cjsImport3_react;\nimport MastercardCard from \"/src/components/themed/RCCard/MastercardCard.jsx\";\nimport MemberCard from \"/src/components/themed/RCCard/MemberCard.jsx\";\nimport MinistatisticsCard from \"/src/components/themed/RCCard/MinistatisticsCard.jsx\";\nimport RCCardRoot from \"/src/components/themed/RCCard/RCCardRoot.jsx\";\nfunction RCCard(props) {\n  const { variant, ...rest } = props;\n  switch (variant) {\n    case \"mastercard\":\n      return /* @__PURE__ */ jsxDEV(MastercardCard, { ...rest }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/index.jsx\",\n        lineNumber: 11,\n        columnNumber: 14\n      }, this);\n    case \"ministatistics\":\n      return /* @__PURE__ */ jsxDEV(MinistatisticsCard, { ...rest }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/index.jsx\",\n        lineNumber: 13,\n        columnNumber: 14\n      }, this);\n    case \"member\":\n      return /* @__PURE__ */ jsxDEV(MemberCard, { ...rest }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/index.jsx\",\n        lineNumber: 15,\n        columnNumber: 14\n      }, this);\n    default:\n      return /* @__PURE__ */ jsxDEV(RCCardRoot, { ...rest }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/index.jsx\",\n        lineNumber: 17,\n        columnNumber: 14\n      }, this);\n  }\n}\n_c = RCCard;\nexport default RCCard;\nvar _c;\n$RefreshReg$(_c, \"RCCard\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/index.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBVWE7QUFWYixPQUFPQSxvQkFBa0I7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFDekIsT0FBT0Msb0JBQW9CO0FBQzNCLE9BQU9DLGdCQUFnQjtBQUN2QixPQUFPQyx3QkFBd0I7QUFDL0IsT0FBT0MsZ0JBQWdCO0FBRXZCLFNBQVNDLE9BQU9DLE9BQU87QUFDckIsUUFBTSxFQUFFQyxTQUFTLEdBQUdDLEtBQUssSUFBSUY7QUFDN0IsVUFBUUMsU0FBTztBQUFBLElBQ2IsS0FBSztBQUNILGFBQU8sdUJBQUMsa0JBQWUsR0FBSUMsUUFBcEI7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUF5QjtBQUFBLElBQ2xDLEtBQUs7QUFDSCxhQUFPLHVCQUFDLHNCQUFtQixHQUFJQSxRQUF4QjtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBQTZCO0FBQUEsSUFDdEMsS0FBSztBQUNILGFBQU8sdUJBQUMsY0FBVyxHQUFJQSxRQUFoQjtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBQXFCO0FBQUEsSUFDOUI7QUFDRSxhQUFPLHVCQUFDLGNBQVcsR0FBSUEsUUFBaEI7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUFxQjtBQUFBLEVBQ2hDO0FBQ0Y7QUFBQ0MsS0FaUUo7QUFhVCxlQUFlQTtBQUFPLElBQUFJO0FBQUFDLGFBQUFELElBQUEiLCJuYW1lcyI6WyJSZWFjdCIsIk1hc3RlcmNhcmRDYXJkIiwiTWVtYmVyQ2FyZCIsIk1pbmlzdGF0aXN0aWNzQ2FyZCIsIlJDQ2FyZFJvb3QiLCJSQ0NhcmQiLCJwcm9wcyIsInZhcmlhbnQiLCJyZXN0IiwiX2MiLCIkUmVmcmVzaFJlZyQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiaW5kZXguanN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XG5pbXBvcnQgTWFzdGVyY2FyZENhcmQgZnJvbSAnLi9NYXN0ZXJjYXJkQ2FyZCc7XG5pbXBvcnQgTWVtYmVyQ2FyZCBmcm9tICcuL01lbWJlckNhcmQnO1xuaW1wb3J0IE1pbmlzdGF0aXN0aWNzQ2FyZCBmcm9tICcuL01pbmlzdGF0aXN0aWNzQ2FyZCc7XG5pbXBvcnQgUkNDYXJkUm9vdCBmcm9tICcuL1JDQ2FyZFJvb3QnO1xuXG5mdW5jdGlvbiBSQ0NhcmQocHJvcHMpIHtcbiAgY29uc3QgeyB2YXJpYW50LCAuLi5yZXN0IH0gPSBwcm9wcztcbiAgc3dpdGNoICh2YXJpYW50KSB7XG4gICAgY2FzZSAnbWFzdGVyY2FyZCc6XG4gICAgICByZXR1cm4gPE1hc3RlcmNhcmRDYXJkIHsuLi5yZXN0fSAvPjtcbiAgICBjYXNlICdtaW5pc3RhdGlzdGljcyc6XG4gICAgICByZXR1cm4gPE1pbmlzdGF0aXN0aWNzQ2FyZCB7Li4ucmVzdH0gLz47XG4gICAgY2FzZSAnbWVtYmVyJzpcbiAgICAgIHJldHVybiA8TWVtYmVyQ2FyZCB7Li4ucmVzdH0gLz47XG4gICAgZGVmYXVsdDpcbiAgICAgIHJldHVybiA8UkNDYXJkUm9vdCB7Li4ucmVzdH0gLz47XG4gIH1cbn1cbmV4cG9ydCBkZWZhdWx0IFJDQ2FyZDtcbiJdLCJmaWxlIjoiL1VzZXJzL3JlZWR2b2d0L0Rlc2t0b3AvUmVlZEFpRnJvbnQvc3JjL2NvbXBvbmVudHMvdGhlbWVkL1JDQ2FyZC9pbmRleC5qc3gifQ=="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.00023095798678696156
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/themed/RCCard/index.jsx (200) — 2024-07-28T11:41:29.568Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/themed/RCCard/index.jsx"
+        }
+      ]
+    }
+  ]
+}

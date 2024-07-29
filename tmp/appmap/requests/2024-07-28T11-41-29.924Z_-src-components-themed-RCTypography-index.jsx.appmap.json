@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/themed/RCTypography/index.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/themed/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"fd3-jzRurMHeJKfaxbQfqg9DGgHdQ0g\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"fd3-+vOc6W6B8hY4utExa7/+mn62n9w\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/themed/RCTypography/index.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCTypography/index.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nimport __vite__cjsImport3_propTypes from \"/node_modules/.vite/deps/prop-types.js?v=da689d69\"; const PropTypes = __vite__cjsImport3_propTypes.__esModule ? __vite__cjsImport3_propTypes.default : __vite__cjsImport3_propTypes;\nimport __vite__cjsImport4_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport4_react.__esModule ? __vite__cjsImport4_react.default : __vite__cjsImport4_react;\nimport RCTypographyRoot from \"/src/components/themed/RCTypography/RCTypographyRoot.jsx\";\nconst RCTypography = React.forwardRef(\n  _c = ({\n    color = \"primary\",\n    fontWeight = false,\n    textTransform = \"none\",\n    verticalAlign = \"unset\",\n    textGradient = false,\n    opacity = 1,\n    children,\n    ...rest\n  }, ref) => {\n    return /* @__PURE__ */ jsxDEV(\n      RCTypographyRoot,\n      {\n        ...rest,\n        ref,\n        ownerState: {\n          color,\n          textTransform,\n          verticalAlign,\n          fontWeight,\n          opacity,\n          textGradient\n        },\n        children\n      },\n      void 0,\n      false,\n      {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCTypography/index.jsx\",\n        lineNumber: 36,\n        columnNumber: 5\n      },\n      this\n    );\n  }\n);\n_c2 = RCTypography;\nRCTypography.displayName = \"RCTypography\";\nRCTypography.propTypes = {\n  color: PropTypes.oneOf(\n    [\n      \"inherit\",\n      \"primary\",\n      \"secondary\",\n      \"info\",\n      \"success\",\n      \"warning\",\n      \"error\",\n      \"light\",\n      \"dark\",\n      \"text\",\n      \"textPrimary\",\n      \"textSecondary\",\n      \"textTertiary\",\n      \"white\"\n    ]\n  ),\n  fontWeight: PropTypes.oneOf([false, \"light\", \"regular\", \"medium\", \"bold\"]),\n  textTransform: PropTypes.oneOf(\n    [\n      \"none\",\n      \"capitalize\",\n      \"uppercase\",\n      \"lowercase\"\n    ]\n  ),\n  verticalAlign: PropTypes.oneOf(\n    [\n      \"unset\",\n      \"baseline\",\n      \"sub\",\n      \"super\",\n      \"text-top\",\n      \"text-bottom\",\n      \"middle\",\n      \"top\",\n      \"bottom\"\n    ]\n  ),\n  textGradient: PropTypes.bool,\n  children: PropTypes.node.isRequired,\n  opacity: PropTypes.number\n};\nexport default RCTypography;\nvar _c, _c2;\n$RefreshReg$(_c, \"RCTypography$React.forwardRef\");\n$RefreshReg$(_c2, \"RCTypography\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCTypography/index.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBbUNNO0FBbkNOLE9BQU9BLG9CQUFlO0FBQVk7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQ2xDLE9BQU9DLFdBQVc7QUFFbEIsT0FBT0Msc0JBQXNCO0FBaUI3QixNQUFNQyxlQUFlRixNQUFNRztBQUFBQSxFQUFVQyxLQUNuQ0EsQ0FDRTtBQUFBLElBQ0VDLFFBQVE7QUFBQSxJQUNSQyxhQUFhO0FBQUEsSUFDYkMsZ0JBQWdCO0FBQUEsSUFDaEJDLGdCQUFnQjtBQUFBLElBQ2hCQyxlQUFlO0FBQUEsSUFDZkMsVUFBVTtBQUFBLElBQ1ZDO0FBQUFBLElBQ0EsR0FBR0M7QUFBQUEsRUFDTCxHQUNBQyxRQUNHO0FBQ0gsV0FDRTtBQUFBLE1BQUM7QUFBQTtBQUFBLFFBQ0MsR0FBSUQ7QUFBQUEsUUFDSjtBQUFBLFFBQ0EsWUFBWTtBQUFBLFVBQ1ZQO0FBQUFBLFVBQ0FFO0FBQUFBLFVBQ0FDO0FBQUFBLFVBQ0FGO0FBQUFBLFVBQ0FJO0FBQUFBLFVBQ0FEO0FBQUFBLFFBQ0Y7QUFBQSxRQUVDRTtBQUFBQTtBQUFBQSxNQVpIO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxJQWFBO0FBQUEsRUFFSjtBQUNGO0FBQUVHLE1BL0JJWjtBQWlDTkEsYUFBYWEsY0FBYztBQUczQmIsYUFBYWMsWUFBWTtBQUFBLEVBQ3ZCWCxPQUFPTixVQUFVa0I7QUFBQUEsSUFBTTtBQUFBLE1BQ3JCO0FBQUEsTUFDQTtBQUFBLE1BQ0E7QUFBQSxNQUNBO0FBQUEsTUFDQTtBQUFBLE1BQ0E7QUFBQSxNQUNBO0FBQUEsTUFDQTtBQUFBLE1BQ0E7QUFBQSxNQUNBO0FBQUEsTUFDQTtBQUFBLE1BQ0E7QUFBQSxNQUNBO0FBQUEsTUFDQTtBQUFBLElBQU87QUFBQSxFQUNSO0FBQUEsRUFDRFgsWUFBWVAsVUFBVWtCLE1BQU0sQ0FBQyxPQUFPLFNBQVMsV0FBVyxVQUFVLE1BQU0sQ0FBQztBQUFBLEVBQ3pFVixlQUFlUixVQUFVa0I7QUFBQUEsSUFBTTtBQUFBLE1BQzdCO0FBQUEsTUFDQTtBQUFBLE1BQ0E7QUFBQSxNQUNBO0FBQUEsSUFBVztBQUFBLEVBQ1o7QUFBQSxFQUNEVCxlQUFlVCxVQUFVa0I7QUFBQUEsSUFBTTtBQUFBLE1BQzdCO0FBQUEsTUFDQTtBQUFBLE1BQ0E7QUFBQSxNQUNBO0FBQUEsTUFDQTtBQUFBLE1BQ0E7QUFBQSxNQUNBO0FBQUEsTUFDQTtBQUFBLE1BQ0E7QUFBQSxJQUFRO0FBQUEsRUFDVDtBQUFBLEVBQ0RSLGNBQWNWLFVBQVVtQjtBQUFBQSxFQUN4QlAsVUFBVVosVUFBVW9CLEtBQUtDO0FBQUFBLEVBQ3pCVixTQUFTWCxVQUFVc0I7QUFDckI7QUFFQSxlQUFlbkI7QUFBYSxJQUFBRSxJQUFBVTtBQUFBUSxhQUFBbEIsSUFBQTtBQUFBa0IsYUFBQVIsS0FBQSIsIm5hbWVzIjpbIlByb3BUeXBlcyIsIlJlYWN0IiwiUkNUeXBvZ3JhcGh5Um9vdCIsIlJDVHlwb2dyYXBoeSIsImZvcndhcmRSZWYiLCJfYyIsImNvbG9yIiwiZm9udFdlaWdodCIsInRleHRUcmFuc2Zvcm0iLCJ2ZXJ0aWNhbEFsaWduIiwidGV4dEdyYWRpZW50Iiwib3BhY2l0eSIsImNoaWxkcmVuIiwicmVzdCIsInJlZiIsIl9jMiIsImRpc3BsYXlOYW1lIiwicHJvcFR5cGVzIiwib25lT2YiLCJib29sIiwibm9kZSIsImlzUmVxdWlyZWQiLCJudW1iZXIiLCIkUmVmcmVzaFJlZyQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiaW5kZXguanN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBQcm9wVHlwZXMgZnJvbSAncHJvcC10eXBlcyc7XG5pbXBvcnQgUmVhY3QgZnJvbSAncmVhY3QnO1xuXG5pbXBvcnQgUkNUeXBvZ3JhcGh5Um9vdCBmcm9tICcuL1JDVHlwb2dyYXBoeVJvb3QnO1xuXG4vKipcbiAqIEEgcmV1c2FibGUgdHlwb2dyYXBoeSBjb21wb25lbnQuXG4gKlxuICogQGNvbXBvbmVudFxuICogQHBhcmFtIHtzdHJpbmd9IGNvbG9yIC0gT3B0aW9uczogcHJpbWFyeSwgc2Vjb25kYXJ5LCB0ZXJ0aWFyeSwgZXJyb3IsIHdhcm5pbmcsIGluZm8sIHN1Y2Nlc3MsIGxpZ2h0LCBkYXJrLCB0ZXh0LCB3aGl0ZSwgaW5oZXJpdC5cbiAqIEBwYXJhbSB7Ym9vbGVhbn0gZm9udFdlaWdodCAtIE9wdGlvbnM6IGZhbHNlLCByZWd1bGFyLCBtZWRpdW0sIGJvbGQuXG4gKiBAcGFyYW0ge3N0cmluZ30gdGV4dFRyYW5zZm9ybSAtIE9wdGlvbnM6IG5vbmUsIGNhcGl0YWxpemUsIHVwcGVyY2FzZSwgbG93ZXJjYXNlLlxuICogQHBhcmFtIHtzdHJpbmd9IHZlcnRpY2FsQWxpZ24gLSBPcHRpb25zOiB1bnNldCwgYmFzZWxpbmUsIHN1Yiwgc3VwZXIsIHRleHQtdG9wLCB0ZXh0LWJvdHRvbSwgbWlkZGxlLCB0b3AsIGJvdHRvbS5cbiAqIEBwYXJhbSB7Ym9vbGVhbn0gdGV4dEdyYWRpZW50IC0gV2hldGhlciB0byBhcHBseSBhIHRleHQgZ3JhZGllbnQgdG8gdGhlIHR5cG9ncmFwaHkuXG4gKiBAcGFyYW0ge251bWJlcn0gb3BhY2l0eSAtIE9wdGlvbnM6IDAgLSAxLlxuICogQHBhcmFtIHtSZWFjdE5vZGV9IGNoaWxkcmVuIC0gVGhlIGNvbnRlbnQgb2YgdGhlIHR5cG9ncmFwaHkuXG4gKiBAcGFyYW0ge29iamVjdH0gcmVzdCAtIEFkZGl0aW9uYWwgcHJvcHMgdG8gYmUgc3ByZWFkIG9uIHRoZSByb290IGVsZW1lbnQuXG4gKiBAcGFyYW0ge1JlYWN0LlJlZn0gcmVmIC0gVGhlIHJlZiB0byBiZSBmb3J3YXJkZWQgdG8gdGhlIHJvb3QgZWxlbWVudC5cbiAqIEByZXR1cm5zIHtKU1guRWxlbWVudH0gVGhlIHJlbmRlcmVkIHR5cG9ncmFwaHkgY29tcG9uZW50LlxuICovXG5jb25zdCBSQ1R5cG9ncmFwaHkgPSBSZWFjdC5mb3J3YXJkUmVmKFxuICAoXG4gICAge1xuICAgICAgY29sb3IgPSAncHJpbWFyeScsXG4gICAgICBmb250V2VpZ2h0ID0gZmFsc2UsXG4gICAgICB0ZXh0VHJhbnNmb3JtID0gJ25vbmUnLFxuICAgICAgdmVydGljYWxBbGlnbiA9ICd1bnNldCcsXG4gICAgICB0ZXh0R3JhZGllbnQgPSBmYWxzZSxcbiAgICAgIG9wYWNpdHkgPSAxLFxuICAgICAgY2hpbGRyZW4sXG4gICAgICAuLi5yZXN0XG4gICAgfSxcbiAgICByZWZcbiAgKSA9PiB7XG4gICAgcmV0dXJuIChcbiAgICAgIDxSQ1R5cG9ncmFwaHlSb290XG4gICAgICAgIHsuLi5yZXN0fVxuICAgICAgICByZWY9e3JlZn1cbiAgICAgICAgb3duZXJTdGF0ZT17e1xuICAgICAgICAgIGNvbG9yLFxuICAgICAgICAgIHRleHRUcmFuc2Zvcm0sXG4gICAgICAgICAgdmVydGljYWxBbGlnbixcbiAgICAgICAgICBmb250V2VpZ2h0LFxuICAgICAgICAgIG9wYWNpdHksXG4gICAgICAgICAgdGV4dEdyYWRpZW50LFxuICAgICAgICB9fVxuICAgICAgPlxuICAgICAgICB7Y2hpbGRyZW59XG4gICAgICA8L1JDVHlwb2dyYXBoeVJvb3Q+XG4gICAgKTtcbiAgfVxuKTtcblxuUkNUeXBvZ3JhcGh5LmRpc3BsYXlOYW1lID0gJ1JDVHlwb2dyYXBoeSc7XG5cbi8vIFR5cGVjaGVja2luZyBwcm9wcyBmb3IgdGhlIFJDVHlwb2dyYXBoeVxuUkNUeXBvZ3JhcGh5LnByb3BUeXBlcyA9IHtcbiAgY29sb3I6IFByb3BUeXBlcy5vbmVPZihbXG4gICAgJ2luaGVyaXQnLFxuICAgICdwcmltYXJ5JyxcbiAgICAnc2Vjb25kYXJ5JyxcbiAgICAnaW5mbycsXG4gICAgJ3N1Y2Nlc3MnLFxuICAgICd3YXJuaW5nJyxcbiAgICAnZXJyb3InLFxuICAgICdsaWdodCcsXG4gICAgJ2RhcmsnLFxuICAgICd0ZXh0JyxcbiAgICAndGV4dFByaW1hcnknLFxuICAgICd0ZXh0U2Vjb25kYXJ5JyxcbiAgICAndGV4dFRlcnRpYXJ5JyxcbiAgICAnd2hpdGUnLFxuICBdKSxcbiAgZm9udFdlaWdodDogUHJvcFR5cGVzLm9uZU9mKFtmYWxzZSwgJ2xpZ2h0JywgJ3JlZ3VsYXInLCAnbWVkaXVtJywgJ2JvbGQnXSksXG4gIHRleHRUcmFuc2Zvcm06IFByb3BUeXBlcy5vbmVPZihbXG4gICAgJ25vbmUnLFxuICAgICdjYXBpdGFsaXplJyxcbiAgICAndXBwZXJjYXNlJyxcbiAgICAnbG93ZXJjYXNlJyxcbiAgXSksXG4gIHZlcnRpY2FsQWxpZ246IFByb3BUeXBlcy5vbmVPZihbXG4gICAgJ3Vuc2V0JyxcbiAgICAnYmFzZWxpbmUnLFxuICAgICdzdWInLFxuICAgICdzdXBlcicsXG4gICAgJ3RleHQtdG9wJyxcbiAgICAndGV4dC1ib3R0b20nLFxuICAgICdtaWRkbGUnLFxuICAgICd0b3AnLFxuICAgICdib3R0b20nLFxuICBdKSxcbiAgdGV4dEdyYWRpZW50OiBQcm9wVHlwZXMuYm9vbCxcbiAgY2hpbGRyZW46IFByb3BUeXBlcy5ub2RlLmlzUmVxdWlyZWQsXG4gIG9wYWNpdHk6IFByb3BUeXBlcy5udW1iZXIsXG59O1xuXG5leHBvcnQgZGVmYXVsdCBSQ1R5cG9ncmFwaHk7XG4iXSwiZmlsZSI6Ii9Vc2Vycy9yZWVkdm9ndC9EZXNrdG9wL1JlZWRBaUZyb250L3NyYy9jb21wb25lbnRzL3RoZW1lZC9SQ1R5cG9ncmFwaHkvaW5kZXguanN4In0="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0012191670248284936
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/themed/RCTypography/index.jsx (200) — 2024-07-28T11:41:29.924Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/themed/RCTypography/index.jsx"
+        }
+      ]
+    }
+  ]
+}

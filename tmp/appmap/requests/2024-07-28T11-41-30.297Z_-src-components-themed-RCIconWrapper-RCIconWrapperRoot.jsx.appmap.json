@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/themed/RCIconWrapper/RCIconWrapperRoot.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/themed/RCIconWrapper/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"e91-wboVmo1vzxDYbO9d3xsGNINeLm4\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"e91-VVM8ufeIo7RK2gqCs+1/ekVo0eA\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/themed/RCIconWrapper/RCIconWrapperRoot.jsx\");import RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCIconWrapper/RCIconWrapperRoot.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport { Box } from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport styledDefault from \"/node_modules/.vite/deps/styled-components.js?v=5417f7aa\";\nimport useMode from \"/src/hooks/useMode.jsx\";\nconst RCIconWrapperRoot = _s(styledDefault(Box)(_s(({ ownerState }) => {\n  _s();\n  const { theme } = useMode();\n  const { palette, functions } = theme;\n  const { size, bgColor } = ownerState;\n  const { white, text } = palette;\n  const { pxToRem } = functions;\n  const backgroundValue = palette[bgColor] ? palette[bgColor].main : white.main;\n  let sizeValue = pxToRem(38);\n  if (size === \"small\") {\n    sizeValue = pxToRem(25.4);\n  } else if (size === \"large\") {\n    sizeValue = pxToRem(52);\n  }\n  let paddingValue = `${pxToRem(11)} ${pxToRem(11)} ${pxToRem(10)}`;\n  if (size === \"small\") {\n    paddingValue = pxToRem(4.5);\n  } else if (size === \"large\") {\n    paddingValue = pxToRem(16);\n  }\n  let colorValue = white.main;\n  if (bgColor === \"default\" || bgColor === \"primary\" || bgColor === \"white\" || bgColor === \"light\" || !palette[bgColor]) {\n    colorValue = text.colorPrimary;\n  } else if (bgColor === \"error\" || bgColor === \"dark\" || bgColor === \"success\" || bgColor === \"secondary\" || bgColor === \"info\" || bgColor === \"warning\") {\n    colorValue = white.main;\n  }\n  return {\n    borderRadius: \"50%\",\n    display: \"flex\",\n    alignItems: \"center\",\n    justifyContent: \"center\",\n    width: sizeValue,\n    minWidth: sizeValue,\n    height: sizeValue,\n    minHeight: sizeValue,\n    padding: paddingValue,\n    background: `${backgroundValue} !important`,\n    // Use !important to override any later conflicting styles\n    color: `${colorValue} !important`,\n    // Use !important to override any later conflicting styles\n    \"& .material-icons\": {\n      marginTop: 0\n    },\n    \"&:hover, &:focus, &:active\": {\n      transform: \"none\"\n    }\n  };\n}, \"0C8+rr4amTJBBb5hLcETPzToHLI=\", false, function() {\n  return [useMode];\n})), \"0C8+rr4amTJBBb5hLcETPzToHLI=\", false, function() {\n  return [useMode];\n});\nexport default RCIconWrapperRoot;\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCIconWrapper/RCIconWrapperRoot.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IjJCQUFBO0FBQW9CLG9CQUFlO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQ25DLE9BQU9BLG1CQUFtQjtBQUMxQixPQUFPQyxhQUFhO0FBRXBCLE1BQU1DLG9CQUFpQkMsR0FBR0gsY0FBY0ksR0FBRyxFQUFDRCxHQUFDLENBQUMsRUFBRUUsV0FBVyxNQUFNO0FBQUFGLEtBQUE7QUFDL0QsUUFBTSxFQUFFRyxNQUFNLElBQUlMLFFBQVE7QUFDMUIsUUFBTSxFQUFFTSxTQUFTQyxVQUFVLElBQUlGO0FBQy9CLFFBQU0sRUFBRUcsTUFBTUMsUUFBUSxJQUFJTDtBQUMxQixRQUFNLEVBQUVNLE9BQU9DLEtBQUssSUFBSUw7QUFDeEIsUUFBTSxFQUFFTSxRQUFRLElBQUlMO0FBQ3BCLFFBQU1NLGtCQUFrQlAsUUFBUUcsT0FBTyxJQUFJSCxRQUFRRyxPQUFPLEVBQUVLLE9BQU9KLE1BQU1JO0FBQ3pFLE1BQUlDLFlBQVlILFFBQVEsRUFBRTtBQUMxQixNQUFJSixTQUFTLFNBQVM7QUFDcEJPLGdCQUFZSCxRQUFRLElBQUk7QUFBQSxFQUMxQixXQUFXSixTQUFTLFNBQVM7QUFDM0JPLGdCQUFZSCxRQUFRLEVBQUU7QUFBQSxFQUN4QjtBQUNBLE1BQUlJLGVBQWUsR0FBR0osUUFBUSxFQUFFLENBQUMsSUFBSUEsUUFBUSxFQUFFLENBQUMsSUFBSUEsUUFBUSxFQUFFLENBQUM7QUFDL0QsTUFBSUosU0FBUyxTQUFTO0FBQ3BCUSxtQkFBZUosUUFBUSxHQUFHO0FBQUEsRUFDNUIsV0FBV0osU0FBUyxTQUFTO0FBQzNCUSxtQkFBZUosUUFBUSxFQUFFO0FBQUEsRUFDM0I7QUFDQSxNQUFJSyxhQUFhUCxNQUFNSTtBQUN2QixNQUNFTCxZQUFZLGFBQ1pBLFlBQVksYUFDWkEsWUFBWSxXQUNaQSxZQUFZLFdBQ1osQ0FBQ0gsUUFBUUcsT0FBTyxHQUNoQjtBQUNBUSxpQkFBYU4sS0FBS087QUFBQUEsRUFDcEIsV0FDRVQsWUFBWSxXQUNaQSxZQUFZLFVBQ1pBLFlBQVksYUFDWkEsWUFBWSxlQUNaQSxZQUFZLFVBQ1pBLFlBQVksV0FDWjtBQUNBUSxpQkFBYVAsTUFBTUk7QUFBQUEsRUFDckI7QUFDQSxTQUFPO0FBQUEsSUFDTEssY0FBYztBQUFBLElBQ2RDLFNBQVM7QUFBQSxJQUNUQyxZQUFZO0FBQUEsSUFDWkMsZ0JBQWdCO0FBQUEsSUFDaEJDLE9BQU9SO0FBQUFBLElBQ1BTLFVBQVVUO0FBQUFBLElBQ1ZVLFFBQVFWO0FBQUFBLElBQ1JXLFdBQVdYO0FBQUFBLElBQ1hZLFNBQVNYO0FBQUFBLElBQ1RZLFlBQVksR0FBR2YsZUFBZTtBQUFBO0FBQUEsSUFDOUJnQixPQUFPLEdBQUdaLFVBQVU7QUFBQTtBQUFBLElBQ3BCLHFCQUFxQjtBQUFBLE1BQ25CYSxXQUFXO0FBQUEsSUFDYjtBQUFBLElBQ0EsOEJBQThCO0FBQUEsTUFDNUJDLFdBQVc7QUFBQSxJQUNiO0FBQUEsRUFDRjtBQUNGLEdBQUM7QUFBQSxVQXhEbUIvQixPQUFPO0FBQUEsRUF3RDFCLEdBQUM7QUFBQSxVQXhEa0JBLE9BQU87QUFBQTtBQTBEM0IsZUFBZUMiLCJuYW1lcyI6WyJzdHlsZWREZWZhdWx0IiwidXNlTW9kZSIsIlJDSWNvbldyYXBwZXJSb290IiwiX3MiLCJCb3giLCJvd25lclN0YXRlIiwidGhlbWUiLCJwYWxldHRlIiwiZnVuY3Rpb25zIiwic2l6ZSIsImJnQ29sb3IiLCJ3aGl0ZSIsInRleHQiLCJweFRvUmVtIiwiYmFja2dyb3VuZFZhbHVlIiwibWFpbiIsInNpemVWYWx1ZSIsInBhZGRpbmdWYWx1ZSIsImNvbG9yVmFsdWUiLCJjb2xvclByaW1hcnkiLCJib3JkZXJSYWRpdXMiLCJkaXNwbGF5IiwiYWxpZ25JdGVtcyIsImp1c3RpZnlDb250ZW50Iiwid2lkdGgiLCJtaW5XaWR0aCIsImhlaWdodCIsIm1pbkhlaWdodCIsInBhZGRpbmciLCJiYWNrZ3JvdW5kIiwiY29sb3IiLCJtYXJnaW5Ub3AiLCJ0cmFuc2Zvcm0iXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiUkNJY29uV3JhcHBlclJvb3QuanN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEJveCB9IGZyb20gJ0BtdWkvbWF0ZXJpYWwnO1xuaW1wb3J0IHN0eWxlZERlZmF1bHQgZnJvbSAnc3R5bGVkLWNvbXBvbmVudHMnO1xuaW1wb3J0IHVzZU1vZGUgZnJvbSAnaG9va3MvdXNlTW9kZSc7XG5cbmNvbnN0IFJDSWNvbldyYXBwZXJSb290ID0gc3R5bGVkRGVmYXVsdChCb3gpKCh7IG93bmVyU3RhdGUgfSkgPT4ge1xuICBjb25zdCB7IHRoZW1lIH0gPSB1c2VNb2RlKCk7XG4gIGNvbnN0IHsgcGFsZXR0ZSwgZnVuY3Rpb25zIH0gPSB0aGVtZTtcbiAgY29uc3QgeyBzaXplLCBiZ0NvbG9yIH0gPSBvd25lclN0YXRlO1xuICBjb25zdCB7IHdoaXRlLCB0ZXh0IH0gPSBwYWxldHRlO1xuICBjb25zdCB7IHB4VG9SZW0gfSA9IGZ1bmN0aW9ucztcbiAgY29uc3QgYmFja2dyb3VuZFZhbHVlID0gcGFsZXR0ZVtiZ0NvbG9yXSA/IHBhbGV0dGVbYmdDb2xvcl0ubWFpbiA6IHdoaXRlLm1haW47XG4gIGxldCBzaXplVmFsdWUgPSBweFRvUmVtKDM4KTtcbiAgaWYgKHNpemUgPT09ICdzbWFsbCcpIHtcbiAgICBzaXplVmFsdWUgPSBweFRvUmVtKDI1LjQpO1xuICB9IGVsc2UgaWYgKHNpemUgPT09ICdsYXJnZScpIHtcbiAgICBzaXplVmFsdWUgPSBweFRvUmVtKDUyKTtcbiAgfVxuICBsZXQgcGFkZGluZ1ZhbHVlID0gYCR7cHhUb1JlbSgxMSl9ICR7cHhUb1JlbSgxMSl9ICR7cHhUb1JlbSgxMCl9YDtcbiAgaWYgKHNpemUgPT09ICdzbWFsbCcpIHtcbiAgICBwYWRkaW5nVmFsdWUgPSBweFRvUmVtKDQuNSk7XG4gIH0gZWxzZSBpZiAoc2l6ZSA9PT0gJ2xhcmdlJykge1xuICAgIHBhZGRpbmdWYWx1ZSA9IHB4VG9SZW0oMTYpO1xuICB9XG4gIGxldCBjb2xvclZhbHVlID0gd2hpdGUubWFpbjtcbiAgaWYgKFxuICAgIGJnQ29sb3IgPT09ICdkZWZhdWx0JyB8fFxuICAgIGJnQ29sb3IgPT09ICdwcmltYXJ5JyB8fFxuICAgIGJnQ29sb3IgPT09ICd3aGl0ZScgfHxcbiAgICBiZ0NvbG9yID09PSAnbGlnaHQnIHx8XG4gICAgIXBhbGV0dGVbYmdDb2xvcl1cbiAgKSB7XG4gICAgY29sb3JWYWx1ZSA9IHRleHQuY29sb3JQcmltYXJ5O1xuICB9IGVsc2UgaWYgKFxuICAgIGJnQ29sb3IgPT09ICdlcnJvcicgfHxcbiAgICBiZ0NvbG9yID09PSAnZGFyaycgfHxcbiAgICBiZ0NvbG9yID09PSAnc3VjY2VzcycgfHxcbiAgICBiZ0NvbG9yID09PSAnc2Vjb25kYXJ5JyB8fFxuICAgIGJnQ29sb3IgPT09ICdpbmZvJyB8fFxuICAgIGJnQ29sb3IgPT09ICd3YXJuaW5nJ1xuICApIHtcbiAgICBjb2xvclZhbHVlID0gd2hpdGUubWFpbjtcbiAgfVxuICByZXR1cm4ge1xuICAgIGJvcmRlclJhZGl1czogJzUwJScsXG4gICAgZGlzcGxheTogJ2ZsZXgnLFxuICAgIGFsaWduSXRlbXM6ICdjZW50ZXInLFxuICAgIGp1c3RpZnlDb250ZW50OiAnY2VudGVyJyxcbiAgICB3aWR0aDogc2l6ZVZhbHVlLFxuICAgIG1pbldpZHRoOiBzaXplVmFsdWUsXG4gICAgaGVpZ2h0OiBzaXplVmFsdWUsXG4gICAgbWluSGVpZ2h0OiBzaXplVmFsdWUsXG4gICAgcGFkZGluZzogcGFkZGluZ1ZhbHVlLFxuICAgIGJhY2tncm91bmQ6IGAke2JhY2tncm91bmRWYWx1ZX0gIWltcG9ydGFudGAsIC8vIFVzZSAhaW1wb3J0YW50IHRvIG92ZXJyaWRlIGFueSBsYXRlciBjb25mbGljdGluZyBzdHlsZXNcbiAgICBjb2xvcjogYCR7Y29sb3JWYWx1ZX0gIWltcG9ydGFudGAsIC8vIFVzZSAhaW1wb3J0YW50IHRvIG92ZXJyaWRlIGFueSBsYXRlciBjb25mbGljdGluZyBzdHlsZXNcbiAgICAnJiAubWF0ZXJpYWwtaWNvbnMnOiB7XG4gICAgICBtYXJnaW5Ub3A6IDAsXG4gICAgfSxcbiAgICAnJjpob3ZlciwgJjpmb2N1cywgJjphY3RpdmUnOiB7XG4gICAgICB0cmFuc2Zvcm06ICdub25lJyxcbiAgICB9LFxuICB9O1xufSk7XG5cbmV4cG9ydCBkZWZhdWx0IFJDSWNvbldyYXBwZXJSb290O1xuXG4vLyBsZXQgc2l6ZVZhbHVlID0gcHhUb1JlbSgzOCk7XG4vLyBpZiAoc2l6ZSA9PT0gJ3NtYWxsJykge1xuLy8gICBzaXplVmFsdWUgPSBweFRvUmVtKDI1LjQpO1xuLy8gfSBlbHNlIGlmIChzaXplID09PSAnbGFyZ2UnKSB7XG4vLyAgIHNpemVWYWx1ZSA9IHB4VG9SZW0oNTIpO1xuLy8gfVxuLy8gbGV0IHBhZGRpbmdWYWx1ZSA9IGAke3B4VG9SZW0oMTEpfSAke3B4VG9SZW0oMTEpfSAke3B4VG9SZW0oMTApfWA7XG4vLyAgIHBhZGRpbmdWYWx1ZSA9IHB4VG9SZW0oNC41KTtcbi8vICAgcGFkZGluZ1ZhbHVlID0gcHhUb1JlbSgxNik7XG4vLyBsZXQgY29sb3JWYWx1ZSA9IHdoaXRlLm1haW47XG4vLyBpZiAoXG4vLyAgIGJnQ29sb3IgPT09ICdkZWZhdWx0JyB8fFxuLy8gICBiZ0NvbG9yID09PSAncHJpbWFyeScgfHxcbi8vICAgYmdDb2xvciA9PT0gJ3doaXRlJyB8fFxuLy8gICBiZ0NvbG9yID09PSAnbGlnaHQnIHx8XG4vLyAgICFwYWxldHRlW2JnQ29sb3JdXG4vLyApIHtcbi8vICAgY29sb3JWYWx1ZSA9IHRleHQuY29sb3JQcmltYXJ5O1xuLy8gfSBlbHNlIGlmIChcbi8vICAgYmdDb2xvciA9PT0gJ2Vycm9yJyB8fFxuLy8gICBiZ0NvbG9yID09PSAnZGFyaycgfHxcbi8vICAgYmdDb2xvciA9PT0gJ3N1Y2Nlc3MnIHx8XG4vLyAgIGJnQ29sb3IgPT09ICdzZWNvbmRhcnknIHx8XG4vLyAgIGJnQ29sb3IgPT09ICdpbmZvJyB8fFxuLy8gICBiZ0NvbG9yID09PSAnd2FybmluZydcbi8vICAgY29sb3JWYWx1ZSA9IHdoaXRlLm1haW47XG4vLyBjb25zdCBpY29uQ29udGFpbmVyU3R5bGVzID0gKCkgPT4ge1xuLy8gICBsZXQgc2l6ZVZhbHVlID0gcHhUb1JlbSgzOCk7XG4vLyAgIGlmIChzaXplID09PSAnc21hbGwnKSB7XG4vLyAg... (4220 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0006768329767510295
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/themed/RCIconWrapper/RCIconWrapperRoot.jsx (200) — 2024-07-28T11:41:30.297Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/themed/RCIconWrapper/RCIconWrapperRoot.jsx"
+        }
+      ]
+    }
+  ]
+}

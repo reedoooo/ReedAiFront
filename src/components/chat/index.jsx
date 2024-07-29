@@ -1,7 +1,14 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-empty */
 /* eslint-disable no-constant-condition */
-import { Box, CircularProgress, Grid, Paper, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Paper,
+  Typography,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { debounce } from 'lodash';
 import memoizeOne from 'memoize-one';
@@ -17,7 +24,6 @@ import { Navigate } from 'react-router-dom';
 // import { Typewriter } from 'react-simple-typewriter';
 import {
   fetchMessageStream,
-  saveMessagesToSession,
   getChatSessionMessagesBySessionId,
 } from 'api/chat/chat_main';
 import {
@@ -29,12 +35,16 @@ import {
 import { MessageBox } from 'components/messages';
 import constants from 'config/constants';
 import { useAuthStore, useChatStore } from 'contexts';
+import useDialog from 'hooks/useDialog';
 import { useMode } from 'hooks/useMode';
 import useTipTapEditor from 'hooks/useTipTapEditor';
 import { organizeMessages, safeParse } from 'utils/format';
 import 'styles/ChatStyles.css';
+import { handleFiles } from './inputs/toolbar';
+import NewSessionDialog from './NewSessionDialog';
 const { API_URL, OPENAI_API_KEY } = constants;
 const MessageInput = React.lazy(() => import('./inputs/MessageInput'));
+
 export async function getChatSessionBySessionId(sessionId) {
   try {
     const response = await fetch(
@@ -85,6 +95,27 @@ export async function getWorkspaceByWorkspaceId(workspaceId) {
   }
 }
 
+export async function createNewSession({ sessionName, instructions, topic }) {
+  try {
+    const response = await fetch(`${API_URL}/chat/chatSessions/session`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ sessionName, instructions, topic }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error creating new session:', error);
+  }
+}
+
 export const ChatApp = () => {
   const { theme } = useMode();
   const { state: authState, actions: authActions } = useAuthStore();
@@ -128,33 +159,23 @@ export const ChatApp = () => {
   const [userInput, setUserInput] = useState('');
   const [inputOnSubmit, setInputOnSubmit] = useState('');
   const [error, setError] = useState('');
+  const [fileInput, setFileInput] = useState(null);
 
   // --- state management for loading and editor ---
   const [loading, setLoading] = useState(false);
   const [isEditorActive, setIsEditorActive] = useState(false);
   const [isMessagesUpdated, setIsMessagesUpdated] = useState(false);
-
-  const { editor } = useTipTapEditor(isFirstMessage, setUserInput);
+  const { editor } = useTipTapEditor(
+    isFirstMessage,
+    setUserInput,
+    setFileInput
+  );
   const messagesStartRef = useRef(null);
   const messagesEndRef = useRef(null);
   const controllerRef = useRef(null);
   const chatContainerRef = useRef(null);
   const editorActiveRef = useRef(false);
-
-  // --- memoized functions for fetching data ---
-  const memoizedGetWorkspaceByWorkspaceId = memoizeOne(
-    getWorkspaceByWorkspaceId
-  );
-  const memoizedGetChatSessionBySessionId = memoizeOne(
-    getChatSessionBySessionId
-  );
-  const memoizedGetChatSessionMessagesBySessionId = memoizeOne(
-    getChatSessionMessagesBySessionId
-  );
-  const debouncedFetchMessageStream = useCallback(
-    debounce(fetchMessageStream, 500),
-    []
-  );
+  const newSessionDialog = useDialog();
 
   // --- functions for handling data ---
   const handleSaveMessagesToSession = useCallback(async () => {
@@ -225,26 +246,6 @@ export const ChatApp = () => {
     }
   }, [sessionId]);
 
-  const handleGetValidSessionMessages = useCallback(async () => {
-    try {
-      const response = await memoizedGetChatSessionMessagesBySessionId(
-        validSession._id
-      );
-      console.log('--- validSessionMessages ---', response);
-      return;
-    } catch (error) {
-      console.error(error);
-    }
-  }, [validSession._id]);
-
-  // --- useEffect for handling data ---
-  // useEffect(() => {
-  //   if (isMessagesUpdated) {
-  //     handleSaveMessagesToSession();
-  //     setIsMessagesUpdated(false);
-  //   }
-  // }, [isMessagesUpdated]);
-
   useEffect(() => {
     if (!validWorkspaceId) {
       handleGetValidWorkspace();
@@ -311,9 +312,8 @@ export const ChatApp = () => {
       userId: localStorage.getItem('userId'),
       clientApiKey: apiKey,
       role: 'user',
-      id: new mongoose.Types.ObjectId(),
-      content: userInput,
       signal: controllerRef.current.signal,
+      // fileDataRef: fileDataRef,
     };
     setMessages(prevMessages => [
       ...prevMessages,
@@ -390,6 +390,23 @@ export const ChatApp = () => {
     }
   };
 
+  const handleNewSession = async props => {
+    const { sessionName, instructions, topic } = props;
+    localStorage.removeItem('sessionId');
+    localStorage.removeItem('chatMessages');
+    setMessages([]);
+    setInputOnSubmit('');
+    setUserInput('');
+    setLoading(false);
+    setValidSession(null);
+    setValidSessionId(null);
+
+    // create new session
+    const data = await createNewSession({ sessionName, instructions, topic });
+    console.log('New session created:', data);
+    setValidSession(data.session);
+    setValidSessionId(data.session._id);
+  };
   const handleRegenerateResponse = useCallback(() => {
     console.log('REGEN');
   }, []);
@@ -451,6 +468,15 @@ export const ChatApp = () => {
           <Typography variant="body2" color="textSecondary">
             Discuss your queries and get assistance
           </Typography>
+          <Box>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => newSessionDialog.handleOpen}
+            >
+              Start New Session
+            </Button>
+          </Box>
         </Header>
         <MessageContainer>
           <div ref={messagesStartRef} />
@@ -475,7 +501,13 @@ export const ChatApp = () => {
           setIsEditorActive={setIsEditorActive}
           editorRef={editorActiveRef}
           setUserInput={setUserInput}
+          setFileInput={setFileInput}
           isFirstMessage={isFirstMessage}
+        />
+        <NewSessionDialog
+          open={newSessionDialog.open}
+          onClose={newSessionDialog.handleClose}
+          onCreate={handleNewSession}
         />
       </StyledChatContainer>
     </ChatWindow>

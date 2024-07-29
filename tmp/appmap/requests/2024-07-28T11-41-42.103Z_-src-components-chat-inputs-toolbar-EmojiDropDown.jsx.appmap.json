@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/chat/inputs/toolbar/EmojiDropDown.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/chat/inputs/toolbar/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"11d7-1ZUMwpXf6tp5QTpHWGXKfd6m9BU\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"11d7-b8GlMMY+T0PftG3wGGFdyeU6MdU\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/chat/inputs/toolbar/EmojiDropDown.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const Fragment = __vite__cjsImport0_react_jsxDevRuntime[\"Fragment\"]; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/toolbar/EmojiDropDown.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport data from \"/node_modules/@emoji-mart/data/sets/15/native.json?import\";\nimport Picker from \"/node_modules/.vite/deps/@emoji-mart_react.js?v=7a7dffb6\";\nimport __vite__cjsImport5__mui_iconsMaterial_EmojiEmotions from \"/node_modules/.vite/deps/@mui_icons-material_EmojiEmotions.js?v=7e4f0aee\"; const EmojiEmotionsIcon = __vite__cjsImport5__mui_iconsMaterial_EmojiEmotions.__esModule ? __vite__cjsImport5__mui_iconsMaterial_EmojiEmotions.default : __vite__cjsImport5__mui_iconsMaterial_EmojiEmotions;\nimport { IconButton } from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport __vite__cjsImport7_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport7_react.__esModule ? __vite__cjsImport7_react.default : __vite__cjsImport7_react; const useState = __vite__cjsImport7_react[\"useState\"];\nimport useMode from \"/src/hooks/useMode.jsx\";\nexport const EmojiDropDown = ({ editor }) => {\n  _s();\n  const { theme } = useMode();\n  const [showEmojiPicker, setShowEmojiPicker] = useState(false);\n  return /* @__PURE__ */ jsxDEV(Fragment, { children: [\n    /* @__PURE__ */ jsxDEV(IconButton, { onClick: () => setShowEmojiPicker(!showEmojiPicker), children: /* @__PURE__ */ jsxDEV(\n      EmojiEmotionsIcon,\n      {\n        style: { color: theme.palette.primary.main, fontSize: 20 }\n      },\n      void 0,\n      false,\n      {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/toolbar/EmojiDropDown.jsx\",\n        lineNumber: 15,\n        columnNumber: 9\n      },\n      this\n    ) }, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/toolbar/EmojiDropDown.jsx\",\n      lineNumber: 14,\n      columnNumber: 7\n    }, this),\n    showEmojiPicker && /* @__PURE__ */ jsxDEV(\n      Picker,\n      {\n        data,\n        onEmojiSelect: (emoji) => {\n          editor.commands.insertContent(emoji.native);\n          setShowEmojiPicker(false);\n        },\n        theme: \"dark\",\n        style: { position: \"absolute\", bottom: \"60px\", left: \"20px\" }\n      },\n      void 0,\n      false,\n      {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/toolbar/EmojiDropDown.jsx\",\n        lineNumber: 20,\n        columnNumber: 7\n      },\n      this\n    )\n  ] }, void 0, true, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/toolbar/EmojiDropDown.jsx\",\n    lineNumber: 13,\n    columnNumber: 5\n  }, this);\n};\n_s(EmojiDropDown, \"f9l6+KTcRU8dNjNJ8Ih6lWTNYWU=\", false, function() {\n  return [useMode];\n});\n_c = EmojiDropDown;\nexport default EmojiDropDown;\nvar _c;\n$RefreshReg$(_c, \"EmojiDropDown\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/toolbar/EmojiDropDown.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBWUksbUJBRUksY0FGSjsyQkFaSjtBQUFpQixvQkFBa0I7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFDbkMsT0FBT0EsWUFBWTtBQUNuQixPQUFPQyx1QkFBdUI7QUFDOUIsU0FBU0Msa0JBQWtCO0FBQzNCLE9BQU9DLFNBQVNDLGdCQUFnQjtBQUNoQyxPQUFPQyxhQUFhO0FBRWIsYUFBTUMsZ0JBQWdCQSxDQUFDLEVBQUVDLE9BQU8sTUFBTTtBQUFBQyxLQUFBO0FBQzNDLFFBQU0sRUFBRUMsTUFBTSxJQUFJSixRQUFRO0FBQzFCLFFBQU0sQ0FBQ0ssaUJBQWlCQyxrQkFBa0IsSUFBSVAsU0FBUyxLQUFLO0FBRTVELFNBQ0UsbUNBQ0U7QUFBQSwyQkFBQyxjQUFXLFNBQVMsTUFBTU8sbUJBQW1CLENBQUNELGVBQWUsR0FDNUQ7QUFBQSxNQUFDO0FBQUE7QUFBQSxRQUNDLE9BQU8sRUFBRUUsT0FBT0gsTUFBTUksUUFBUUMsUUFBUUMsTUFBTUMsVUFBVSxHQUFHO0FBQUE7QUFBQSxNQUQzRDtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsSUFDNkQsS0FGL0Q7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQUlBO0FBQUEsSUFDQ04sbUJBQ0M7QUFBQSxNQUFDO0FBQUE7QUFBQSxRQUNDO0FBQUEsUUFDQSxlQUFlLENBQUFPLFVBQVM7QUFDdEJWLGlCQUFPVyxTQUFTQyxjQUFjRixNQUFNRyxNQUFNO0FBQzFDVCw2QkFBbUIsS0FBSztBQUFBLFFBQzFCO0FBQUEsUUFDQSxPQUFNO0FBQUEsUUFDTixPQUFPLEVBQUVVLFVBQVUsWUFBWUMsUUFBUSxRQUFRQyxNQUFNLE9BQU87QUFBQTtBQUFBLE1BUDlEO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxJQU9nRTtBQUFBLE9BZHBFO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FpQkE7QUFFSjtBQUFFZixHQXhCV0YsZUFBYTtBQUFBLFVBQ05ELE9BQU87QUFBQTtBQUFBbUIsS0FEZGxCO0FBMEJiLGVBQWVBO0FBQWMsSUFBQWtCO0FBQUFDLGFBQUFELElBQUEiLCJuYW1lcyI6WyJQaWNrZXIiLCJFbW9qaUVtb3Rpb25zSWNvbiIsIkljb25CdXR0b24iLCJSZWFjdCIsInVzZVN0YXRlIiwidXNlTW9kZSIsIkVtb2ppRHJvcERvd24iLCJlZGl0b3IiLCJfcyIsInRoZW1lIiwic2hvd0Vtb2ppUGlja2VyIiwic2V0U2hvd0Vtb2ppUGlja2VyIiwiY29sb3IiLCJwYWxldHRlIiwicHJpbWFyeSIsIm1haW4iLCJmb250U2l6ZSIsImVtb2ppIiwiY29tbWFuZHMiLCJpbnNlcnRDb250ZW50IiwibmF0aXZlIiwicG9zaXRpb24iLCJib3R0b20iLCJsZWZ0IiwiX2MiLCIkUmVmcmVzaFJlZyQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiRW1vamlEcm9wRG93bi5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IGRhdGEgZnJvbSAnQGVtb2ppLW1hcnQvZGF0YSc7XG5pbXBvcnQgUGlja2VyIGZyb20gJ0BlbW9qaS1tYXJ0L3JlYWN0JztcbmltcG9ydCBFbW9qaUVtb3Rpb25zSWNvbiBmcm9tICdAbXVpL2ljb25zLW1hdGVyaWFsL0Vtb2ppRW1vdGlvbnMnO1xuaW1wb3J0IHsgSWNvbkJ1dHRvbiB9IGZyb20gJ0BtdWkvbWF0ZXJpYWwnO1xuaW1wb3J0IFJlYWN0LCB7IHVzZVN0YXRlIH0gZnJvbSAncmVhY3QnO1xuaW1wb3J0IHVzZU1vZGUgZnJvbSAnaG9va3MvdXNlTW9kZSc7XG5cbmV4cG9ydCBjb25zdCBFbW9qaURyb3BEb3duID0gKHsgZWRpdG9yIH0pID0+IHtcbiAgY29uc3QgeyB0aGVtZSB9ID0gdXNlTW9kZSgpO1xuICBjb25zdCBbc2hvd0Vtb2ppUGlja2VyLCBzZXRTaG93RW1vamlQaWNrZXJdID0gdXNlU3RhdGUoZmFsc2UpO1xuXG4gIHJldHVybiAoXG4gICAgPD5cbiAgICAgIDxJY29uQnV0dG9uIG9uQ2xpY2s9eygpID0+IHNldFNob3dFbW9qaVBpY2tlcighc2hvd0Vtb2ppUGlja2VyKX0+XG4gICAgICAgIDxFbW9qaUVtb3Rpb25zSWNvblxuICAgICAgICAgIHN0eWxlPXt7IGNvbG9yOiB0aGVtZS5wYWxldHRlLnByaW1hcnkubWFpbiwgZm9udFNpemU6IDIwIH19XG4gICAgICAgIC8+XG4gICAgICA8L0ljb25CdXR0b24+XG4gICAgICB7c2hvd0Vtb2ppUGlja2VyICYmIChcbiAgICAgICAgPFBpY2tlclxuICAgICAgICAgIGRhdGE9e2RhdGF9XG4gICAgICAgICAgb25FbW9qaVNlbGVjdD17ZW1vamkgPT4ge1xuICAgICAgICAgICAgZWRpdG9yLmNvbW1hbmRzLmluc2VydENvbnRlbnQoZW1vamkubmF0aXZlKTtcbiAgICAgICAgICAgIHNldFNob3dFbW9qaVBpY2tlcihmYWxzZSk7XG4gICAgICAgICAgfX1cbiAgICAgICAgICB0aGVtZT1cImRhcmtcIlxuICAgICAgICAgIHN0eWxlPXt7IHBvc2l0aW9uOiAnYWJzb2x1dGUnLCBib3R0b206ICc2MHB4JywgbGVmdDogJzIwcHgnIH19XG4gICAgICAgIC8+XG4gICAgICApfVxuICAgIDwvPlxuICApO1xufTtcblxuZXhwb3J0IGRlZmF1bHQgRW1vamlEcm9wRG93bjtcbiJdLCJmaWxlIjoiL1VzZXJzL3JlZWR2b2d0L0Rlc2t0b3AvUmVlZEFpRnJvbnQvc3JjL2NvbXBvbmVudHMvY2hhdC9pbnB1dHMvdG9vbGJhci9FbW9qaURyb3BEb3duLmpzeCJ9"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.00027820898685604334
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/chat/inputs/toolbar/EmojiDropDown.jsx (200) — 2024-07-28T11:41:42.103Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/chat/inputs/toolbar/EmojiDropDown.jsx"
+        }
+      ]
+    }
+  ]
+}

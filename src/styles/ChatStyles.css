@@ -1,7 +1,7 @@
 /* Add these styles in your CSS file */
 /* Include highlight.js default stylesheet */
 /* @import '~highlight.js/styles/default.css'; */
-.chatbot-container {
+/* .chatbot-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -63,7 +63,7 @@
 .input-area button {
   margin-left: 10px;
   padding: 10px 20px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 20px;
@@ -79,7 +79,7 @@
   .message {
     max-width: 85%;
   }
-}
+} */
 
 /* Additional styles for code blocks */
 /* .code-block-wrapper {
@@ -134,13 +134,16 @@
   overflow: auto;
 }
 */
+.codeBlockContainer pre {
+  white-space: pre-wrap !important; /* Allow the text to wrap */
+  word-break: break-word !important; /* Break the word to prevent overflow */
+  overflow-wrap: break-word !important; /* Ensure long words do not cause overflow */
+}
+
 pre {
-  background: var(--black);
   border-radius: 0.5rem;
-  color: var(--white);
   font-family: 'JetBrainsMono', monospace;
   margin: 1.5rem 0;
-  padding: 0.75rem 1rem;
   overflow: auto;
 }
 /* 2

@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/themed/RCCard/MinistatisticsCard.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/themed/RCCard/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"1b2b-v1/PpzKB2fBAlOEZBe1aTlrO97I\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"1b2b-UE3CWvF2cNLI7xyFTICIuatlvZY\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/themed/RCCard/MinistatisticsCard.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MinistatisticsCard.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport { Box, Card, CardContent, Typography } from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport useMode from \"/src/hooks/useMode.jsx\";\nexport default function MinistatisticsCard(props) {\n  _s();\n  const { startContent, endContent, name, growth, value } = props;\n  const { theme } = useMode();\n  const textColor = theme.palette.text.primary;\n  const textColorSecondary = theme.palette.text.secondary;\n  return /* @__PURE__ */ jsxDEV(Card, { children: /* @__PURE__ */ jsxDEV(CardContent, { style: { padding: \"15px\" }, children: /* @__PURE__ */ jsxDEV(\n    Box,\n    {\n      display: \"flex\",\n      alignItems: \"center\",\n      justifyContent: { xs: \"center\", xl: \"start\" },\n      height: \"100%\",\n      children: [\n        startContent,\n        /* @__PURE__ */ jsxDEV(\n          Box,\n          {\n            ml: startContent ? 2 : 0,\n            display: \"flex\",\n            flexDirection: \"column\",\n            justifyContent: \"center\",\n            children: [\n              /* @__PURE__ */ jsxDEV(\n                Typography,\n                {\n                  variant: \"body2\",\n                  color: \"textSecondary\",\n                  style: { lineHeight: \"100%\" },\n                  children: name\n                },\n                void 0,\n                false,\n                {\n                  fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MinistatisticsCard.jsx\",\n                  lineNumber: 25,\n                  columnNumber: 13\n                },\n                this\n              ),\n              /* @__PURE__ */ jsxDEV(\n                Typography,\n                {\n                  variant: \"h6\",\n                  color: \"textPrimary\",\n                  style: { color: textColor },\n                  children: value\n                },\n                void 0,\n                false,\n                {\n                  fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MinistatisticsCard.jsx\",\n                  lineNumber: 32,\n                  columnNumber: 13\n                },\n                this\n              ),\n              growth ? /* @__PURE__ */ jsxDEV(Box, { display: \"flex\", alignItems: \"center\", children: [\n                /* @__PURE__ */ jsxDEV(\n                  Typography,\n                  {\n                    variant: \"body2\",\n                    style: {\n                      color: \"green\",\n                      fontWeight: 700,\n                      marginRight: \"5px\"\n                    },\n                    children: growth\n                  },\n                  void 0,\n                  false,\n                  {\n                    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MinistatisticsCard.jsx\",\n                    lineNumber: 41,\n                    columnNumber: 17\n                  },\n                  this\n                ),\n                /* @__PURE__ */ jsxDEV(\n                  Typography,\n                  {\n                    variant: \"body2\",\n                    style: {\n                      color: textColorSecondary,\n                      fontWeight: 400\n                    },\n                    children: \"since last month\"\n                  },\n                  void 0,\n                  false,\n                  {\n                    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MinistatisticsCard.jsx\",\n                    lineNumber: 51,\n                    columnNumber: 17\n                  },\n                  this\n                )\n              ] }, void 0, true, {\n                fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MinistatisticsCard.jsx\",\n                lineNumber: 40,\n                columnNumber: 13\n              }, this) : null\n            ]\n          },\n          void 0,\n          true,\n          {\n            fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MinistatisticsCard.jsx\",\n            lineNumber: 19,\n            columnNumber: 11\n          },\n          this\n        ),\n        /* @__PURE__ */ jsxDEV(Box, { ml: \"auto\", children: endContent }, void 0, false, {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MinistatisticsCard.jsx\",\n          lineNumber: 63,\n          columnNumber: 11\n        }, this)\n      ]\n    },\n    void 0,\n    true,\n    {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MinistatisticsCard.jsx\",\n      lineNumber: 12,\n      columnNumber: 9\n    },\n    this\n  ) }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MinistatisticsCard.jsx\",\n    lineNumber: 11,\n    columnNumber: 7\n  }, this) }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MinistatisticsCard.jsx\",\n    lineNumber: 10,\n    columnNumber: 5\n  }, this);\n}\n_s(MinistatisticsCard, \"0C8+rr4amTJBBb5hLcETPzToHLI=\", false, function() {\n  return [useMode];\n});\n_c = MinistatisticsCard;\nvar _c;\n$RefreshReg$(_c, \"MinistatisticsCard\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MinistatisticsCard.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBd0JZOzJCQXhCWjtBQUFvQkEsb0JBQWFDLE9BQVUsc0JBQXVCO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQ2xFLE9BQU9DLGFBQWE7QUFFcEIsd0JBQXdCQyxtQkFBbUJDLE9BQU87QUFBQUMsS0FBQTtBQUNoRCxRQUFNLEVBQUVDLGNBQWNDLFlBQVlDLE1BQU1DLFFBQVFDLE1BQU0sSUFBSU47QUFDMUQsUUFBTSxFQUFFTyxNQUFNLElBQUlULFFBQVE7QUFDMUIsUUFBTVUsWUFBWUQsTUFBTUUsUUFBUUMsS0FBS0M7QUFDckMsUUFBTUMscUJBQXFCTCxNQUFNRSxRQUFRQyxLQUFLRztBQUM5QyxTQUNFLHVCQUFDLFFBQ0MsaUNBQUMsZUFBWSxPQUFPLEVBQUVDLFNBQVMsT0FBTyxHQUNwQztBQUFBLElBQUM7QUFBQTtBQUFBLE1BQ0MsU0FBUTtBQUFBLE1BQ1IsWUFBVztBQUFBLE1BQ1gsZ0JBQWdCLEVBQUVDLElBQUksVUFBVUMsSUFBSSxRQUFRO0FBQUEsTUFDNUMsUUFBTztBQUFBLE1BRU5kO0FBQUFBO0FBQUFBLFFBQ0Q7QUFBQSxVQUFDO0FBQUE7QUFBQSxZQUNDLElBQUlBLGVBQWUsSUFBSTtBQUFBLFlBQ3ZCLFNBQVE7QUFBQSxZQUNSLGVBQWM7QUFBQSxZQUNkLGdCQUFlO0FBQUEsWUFFZjtBQUFBO0FBQUEsZ0JBQUM7QUFBQTtBQUFBLGtCQUNDLFNBQVE7QUFBQSxrQkFDUixPQUFNO0FBQUEsa0JBQ04sT0FBTyxFQUFFZSxZQUFZLE9BQU87QUFBQSxrQkFFM0JiO0FBQUFBO0FBQUFBLGdCQUxIO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxjQU1BO0FBQUEsY0FDQTtBQUFBLGdCQUFDO0FBQUE7QUFBQSxrQkFDQyxTQUFRO0FBQUEsa0JBQ1IsT0FBTTtBQUFBLGtCQUNOLE9BQU8sRUFBRWMsT0FBT1YsVUFBVTtBQUFBLGtCQUV6QkY7QUFBQUE7QUFBQUEsZ0JBTEg7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLGNBTUE7QUFBQSxjQUNDRCxTQUNDLHVCQUFDLE9BQUksU0FBUSxRQUFPLFlBQVcsVUFDN0I7QUFBQTtBQUFBLGtCQUFDO0FBQUE7QUFBQSxvQkFDQyxTQUFRO0FBQUEsb0JBQ1IsT0FBTztBQUFBLHNCQUNMYSxPQUFPO0FBQUEsc0JBQ1BDLFlBQVk7QUFBQSxzQkFDWkMsYUFBYTtBQUFBLG9CQUNmO0FBQUEsb0JBRUNmO0FBQUFBO0FBQUFBLGtCQVJIO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxnQkFTQTtBQUFBLGdCQUNBO0FBQUEsa0JBQUM7QUFBQTtBQUFBLG9CQUNDLFNBQVE7QUFBQSxvQkFDUixPQUFPO0FBQUEsc0JBQ0xhLE9BQU9OO0FBQUFBLHNCQUNQTyxZQUFZO0FBQUEsb0JBQ2Q7QUFBQSxvQkFBRTtBQUFBO0FBQUEsa0JBTEo7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLGdCQVFBO0FBQUEsbUJBbkJGO0FBQUE7QUFBQTtBQUFBO0FBQUEscUJBb0JBLElBQ0U7QUFBQTtBQUFBO0FBQUEsVUExQ047QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLFFBMkNBO0FBQUEsUUFDQSx1QkFBQyxPQUFJLElBQUcsUUFBUWhCLHdCQUFoQjtBQUFBO0FBQUE7QUFBQTtBQUFBLGVBQTJCO0FBQUE7QUFBQTtBQUFBLElBbkQ3QjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsRUFvREEsS0FyREY7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQXNEQSxLQXZERjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBd0RBO0FBRUo7QUFBQ0YsR0FoRXVCRixvQkFBa0I7QUFBQSxVQUV0QkQsT0FBTztBQUFBO0FBQUF1QixLQUZIdEI7QUFBa0IsSUFBQXNCO0FBQUFDLGFBQUFELElBQUEiLCJuYW1lcyI6WyJDYXJkQ29udGVudCIsIlR5cG9ncmFwaHkiLCJ1c2VNb2RlIiwiTWluaXN0YXRpc3RpY3NDYXJkIiwicHJvcHMiLCJfcyIsInN0YXJ0Q29udGVudCIsImVuZENvbnRlbnQiLCJuYW1lIiwiZ3Jvd3RoIiwidmFsdWUiLCJ0aGVtZSIsInRleHRDb2xvciIsInBhbGV0dGUiLCJ0ZXh0IiwicHJpbWFyeSIsInRleHRDb2xvclNlY29uZGFyeSIsInNlY29uZGFyeSIsInBhZGRpbmciLCJ4cyIsInhsIiwibGluZUhlaWdodCIsImNvbG9yIiwiZm9udFdlaWdodCIsIm1hcmdpblJpZ2h0IiwiX2MiLCIkUmVmcmVzaFJlZyQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiTWluaXN0YXRpc3RpY3NDYXJkLmpzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBCb3gsIENhcmQsIENhcmRDb250ZW50LCBUeXBvZ3JhcGh5IH0gZnJvbSAnQG11aS9tYXRlcmlhbCc7XG5pbXBvcnQgdXNlTW... (2798 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0005387079436331987
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/themed/RCCard/MinistatisticsCard.jsx (200) — 2024-07-28T11:41:30.263Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/themed/RCCard/MinistatisticsCard.jsx"
+        }
+      ]
+    }
+  ]
+}

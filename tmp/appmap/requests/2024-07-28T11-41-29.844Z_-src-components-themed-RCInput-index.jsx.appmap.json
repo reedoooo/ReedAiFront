@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/themed/RCInput/index.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/themed/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"bb7-pIR81cGZEtzZfRn+RmWWb1qTI54\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"bb7-G2XeelaqQoEVWv32f5LbrckkZnQ\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/themed/RCInput/index.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCInput/index.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nimport __vite__cjsImport3_propTypes from \"/node_modules/.vite/deps/prop-types.js?v=da689d69\"; const PropTypes = __vite__cjsImport3_propTypes.__esModule ? __vite__cjsImport3_propTypes.default : __vite__cjsImport3_propTypes;\nimport __vite__cjsImport4_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport4_react.__esModule ? __vite__cjsImport4_react.default : __vite__cjsImport4_react;\nimport RCInputRoot from \"/src/components/themed/RCInput/RCInputRoot.jsx\";\nconst RCInput = React.forwardRef(\n  _c = ({ variant = \"base\", disabled = false, ...rest }, ref) => /* @__PURE__ */ jsxDEV(\n    RCInputRoot,\n    {\n      ...rest,\n      ref,\n      className: \"MuiRCInputBase\",\n      ownerState: {\n        variant,\n        disabled\n      }\n    },\n    void 0,\n    false,\n    {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCInput/index.jsx\",\n      lineNumber: 18,\n      columnNumber: 1\n    },\n    this\n  )\n);\n_c2 = RCInput;\nRCInput.displayName = \"RCInput\";\nRCInput.propTypes = {\n  variant: PropTypes.oneOf([\"base\"]),\n  disabled: PropTypes.bool\n};\nexport default RCInput;\nvar _c, _c2;\n$RefreshReg$(_c, \"RCInput$React.forwardRef\");\n$RefreshReg$(_c2, \"RCInput\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCInput/index.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBaUJJO0FBakJKO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUVBLE9BQU9BLGVBQWU7QUFDdEIsT0FBT0MsV0FBVztBQUNsQixPQUFPQyxpQkFBaUI7QUFXeEIsTUFBTUMsVUFBVUYsTUFBTUc7QUFBQUEsRUFBVUMsS0FDOUJBLENBQUMsRUFBRUMsVUFBVSxRQUFRQyxXQUFXLE9BQU8sR0FBR0MsS0FBSyxHQUFHQyxRQUNoRDtBQUFBLElBQUM7QUFBQTtBQUFBLE1BQ0MsR0FBSUQ7QUFBQUEsTUFDSjtBQUFBLE1BQ0EsV0FBVTtBQUFBLE1BQ1YsWUFBWTtBQUFBLFFBQ1ZGO0FBQUFBLFFBQ0FDO0FBQUFBLE1BQ0Y7QUFBQTtBQUFBLElBUEY7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLEVBT0k7QUFHUjtBQUFFRyxNQVpJUDtBQWNOQSxRQUFRUSxjQUFjO0FBR3RCUixRQUFRUyxZQUFZO0FBQUEsRUFDbEJOLFNBQVNOLFVBQVVhLE1BQU0sQ0FBQyxNQUFNLENBQUM7QUFBQSxFQUNqQ04sVUFBVVAsVUFBVWM7QUFDdEI7QUFFQSxlQUFlWDtBQUFRLElBQUFFLElBQUFLO0FBQUFLLGFBQUFWLElBQUE7QUFBQVUsYUFBQUwsS0FBQSIsIm5hbWVzIjpbIlByb3BUeXBlcyIsIlJlYWN0IiwiUkNJbnB1dFJvb3QiLCJSQ0lucHV0IiwiZm9yd2FyZFJlZiIsIl9jIiwidmFyaWFudCIsImRpc2FibGVkIiwicmVzdCIsInJlZiIsIl9jMiIsImRpc3BsYXlOYW1lIiwicHJvcFR5cGVzIiwib25lT2YiLCJib29sIiwiJFJlZnJlc2hSZWckIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbImluZGV4LmpzeCJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyBzcmMvY29tcG9uZW50cy9SQ0JveC5qc1xuXG5pbXBvcnQgUHJvcFR5cGVzIGZyb20gJ3Byb3AtdHlwZXMnO1xuaW1wb3J0IFJlYWN0IGZyb20gJ3JlYWN0JztcbmltcG9ydCBSQ0lucHV0Um9vdCBmcm9tICcuL1JDSW5wdXRSb290JztcblxuLyoqXG4gKiBBIGN1c3RvbWl6YWJsZSBib3ggY29tcG9uZW50LlxuICpcbiAqIEBjb21wb25lbnRcbiAqIEBwYXJhbSB7T2JqZWN0fSBwcm9wcyAtIFRoZSBjb21wb25lbnQgcHJvcHMuXG4gKiBAcGFyYW0ge3N0cmluZ30gW3Byb3BzLnZhcmlhbnQ9J2Jhc2UnXSAtIE9wdGlvbnM6IG5vbmUsIGJhc2UuXG4gKiBAcGFyYW0ge1JlYWN0LlJlZn0gcmVmIC0gVGhlIHJlZiBvYmplY3QgZm9yIHRoZSBjb21wb25lbnQuXG4gKiBAcmV0dXJucyB7UmVhY3QuRWxlbWVudH0gVGhlIHJlbmRlcmVkIFJDQm94IGNvbXBvbmVudC5cbiAqL1xuY29uc3QgUkNJbnB1dCA9IFJlYWN0LmZvcndhcmRSZWYoXG4gICh7IHZhcmlhbnQgPSAnYmFzZScsIGRpc2FibGVkID0gZmFsc2UsIC4uLnJlc3QgfSwgcmVmKSA9PiAoXG4gICAgPFJDSW5wdXRSb290XG4gICAgICB7Li4ucmVzdH1cbiAgICAgIHJlZj17cmVmfVxuICAgICAgY2xhc3NOYW1lPVwiTXVpUkNJbnB1dEJhc2VcIlxuICAgICAgb3duZXJTdGF0ZT17e1xuICAgICAgICB2YXJpYW50LFxuICAgICAgICBkaXNhYmxlZCxcbiAgICAgIH19XG4gICAgLz5cbiAgKVxuKTtcblxuUkNJbnB1dC5kaXNwbGF5TmFtZSA9ICdSQ0lucHV0JztcblxuLy8gVHlwZWNoZWNraW5nIHByb3BzIGZvciB0aGUgUkNJbnB1dFxuUkNJbnB1dC5wcm9wVHlwZXMgPSB7XG4gIHZhcmlhbnQ6IFByb3BUeXBlcy5vbmVPZihbJ2Jhc2UnXSksXG4gIGRpc2FibGVkOiBQcm9wVHlwZXMuYm9vbCxcbn07XG5cbmV4cG9ydCBkZWZhdWx0IFJDSW5wdXQ7XG4iXSwiZmlsZSI6Ii9Vc2Vycy9yZWVkdm9ndC9EZXNrdG9wL1JlZWRBaUZyb250L3NyYy9jb21wb25lbnRzL3RoZW1lZC9SQ0lucHV0L2luZGV4LmpzeCJ9"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0009771250188350677
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/themed/RCInput/index.jsx (200) — 2024-07-28T11:41:29.844Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/themed/RCInput/index.jsx"
+        }
+      ]
+    }
+  ]
+}

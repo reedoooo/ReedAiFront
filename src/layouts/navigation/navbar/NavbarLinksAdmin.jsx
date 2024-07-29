@@ -1,3 +1,4 @@
+import { Help, Info } from '@mui/icons-material';
 import {
   AppBar,
   Avatar,
@@ -28,20 +29,12 @@ import {
   CheckCircleRoundedIcon,
   MailIcon,
   PersonIcon,
-  AccountCircleIcon,
-  CreditCardIcon,
-  KeyboardIcon,
-  GroupIcon,
-  SupportAgentIcon,
-  CloudIcon,
   SettingsIcon,
   ExitToAppIcon,
-  GitHubIcon,
-  AddIcon,
+  NotificationsNoneIcon,
+  NotificationsActiveIcon,
 } from 'assets/humanIcons';
-import ProfileImg from 'assets/img/profile/user-1.png';
-import ProfileImgAuth from 'assets/img/profile/user-3.png';
-import { IconBox } from 'components/index';
+import { HelpIcon } from 'assets/humanIcons/custom';
 import { useAuthStore } from 'contexts/AuthProvider';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useUserStore } from 'contexts/UserProvider';
@@ -66,14 +59,6 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   color: theme.palette.text.primary, // Ensure text color is dark for readability
 }));
 
-// Adjust IconButton default color
-const ColorIconButton = styled(IconButton)(({ theme }) => ({
-  color: theme.palette.text.secondary, // Choose a lighter color for less prominent icons
-  '&:hover': {
-    color: theme.palette.text.primary,
-  },
-}));
-
 export default function HeaderLinks(props) {
   const { secondary } = props;
   const { theme } = useMode();
@@ -89,26 +74,26 @@ export default function HeaderLinks(props) {
   const profileImage = userStore.state.profileImage;
   const notificationsMenuItems = [
     {
-      icon: <Typography>No new notifications</Typography>,
-      label: '',
+      icon: <NotificationsNoneIcon color={iconColor} />,
+      label: 'No new notifications',
       onClick: () => {},
     },
     {
-      icon: <Typography>View all notifications</Typography>,
-      label: '',
+      icon: <NotificationsActiveIcon color={iconColor} />,
+      label: 'View all notifications',
       onClick: () => {},
     },
   ];
 
   const infoMenuItems = [
     {
-      icon: <Typography>App Info</Typography>,
-      label: '',
+      icon: <Info color={iconColor} />,
+      label: 'App Info',
       onClick: () => {},
     },
     {
-      icon: <Typography>Support</Typography>,
-      label: '',
+      icon: <Help color={iconColor} />,
+      label: 'Support',
       onClick: () => {},
     },
   ];
@@ -162,13 +147,6 @@ export default function HeaderLinks(props) {
         // boxShadow: shadow,
       }}
     >
-      {/* <StyledAppBar
-        position="fixed"
-        color="inherit"
-        elevation={0}
-        theme={theme}
-      >
-        <Toolbar> */}
       <SearchBar
         sx={{
           mb: secondary ? { xs: '10px', md: 'unset' } : 'unset',
@@ -199,12 +177,6 @@ export default function HeaderLinks(props) {
         items={mainMenuItems}
         title="Settings"
       />
-      {/* <IconButton>
-      </IconButton>
-      <IconButton>
-      </IconButton>
-      <IconButton>
-      </IconButton> */}
 
       <Box>
         {/* ------------------------------------------- */}

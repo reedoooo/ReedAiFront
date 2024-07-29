@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/store/Slices/user/authSlice.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/store/Slices/user/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"14cd-Bm2uo1Ntr9rEHbVzv55saLfpu7M\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"14cd-oQ514uF657zcSoSQVNYdHtp4lwA\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createSlice, createAsyncThunk } from \"/node_modules/.vite/deps/@reduxjs_toolkit.js?v=6cb72b4f\";\nimport axios from \"/node_modules/.vite/deps/axios.js?v=c9970fe2\";\nimport constants from \"/src/config/constants.jsx\";\nimport { setUser, setUserToken, setUserId } from \"/src/store/Slices/user/userSlice.jsx\";\nconst { API_URL } = constants;\nconst setLocalStorageItem = (key, value) => {\n  localStorage.setItem(key, JSON.stringify(value));\n};\nconst getLocalStorageItem = (key, defaultValue = null) => {\n  const item = localStorage.getItem(key);\n  return item ? JSON.parse(item) : defaultValue;\n};\nconst removeLocalStorageItem = (key) => {\n  localStorage.removeItem(key);\n};\nconst initialState = {\n  authUserLoginData: {\n    username: \"\",\n    email: \"\",\n    firstName: \"\",\n    lastName: \"\",\n    isActive: false,\n    displayName: \"\",\n    lastLogin: \"\"\n  },\n  authUserRegisterData: {\n    hasOnboarded: false,\n    dateJoined: \"\"\n  },\n  authSession: {\n    token: \"\",\n    tokenType: \"\",\n    accessToken: \"\",\n    refreshToken: \"\",\n    expiresIn: \"\",\n    expiresAt: \"\",\n    createdAt: \"\"\n  },\n  status: \"idle\",\n  error: null,\n  isAuthenticated: !!getLocalStorageItem(\"userToken\"),\n  formDisabled: !!getLocalStorageItem(\"userToken\"),\n  isRedirectToSignin: false,\n  user: getLocalStorageItem(\"userStorage\")?.user || {},\n  token: getLocalStorageItem(\"userToken\")\n};\nexport const handleAuthSubmit = createAsyncThunk(\n  \"auth/handleAuthSubmit\",\n  async (values, { dispatch, rejectWithValue }) => {\n    const { username, password, email, isSignup } = values;\n    const url = isSignup ? `${API_URL}/user/signup` : `${API_URL}/user/login`;\n    const usernameOrEmail = !email ? username : email;\n    const payload = isSignup ? { username, password, email } : { usernameOrEmail, password };\n    try {\n      const { data } = await axios.post(url, payload);\n      if (data.token) {\n        dispatch(setUserToken(data.token));\n        dispatch(setUser(data.user));\n        dispatch(setUserId(data.user._id));\n        return { user: data.user, token: data.token, userId: data.user._id };\n      }\n    } catch (error) {\n      console.error(isSignup ? \"Signup failed:\" : \"Login failed:\", error);\n      return rejectWithValue(error.response.data);\n    }\n  }\n);\nexport const validateToken = createAsyncThunk(\n  \"auth/validateToken\",\n  async (token, { rejectWithValue }) => {\n    try {\n      const response = await axios.get(`${API_URL}/user/validate-token`, {\n        headers: {\n          Authorization: `Bearer ${token}`\n        }\n      });\n      if (response.status !== 200) {\n        throw new Error(\"Token validation failed\");\n      }\n      return true;\n    } catch (error) {\n      return rejectWithValue(error.response.data);\n    }\n  }\n);\nexport const logout = createAsyncThunk(\n  \"auth/logout\",\n  async (_, { dispatch, getState, rejectWithValue }) => {\n    const token = getState().auth.token;\n    try {\n      await axios.post(\n        `${API_URL}/user/logout`,\n        {},\n        {\n          headers: {\n            Authorization: `Bearer ${token}`\n          }\n        }\n      );\n      localStorage.clear();\n      dispatch(setUser({}));\n      dispatch(setUserToken(null));\n      dispatch(setUserId(\"\"));\n      return true;\n    } catch (error) {\n      return rejectWithValue(error.response.data);\n    }\n  }\n);\nexport const authSlice = createSlice({\n  name: \"auth\",\n  initialState,\n  reducers: {\n    clearError: (state) => {\n      state.error = null;\n    },\n    disableForm: (state) => {\n      state.formDisabled = true;\n    },\n    enableForm: (state) => {\n      state.formDisabled = false;\n    },\n    updateAuthStateFromLocalStorage: (state) => {\n      state.isAuthenticated = !!getLocalStorageItem(\"userToken\");\n      state.formDisabled = !!getLocalStorageItem(\"userToken\");\n    },\n    setIsRedirectToSignin: (state) => {\n      state.isRedirectToSignin = !state.isRedirectToSignin;\n    }\n  },\n  extraReducers: (builder) => {\n    builder.addCase(handleAuthSubmit.pending, (state) => {\n      state.status = \"loading\";\n      state.formDisabled = true;\n    }).addCase(handleAuthSubmit.fulfilled, (state, action) => {\n      state.status = \"succeeded\";\n      state.isAuthenticated = true;\n      state.formDisabled = false;\n    }).addCase(handleAuthSubmit.rejected, (state, action) => {\n      state.status = \"failed\";\n      state.error = action.payload;\n      state.formDisabled = false;\n    }).addCase(validateToken.pending, (state) => {\n      state.status = \"loading\";\n    }).addCase(validateToken.fulfilled, (state) => {\n      state.status = \"succeeded\";\n      state.isAuthenticated = true;\n    }).addCase(validateToken.rejected, (state) => {\n      state.status = \"failed\";\n      localStorage.clear();\n    }).addCase(logout.pending, (state) => {\n      state.status = \"loading\";\n    }).addCase(logout.fulfilled, (state) => {\n      state.status = \"succeeded\";\n      state.isAuthenticated = false;\n    }).addCase(logout.rejected, (state, action) => {\n      state.status = \"failed\";\n      state.error = action.payload;\n    });\n  }\n});\nexport const {\n  clearError,\n  disableForm,\n  enableForm,\n  updateAuthStateFromLocalStorage,\n  setIsRedirectToSignin\n} = authSlice.actions;\nexport default authSlice.reducer;\nwindow.addEventListener(\"storage\", () => {\n  const store = require(\"./store\").default;\n  store.dispatch(updateAuthStateFromLocalStorage());\n});\n\n//# sourceMappingURL=data:application/json;base64,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... (10268 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.00023762497585266829
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/store/Slices/user/authSlice.jsx (200) — 2024-07-28T11:41:27.098Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/store/Slices/user/authSlice.jsx"
+        }
+      ]
+    }
+  ]
+}

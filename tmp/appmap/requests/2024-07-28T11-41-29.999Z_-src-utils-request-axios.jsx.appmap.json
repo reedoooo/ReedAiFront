@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/utils/request/axios.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/api/chat/chat_active_user_session.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"8ff-cpDxEW8murvtAZcL1Z6zOrv2tKc\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"8ff-m4zUBSk9kAEZoK7JeyKBwxdew4c\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport { Typography } from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport axios from \"/node_modules/.vite/deps/axios.js?v=c9970fe2\";\nimport { constants } from \"/src/config/constants.jsx\";\nconst { API_URL } = constants;\nconst service = axios.create({\n  baseURL: API_URL,\n  headers: {\n    \"Content-Type\": \"application/json\"\n  }\n});\nlet token = null;\nlet expiresIn = null;\nexport const setAuthToken = (newToken, newExpiresIn) => {\n  token = newToken;\n  expiresIn = newExpiresIn;\n};\nservice.interceptors.request.use(\n  (config) => {\n    token = token || localStorage.getItem(\"userToken\");\n    expiresIn = expiresIn || localStorage.getItem(\"tokenExpiresIn\");\n    if (expiresIn && expiresIn < Date.now() / 1e3) {\n      token = null;\n      expiresIn = null;\n      localStorage.removeItem(\"userToken\");\n      localStorage.removeItem(\"tokenExpiresIn\");\n    }\n    if (token) {\n      config.headers.Authorization = `Bearer ${token}`;\n    }\n    return config;\n  },\n  (error) => {\n    return Promise.reject(error.response);\n  }\n);\nservice.interceptors.response.use(\n  (response) => {\n    if (response.status === 200 || response.status === 201 || response.status === 204) {\n      return response;\n    }\n    throw new Error(response.status.toString());\n  },\n  (error) => {\n    if (error.response.status === 401) {\n      localStorage.removeItem(\"userToken\");\n      localStorage.removeItem(\"tokenExpiresIn\");\n      window.location.reload();\n    }\n    return Promise.reject(error);\n  }\n);\nexport const formatText = (text) => {\n  const formattedText = text.replace(/\\*\\*(.*?)\\*\\*/g, \"<b>$1</b>\").replace(/\\*(.*?)\\*/g, \"<i>$1</i>\").replace(/`(.*?)`/g, \"<code>$1</code>\");\n  return /* @__PURE__ */ jsxDEV(Typography, { dangerouslySetInnerHTML: { __html: formattedText } }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/utils/request/axios.jsx\",\n    lineNumber: 78,\n    columnNumber: 10\n  }, this);\n};\nexport function removeCodeWrapping(str) {\n  if (str.startsWith(\"```\") && str.endsWith(\"```\")) {\n    return str.slice(3, -3);\n  } else {\n    return str.replace(\"```\", \"\");\n  }\n}\nexport default service;\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBNkVTO0FBN0VULFNBQVNBLGtCQUFrQjtBQUMzQixPQUFPQyxXQUFXO0FBQ2xCLFNBQVNDLGlCQUFpQjtBQUUxQixNQUFNLEVBQUVDLFFBQVEsSUFBSUQ7QUFFcEIsTUFBTUUsVUFBVUgsTUFBTUksT0FBTztBQUFBLEVBQzNCQyxTQUFTSDtBQUFBQSxFQUNUSSxTQUFTO0FBQUEsSUFDUCxnQkFBZ0I7QUFBQSxFQUNsQjtBQUNGLENBQUM7QUFFRCxJQUFJQyxRQUFRO0FBQ1osSUFBSUMsWUFBWTtBQUVULGFBQU1DLGVBQWVBLENBQUNDLFVBQVVDLGlCQUFpQjtBQUN0REosVUFBUUc7QUFDUkYsY0FBWUc7QUFDZDtBQUdBUixRQUFRUyxhQUFhQyxRQUFRQztBQUFBQSxFQUMzQixDQUFBQyxXQUFVO0FBRVJSLFlBQVFBLFNBQVNTLGFBQWFDLFFBQVEsV0FBVztBQUNqRFQsZ0JBQVlBLGFBQWFRLGFBQWFDLFFBQVEsZ0JBQWdCO0FBRTlELFFBQUlULGFBQWFBLFlBQVlVLEtBQUtDLElBQUksSUFBSSxLQUFNO0FBRTlDWixjQUFRO0FBQ1JDLGtCQUFZO0FBQ1pRLG1CQUFhSSxXQUFXLFdBQVc7QUFDbkNKLG1CQUFhSSxXQUFXLGdCQUFnQjtBQUFBLElBQzFDO0FBRUEsUUFBSWIsT0FBTztBQUNUUSxhQUFPVCxRQUFRZSxnQkFBZ0IsVUFBVWQsS0FBSztBQUFBLElBQ2hEO0FBRUEsV0FBT1E7QUFBQUEsRUFDVDtBQUFBLEVBQ0EsQ0FBQU8sVUFBUztBQUNQLFdBQU9DLFFBQVFDLE9BQU9GLE1BQU1HLFFBQVE7QUFBQSxFQUN0QztBQUNGO0FBR0F0QixRQUFRUyxhQUFhYSxTQUFTWDtBQUFBQSxFQUM1QixDQUFBVyxhQUFZO0FBQ1YsUUFDRUEsU0FBU0MsV0FBVyxPQUNwQkQsU0FBU0MsV0FBVyxPQUNwQkQsU0FBU0MsV0FBVyxLQUNwQjtBQUNBLGFBQU9EO0FBQUFBLElBQ1Q7QUFFQSxVQUFNLElBQUlFLE1BQU1GLFNBQVNDLE9BQU9FLFNBQVMsQ0FBQztBQUFBLEVBQzVDO0FBQUEsRUFDQSxDQUFBTixVQUFTO0FBQ1AsUUFBSUEsTUFBTUcsU0FBU0MsV0FBVyxLQUFLO0FBRWpDVixtQkFBYUksV0FBVyxXQUFXO0FBQ25DSixtQkFBYUksV0FBVyxnQkFBZ0I7QUFDeENTLGFBQU9DLFNBQVNDLE9BQU87QUFBQSxJQUN6QjtBQUNBLFdBQU9SLFFBQVFDLE9BQU9GLEtBQUs7QUFBQSxFQUM3QjtBQUNGO0FBRU8sYUFBTVUsYUFBYUEsQ0FBQUMsU0FBUTtBQUNoQyxRQUFNQyxnQkFBZ0JELEtBQ25CRSxRQUFRLGtCQUFrQixXQUFXLEVBQ3JDQSxRQUFRLGNBQWMsV0FBVyxFQUNqQ0EsUUFBUSxZQUFZLGlCQUFpQjtBQUV4QyxTQUFPLHVCQUFDLGNBQVcseUJBQXlCLEVBQUVDLFFBQVFGLGNBQWMsS0FBN0Q7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQUErRDtBQUN4RTtBQUVPLGdCQUFTRyxtQkFBbUJDLEtBQUs7QUFDdEMsTUFBSUEsSUFBSUMsV0FBVyxLQUFLLEtBQUtELElBQUlFLFNBQVMsS0FBSyxHQUFHO0FBQ2hELFdBQU9GLElBQUlHLE1BQU0sR0FBRyxFQUFFO0FBQUEsRUFDeEIsT0FBTztBQUNMLFdBQU9ILElBQUlILFFBQVEsT0FBTyxFQUFFO0FBQUEsRUFDOUI7QUFDRjtBQUVBLGVBQWVoQyIsIm5hbWVzIjpbIlR5cG9ncmFwaHkiLCJheGlvcyIsImNvbnN0YW50cyIsIkFQSV9VUkwiLCJzZXJ2aWNlIiwiY3JlYXRlIiwiYmFzZVVSTCIsImhlYWRlcnMiLCJ0b2tlbiIsImV4cGlyZXNJbiIsInNldEF1dGhUb2tlbiIsIm5ld1Rva2VuIiwibmV3RXhwaXJlc0luIiwiaW50ZXJjZXB0b3JzIiwicmVxdWVzdCIsInVzZSIsImNvbmZpZyIsImxvY2FsU3RvcmFnZSIsImdldEl0ZW0iLCJEYXRlIiwibm93IiwicmVtb3ZlSXRlbSIsIkF1dGhvcml6YXRpb24iLCJlcnJvciIsIlByb21pc2UiLCJyZWplY3QiLCJyZXNwb25zZSIsInN0YXR1cyIsIkVycm9yIiwidG9TdHJpbmciLCJ3aW5kb3ciLCJsb2NhdGlvbiIsInJlbG9hZCIsImZvcm1hdFRleHQiLCJ0ZXh0IiwiZm9ybWF0dGVkVGV4dCIsInJlcGxhY2UiLCJfX2h0bWwiLCJyZW1vdmVDb2RlV3JhcHBpbmciLCJzdHIiLCJzdGFydHNXaXRoIiwiZW5kc1dpdGgiLCJzbGljZSJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJheGlvcy5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgVHlwb2dyYXBoeSB9IGZyb20gJ0BtdWkvbWF0ZXJpYWwnO1xuaW1wb3J0IGF4aW9zIGZyb20gJ2F4aW9zJztcbmltcG9ydCB7IGNvbnN0YW50cyB9IGZyb20gJ2NvbmZpZy9jb25zdGFudHMnO1xuXG5jb25zdCB7IEFQSV9VUkwgfSA9IGNvbnN0YW50cztcblxuY29uc3Qgc2VydmljZSA9IGF4aW9zLmNyZWF0ZSh7XG4gIGJhc2VVUkw6IEFQSV9VUkwsXG4gIGhlYWRlcnM6IHtcbiAgICAnQ29udGVudC1UeXBlJzogJ2FwcGxpY2F0aW9uL2pzb24nLFxuICB9LFxufSk7XG5cbmxldCB0b2tlbiA9IG51bGw7XG5sZXQgZXhwaXJlc0luID0gbnVsbDtcblxuZXhwb3J0IGNvbnN0IHNldEF1dGhUb2tlbiA9IChuZXdUb2tlbiwgbmV3RXhwaXJlc0luKSA9PiB7XG4gIHRva2VuID0gbmV3VG9rZW47XG4gIGV4cGlyZXNJbiA9IG5ld0V4cGlyZXNJbjtcbn07XG5cbi8vIFJlcXVlc3QgaW50ZXJjZXB0b3IgdG8gYWRkIHRoZSB0b2tlbiB0byBoZWFkZXJzXG5zZXJ2aWNlLmludGVyY2VwdG9ycy5yZXF1ZXN0LnVzZShcbiAgY29uZmlnID0+IHtcbiAgICAvLyBSZXRyaWV2ZSB0aGUgdG9rZW4gZnJvbSBsb2NhbCBzdG9yYWdlIGlmIG5vdCBhbHJlYWR5IHNldFxuICAgIHRva2VuID0gdG9rZW4gfHwgbG9jYWxTdG9yYWdlLmdldEl0ZW0oJ3VzZXJUb2tlbicpO1xuICAgIGV4cGlyZXNJbiA9IGV4cGlyZXNJbiB8fCBsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgndG9rZW5FeHBpcmVzSW4nKTtcblxuICAgIGlmIChleHBpcmVzSW4gJiYgZXhwaXJlc0luIDwgRGF0ZS5ub3coKSAvIDEwMDApIHtcbiAgICAgIC8vIENsZWFyIHRva2VuIGlmIGV4cGlyZWRcbiAgICAgIHRva2VuID0gbnVsbDtcbiAgICAgIGV4cGlyZXNJbiA9IG51bGw7XG4gICAgICBsb2NhbFN0b3JhZ2UucmVtb3ZlSXRlbSgndXNlclRva2VuJyk7XG4gICAgICBsb2NhbFN0b3JhZ2UucmVtb3ZlSXRlbSgndG9rZW5FeHBpcmVzSW4nKTtcbiAgICB9XG5cbiAgICBpZiAodG9rZW4pIHtcbiAgICAgIGNvbmZpZy5oZWFkZXJzLkF1dGhvcml6YXRpb24gPSBgQmVhcmVyICR7dG9rZW59YDtcbiAgICB9XG5cbiAgICByZXR1cm4gY29uZmlnO1xuICB9LFxuICBlcnJvciA9PiB7XG4gICAgcmV0dXJuIFByb21pc2UucmVqZWN0KGVycm9yLnJlc3BvbnNlKTtcbiAgfVxuKTtcblxuLy8gUmVzcG9uc2UgaW50ZXJjZXB0b3IgdG8gaGFuZGxlIHJlc3BvbnNlcyBhbmQgZXJyb3JzXG5zZXJ2aWNlLmludGVyY2VwdG9ycy5yZXNwb25zZS51c2UoXG4gIHJlc3BvbnNlID0+IHtcbiAgICBpZiAoXG4gICAgICByZXNwb25zZS5zdGF0dXMgPT09IDIwMCB8fFxuICAgICAgcmVzcG9uc2Uuc3RhdHVzID09PSAyMDEgfHxcbiAgICAgIHJlc3BvbnNlLnN0YXR1cyA9PT0gMjA0XG4gICAgKSB7XG4gICAgICByZXR1cm4gcmVzcG9uc2U7XG4gICAgfVxuXG4gICAgdGhyb3cgbmV3IEVycm9yKHJlc3BvbnNlLnN0YXR1cy50b1N0cmluZygpKTtcbiAgfSxcbiAgZXJyb3IgPT4ge1xuICAgIGlmIChlcnJvci5yZXNwb25zZS5zdGF0dXMgPT09IDQwMSkge1xuICAgICAgLy8gSGFuZGxlIHVuYXV0aG9yaXplZCBhY2Nlc3MgKGUuZy4sIHRva2VuIGV4cGlyZWQgb3IgaW52YWxpZClcbiAgICAgIGxvY2FsU3RvcmFnZS5yZW1vdmVJdGVtKCd1c2VyVG9rZW4nKTtcbiAgICAgIGxvY2FsU3RvcmFnZS5yZW1vdmVJdGVtKCd0b2tlbkV4cGlyZXNJbicpO1xuICAgICAgd2luZG93LmxvY2F0aW9uLnJlbG9hZCgpO1xuICAgIH1cbiAgICByZXR1cm4gUHJvbWlzZS5yZWplY3QoZXJyb3IpO1xuICB9XG4pO1xuXG5leHBvcnQgY29uc3QgZm9ybWF0VGV4dCA9IHRleHQgPT4ge1xuICBjb25zdCBmb3JtYXR0ZWRUZXh0ID0gdGV4dFxuICAgIC5yZXBsYWNlKC9cXCpcXCooLio/KVxcKlxcKi9nLCAnPGI+JDE8L2I+JykgLy8gQm9sZFxuICAgIC5yZXBsYWNlKC9cXCooLio/KVxcKi9nLCAnPGk+JDE8L2k+JykgLy8gSXRhbGljXG4gICAgLnJlcGxhY2UoL2AoLio/KWAvZywgJzxjb2RlPiQxPC9jb2RlPicpOyAvLyBDb2RlXG5cbiAgcmV0dXJuIDxUeXBvZ3JhcGh5IGRhbmdlcm91c2x5U2V0SW5uZXJIVE1MPXt7IF9faHRtbDogZm9ybWF0dGVkVGV4dCB9fSAvPjtcbn07XG5cbmV4cG9ydCBmdW5jdGlvbiByZW1vdmVDb2RlV3JhcHBpbmcoc3RyKSB7XG4gIGlmIChzdHIuc3RhcnRzV2l0aCgnYGBgJykgJiYgc3RyLmVuZHNXaXRoKCdgYGAnKSkge1xuICAgIHJldHVybiBzdHIuc2xpY2UoMywgLTMpO1xuICB9IGVsc2Uge1xuICAgIHJldHVybiBzdHIucmVwbGFjZSgnYGBgJywgJycpO1xuICB9XG59XG5cbmV4cG9ydCBkZWZhdWx0IHNlcnZpY2U7XG4iXSwiZmlsZSI6Ii9Vc2Vycy9yZWVkdm9ndC9EZXNrdG9wL1JlZWRBaUZyb250L3NyYy91dGlscy9yZXF1ZXN0L2F4aW9zLmpzeCJ9"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0002601670566946268
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/utils/request/axios.jsx (200) — 2024-07-28T11:41:29.999Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/utils/request/axios.jsx"
+        }
+      ]
+    }
+  ]
+}

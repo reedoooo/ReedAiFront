@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/config/data.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/views/error/NotFound/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"3638-uqPacZg7HleRDsstc7Hl5C/UNm0\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"3638-9WNib2B7+26dhZ+sPLMD/o1Trbo\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport __vite__cjsImport1__mui_iconsMaterial_AccountTree from \"/node_modules/.vite/deps/@mui_icons-material_AccountTree.js?v=b72e1f0c\"; const AccountTreeIcon = __vite__cjsImport1__mui_iconsMaterial_AccountTree.__esModule ? __vite__cjsImport1__mui_iconsMaterial_AccountTree.default : __vite__cjsImport1__mui_iconsMaterial_AccountTree;\nimport __vite__cjsImport2__mui_iconsMaterial_AdminPanelSettingsRounded from \"/node_modules/.vite/deps/@mui_icons-material_AdminPanelSettingsRounded.js?v=a9eb1dad\"; const AdminPanelSettingsRoundedIcon = __vite__cjsImport2__mui_iconsMaterial_AdminPanelSettingsRounded.__esModule ? __vite__cjsImport2__mui_iconsMaterial_AdminPanelSettingsRounded.default : __vite__cjsImport2__mui_iconsMaterial_AdminPanelSettingsRounded;\nimport __vite__cjsImport3__mui_iconsMaterial_BugReport from \"/node_modules/.vite/deps/@mui_icons-material_BugReport.js?v=5cc71d3e\"; const BugReportIcon = __vite__cjsImport3__mui_iconsMaterial_BugReport.__esModule ? __vite__cjsImport3__mui_iconsMaterial_BugReport.default : __vite__cjsImport3__mui_iconsMaterial_BugReport;\nimport __vite__cjsImport4__mui_iconsMaterial_FileCopy from \"/node_modules/.vite/deps/@mui_icons-material_FileCopy.js?v=2f2b1dfe\"; const FileCopyIcon = __vite__cjsImport4__mui_iconsMaterial_FileCopy.__esModule ? __vite__cjsImport4__mui_iconsMaterial_FileCopy.default : __vite__cjsImport4__mui_iconsMaterial_FileCopy;\nimport __vite__cjsImport5__mui_iconsMaterial_Pending from \"/node_modules/.vite/deps/@mui_icons-material_Pending.js?v=83544d30\"; const PendingIcon = __vite__cjsImport5__mui_iconsMaterial_Pending.__esModule ? __vite__cjsImport5__mui_iconsMaterial_Pending.default : __vite__cjsImport5__mui_iconsMaterial_Pending;\nimport __vite__cjsImport6__mui_iconsMaterial_Refresh from \"/node_modules/.vite/deps/@mui_icons-material_Refresh.js?v=cde89254\"; const RefreshIcon = __vite__cjsImport6__mui_iconsMaterial_Refresh.__esModule ? __vite__cjsImport6__mui_iconsMaterial_Refresh.default : __vite__cjsImport6__mui_iconsMaterial_Refresh;\nimport __vite__cjsImport7_lodash from \"/node_modules/.vite/deps/lodash.js?v=8862712d\"; const uniqueId = __vite__cjsImport7_lodash[\"uniqueId\"];\nimport {\n  DashboardIcon,\n  EmojiEmotionsIcon,\n  HomeIcon,\n  LayersIcon,\n  LoginIcon,\n  MdAddTask,\n  PageviewIcon,\n  PersonAddIcon,\n  TextFieldsIcon,\n  ArticleIcon,\n  ChatIcon,\n  CodeIcon,\n  ColorLensIcon,\n  ErrorIcon,\n  NoteAddIcon,\n  PersonIcon,\n  TableChartIcon,\n  LockIcon,\n  WorkspaceIcon\n} from \"/src/assets/humanIcons/index.jsx\";\nconst miniStatisticsData = {\n  interviewsEarned: {\n    name: \"Interviews Earned\",\n    value: 10,\n    icon: /* @__PURE__ */ jsxDEV(MdAddTask, {}, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/config/data.jsx\",\n      lineNumber: 35,\n      columnNumber: 11\n    }, this)\n  },\n  responsesBack: { name: \"Responses Back\", value: 15, icon: /* @__PURE__ */ jsxDEV(MdAddTask, {}, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/config/data.jsx\",\n    lineNumber: 37,\n    columnNumber: 61\n  }, this) },\n  rejectionRatio: {\n    name: \"Rejection Ratio\",\n    value: \"3:1\",\n    icon: /* @__PURE__ */ jsxDEV(MdAddTask, {}, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/config/data.jsx\",\n      lineNumber: 41,\n      columnNumber: 11\n    }, this)\n  },\n  jobsAppliedThisWeek: {\n    name: \"Jobs Applied This Week\",\n    value: 7,\n    icon: /* @__PURE__ */ jsxDEV(MdAddTask, {}, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/config/data.jsx\",\n      lineNumber: 46,\n      columnNumber: 11\n    }, this)\n  },\n  followUpsSent: { name: \"Follow-ups Sent\", value: 5, icon: /* @__PURE__ */ jsxDEV(MdAddTask, {}, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/config/data.jsx\",\n    lineNumber: 48,\n    columnNumber: 61\n  }, this) }\n};\nconst tableColumnsCareerTracker = [\n  { Header: \"COMPANY NAME\", accessor: \"company_name\" },\n  { Header: \"APPLICATION DATA\", accessor: \"application_data\" },\n  { Header: \"NOTES\", accessor: \"notes\" },\n  { Header: \"SUBMITTED\", accessor: \"submitted\" },\n  { Header: \"PROGRESS\", accessor: \"progress\" },\n  { Header: \"STATUS\", accessor: \"status\" }\n];\nconst tableDataCareerTracker = [\n  {\n    company_name: [\"Company A\", true],\n    application_data: [\n      { icon: \"📄\", text: \"Resume\" },\n      { icon: \"📄\", text: \"Cover Letter\" }\n    ],\n    notes: [\"Note 1\", false],\n    submitted: \"2024-05-01\",\n    progress: 80,\n    status: \"In Progress\"\n  },\n  {\n    company_name: [\"Company B\", false],\n    application_data: [{ icon: \"📄\", text: \"Resume\" }],\n    notes: [\"Note 2\", true],\n    submitted: \"2024-05-03\",\n    progress: 100,\n    status: \"Approved\"\n  },\n  {\n    company_name: [\"Company C\", true],\n    application_data: [{ icon: \"📄\", text: \"Portfolio\" }],\n    notes: [\"Note 3\", true],\n    submitted: \"2024-05-05\",\n    progress: 50,\n    status: \"Pending\"\n  },\n  {\n    company_name: [\"Company D\", false],\n    notes: [\"Note 4\", false],\n    submitted: \"2024-05-07\",\n    progress: 25,\n    status: \"Rejected\"\n  }\n];\nconst careerTrackerTable = {\n  columns: tableColumnsCareerTracker,\n  data: tableDataCareerTracker\n};\nconst base = `${window.location.origin}`;\nconst host = \"http://localhost:3000\";\nconst templateData = [\n  {\n    id: uniqueId(\"templates-land-\"),\n    title: \"Landing\",\n    name: \"Landing\",\n    description: \"Landing Page\",\n    icon: /* @__PURE__ */ jsxDEV(HomeIcon, { sx: { width: 20, height: 20, color: \"inherit\" } }, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/config/data.jsx\",\n      lineNumber: 106,\n      columnNumber: 9\n    }, this),\n    path: \"/hero-docs\",\n    route: `${base}/hero-docs`,\n    link: `${base}/hero-docs`\n  },\n  {\n    id: uniqueId(\"templates-admin-\"),\n    title: \"Main Dashboard\",\n    name: \"Main Dashboard\",\n    description: \"Main Dashboard Description\",\n    icon: /* @__PURE__ */ jsxDEV(DashboardIcon, { sx: { width: 20, height: 20, color: \"inherit\" } }, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/config/data.jsx\",\n      lineNumber: 116,\n      columnNumber: 9\n    }, this),\n    path: \"/admin/dashboard\",\n    route: `${base}/admin/dashboard`,\n    link: `${base}/admin/dashboard`\n  },\n  {\n    id: uniqueId(\"templates-admin-\"),\n    title: \"Data Tables\",\n    name: \"Data Tables\",\n    description: \"Data Tables Description\",\n    icon: /* @__PURE__ */ jsxDEV(TableChartIcon, { sx: { width: 20, height: 20, color: \"inherit\" } }, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/config/data.jsx\",\n      lineNumber: 126,\n      columnNumber: 9\n    }, this),\n    path: \"/admin/data-tables\",\n    route: `${base}/admin/data-tables`,\n    link: `${base}/admin/data-tables`\n  },\n  {\n    id: uniqueId(\"templates-admin-\"),\n    title: \"Templates\",\n    name: \"Templates\",\n    description: \"Templates Description\",\n    icon: /* @__PURE__ */ jsxDEV(ColorLensIcon, { sx: { width: 20, height: 20, color: \"inherit\" } }, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/config/data.jsx\",\n      lineNumber: 136,\n      columnNumber: 9\n    }, this),\n    path: \"/admin/templates\",\n    route: `${base}/admin/templates`,\n    link: `${base}/admin/templates`\n  },\n  {\n    id: uniqueId(\"templates-admin-\"),\n    title: \"Profile\",\n    name: \"Profile\",\n    description: \"Profile Description\",\n    icon: /* @__PURE__ */ jsxDEV(PersonIcon, { sx: { width: 20, height: 20, color: \"inherit\" } }, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/config/data.jsx\",\n      lineNumber: 146,\n      columnNumber: 9\n    }, this),\n    path: \"/admin/profile\",\n    route: `${base}/admin/profile`,\n    link: `${base}/admin/profile`\n  },\n  {\n    id: uniqueId(\"chat-\"),\n    type: \"template\",\n    title: \"Original Chat Ai\",\n    name: \"Original Chat Ai\",\n    description: \"Original Chat Ai Description\",\n    functionalStatus: true,\n    icon: /* @__PURE__ */ jsxDEV(ChatIcon, { sx: { width: 20, height: 20, color: \"inherit\" } }, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/config/data.jsx\",\n      lineNumber: 158,\n      columnNumber: 9\n    }, this),\n    path: \"/admin/chat/chat-home\",\n    route: `${base}/admin/chat/chat-home`,\n    link: `${base}/admin/chat/chat-home`,\n    a: `${host}/admin/chat/chat-home/*`\n  },\n  {\n    id: uniqueId(\"template-auth-\"),\n    title: \"Sign In\",\n    name: \"Sign In\",\n    description: \"Sign In Page\",\n    icon: /* @__PURE__ */ jsxDEV(LoginIcon, { sx: { width: 20, height: 20, color: \"inherit\" } }, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/config/data.jsx\",\n      lineNumber: 169,\n      columnNumber: 9\n    }, this),\n    path: \"/auth/sign-in\",\n    route: `${base}/auth/sign-in`,\n    link: `${base}/auth/sign-in`\n  },\n  {\n    id: uniqueId(\"template-auth-\"),\n    title: \"Sign Up\",\n    name: \"Sign Up\",\n    description: \"Sign Up Page\",\n    icon: /* @__PURE__ */ jsxDEV(LockIcon, { sx: { width: 20, height: 20, color: \"inherit\" } }, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/config/data.jsx\",\n      lineNumber: 179,\n      columnNumber: 9\n    }, this),\n    path: \"/auth/sign-up\",\n    route: `${base}/auth/sign-up`,\n    link: `${base}/auth/sign-up`\n  }\n];\nconst Menuitems = [\n  {\n    navlabel: true,\n    subheader: \"Home\",\n    id: uniqueId()\n  },\n  {\n    title: \"Dashboard\",\n    icon: /* @__PURE__ */ jsxDEV(DashboardIcon, {}, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/config/data.jsx\",\n      lineNumber: 193,\n      columnNumber: 9\n    }, this),\n    href: \"/dashboard\"\n  },\n  {\n    subheader: \"Utilities\",\n    title: \"Typography\",\n    icon: /* @__PURE__ */ jsxDEV(TextFieldsIcon, {}, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/config/data.jsx\",\n      lineNumber: 199,\n      columnNumber: 9\n    }, this),\n    href: \"/... (25203 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0006104171043261886
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/config/data.jsx (200) — 2024-07-28T11:41:27.698Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/config/data.jsx"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/themed/RCFlex/index.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/themed/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"f4e-NLNaMptQduuTmVcji5anxucNbpQ\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"f4e-sAhb6lrd8GcKnyWS8cc69YIwdRI\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/themed/RCFlex/index.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCFlex/index.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\n\"use client\";\nimport __vite__cjsImport3_propTypes from \"/node_modules/.vite/deps/prop-types.js?v=da689d69\"; const PropTypes = __vite__cjsImport3_propTypes.__esModule ? __vite__cjsImport3_propTypes.default : __vite__cjsImport3_propTypes;\nimport __vite__cjsImport4_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const forwardRef = __vite__cjsImport4_react[\"forwardRef\"];\nimport RCFlexRoot from \"/src/components/themed/RCFlex/RCFlexRoot.jsx\";\nconst RCFlex = forwardRef(_c = function Flex(props, ref) {\n  const {\n    direction = \"column\",\n    align = \"center\",\n    justify = \"flex-start\",\n    wrap = \"nowrap\",\n    basis = \"auto\",\n    grow = 0,\n    shrink = 0,\n    sx = {},\n    ...rest\n  } = props;\n  const ownerState = {\n    direction,\n    align,\n    justify,\n    wrap,\n    basis,\n    grow,\n    shrink\n  };\n  return /* @__PURE__ */ jsxDEV(RCFlexRoot, { ref, ownerState, sx, ...rest }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCFlex/index.jsx\",\n    lineNumber: 44,\n    columnNumber: 10\n  }, this);\n});\n_c2 = RCFlex;\nRCFlex.propTypes = {\n  direction: PropTypes.oneOfType(\n    [\n      PropTypes.string,\n      PropTypes.array,\n      PropTypes.object\n    ]\n  ),\n  align: PropTypes.oneOfType(\n    [\n      PropTypes.string,\n      PropTypes.array,\n      PropTypes.object\n    ]\n  ),\n  justify: PropTypes.oneOfType(\n    [\n      PropTypes.string,\n      PropTypes.array,\n      PropTypes.object\n    ]\n  ),\n  wrap: PropTypes.oneOfType(\n    [\n      PropTypes.string,\n      PropTypes.array,\n      PropTypes.object\n    ]\n  ),\n  basis: PropTypes.oneOfType(\n    [\n      PropTypes.string,\n      PropTypes.array,\n      PropTypes.object\n    ]\n  ),\n  grow: PropTypes.oneOfType(\n    [\n      PropTypes.number,\n      PropTypes.array,\n      PropTypes.object\n    ]\n  ),\n  shrink: PropTypes.oneOfType(\n    [\n      PropTypes.number,\n      PropTypes.array,\n      PropTypes.object\n    ]\n  ),\n  sx: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.func])\n};\nRCFlex.displayName = \"RCFlex\";\nexport default RCFlex;\nvar _c, _c2;\n$RefreshReg$(_c, \"RCFlex$forwardRef\");\n$RefreshReg$(_c2, \"RCFlex\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCFlex/index.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBMkNTO0FBM0NULDJCQUFZO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBRVosT0FBT0EsZUFBZTtBQUN0QixTQUFTQyxrQkFBa0I7QUFDM0IsT0FBT0MsZ0JBQWdCO0FBZ0J2QixNQUFNQyxTQUFTRixXQUFVRyxLQUFDLFNBQVNDLEtBQUtDLE9BQU9DLEtBQUs7QUFDbEQsUUFBTTtBQUFBLElBQ0pDLFlBQVk7QUFBQSxJQUNaQyxRQUFRO0FBQUEsSUFDUkMsVUFBVTtBQUFBLElBQ1ZDLE9BQU87QUFBQSxJQUNQQyxRQUFRO0FBQUEsSUFDUkMsT0FBTztBQUFBLElBQ1BDLFNBQVM7QUFBQSxJQUNUQyxLQUFLLENBQUM7QUFBQSxJQUNOLEdBQUdDO0FBQUFBLEVBQ0wsSUFBSVY7QUFFSixRQUFNVyxhQUFhO0FBQUEsSUFDakJUO0FBQUFBLElBQ0FDO0FBQUFBLElBQ0FDO0FBQUFBLElBQ0FDO0FBQUFBLElBQ0FDO0FBQUFBLElBQ0FDO0FBQUFBLElBQ0FDO0FBQUFBLEVBQ0Y7QUFFQSxTQUFPLHVCQUFDLGNBQVcsS0FBVSxZQUF3QixJQUFRLEdBQUlFLFFBQTFEO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FBK0Q7QUFDeEUsQ0FBQztBQUFFRSxNQXhCR2Y7QUEwQk5BLE9BQU9nQixZQUFZO0FBQUEsRUFDakJYLFdBQVdSLFVBQVVvQjtBQUFBQSxJQUFVO0FBQUEsTUFDN0JwQixVQUFVcUI7QUFBQUEsTUFDVnJCLFVBQVVzQjtBQUFBQSxNQUNWdEIsVUFBVXVCO0FBQUFBLElBQU07QUFBQSxFQUNqQjtBQUFBLEVBQ0RkLE9BQU9ULFVBQVVvQjtBQUFBQSxJQUFVO0FBQUEsTUFDekJwQixVQUFVcUI7QUFBQUEsTUFDVnJCLFVBQVVzQjtBQUFBQSxNQUNWdEIsVUFBVXVCO0FBQUFBLElBQU07QUFBQSxFQUNqQjtBQUFBLEVBQ0RiLFNBQVNWLFVBQVVvQjtBQUFBQSxJQUFVO0FBQUEsTUFDM0JwQixVQUFVcUI7QUFBQUEsTUFDVnJCLFVBQVVzQjtBQUFBQSxNQUNWdEIsVUFBVXVCO0FBQUFBLElBQU07QUFBQSxFQUNqQjtBQUFBLEVBQ0RaLE1BQU1YLFVBQVVvQjtBQUFBQSxJQUFVO0FBQUEsTUFDeEJwQixVQUFVcUI7QUFBQUEsTUFDVnJCLFVBQVVzQjtBQUFBQSxNQUNWdEIsVUFBVXVCO0FBQUFBLElBQU07QUFBQSxFQUNqQjtBQUFBLEVBQ0RYLE9BQU9aLFVBQVVvQjtBQUFBQSxJQUFVO0FBQUEsTUFDekJwQixVQUFVcUI7QUFBQUEsTUFDVnJCLFVBQVVzQjtBQUFBQSxNQUNWdEIsVUFBVXVCO0FBQUFBLElBQU07QUFBQSxFQUNqQjtBQUFBLEVBQ0RWLE1BQU1iLFVBQVVvQjtBQUFBQSxJQUFVO0FBQUEsTUFDeEJwQixVQUFVd0I7QUFBQUEsTUFDVnhCLFVBQVVzQjtBQUFBQSxNQUNWdEIsVUFBVXVCO0FBQUFBLElBQU07QUFBQSxFQUNqQjtBQUFBLEVBQ0RULFFBQVFkLFVBQVVvQjtBQUFBQSxJQUFVO0FBQUEsTUFDMUJwQixVQUFVd0I7QUFBQUEsTUFDVnhCLFVBQVVzQjtBQUFBQSxNQUNWdEIsVUFBVXVCO0FBQUFBLElBQU07QUFBQSxFQUNqQjtBQUFBLEVBQ0RSLElBQUlmLFVBQVVvQixVQUFVLENBQUNwQixVQUFVdUIsUUFBUXZCLFVBQVVzQixPQUFPdEIsVUFBVXlCLElBQUksQ0FBQztBQUM3RTtBQUVBdEIsT0FBT3VCLGNBQWM7QUFFckIsZUFBZXZCO0FBQU8sSUFBQUMsSUFBQWM7QUFBQVMsYUFBQXZCLElBQUE7QUFBQXVCLGFBQUFULEtBQUEiLCJuYW1lcyI6WyJQcm9wVHlwZXMiLCJmb3J3YXJkUmVmIiwiUkNGbGV4Um9vdCIsIlJDRmxleCIsIl9jIiwiRmxleCIsInByb3BzIiwicmVmIiwiZGlyZWN0aW9uIiwiYWxpZ24iLCJqdXN0aWZ5Iiwid3JhcCIsImJhc2lzIiwiZ3JvdyIsInNocmluayIsInN4IiwicmVzdCIsIm93bmVyU3RhdGUiLCJfYzIiLCJwcm9wVHlwZXMiLCJvbmVPZlR5cGUiLCJzdHJpbmciLCJhcnJheSIsIm9iamVjdCIsIm51bWJlciIsImZ1bmMiLCJkaXNwbGF5TmFtZSIsIiRSZWZyZXNoUmVnJCJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJpbmRleC5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiJ3VzZSBjbGllbnQnO1xuXG5pbXBvcnQgUHJvcFR5cGVzIGZyb20gJ3Byb3AtdHlwZXMnO1xuaW1wb3J0IHsgZm9yd2FyZFJlZiB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCBSQ0ZsZXhSb290IGZyb20gJy4vUkNGbGV4Um9vdCc7XG4vKipcbiAqIEEgY3VzdG9taXphYmxlIGZsZXggY29tcG9uZW50LlxuICpcbiAqIEBjb21wb25lbnRcbiAqIEBwYXJhbSB7T2JqZWN0fSBwcm9wcyAtIFRoZSBjb21wb25lbnQgcHJvcHMuXG4gKiBAcGFyYW0ge3N0cmluZ30gW3Byb3BzLmRpcmVjdGlvbj0nY29sdW1uJ10gLSBPcHRpb25zOiBjb2x1bW4sIHJvdywgcm93LXJldmVyc2UsIGNvbHVtbi1yZXZlcnNlLlxuICogQHBhcmFtIHtzdHJpbmd9IFtwcm9wcy5hbGlnbj0nY2VudGVyJ10gLSBPcHRpb25zOiBmbGV4LXN0YXJ0LCBjZW50ZXIsIGZsZXgtZW5kLCBzdHJldGNoLCBiYXNlbGluZS5cbiAqIEBwYXJhbSB7c3RyaW5nfSBbcHJvcHMuanVzdGlmeT0nZmxleC1zdGFydCddIC0gT3B0aW9uczogZmxleC1zdGFydCwgY2VudGVyLCBmbGV4LWVuZCwgc3BhY2UtYmV0d2Vlbiwgc3BhY2UtYXJvdW5kLCBzcGFjZS1ldmVubHkuXG4gKiBAcGFyYW0ge3N0cmluZ30gW3Byb3BzLndyYXA9J25vd3JhcCddIC0gT3B0aW9uczogbm93cmFwLCB3cmFwLCB3cmFwLXJldmVyc2UuXG4gKiBAcGFyYW0ge3N0cmluZ30gW3Byb3BzLmJhc2lzPSdhdXRvJ10gLSBPcHRpb25zOiBhdXRvLCBjb250ZW50LCBtaW4tY29udGVudCwgbWF4LWNvbnRlbnQsIGZpdC1jb250ZW50LlxuICogQHBhcmFtIHtudW1iZXJ9IFtwcm9wcy5ncm93PTBdIC0gT3B0aW9uczogMCAtIDEuXG4gKiBAcGFyYW0ge251bWJlcn0gW3Byb3BzLnNocmluaz0wXSAtIE9wdGlvbnM6IDAgLSAxLlxuICogQHBhcmFtIHtSZWFjdC5SZWZ9IHJlZiAtIFRoZSByZWYgb2JqZWN0IGZvciB0aGUgY29tcG9uZW50LlxuICogQHJldHVybnMge1JlYWN0LkVsZW1lbnR9IFRoZSByZW5kZXJlZCBSQ0JveCBjb21wb25lbnQuXG4gKi9cbmNvbnN0IFJDRmxleCA9IGZvcndhcmRSZWYoZnVuY3Rpb24gRmxleChwcm9wcywgcmVmKSB7XG4gIGNvbnN0IHtcbiAgICBkaXJlY3Rpb24gPSAnY29sdW1uJyxcbiAgICBhbGlnbiA9ICdjZW50ZXInLFxuICAgIGp1c3RpZnkgPSAnZmxleC1zdGFydCcsXG4gICAgd3JhcCA9ICdub3dyYXAnLFxuICAgIGJhc2lzID0gJ2F1dG8nLFxuICAgIGdyb3cgPSAwLFxuICAgIHNocmluayA9IDAsXG4gICAgc3ggPSB7fSxcbiAgICAuLi5yZXN0XG4gIH0gPSBwcm9wcztcblxuICBjb25zdCBvd25lclN0YXRlID0ge1xuICAgIGRpcmVjdGlvbixcbiAgICBhbGlnbixcbiAgICBqdXN0aWZ5LFxuICAgIHdyYXAsXG4gICAgYmFzaXMsXG4gICAgZ3JvdyxcbiAgICBzaHJpbmssXG4gIH07XG5cbiAgcmV0dXJuIDxSQ0ZsZXhSb290IHJlZj17cmVmfSBvd25lclN0YXRlPXtvd25lclN0YXRlfSBzeD17c3h9IHsuLi5yZXN0fSAvPjtcbn0pO1xuXG5SQ0ZsZXgucHJvcFR5cGVzID0ge1xuICBkaXJlY3Rpb246IFByb3BUeXBlcy5vbmVPZlR5cGUoW1xuICAgIFByb3BUeXBlcy5zdHJpbmcsXG4gICAgUHJvcFR5cGVzLmFycmF5LFxuICAgIFByb3BUeXBlcy5vYmplY3QsXG4gIF0pLFxuICBhbGlnbjogUHJvcFR5cGVzLm9uZU9mVHlwZShbXG4gICAgUHJvcFR5cGVzLnN0cmluZyxcbiAgICBQcm9wVHlwZXMuYXJyYXksXG4gICAgUHJvcFR5cGVzLm9iamVjdCxcbiAgXSksXG4gIGp1c3RpZnk6IFByb3BUeXBlcy5vbmVPZlR5cGUoW1xuICAgIFByb3BUeXBlcy5zdHJpbmcsXG4gICAgUHJvcFR5cGVzLmFycmF5LFxuICAgIFByb3BUeXBlcy5vYmplY3QsXG4gIF0pLFxuICB3cmFwOiBQcm9wVHlwZXMub25lT2ZUeXBlKFtcbiAgICBQcm9wVHlwZXMuc3RyaW5nLFxuICAgIFByb3BUeXBlcy5hcnJheSxcbiAgICBQcm9wVHlwZXMub2JqZWN0LFxuICBdKSxcbiAgYmFzaXM6IFByb3BUeXBlcy5vbmVPZlR5cGUoW1xuICAgIFByb3BUeXBlcy5zdHJpbmcsXG4gICAgUHJvcFR5cGVzLmFycmF5LFxuICAgIFByb3BUeXBlcy5vYmplY3QsXG4gIF0pLFxuICBncm93OiBQcm9wVHlwZXMub25lT2ZUeXBlKFtcbiAgICBQcm9wVHlwZXMubnVtYmVyLFxuICAgIFByb3BUeXBlcy5hcnJheSxcbiAgICBQcm9wVHlwZXMub2JqZWN0LFxuICBdKSxcbiAgc2hyaW5rOiBQcm9wVHlwZXMub25lT2ZUeXBlKFtcbiAgICBQcm9wVHlwZXMubnVtYmVyLFxuICAgIFByb3BUeXBlcy5hcnJheSxcbiAgICBQcm9wVHlwZXMub2JqZWN0LFxuICBdKSxcbiAgc3g6IFByb3BUeXBlcy5vbmVPZlR5cGUoW1Byb3BUeXBlcy5vYmplY3QsIFByb3BUeXBlcy5hcnJheSwgUHJvcFR5cGVzLmZ1bmNdKSxcbn07XG5cblJDRmxleC5kaXNwbGF5TmFtZSA9ICdSQ0ZsZXgnO1xuXG5leHBvcnQgZGVmYXVsdCBSQ0ZsZXg7XG4iXSwiZmlsZSI6Ii9Vc2Vycy9yZWVkdm9ndC9EZXNrdG9wL1JlZWRBaUZyb250L3NyYy9jb21wb25lbnRzL3RoZW1lZC9SQ0ZsZXgvaW5kZXguanN4In0="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.00048229098320007324
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/themed/RCFlex/index.jsx (200) — 2024-07-28T11:41:29.839Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/themed/RCFlex/index.jsx"
+        }
+      ]
+    }
+  ]
+}

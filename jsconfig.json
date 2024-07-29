@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": "src",
     "jsx": "react",
+    "types": ["vite/client"],
     "paths": {
       "app/*": ["app/*"], // This will import app
       "api/*": ["api/*"],

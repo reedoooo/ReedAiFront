@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/store/Slices/chat/index.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/store/Slices/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"f69-ALM20InTZdrGGA2kXf70CeanVi0\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"f69-d8OZtte0e4sCf56YHos9uCyXeJ8\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { combineReducers, combineSlices } from \"/node_modules/.vite/deps/@reduxjs_toolkit.js?v=6cb72b4f\";\nimport activeChatReducer, {\n  setIsGenerating,\n  setFirstTokenReceived,\n  setAbortController,\n  setIsDisabled,\n  setActiveLocal\n} from \"/src/store/Slices/chat/activeChatSlice.jsx\";\nimport assistantReducer, {\n  setAssistantImages,\n  setAssistants,\n  setOpenaiAssistants,\n  setSelectedAssistant\n} from \"/src/store/Slices/chat/assistantSlice.jsx\";\nimport baseChatReducer, {\n  setLoading,\n  setError,\n  setChatRequestData,\n  setApiKey,\n  setChatId,\n  setSessionId,\n  setActiveSession\n} from \"/src/store/Slices/chat/baseChatSlice.jsx\";\nimport chatInputCommandReducer, {\n  setIsPromptPickerOpen,\n  setSlashCommand,\n  setFocusPrompt,\n  setFocusFile,\n  setFocusTool,\n  setFocusAssistant,\n  setAtCommand,\n  setIsAssistantPickerOpen,\n  setIsFilePickerOpen,\n  setIsToolPickerOpen,\n  setToolCommand,\n  setHashtagCommand\n} from \"/src/store/Slices/chat/chatInputCommandSlice.jsx\";\nimport collectionReducer, { setCollections } from \"/src/store/Slices/chat/collectionSlice.jsx\";\nimport fileReducer, {\n  setChatFiles,\n  setFiles,\n  setChatImages,\n  setNewMessageImages,\n  setNewMessageFiles,\n  setShowFilesDisplay,\n  fetchFileData\n} from \"/src/store/Slices/chat/fileSlice.jsx\";\nimport foldersReducer, { setFolders, setSelectedFolder } from \"/src/store/Slices/chat/foldersSlice.jsx\";\nimport generalChatReducer, {\n  setEnvKeyMap,\n  setChats,\n  setChat\n} from \"/src/store/Slices/chat/generalChatSlice.jsx\";\nimport modelsReducer, {\n  setAvailableHostedModels,\n  setAvailableLocalModels,\n  setAvailableOpenRouterModels,\n  setModels\n} from \"/src/store/Slices/chat/modelsSlice.jsx\";\nimport passiveChatReducer, {\n  setUserInput,\n  setChatMessages,\n  setChatSettings,\n  setSelectedChat,\n  setChatFileItems\n} from \"/src/store/Slices/chat/passiveChatSlice.jsx\";\nimport presetReducer, { setPresets, setSelectedPreset } from \"/src/store/Slices/chat/presetSlice.jsx\";\nimport promptReducer, { setPrompts, setSelectedPrompt } from \"/src/store/Slices/chat/promptSlice.jsx\";\nimport retrievalReducer, {\n  setSourceCount,\n  setUseRetrieval\n} from \"/src/store/Slices/chat/retrievalSlice.jsx\";\nimport toolReducer, {\n  setSelectedTools,\n  setToolInUse,\n  setTools\n} from \"/src/store/Slices/chat/toolSlice.jsx\";\nimport workspaceReducer, {\n  setWorkspaces,\n  setSelectedWorkspace,\n  setWorkspaceImages,\n  setHomeWorkSpace\n} from \"/src/store/Slices/chat/workspaceSlice.jsx\";\nexport {\n  setPresets,\n  setSelectedPreset,\n  setAssistantImages,\n  setAssistants,\n  setOpenaiAssistants,\n  setSelectedAssistant,\n  setLoading,\n  setError,\n  setChatRequestData,\n  setApiKey,\n  setChatId,\n  setSessionId,\n  setActiveSession,\n  setIsGenerating,\n  setFirstTokenReceived,\n  setAbortController,\n  setIsDisabled,\n  setActiveLocal,\n  setIsPromptPickerOpen,\n  setSlashCommand,\n  setFocusPrompt,\n  setFocusFile,\n  setFocusTool,\n  setFocusAssistant,\n  setAtCommand,\n  setIsAssistantPickerOpen,\n  setIsFilePickerOpen,\n  setIsToolPickerOpen,\n  setToolCommand,\n  setHashtagCommand,\n  setCollections,\n  setChatFiles,\n  setFiles,\n  setChatImages,\n  setNewMessageImages,\n  setNewMessageFiles,\n  setShowFilesDisplay,\n  setFolders,\n  setSelectedFolder,\n  setEnvKeyMap,\n  setChats,\n  setChat,\n  setAvailableHostedModels,\n  setAvailableLocalModels,\n  setAvailableOpenRouterModels,\n  setModels,\n  setUserInput,\n  setChatMessages,\n  setChatSettings,\n  setSelectedChat,\n  setChatFileItems,\n  setPrompts,\n  setSelectedPrompt,\n  setSourceCount,\n  setUseRetrieval,\n  setWorkspaces,\n  setSelectedWorkspace,\n  setWorkspaceImages,\n  setHomeWorkSpace,\n  setSelectedTools,\n  setToolInUse,\n  setTools,\n  fetchFileData\n};\nexport {\n  activeChatReducer,\n  assistantReducer,\n  baseChatReducer,\n  chatInputCommandReducer,\n  collectionReducer,\n  fileReducer,\n  foldersReducer,\n  generalChatReducer,\n  modelsReducer,\n  passiveChatReducer,\n  presetReducer,\n  promptReducer,\n  retrievalReducer,\n  toolReducer,\n  workspaceReducer\n};\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBQ0EsU0FBU0EsaUJBQWlCQyxxQkFBcUI7QUFxRi9DLE9BQU9DO0FBQUFBLEVBQ0xDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLE9BQ0s7QUFDUCxPQUFPQztBQUFBQSxFQUNMQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxPQUNLO0FBQ1AsT0FBT0M7QUFBQUEsRUFDTEM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsT0FDSztBQUNQLE9BQU9DO0FBQUFBLEVBQ0xDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLE9BQ0s7QUFDUCxPQUFPQyxxQkFBcUJDLHNCQUFzQjtBQUNsRCxPQUFPQztBQUFBQSxFQUNMQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxPQUNLO0FBQ1AsT0FBT0Msa0JBQWtCQyxZQUFZQyx5QkFBeUI7QUFDOUQsT0FBT0M7QUFBQUEsRUFDTEM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsT0FDSztBQUNQLE9BQU9DO0FBQUFBLEVBQ0xDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLE9BQ0s7QUFDUCxPQUFPQztBQUFBQSxFQUNMQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxPQUNLO0FBQ1AsT0FBT0MsaUJBQWlCQyxZQUFZQyx5QkFBeUI7QUFDN0QsT0FBT0MsaUJBQWlCQyxZQUFZQyx5QkFBeUI7QUFDN0QsT0FBT0M7QUFBQUEsRUFDTEM7QUFBQUEsRUFDQUM7QUFBQUEsT0FDSztBQU9QLE9BQU9DO0FBQUFBLEVBQ0xDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLE9BQ0s7QUFDUCxPQUFPQztBQUFBQSxFQUNMQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxPQUNLO0FBRVA7QUFBQSxFQUNFaEI7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQXZEO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FFO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FqQjtBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBZTtBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBRTtBQUFBQSxFQUNBRTtBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBRztBQUFBQSxFQUNBQztBQUFBQSxFQUNBRTtBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBRTtBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBRTtBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBSztBQUFBQSxFQUNBQztBQUFBQSxFQUNBRTtBQUFBQSxFQUNBQztBQUFBQSxFQUNBTTtBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBUDtBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBL0I7QUFBQUE7QUFHRjtBQUFBLEVBQ0V6QztBQUFBQSxFQUNBTTtBQUFBQSxFQUNBSztBQUFBQSxFQUNBUTtBQUFBQSxFQUNBYTtBQUFBQSxFQUNBRTtBQUFBQSxFQUNBUTtBQUFBQSxFQUNBRztBQUFBQSxFQUNBSTtBQUFBQSxFQUNBSztBQUFBQSxFQUNBTTtBQUFBQSxFQUNBRztBQUFBQSxFQUNBRztBQUFBQSxFQUVBRztBQUFBQSxFQUNBSTtBQUFBQSIsIm5hbWVzIjpbImNvbWJpbmVSZWR1Y2VycyIsImNvbWJpbmVTbGljZXMiLCJhY3RpdmVDaGF0UmVkdWNlciIsInNldElzR2VuZXJhdGluZyIsInNldEZpcnN0VG9rZW5SZWNlaXZlZCIsInNldEFib3J0Q29udHJvbGxlciIsInNldElzRGlzYWJsZWQiLCJzZXRBY3RpdmVMb2NhbCIsImFzc2lzdGFudFJlZHVjZXIiLCJzZXRBc3Npc3RhbnRJbWFnZXMiLCJzZXRBc3Npc3RhbnRzIiwic2V0T3BlbmFpQXNzaXN0YW50cyIsInNldFNlbGVjdGVkQXNzaXN0YW50IiwiYmFzZUNoYXRSZWR1Y2VyIiwic2V0TG9hZGluZyIsInNldEVycm9yIiwic2V0Q2hhdFJlcXVlc3REYXRhIiwic2V0QXBpS2V5Iiwic2V0Q2hhdElkIiwic2V0U2Vzc2lvbklkIiwic2V0QWN0aXZlU2Vzc2lvbiIsImNoYXRJbnB1dENvbW1hbmRSZWR1Y2VyIiwic2V0SXNQcm9tcHRQaWNrZXJPcGVuIiwic2V0U2xhc2hDb21tYW5kIiwic2V0Rm9jdXNQcm9tcHQiLCJzZXRGb2N1c0ZpbGUiLCJzZXRGb2N1c1Rvb2wiLCJzZXRGb2N1c0Fzc2lzdGFudCIsInNldEF0Q29tbWFuZCIsInNldElzQXNzaXN0YW50UGlja2VyT3BlbiIsInNldElzRmlsZVBpY2tlck9wZW4iLCJzZXRJc1Rvb2xQaWNrZXJPcGVuIiwic2V0VG9vbENvbW1hbmQiLCJzZXRIYXNodGFnQ29tbWFuZCIsImNvbGxlY3Rpb25SZWR1Y2VyIiwic2V0Q29sbGVjdGlvbnMiLCJmaWxlUmVkdWNlciIsInNldENoYXRGaWxlcyIsInNldEZpbGVzIiwic2V0Q2hhdEltYWdlcyIsInNldE5ld01lc3NhZ2VJbWFnZXMiLCJzZXROZXdNZXNzYWdlRmlsZXMiLCJzZXRTaG93RmlsZXNEaXNwbGF5IiwiZmV0Y2hGaWxlRGF0YSIsImZvbGRlcnNSZWR1Y2VyIiwic2V0Rm9sZGVycyIsInNldFNlbGVjdGVkRm9sZGVyIiwiZ2VuZXJhbENoYXRSZWR1Y2VyIiwic2V0RW52S2V5TWFwIiwic2V0Q2hhdHMiLCJzZXRDaGF0IiwibW9kZWxzUmVkdWNlciIsInNldEF2YWlsYWJsZUhvc3RlZE1vZGVscyIsInNldEF2YWlsYWJsZUxvY2FsTW9kZWxzIiwic2V0QXZhaWxhYmxlT3BlblJvdXRlck1vZGVscyIsInNldE1vZGVscyIsInBhc3NpdmVDaGF0UmVkdWNlciIsInNldFVzZXJJbnB1dCIsInNldENoYXRNZXNzYWdlcyIsInNldENoYXRTZXR0aW5ncyIsInNldFNlbGVjdGVkQ2hhdCIsInNldENoYXRGaWxlSXRlbXMiLCJwcmVzZXRSZWR1Y2VyIiwic2V0UHJlc2V0cyIsInNldFNlbGVjdGVkUHJlc2V0IiwicHJvbXB0UmVkdWNlciIsInNldFByb21wdHMiLCJzZXRTZWxlY3RlZFByb21wdCIsInJldHJpZXZhbFJlZHVjZXIiLCJzZXRTb3VyY2VDb3VudCIsInNldFVzZVJldHJpZXZhbCIsInRvb2xSZWR1Y2VyIiwic2V0U2VsZWN0ZWRUb29scyIsInNldFRvb2xJblVzZSIsInNldFRvb2xzIiwid29ya3NwYWNlUmVkdWNlciIsInNldFdvcmtzcGFjZXMiLCJzZXRTZWxlY3RlZFdvcmtzcGFjZSIsInNldFdvcmtzcGFjZUltYWdlcyIsInNldEhvbWVXb3JrU3BhY2UiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiaW5kZXguanN4Il0sInNvdXJjZXNDb250ZW50IjpbIi8vIFNsaWNlcy9jaGF0L2luZGV4LmpzXG5pbXBvcnQgeyBjb21iaW5lUmVkdWNlcnMsIGNvbWJpbmVTbGljZXMgfSBmcm9tICdAcmVkdXhqcy90b29sa2l0Jztcbi8vIGltcG9ydCB7IHByb2ZpbGVTbGljZSB9IGZyb20gJy4uLy4uL3VzZXIvcHJvZmlsZVNsaWNlJztcbi8vIGltcG9ydCB7IGFjdGl2ZUNoYXRTbGljZSB9IGZyb20gJy4vYWN0aXZlQ2hhdFNsaWNlJztcbi8vIGltcG9ydCB7IGFzc2lzdGFudFNsaWNlIH0gZnJvbSAnLi9hc3Npc3RhbnRTbGljZSc7XG4vLyBpbXBvcnQgeyBiYXNlQ2hhdFNsaWNlIH0gZnJvbSAnLi9iYXNlQ2hhdFNsaWNlJztcbi8vIGltcG9ydCB7IGNoYXRJbnB1dENvbW1hbmRTbGljZSB9IGZyb20gJy4vY2hhdElucHV0Q29tbWFuZFNsaWNlJztcbi8vIGltcG9ydCB7IGNvbGxlY3Rpb25TbGljZSB9IGZyb20gJy4vY29sbGVjdGlvblNsaWNlJztcbi8vIGltcG9ydCB7IGZpbGVTbGljZSwgZmV0Y2hGaWxlRGF0YSB9IGZyb20gJy4vZmlsZVNsaWNlJztcbi8vIGltcG9ydCB7IGZvbGRlcnNTbGljZSB9IGZyb20gJy4vZm9sZGVyc1NsaWNlJztcbi8vIGltcG9ydCB7IGdlbmVyYWxDaGF0U2xpY2UgfSBmcm9tICcuL2dlbmVyYWxDaGF0U2xpY2UnO1xuLy8gaW1wb3J0IHsgbW9kZWxTbGljZSB9IGZyb20gJy4vbW9kZWxzU2xpY2UnO1xuLy8gaW1wb3J0IHsgcGFzc2l2ZUNoYXRTbGljZSB9IGZyb20gJy4vcGFzc2l2ZUNoYXRTbGljZSc7XG4vLyBpbXBvcnQgeyBwcmVzZXRTbGljZSB9IGZyb20gJy4vcHJlc2V0U2xpY2UnO1xuLy8gaW1wb3J0IHsgcHJvbXB0U2xpY2UgfSBmcm9tICcuL3Byb21wdFNsaWNlJztcbi8vIGltcG9ydCB7IHJldHJpZXZhbFNsaWNlIH0gZnJvbSAnLi9yZXRyaWV2YWxTbGljZSc7XG4vLyAvLyBpbXBvcnQgeyBzZXNzaW9uU2xpY2UgfSBmcm9tICcuL3Nlc3Npb25TbGljZSc7XG4vLyBpbXBvcnQg... (20184 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0007157080108299851
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/store/Slices/chat/index.jsx (200) — 2024-07-28T11:41:26.494Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/store/Slices/chat/index.jsx"
+        }
+      ]
+    }
+  ]
+}

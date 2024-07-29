@@ -18,8 +18,11 @@ import {
   Container,
   IconButton,
   Drawer,
+  Avatar,
 } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
+
+/* --- CHAT - SIDEBAR --- */
 
 export const SidebarContainer = styled('div')({
   background: '#000',
@@ -40,6 +43,7 @@ export const SidebarPanel = styled(Box)({
   borderRadius: '14px',
   height: 'calc(100vh - 8px)',
 });
+
 export const TabContentHeaderContainer = styled(Box)({
   '&:hover': {
     backgroundColor: 'accent.main',
@@ -105,25 +109,6 @@ export const StyledTabs = styled(TabList)(({ theme }) => ({
     flexDirection: 'column',
     height: 'auto',
   },
-  // background: '#808080',
-  // borderRadius: '14px',
-  // width: '100%',
-  // height: 'auto',
-  // fontFamily: 'Inter, sans-serif',
-  // display: 'flex',
-  // flexDirection: 'row',
-  // alignItems: 'center',
-  // padding: '1rem',
-  // '& .Mui-selected': {
-  //   backgroundColor: '#000',
-  //   color: '#fff',
-  //   margin: '5px',
-  //   borderRadius: '10px',
-  // },
-  // [theme.breakpoints.down('md')]: {
-  //   flexDirection: 'column',
-  //   height: 'auto',
-  // },
 }));
 
 export const AnimatedTab = styled(motion(Tab))(({ theme }) => ({
@@ -134,12 +119,10 @@ export const AnimatedTab = styled(motion(Tab))(({ theme }) => ({
   outline: 'none',
   backgroundColor: '#000',
   width: '33%',
-  // borderRadius: '10px',
   margin: '5px',
   color: '#fff',
   border: 'none',
   borderRadius: '5px',
-  // padding: '12px 16px',
   overflow: 'hidden',
   fontSize: '0.875rem',
   fontWeight: 500,
@@ -152,10 +135,6 @@ export const AnimatedTab = styled(motion(Tab))(({ theme }) => ({
     backgroundColor: '#808080',
     color: '#fff',
   },
-  // '&:hover': {
-  //   backgroundColor: '#000',
-  //   opacity: 0.5,
-  // },
   '&:focus': {
     outline: 'none',
   },
@@ -183,6 +162,8 @@ export const AnimatedTab = styled(motion(Tab))(({ theme }) => ({
   },
 }));
 
+/* --- CHAT - MAIN CHAT COMPONENT --- */
+
 export const StyledChatContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -192,6 +173,7 @@ export const StyledChatContainer = styled(Box)(({ theme }) => ({
   borderRadius: '14px',
   overflow: 'auto', // Allow scrolling
 }));
+
 export const ChatWindow = styled(Paper)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -203,15 +185,50 @@ export const ChatWindow = styled(Paper)(({ theme }) => ({
     width: '100%',
   },
 }));
+
+export const Header = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.background.paper,
+  borderBottom: `1px solid ${theme.palette.divider}`,
+}));
+
+/* --- CHAT - MESSAGE COMPONENTS --- */
 export const MessageContainer = styled(Box)(({ theme }) => ({
   flexGrow: 1,
   overflowY: 'auto',
   padding: theme.spacing(2),
   maxWidth: '100%',
 }));
-// Define the Header component
-export const Header = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(2),
-  backgroundColor: theme.palette.background.paper,
-  borderBottom: `1px solid ${theme.palette.divider}`,
+
+export const ChatBubbleWrapper = styled(Box)(({ theme, sender }) => ({
+  backgroundColor: sender === 'user' ? '#26242C' : '#26242C',
+  margin: '10px',
+  padding: '10px',
+  borderRadius: '12px',
+  alignSelf: sender === 'user' ? 'flex-end' : 'flex-start',
+  display: 'flex',
+  // alignItems: 'flex-start',
+  ml: sender === 'user' ? 'auto' : 0,
+  justifyContent: sender === 'user' ? 'flex-end' : 'flex-start',
+  flexDirection: sender === 'user' ? 'row-reverse' : 'row',
+  maxWidth: '90%',
+  flexGrow: 1,
 }));
+
+export const ChatBubbleAvatarWrapper = styled(Avatar)(({ theme, sender }) => ({
+  width: 40,
+  height: 40,
+  marginRight: sender === 'assistant' ? 2 : 0,
+  marginLeft: sender === 'user' ? 2 : 0,
+  backgroundColor:
+    sender === 'user'
+      ? theme.palette.primary.main
+      : theme.palette.secondary.main,
+}));
+
+export const ChatBubbleTypographyWrapper = styled(Typography)({
+  color: '#6b7280',
+  fontSize: '0.875rem',
+  flexGrow: 1,
+  overflowWrap: 'break-word',
+});

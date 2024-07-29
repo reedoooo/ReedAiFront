@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/hooks/useMode.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/views/error/NotFound/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"d5a-5Oq65cLFEHJEnDmr1FqrBwQWm6Y\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"d5a-8flwRpNrsFUspBXfHBpXUbjz3KI\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/hooks/useMode.jsx\");import RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/hooks/useMode.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport __vite__cjsImport2_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const useContext = __vite__cjsImport2_react[\"useContext\"];\nimport { getTheme } from \"/src/assets/theme.jsx\";\nimport { ColorModeContext } from \"/src/contexts/ColorModeProvider.jsx\";\nexport const useMode = () => {\n  _s();\n  const { mode, toggleColorMode } = useContext(ColorModeContext);\n  const theme = getTheme(mode);\n  const validateColor = (color) => {\n    let currentPalette = theme.palette;\n    if (typeof color === \"object\") {\n      if (currentPalette[color]) {\n        return true;\n      }\n      return true;\n    } else if (typeof color === \"string\") {\n      if (currentPalette[color]) {\n        return true;\n      } else {\n        return false;\n      }\n    } else {\n      console.log(\"Invalid color:\", color);\n    }\n    return true;\n  };\n  const colorModeValues = (dark, light, defaultColor = \"#26242C\") => {\n    const validDark = validateColor(dark);\n    const validLight = validateColor(light);\n    const valid = validDark || validLight;\n    const returnDark = validDark ? dark : defaultColor;\n    const returnLight = validLight ? light : defaultColor;\n    const color = mode === \"dark\" ? returnDark : returnLight;\n    if (valid) {\n      console.log(\n        `VALID: ${valid}, ${validDark}, ${validLight}  RETURN: ${returnDark}, ${returnLight}  MODE: ${mode}  DEFAULT: ${defaultColor}  COLOR: ${color}`\n      );\n    } else if (!valid && color.startsWith(\"#\")) {\n      console.log(`============= RETURNING HEX COLOR: ${color} =============`);\n      return color;\n    } else {\n      console.log(`============= INVALID COLOR: ${color} =============`);\n    }\n    return mode === \"dark\" ? returnDark : returnLight;\n  };\n  return { mode, theme, toggleColorMode, colorModeValues };\n};\n_s(useMode, \"BoqxqwdCx7Q1I/C6lIXoE/t6Bqw=\");\nexport default useMode;\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/hooks/useMode.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IjJCQUFBO0FBQW1CLE1BQVEsY0FBTztBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUNsQyxTQUFTQSxnQkFBZ0I7QUFDekIsU0FBU0Msd0JBQXdCO0FBRTFCLGFBQU1DLFVBQVVBLE1BQU07QUFBQUMsS0FBQTtBQUMzQixRQUFNLEVBQUVDLE1BQU1DLGdCQUFnQixJQUFJQyxXQUFXTCxnQkFBZ0I7QUFDN0QsUUFBTU0sUUFBUVAsU0FBU0ksSUFBSTtBQUUzQixRQUFNSSxnQkFBZ0JBLENBQUFDLFVBQVM7QUFDN0IsUUFBSUMsaUJBQWlCSCxNQUFNSTtBQUMzQixRQUFJLE9BQU9GLFVBQVUsVUFBVTtBQUM3QixVQUFJQyxlQUFlRCxLQUFLLEdBQUc7QUFDekIsZUFBTztBQUFBLE1BQ1Q7QUFDQSxhQUFPO0FBQUEsSUFDVCxXQUFXLE9BQU9BLFVBQVUsVUFBVTtBQUNwQyxVQUFJQyxlQUFlRCxLQUFLLEdBQUc7QUFDekIsZUFBTztBQUFBLE1BQ1QsT0FBTztBQUNMLGVBQU87QUFBQSxNQUNUO0FBQUEsSUFDRixPQUFPO0FBQ0xHLGNBQVFDLElBQUksa0JBQWtCSixLQUFLO0FBQUEsSUFDckM7QUFDQSxXQUFPO0FBQUEsRUFDVDtBQUVBLFFBQU1LLGtCQUFrQkEsQ0FBQ0MsTUFBTUMsT0FBT0MsZUFBZSxjQUFjO0FBQ2pFLFVBQU1DLFlBQVlWLGNBQWNPLElBQUk7QUFDcEMsVUFBTUksYUFBYVgsY0FBY1EsS0FBSztBQUN0QyxVQUFNSSxRQUFRRixhQUFhQztBQUMzQixVQUFNRSxhQUFhSCxZQUFZSCxPQUFPRTtBQUN0QyxVQUFNSyxjQUFjSCxhQUFhSCxRQUFRQztBQUN6QyxVQUFNUixRQUFRTCxTQUFTLFNBQVNpQixhQUFhQztBQUM3QyxRQUFJRixPQUFPO0FBQ1RSLGNBQVFDO0FBQUFBLFFBQ04sVUFBVU8sS0FBSyxLQUFLRixTQUFTLEtBQUtDLFVBQVUsYUFBYUUsVUFBVSxLQUFLQyxXQUFXLFdBQVdsQixJQUFJLGNBQWNhLFlBQVksWUFBWVIsS0FBSztBQUFBLE1BQy9JO0FBQUEsSUFDRixXQUFXLENBQUNXLFNBQVNYLE1BQU1jLFdBQVcsR0FBRyxHQUFHO0FBQzFDWCxjQUFRQyxJQUFJLHNDQUFzQ0osS0FBSyxnQkFBZ0I7QUFDdkUsYUFBT0E7QUFBQUEsSUFDVCxPQUFPO0FBQ0xHLGNBQVFDLElBQUksZ0NBQWdDSixLQUFLLGdCQUFnQjtBQUFBLElBQ25FO0FBQ0EsV0FBT0wsU0FBUyxTQUFTaUIsYUFBYUM7QUFBQUEsRUFDeEM7QUFFQSxTQUFPLEVBQUVsQixNQUFNRyxPQUFPRixpQkFBaUJTLGdCQUFnQjtBQUN6RDtBQUFFWCxHQTVDV0QsU0FBTztBQThDcEIsZUFBZUEiLCJuYW1lcyI6WyJnZXRUaGVtZSIsIkNvbG9yTW9kZUNvbnRleHQiLCJ1c2VNb2RlIiwiX3MiLCJtb2RlIiwidG9nZ2xlQ29sb3JNb2RlIiwidXNlQ29udGV4dCIsInRoZW1lIiwidmFsaWRhdGVDb2xvciIsImNvbG9yIiwiY3VycmVudFBhbGV0dGUiLCJwYWxldHRlIiwiY29uc29sZSIsImxvZyIsImNvbG9yTW9kZVZhbHVlcyIsImRhcmsiLCJsaWdodCIsImRlZmF1bHRDb2xvciIsInZhbGlkRGFyayIsInZhbGlkTGlnaHQiLCJ2YWxpZCIsInJldHVybkRhcmsiLCJyZXR1cm5MaWdodCIsInN0YXJ0c1dpdGgiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsidXNlTW9kZS5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgdXNlQ29udGV4dCB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7IGdldFRoZW1lIH0gZnJvbSAnYXNzZXRzL3RoZW1lJztcbmltcG9ydCB7IENvbG9yTW9kZUNvbnRleHQgfSBmcm9tICdjb250ZXh0cy9Db2xvck1vZGVQcm92aWRlcic7XG5cbmV4cG9ydCBjb25zdCB1c2VNb2RlID0gKCkgPT4ge1xuICBjb25zdCB7IG1vZGUsIHRvZ2dsZUNvbG9yTW9kZSB9ID0gdXNlQ29udGV4dChDb2xvck1vZGVDb250ZXh0KTtcbiAgY29uc3QgdGhlbWUgPSBnZXRUaGVtZShtb2RlKTtcblxuICBjb25zdCB2YWxpZGF0ZUNvbG9yID0gY29sb3IgPT4ge1xuICAgIGxldCBjdXJyZW50UGFsZXR0ZSA9IHRoZW1lLnBhbGV0dGU7XG4gICAgaWYgKHR5cGVvZiBjb2xvciA9PT0gJ29iamVjdCcpIHtcbiAgICAgIGlmIChjdXJyZW50UGFsZXR0ZVtjb2xvcl0pIHtcbiAgICAgICAgcmV0dXJuIHRydWU7XG4gICAgICB9XG4gICAgICByZXR1cm4gdHJ1ZTsgLy8gQXNzdW1lIG9iamVjdCB2YWx1ZXMgYXJlIHZhbGlkIGZvciBub3dcbiAgICB9IGVsc2UgaWYgKHR5cGVvZiBjb2xvciA9PT0gJ3N0cmluZycpIHtcbiAgICAgIGlmIChjdXJyZW50UGFsZXR0ZVtjb2xvcl0pIHtcbiAgICAgICAgcmV0dXJuIHRydWU7XG4gICAgICB9IGVsc2Uge1xuICAgICAgICByZXR1cm4gZmFsc2U7XG4gICAgICB9XG4gICAgfSBlbHNlIHtcbiAgICAgIGNvbnNvbGUubG9nKCdJbnZhbGlkIGNvbG9yOicsIGNvbG9yKTtcbiAgICB9XG4gICAgcmV0dXJuIHRydWU7XG4gIH07XG5cbiAgY29uc3QgY29sb3JNb2RlVmFsdWVzID0gKGRhcmssIGxpZ2h0LCBkZWZhdWx0Q29sb3IgPSAnIzI2MjQyQycpID0+IHtcbiAgICBjb25zdCB2YWxpZERhcmsgPSB2YWxpZGF0ZUNvbG9yKGRhcmspO1xuICAgIGNvbnN0IHZhbGlkTGlnaHQgPSB2YWxpZGF0ZUNvbG9yKGxpZ2h0KTtcbiAgICBjb25zdCB2YWxpZCA9IHZhbGlkRGFyayB8fCB2YWxpZExpZ2h0O1xuICAgIGNvbnN0IHJldHVybkRhcmsgPSB2YWxpZERhcmsgPyBkYXJrIDogZGVmYXVsdENvbG9yO1xuICAgIGNvbnN0IHJldHVybkxpZ2h0ID0gdmFsaWRMaWdodCA/IGxpZ2h0IDogZGVmYXVsdENvbG9yO1xuICAgIGNvbnN0IGNvbG9yID0gbW9kZSA9PT0gJ2RhcmsnID8gcmV0dXJuRGFyayA6IHJldHVybkxpZ2h0O1xuICAgIGlmICh2YWxpZCkge1xuICAgICAgY29uc29sZS5sb2coXG4gICAgICAgIGBWQUxJRDogJHt2YWxpZH0sICR7dmFsaWREYXJrfSwgJHt2YWxpZExpZ2h0fSAgUkVUVVJOOiAke3JldHVybkRhcmt9LCAke3JldHVybkxpZ2h0fSAgTU9ERTogJHttb2RlfSAgREVGQVVMVDogJHtkZWZhdWx0Q29sb3J9ICBDT0xPUjogJHtjb2xvcn1gXG4gICAgICApO1xuICAgIH0gZWxzZSBpZiAoIXZhbGlkICYmIGNvbG9yLnN0YXJ0c1dpdGgoJyMnKSkge1xuICAgICAgY29uc29sZS5sb2coYD09PT09PT09PT09PT0gUkVUVVJOSU5HIEhFWCBDT0xPUjogJHtjb2xvcn0gPT09PT09PT09PT09PWApO1xuICAgICAgcmV0dXJuIGNvbG9yO1xuICAgIH0gZWxzZSB7XG4gICAgICBjb25zb2xlLmxvZyhgPT09PT09PT09PT09PSBJTlZBTElEIENPTE9SOiAke2NvbG9yfSA9PT09PT09PT09PT09YCk7XG4gICAgfVxuICAgIHJldHVybiBtb2RlID09PSAnZGFyaycgPyByZXR1cm5EYXJrIDogcmV0dXJuTGlnaHQ7XG4gIH07XG5cbiAgcmV0dXJuIHsgbW9kZSwgdGhlbWUsIHRvZ2dsZUNvbG9yTW9kZSwgY29sb3JNb2RlVmFsdWVzIH07XG59O1xuXG5leHBvcnQgZGVmYXVsdCB1c2VNb2RlO1xuIl0sImZpbGUiOiIvVXNlcnMvcmVlZHZvZ3QvRGVza3RvcC9SZWVkQWlGcm9udC9zcmMvaG9va3MvdXNlTW9kZS5qc3gifQ=="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0005008750595152378
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/hooks/useMode.jsx (200) — 2024-07-28T11:41:27.693Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/hooks/useMode.jsx"
+        }
+      ]
+    }
+  ]
+}

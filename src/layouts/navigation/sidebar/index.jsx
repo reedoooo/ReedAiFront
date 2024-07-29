@@ -15,10 +15,10 @@ import React from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { IoMenuOutline } from 'react-icons/io5';
 import { NavLink } from 'react-router-dom';
-import { extractPaths } from '@/routes/index';
 import { PaperCard, RCBox, RCFlex } from 'components/index';
 import useDisclosure from 'hooks/useDisclosure';
 import useMode from 'hooks/useMode';
+import { extractPaths } from 'utils/navigation';
 import {
   renderThumb,
   renderTrack,

@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/store/Slices/chat/toolSlice.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/store/Slices/chat/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"2a0-ERWUU+lhgfVMf4lz7Rt9OclbxE0\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"2a0-2ptIGgJ8smvj8Rrn3/nnZypoYwk\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createSlice } from \"/node_modules/.vite/deps/@reduxjs_toolkit.js?v=6cb72b4f\";\nconst initialState = {\n  tools: [],\n  selectedTools: [],\n  toolInUse: \"\"\n};\nexport const toolSlice = createSlice({\n  name: \"tools\",\n  initialState,\n  reducers: {\n    setTools: (state, action) => {\n      state.tools = action.payload;\n    },\n    setSelectedTools: (state, action) => {\n      state.selectedTools = action.payload;\n    },\n    setToolInUse: (state, action) => {\n      state.toolInUse = action.payload;\n    }\n  }\n});\nexport { initialState as toolInitialState };\nexport const { setTools, setSelectedTools, setToolInUse } = toolSlice.actions;\nexport default toolSlice.reducer;\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBQUEsU0FBU0EsbUJBQW1CO0FBRTVCLE1BQU1DLGVBQWU7QUFBQSxFQUNuQkMsT0FBTztBQUFBLEVBQ1BDLGVBQWU7QUFBQSxFQUNmQyxXQUFXO0FBQ2I7QUFFTyxhQUFNQyxZQUFZTCxZQUFZO0FBQUEsRUFDbkNNLE1BQU07QUFBQSxFQUNOTDtBQUFBQSxFQUNBTSxVQUFVO0FBQUEsSUFDUkMsVUFBVUEsQ0FBQ0MsT0FBT0MsV0FBVztBQUMzQkQsWUFBTVAsUUFBUVEsT0FBT0M7QUFBQUEsSUFDdkI7QUFBQSxJQUNBQyxrQkFBa0JBLENBQUNILE9BQU9DLFdBQVc7QUFDbkNELFlBQU1OLGdCQUFnQk8sT0FBT0M7QUFBQUEsSUFDL0I7QUFBQSxJQUNBRSxjQUFjQSxDQUFDSixPQUFPQyxXQUFXO0FBQy9CRCxZQUFNTCxZQUFZTSxPQUFPQztBQUFBQSxJQUMzQjtBQUFBLEVBQ0Y7QUFDRixDQUFDO0FBRUQsU0FBU1YsZ0JBQWdCYTtBQUVsQixhQUFNLEVBQUVOLFVBQVVJLGtCQUFrQkMsYUFBYSxJQUFJUixVQUFVVTtBQUV0RSxlQUFlVixVQUFVVyIsIm5hbWVzIjpbImNyZWF0ZVNsaWNlIiwiaW5pdGlhbFN0YXRlIiwidG9vbHMiLCJzZWxlY3RlZFRvb2xzIiwidG9vbEluVXNlIiwidG9vbFNsaWNlIiwibmFtZSIsInJlZHVjZXJzIiwic2V0VG9vbHMiLCJzdGF0ZSIsImFjdGlvbiIsInBheWxvYWQiLCJzZXRTZWxlY3RlZFRvb2xzIiwic2V0VG9vbEluVXNlIiwidG9vbEluaXRpYWxTdGF0ZSIsImFjdGlvbnMiLCJyZWR1Y2VyIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbInRvb2xTbGljZS5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgY3JlYXRlU2xpY2UgfSBmcm9tICdAcmVkdXhqcy90b29sa2l0JztcblxuY29uc3QgaW5pdGlhbFN0YXRlID0ge1xuICB0b29sczogW10sXG4gIHNlbGVjdGVkVG9vbHM6IFtdLFxuICB0b29sSW5Vc2U6ICcnLFxufTtcblxuZXhwb3J0IGNvbnN0IHRvb2xTbGljZSA9IGNyZWF0ZVNsaWNlKHtcbiAgbmFtZTogJ3Rvb2xzJyxcbiAgaW5pdGlhbFN0YXRlLFxuICByZWR1Y2Vyczoge1xuICAgIHNldFRvb2xzOiAoc3RhdGUsIGFjdGlvbikgPT4ge1xuICAgICAgc3RhdGUudG9vbHMgPSBhY3Rpb24ucGF5bG9hZDtcbiAgICB9LFxuICAgIHNldFNlbGVjdGVkVG9vbHM6IChzdGF0ZSwgYWN0aW9uKSA9PiB7XG4gICAgICBzdGF0ZS5zZWxlY3RlZFRvb2xzID0gYWN0aW9uLnBheWxvYWQ7XG4gICAgfSxcbiAgICBzZXRUb29sSW5Vc2U6IChzdGF0ZSwgYWN0aW9uKSA9PiB7XG4gICAgICBzdGF0ZS50b29sSW5Vc2UgPSBhY3Rpb24ucGF5bG9hZDtcbiAgICB9LFxuICB9LFxufSk7XG5cbmV4cG9ydCB7IGluaXRpYWxTdGF0ZSBhcyB0b29sSW5pdGlhbFN0YXRlIH07XG5cbmV4cG9ydCBjb25zdCB7IHNldFRvb2xzLCBzZXRTZWxlY3RlZFRvb2xzLCBzZXRUb29sSW5Vc2UgfSA9IHRvb2xTbGljZS5hY3Rpb25zO1xuXG5leHBvcnQgZGVmYXVsdCB0b29sU2xpY2UucmVkdWNlcjtcbiJdLCJmaWxlIjoiL1VzZXJzL3JlZWR2b2d0L0Rlc2t0b3AvUmVlZEFpRnJvbnQvc3JjL3N0b3JlL1NsaWNlcy9jaGF0L3Rvb2xTbGljZS5qc3gifQ=="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0002667499938979745
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/store/Slices/chat/toolSlice.jsx (200) — 2024-07-28T11:41:27.090Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/store/Slices/chat/toolSlice.jsx"
+        }
+      ]
+    }
+  ]
+}

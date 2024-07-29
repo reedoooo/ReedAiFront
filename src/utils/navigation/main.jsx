@@ -1,3 +1,5 @@
+import routes from '@/routes/index';
+
 // NextJS Requirement
 export const isWindowAvailable = () => typeof window !== 'undefined';
 export const findCurrentRoute = (routes, pathname) => {
@@ -22,6 +24,64 @@ export const getActiveNavbar = (routes, pathname) => {
 };
 export const getActiveNavbarText = (routes, pathname) => {
   return getActiveRoute(routes, pathname) || false;
+};
+
+export const extractPaths = (routes, basePath = '') => {
+  const paths = [];
+  routes.forEach(route => {
+    if (route.path) {
+      const fullPath =
+        basePath === '/' ? `/${route.path}` : `${basePath}${route.path}`;
+      paths.push(fullPath);
+      if (route.children) {
+        paths.push(
+          ...extractPaths(
+            route.children,
+            fullPath === '/' ? '' : `${fullPath}/`
+          )
+        );
+      }
+    } else if (route.index) {
+      const fullPath = basePath.endsWith('/')
+        ? basePath.slice(0, -1)
+        : basePath;
+      paths.push(fullPath);
+    }
+  });
+  return paths;
+};
+
+// export const checkARouterValue = () => {
+//   const linkPaths = extractPaths(rootRoutes);
+//   console.log(linkPaths);
+//   console.log('ROUTES', routes);
+//   console.log('ROUTER', Router);
+// };
+
+export const validateLinkPath = path => {
+  const correctPaths = [
+    '/',
+    '/land',
+    '/land/heroDocs',
+    '/admin',
+    '/admin/dashboard',
+    '/admin/templates',
+    '/admin/profile',
+    '/admin/templates/templates-home',
+    '/admin/templates/original-chat-ai',
+    '/admin/templates/generate-template',
+    '/auth',
+    '/auth/sign-in',
+    '/auth/sign-up',
+    '/auth/logout',
+    '/404',
+  ];
+  if (correctPaths.includes(path)) {
+    return true;
+  } else {
+    console.log('Invalid Path:', path);
+    return false;
+  }
 };
 
 const extractValues = (rts, key) => {

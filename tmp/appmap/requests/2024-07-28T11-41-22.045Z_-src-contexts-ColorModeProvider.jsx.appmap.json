@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/contexts/ColorModeProvider.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/contexts/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"102d-TqM0VSyoY2cyssQBJ3aqOe0/xxo\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"102d-O0CpNfi0j80Sf/ArTWNHiikmLLU\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/contexts/ColorModeProvider.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/contexts/ColorModeProvider.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport { ThemeProvider as MuiThemeProvider } from \"/node_modules/.vite/deps/@mui_material_styles.js?v=869c0cd7\";\nimport __vite__cjsImport4_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport4_react.__esModule ? __vite__cjsImport4_react.default : __vite__cjsImport4_react; const createContext = __vite__cjsImport4_react[\"createContext\"]; const useEffect = __vite__cjsImport4_react[\"useEffect\"]; const useMemo = __vite__cjsImport4_react[\"useMemo\"]; const useState = __vite__cjsImport4_react[\"useState\"];\nimport { ThemeProvider as StyledThemeProvider } from \"/node_modules/.vite/deps/styled-components.js?v=5417f7aa\";\nimport { getTheme } from \"/src/assets/theme.jsx\";\nimport useManageCookies from \"/src/hooks/useManageCookies.jsx\";\nexport const ColorModeContext = createContext({\n  mode: \"dark\",\n  toggleColorMode: () => {\n  },\n  theme: getTheme(\"dark\")\n});\nexport const ColorModeProvider = ({ children }) => {\n  _s();\n  const { addCookies, getCookie } = useManageCookies();\n  const initialMode = getCookie(\"colorMode\") || \"dark\";\n  const [mode, setMode] = useState(initialMode);\n  useEffect(() => {\n    addCookies(\"colorMode\", mode, { path: \"/\" });\n  }, [mode]);\n  const toggleColorMode = () => {\n    const newMode = mode === \"dark\" ? \"light\" : \"dark\";\n    setMode(newMode);\n    addCookies(\"colorMode\", newMode, { path: \"/\" });\n  };\n  const theme = useMemo(() => getTheme(mode), [mode]);\n  return /* @__PURE__ */ jsxDEV(ColorModeContext.Provider, { value: { mode, toggleColorMode }, children: /* @__PURE__ */ jsxDEV(MuiThemeProvider, { theme, children: /* @__PURE__ */ jsxDEV(StyledThemeProvider, { theme, children }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/contexts/ColorModeProvider.jsx\",\n    lineNumber: 33,\n    columnNumber: 9\n  }, this) }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/contexts/ColorModeProvider.jsx\",\n    lineNumber: 32,\n    columnNumber: 7\n  }, this) }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/contexts/ColorModeProvider.jsx\",\n    lineNumber: 31,\n    columnNumber: 5\n  }, this);\n};\n_s(ColorModeProvider, \"4295Ho/2x/i3ZXGyQErSvTqM01A=\", false, function() {\n  return [useManageCookies];\n});\n_c = ColorModeProvider;\nexport default ColorModeProvider;\nvar _c;\n$RefreshReg$(_c, \"ColorModeProvider\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/contexts/ColorModeProvider.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBZ0NROzJCQWhDUjtBQUFTQSxNQUFpQkMscUJBQWdCLHNCQUFRLGVBQXNCO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQ3hFLE9BQU9DLFNBQVNDLGVBQWVDLFdBQVdDLFNBQVNDLGdCQUFnQjtBQUNuRSxTQUFTTixpQkFBaUJPLDJCQUEyQjtBQUNyRCxTQUFTQyxnQkFBZ0I7QUFDekIsT0FBT0Msc0JBQXNCO0FBRXRCLGFBQU1DLG1CQUFtQlAsY0FBYztBQUFBLEVBQzVDUSxNQUFNO0FBQUEsRUFDTkMsaUJBQWlCQSxNQUFNO0FBQUEsRUFBQztBQUFBLEVBQ3hCQyxPQUFPTCxTQUFTLE1BQU07QUFDeEIsQ0FBQztBQUVNLGFBQU1NLG9CQUFvQkEsQ0FBQyxFQUFFQyxTQUFTLE1BQU07QUFBQUMsS0FBQTtBQUNqRCxRQUFNLEVBQUVDLFlBQVlDLFVBQVUsSUFBSVQsaUJBQWlCO0FBQ25ELFFBQU1VLGNBQWNELFVBQVUsV0FBVyxLQUFLO0FBQzlDLFFBQU0sQ0FBQ1AsTUFBTVMsT0FBTyxJQUFJZCxTQUFTYSxXQUFXO0FBRTVDZixZQUFVLE1BQU07QUFDZGEsZUFBVyxhQUFhTixNQUFNLEVBQUVVLE1BQU0sSUFBSSxDQUFDO0FBQUEsRUFDN0MsR0FBRyxDQUFDVixJQUFJLENBQUM7QUFFVCxRQUFNQyxrQkFBa0JBLE1BQU07QUFDNUIsVUFBTVUsVUFBVVgsU0FBUyxTQUFTLFVBQVU7QUFDNUNTLFlBQVFFLE9BQU87QUFDZkwsZUFBVyxhQUFhSyxTQUFTLEVBQUVELE1BQU0sSUFBSSxDQUFDO0FBQUEsRUFDaEQ7QUFFQSxRQUFNUixRQUFRUixRQUFRLE1BQU1HLFNBQVNHLElBQUksR0FBRyxDQUFDQSxJQUFJLENBQUM7QUFFbEQsU0FDRSx1QkFBQyxpQkFBaUIsVUFBakIsRUFBMEIsT0FBTyxFQUFFQSxNQUFNQyxnQkFBZ0IsR0FDeEQsaUNBQUMsb0JBQWlCLE9BQ2hCLGlDQUFDLHVCQUFvQixPQUFlRyxZQUFwQztBQUFBO0FBQUE7QUFBQTtBQUFBLFNBQTZDLEtBRC9DO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FFQSxLQUhGO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FJQTtBQUVKO0FBQUVDLEdBeEJXRixtQkFBaUI7QUFBQSxVQUNNTCxnQkFBZ0I7QUFBQTtBQUFBYyxLQUR2Q1Q7QUEwQmIsZUFBZUE7QUFBa0IsSUFBQVM7QUFBQUMsYUFBQUQsSUFBQSIsIm5hbWVzIjpbIlRoZW1lUHJvdmlkZXIiLCJNdWlUaGVtZVByb3ZpZGVyIiwiUmVhY3QiLCJjcmVhdGVDb250ZXh0IiwidXNlRWZmZWN0IiwidXNlTWVtbyIsInVzZVN0YXRlIiwiU3R5bGVkVGhlbWVQcm92aWRlciIsImdldFRoZW1lIiwidXNlTWFuYWdlQ29va2llcyIsIkNvbG9yTW9kZUNvbnRleHQiLCJtb2RlIiwidG9nZ2xlQ29sb3JNb2RlIiwidGhlbWUiLCJDb2xvck1vZGVQcm92aWRlciIsImNoaWxkcmVuIiwiX3MiLCJhZGRDb29raWVzIiwiZ2V0Q29va2llIiwiaW5pdGlhbE1vZGUiLCJzZXRNb2RlIiwicGF0aCIsIm5ld01vZGUiLCJfYyIsIiRSZWZyZXNoUmVnJCJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJDb2xvck1vZGVQcm92aWRlci5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgVGhlbWVQcm92aWRlciBhcyBNdWlUaGVtZVByb3ZpZGVyIH0gZnJvbSAnQG11aS9tYXRlcmlhbC9zdHlsZXMnO1xuaW1wb3J0IFJlYWN0LCB7IGNyZWF0ZUNvbnRleHQsIHVzZUVmZmVjdCwgdXNlTWVtbywgdXNlU3RhdGUgfSBmcm9tICdyZWFjdCc7XG5pbXBvcnQgeyBUaGVtZVByb3ZpZGVyIGFzIFN0eWxlZFRoZW1lUHJvdmlkZXIgfSBmcm9tICdzdHlsZWQtY29tcG9uZW50cyc7XG5pbXBvcnQgeyBnZXRUaGVtZSB9IGZyb20gJ2Fzc2V0cy90aGVtZSc7XG5pbXBvcnQgdXNlTWFuYWdlQ29va2llcyBmcm9tICdob29rcy91c2VNYW5hZ2VDb29raWVzJztcblxuZXhwb3J0IGNvbnN0IENvbG9yTW9kZUNvbnRleHQgPSBjcmVhdGVDb250ZXh0KHtcbiAgbW9kZTogJ2RhcmsnLFxuICB0b2dnbGVDb2xvck1vZGU6ICgpID0+IHt9LFxuICB0aGVtZTogZ2V0VGhlbWUoJ2RhcmsnKSxcbn0pO1xuXG5leHBvcnQgY29uc3QgQ29sb3JNb2RlUHJvdmlkZXIgPSAoeyBjaGlsZHJlbiB9KSA9PiB7XG4gIGNvbnN0IHsgYWRkQ29va2llcywgZ2V0Q29va2llIH0gPSB1c2VNYW5hZ2VDb29raWVzKCk7XG4gIGNvbnN0IGluaXRpYWxNb2RlID0gZ2V0Q29va2llKCdjb2xvck1vZGUnKSB8fCAnZGFyayc7XG4gIGNvbnN0IFttb2RlLCBzZXRNb2RlXSA9IHVzZVN0YXRlKGluaXRpYWxNb2RlKTtcblxuICB1c2VFZmZlY3QoKCkgPT4ge1xuICAgIGFkZENvb2tpZXMoJ2NvbG9yTW9kZScsIG1vZGUsIHsgcGF0aDogJy8nIH0pO1xuICB9LCBbbW9kZV0pO1xuXG4gIGNvbnN0IHRvZ2dsZUNvbG9yTW9kZSA9ICgpID0+IHtcbiAgICBjb25zdCBuZXdNb2RlID0gbW9kZSA9PT0gJ2RhcmsnID8gJ2xpZ2h0JyA6ICdkYXJrJztcbiAgICBzZXRNb2RlKG5ld01vZGUpO1xuICAgIGFkZENvb2tpZXMoJ2NvbG9yTW9kZScsIG5ld01vZGUsIHsgcGF0aDogJy8nIH0pO1xuICB9O1xuXG4gIGNvbnN0IHRoZW1lID0gdXNlTWVtbygoKSA9PiBnZXRUaGVtZShtb2RlKSwgW21vZGVdKTtcblxuICByZXR1cm4gKFxuICAgIDxDb2xvck1vZGVDb250ZXh0LlByb3ZpZGVyIHZhbHVlPXt7IG1vZGUsIHRvZ2dsZUNvbG9yTW9kZSB9fT5cbiAgICAgIDxNdWlUaGVtZVByb3ZpZGVyIHRoZW1lPXt0aGVtZX0+XG4gICAgICAgIDxTdHlsZWRUaGVtZVByb3ZpZGVyIHRoZW1lPXt0aGVtZX0+e2NoaWxkcmVufTwvU3R5bGVkVGhlbWVQcm92aWRlcj5cbiAgICAgIDwvTXVpVGhlbWVQcm92aWRlcj5cbiAgICA8L0NvbG9yTW9kZUNvbnRleHQuUHJvdmlkZXI+XG4gICk7XG59O1xuXG5leHBvcnQgZGVmYXVsdCBDb2xvck1vZGVQcm92aWRlcjtcbiJdLCJmaWxlIjoiL1VzZXJzL3JlZWR2b2d0L0Rlc2t0b3AvUmVlZEFpRnJvbnQvc3JjL2NvbnRleHRzL0NvbG9yTW9kZVByb3ZpZGVyLmpzeCJ9"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0003859590506181121
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/contexts/ColorModeProvider.jsx (200) — 2024-07-28T11:41:22.045Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/contexts/ColorModeProvider.jsx"
+        }
+      ]
+    }
+  ]
+}

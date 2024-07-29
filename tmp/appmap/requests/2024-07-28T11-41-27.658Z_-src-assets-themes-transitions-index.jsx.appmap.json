@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/assets/themes/transitions/index.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/assets/theme.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"1729-nNJtjqlSUb7EwUTvloI0A4cc9yo\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"1729-ghedCV4AVpJCHRv5e9uxB9nk42Q\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/assets/themes/transitions/index.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/assets/themes/transitions/index.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nimport { Collapse, Fade, Box, Grow, Slide, Zoom } from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport __vite__cjsImport4_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport4_react.__esModule ? __vite__cjsImport4_react.default : __vite__cjsImport4_react;\nconst Transitions = React.forwardRef(\n  _c = ({\n    children,\n    position = \"top-left\",\n    type = \"grow\",\n    direction = \"up\",\n    ...others\n  }, ref) => {\n    let positionSX = {\n      transformOrigin: \"0 0 0\"\n    };\n    switch (position) {\n      case \"top-right\":\n        positionSX = {\n          transformOrigin: \"top right\"\n        };\n        break;\n      case \"top\":\n        positionSX = {\n          transformOrigin: \"top\"\n        };\n        break;\n      case \"bottom-left\":\n        positionSX = {\n          transformOrigin: \"bottom left\"\n        };\n        break;\n      case \"bottom-right\":\n        positionSX = {\n          transformOrigin: \"bottom right\"\n        };\n        break;\n      case \"bottom\":\n        positionSX = {\n          transformOrigin: \"bottom\"\n        };\n        break;\n      case \"top-left\":\n      default:\n        positionSX = {\n          transformOrigin: \"0 0 0\"\n        };\n        break;\n    }\n    return /* @__PURE__ */ jsxDEV(Box, { ref, children: [\n      type === \"grow\" && /* @__PURE__ */ jsxDEV(Grow, { ...others, children: /* @__PURE__ */ jsxDEV(Box, { sx: positionSX, children }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/assets/themes/transitions/index.jsx\",\n        lineNumber: 59,\n        columnNumber: 13\n      }, this) }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/assets/themes/transitions/index.jsx\",\n        lineNumber: 58,\n        columnNumber: 7\n      }, this),\n      type === \"collapse\" && /* @__PURE__ */ jsxDEV(Collapse, { ...others, sx: positionSX, children }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/assets/themes/transitions/index.jsx\",\n        lineNumber: 63,\n        columnNumber: 7\n      }, this),\n      type === \"fade\" && /* @__PURE__ */ jsxDEV(\n        Fade,\n        {\n          ...others,\n          timeout: {\n            appear: 500,\n            enter: 600,\n            exit: 400\n          },\n          children: /* @__PURE__ */ jsxDEV(Box, { sx: positionSX, children }, void 0, false, {\n            fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/assets/themes/transitions/index.jsx\",\n            lineNumber: 76,\n            columnNumber: 13\n          }, this)\n        },\n        void 0,\n        false,\n        {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/assets/themes/transitions/index.jsx\",\n          lineNumber: 68,\n          columnNumber: 7\n        },\n        this\n      ),\n      type === \"slide\" && /* @__PURE__ */ jsxDEV(Slide, { ...others, direction, children: /* @__PURE__ */ jsxDEV(Box, { sx: positionSX, children }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/assets/themes/transitions/index.jsx\",\n        lineNumber: 81,\n        columnNumber: 13\n      }, this) }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/assets/themes/transitions/index.jsx\",\n        lineNumber: 80,\n        columnNumber: 7\n      }, this),\n      type === \"zoom\" && /* @__PURE__ */ jsxDEV(Zoom, { ...others, children: /* @__PURE__ */ jsxDEV(Box, { sx: positionSX, children }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/assets/themes/transitions/index.jsx\",\n        lineNumber: 86,\n        columnNumber: 13\n      }, this) }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/assets/themes/transitions/index.jsx\",\n        lineNumber: 85,\n        columnNumber: 7\n      }, this)\n    ] }, void 0, true, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/assets/themes/transitions/index.jsx\",\n      lineNumber: 56,\n      columnNumber: 5\n    }, this);\n  }\n);\n_c2 = Transitions;\nTransitions.displayName = \"Transitions\";\nexport default Transitions;\nvar _c, _c2;\n$RefreshReg$(_c, \"Transitions$React.forwardRef\");\n$RefreshReg$(_c2, \"Transitions\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/assets/themes/transitions/index.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBMERZO0FBMURaLDJCQUF5QkE7QUFBa0JDLE1BQUksY0FBUSxPQUFlO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUN0RSxPQUFPQyxXQUFXO0FBSWxCLE1BQU1DLGNBQWNELE1BQU1FO0FBQUFBLEVBQVVDLEtBQ2xDQSxDQUNFO0FBQUEsSUFDRUM7QUFBQUEsSUFDQUMsV0FBVztBQUFBLElBQ1hDLE9BQU87QUFBQSxJQUNQQyxZQUFZO0FBQUEsSUFDWixHQUFHQztBQUFBQSxFQUNMLEdBQ0FDLFFBQ0c7QUFDSCxRQUFJQyxhQUFhO0FBQUEsTUFDZkMsaUJBQWlCO0FBQUEsSUFDbkI7QUFFQSxZQUFRTixVQUFRO0FBQUEsTUFDZCxLQUFLO0FBQ0hLLHFCQUFhO0FBQUEsVUFDWEMsaUJBQWlCO0FBQUEsUUFDbkI7QUFDQTtBQUFBLE1BQ0YsS0FBSztBQUNIRCxxQkFBYTtBQUFBLFVBQ1hDLGlCQUFpQjtBQUFBLFFBQ25CO0FBQ0E7QUFBQSxNQUNGLEtBQUs7QUFDSEQscUJBQWE7QUFBQSxVQUNYQyxpQkFBaUI7QUFBQSxRQUNuQjtBQUNBO0FBQUEsTUFDRixLQUFLO0FBQ0hELHFCQUFhO0FBQUEsVUFDWEMsaUJBQWlCO0FBQUEsUUFDbkI7QUFDQTtBQUFBLE1BQ0YsS0FBSztBQUNIRCxxQkFBYTtBQUFBLFVBQ1hDLGlCQUFpQjtBQUFBLFFBQ25CO0FBQ0E7QUFBQSxNQUNGLEtBQUs7QUFBQSxNQUNMO0FBQ0VELHFCQUFhO0FBQUEsVUFDWEMsaUJBQWlCO0FBQUEsUUFDbkI7QUFDQTtBQUFBLElBQ0o7QUFFQSxXQUNFLHVCQUFDLE9BQUksS0FDRkw7QUFBQUEsZUFBUyxVQUNSLHVCQUFDLFFBQUssR0FBSUUsUUFDUixpQ0FBQyxPQUFJLElBQUlFLFlBQWFOLFlBQXRCO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFBK0IsS0FEakM7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUVBO0FBQUEsTUFFREUsU0FBUyxjQUNSLHVCQUFDLFlBQVMsR0FBSUUsUUFBUSxJQUFJRSxZQUN2Qk4sWUFESDtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBRUE7QUFBQSxNQUVERSxTQUFTLFVBQ1I7QUFBQSxRQUFDO0FBQUE7QUFBQSxVQUNDLEdBQUlFO0FBQUFBLFVBQ0osU0FBUztBQUFBLFlBQ1BJLFFBQVE7QUFBQSxZQUNSQyxPQUFPO0FBQUEsWUFDUEMsTUFBTTtBQUFBLFVBQ1I7QUFBQSxVQUVBLGlDQUFDLE9BQUksSUFBSUosWUFBYU4sWUFBdEI7QUFBQTtBQUFBO0FBQUE7QUFBQSxpQkFBK0I7QUFBQTtBQUFBLFFBUmpDO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxNQVNBO0FBQUEsTUFFREUsU0FBUyxXQUNSLHVCQUFDLFNBQU0sR0FBSUUsUUFBUSxXQUNqQixpQ0FBQyxPQUFJLElBQUlFLFlBQWFOLFlBQXRCO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFBK0IsS0FEakM7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUVBO0FBQUEsTUFFREUsU0FBUyxVQUNSLHVCQUFDLFFBQUssR0FBSUUsUUFDUixpQ0FBQyxPQUFJLElBQUlFLFlBQWFOLFlBQXRCO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFBK0IsS0FEakM7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUVBO0FBQUEsU0EvQko7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQWlDQTtBQUFBLEVBRUo7QUFDRjtBQUFFVyxNQXRGSWQ7QUF1Rk5BLFlBQVllLGNBQWM7QUFFMUIsZUFBZWY7QUFBWSxJQUFBRSxJQUFBWTtBQUFBRSxhQUFBZCxJQUFBO0FBQUFjLGFBQUFGLEtBQUEiLCJuYW1lcyI6WyJCb3giLCJab29tIiwiUmVhY3QiLCJUcmFuc2l0aW9ucyIsImZvcndhcmRSZWYiLCJfYyIsImNoaWxkcmVuIiwicG9zaXRpb24iLCJ0eXBlIiwiZGlyZWN0aW9uIiwib3RoZXJzIiwicmVmIiwicG9zaXRpb25TWCIsInRyYW5zZm9ybU9yaWdpbiIsImFwcGVhciIsImVudGVyIiwiZXhpdCIsIl9jMiIsImRpc3BsYXlOYW1lIiwiJFJlZnJlc2hSZWckIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbImluZGV4LmpzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBDb2xsYXBzZSwgRmFkZSwgQm94LCBHcm93LCBTbGlkZSwgWm9vbSB9IGZyb20gJ0BtdWkvbWF0ZXJpYWwnO1xuaW1wb3J0IFJlYWN0IGZyb20gJ3JlYWN0JztcblxuLy8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09fHwgVFJBTlNJVElPTlMgfHw9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0gLy9cblxuY29uc3QgVHJhbnNpdGlvbnMgPSBSZWFjdC5mb3J3YXJkUmVmKFxuICAoXG4gICAge1xuICAgICAgY2hpbGRyZW4sXG4gICAgICBwb3NpdGlvbiA9ICd0b3AtbGVmdCcsXG4gICAgICB0eXBlID0gJ2dyb3cnLFxuICAgICAgZGlyZWN0aW9uID0gJ3VwJyxcbiAgICAgIC4uLm90aGVyc1xuICAgIH0sXG4gICAgcmVmXG4gICkgPT4ge1xuICAgIGxldCBwb3NpdGlvblNYID0ge1xuICAgICAgdHJhbnNmb3JtT3JpZ2luOiAnMCAwIDAnLFxuICAgIH07XG5cbiAgICBzd2l0Y2ggKHBvc2l0aW9uKSB7XG4gICAgICBjYXNlICd0b3AtcmlnaHQnOlxuICAgICAgICBwb3NpdGlvblNYID0ge1xuICAgICAgICAgIHRyYW5zZm9ybU9yaWdpbjogJ3RvcCByaWdodCcsXG4gICAgICAgIH07XG4gICAgICAgIGJyZWFrO1xuICAgICAgY2FzZSAndG9wJzpcbiAgICAgICAgcG9zaXRpb25TWCA9IHtcbiAgICAgICAgICB0cmFuc2Zvcm1PcmlnaW46ICd0b3AnLFxuICAgICAgICB9O1xuICAgICAgICBicmVhaztcbiAgICAgIGNhc2UgJ2JvdHRvbS1sZWZ0JzpcbiAgICAgICAgcG9zaXRpb25TWCA9IHtcbiAgICAgICAgICB0cmFuc2Zvcm1PcmlnaW46ICdib3R0b20gbGVmdCcsXG4gICAgICAgIH07XG4gICAgICAgIGJyZWFrO1xuICAgICAgY2FzZSAnYm90dG9tLXJpZ2h0JzpcbiAgICAgICAgcG9zaXRpb25TWCA9IHtcbiAgICAgICAgICB0cmFuc2Zvcm1PcmlnaW46ICdib3R0b20gcmlnaHQnLFxuICAgICAgICB9O1xuICAgICAgICBicmVhaztcbiAgICAgIGNhc2UgJ2JvdHRvbSc6XG4gICAgICAgIHBvc2l0aW9uU1ggPSB7XG4gICAgICAgICAgdHJhbnNmb3JtT3JpZ2luOiAnYm90dG9tJyxcbiAgICAgICAgfTtcbiAgICAgICAgYnJlYWs7XG4gICAgICBjYXNlICd0b3AtbGVmdCc6XG4gICAgICBkZWZhdWx0OlxuICAgICAg... (1612 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0002660419559106231
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/assets/themes/transitions/index.jsx (200) — 2024-07-28T11:41:27.658Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/assets/themes/transitions/index.jsx"
+        }
+      ]
+    }
+  ]
+}

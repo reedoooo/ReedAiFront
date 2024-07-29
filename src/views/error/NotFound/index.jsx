@@ -3,6 +3,7 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 // import { FlexBetween } from 'components/index';
 // import { RCButton } from 'components/themed';
+import { FlexBetween } from 'components/index';
 import { errorProps, buttonsData } from 'config/data';
 import useMode from 'hooks/useMode';
 
@@ -60,7 +61,7 @@ const renderError = ({
         },
         content: mainText,
       })}
-      {/* <FlexBetween
+      <FlexBetween
         sx={{
           width: '100%',
           justifyContent: 'center',
@@ -79,7 +80,7 @@ const renderError = ({
           styles: { ml: 1, color: theme.palette.error.main },
           content: subTextB,
         })}
-      </FlexBetween> */}
+      </FlexBetween>
     </>
   );
 };

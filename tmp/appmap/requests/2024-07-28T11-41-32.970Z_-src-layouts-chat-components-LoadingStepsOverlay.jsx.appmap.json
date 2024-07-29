@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/layouts/chat/components/LoadingStepsOverlay.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/layouts/chat/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"1c4f-CLoWTDyITClvwEjDpeaalTsixWI\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"1c4f-fXrXtsSBRwbUYkt4XHQyDlqrwQ8\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/layouts/chat/components/LoadingStepsOverlay.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport { CheckCircleOutline } from \"/node_modules/.vite/deps/@mui_icons-material.js?v=644b627c\";\nimport {\n  Box,\n  CircularProgress,\n  Typography,\n  List,\n  ListItem,\n  ListItemIcon,\n  ListItemText,\n  Fade\n} from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport __vite__cjsImport5_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport5_react.__esModule ? __vite__cjsImport5_react.default : __vite__cjsImport5_react; const useState = __vite__cjsImport5_react[\"useState\"]; const useEffect = __vite__cjsImport5_react[\"useEffect\"];\nconst LoadingStep = ({ step, completed }) => /* @__PURE__ */ jsxDEV(ListItem, { children: [\n  /* @__PURE__ */ jsxDEV(ListItemIcon, { children: completed ? /* @__PURE__ */ jsxDEV(Fade, { in: completed, children: /* @__PURE__ */ jsxDEV(CheckCircleOutline, { color: \"success\" }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx\",\n    lineNumber: 19,\n    columnNumber: 11\n  }, this) }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx\",\n    lineNumber: 18,\n    columnNumber: 5\n  }, this) : /* @__PURE__ */ jsxDEV(CircularProgress, { size: 24 }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx\",\n    lineNumber: 22,\n    columnNumber: 5\n  }, this) }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx\",\n    lineNumber: 16,\n    columnNumber: 5\n  }, this),\n  /* @__PURE__ */ jsxDEV(ListItemText, { primary: step.label }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx\",\n    lineNumber: 25,\n    columnNumber: 5\n  }, this)\n] }, void 0, true, {\n  fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx\",\n  lineNumber: 15,\n  columnNumber: 1\n}, this);\n_c = LoadingStep;\nconst LoadingSection = ({ title, steps, active }) => /* @__PURE__ */ jsxDEV(Fade, { in: active, timeout: 500, children: /* @__PURE__ */ jsxDEV(Box, { children: [\n  /* @__PURE__ */ jsxDEV(Typography, { variant: \"h6\", gutterBottom: true, children: title }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx\",\n    lineNumber: 32,\n    columnNumber: 7\n  }, this),\n  /* @__PURE__ */ jsxDEV(List, { children: steps.map(\n    (step, index) => /* @__PURE__ */ jsxDEV(LoadingStep, { step, completed: step.completed }, index, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx\",\n      lineNumber: 37,\n      columnNumber: 7\n    }, this)\n  ) }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx\",\n    lineNumber: 35,\n    columnNumber: 7\n  }, this)\n] }, void 0, true, {\n  fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx\",\n  lineNumber: 31,\n  columnNumber: 5\n}, this) }, void 0, false, {\n  fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx\",\n  lineNumber: 30,\n  columnNumber: 1\n}, this);\n_c2 = LoadingSection;\nexport const LoadingOverlay = ({ loading, sections }) => {\n  _s();\n  const [activeSection, setActiveSection] = useState(0);\n  useEffect(() => {\n    if (loading) {\n      const timer = setInterval(() => {\n        setActiveSection((prev) => (prev + 1) % sections.length);\n      }, 5e3);\n      return () => clearInterval(timer);\n    }\n  }, [loading, sections.length]);\n  if (!loading) return null;\n  return /* @__PURE__ */ jsxDEV(\n    Box,\n    {\n      sx: {\n        position: \"fixed\",\n        top: 0,\n        left: 0,\n        width: \"100%\",\n        height: \"100%\",\n        bgcolor: \"rgba(255, 255, 255, 0.8)\",\n        zIndex: 1200,\n        display: \"flex\",\n        flexDirection: \"column\",\n        justifyContent: \"center\",\n        alignItems: \"center\"\n      },\n      children: [\n        /* @__PURE__ */ jsxDEV(Typography, { variant: \"h4\", gutterBottom: true, children: \"Loading Chat App\" }, void 0, false, {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx\",\n          lineNumber: 74,\n          columnNumber: 7\n        }, this),\n        sections.map(\n          (section, index) => /* @__PURE__ */ jsxDEV(\n            LoadingSection,\n            {\n              title: section.title,\n              steps: section.steps,\n              active: index === activeSection\n            },\n            index,\n            false,\n            {\n              fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx\",\n              lineNumber: 78,\n              columnNumber: 7\n            },\n            this\n          )\n        )\n      ]\n    },\n    void 0,\n    true,\n    {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx\",\n      lineNumber: 59,\n      columnNumber: 5\n    },\n    this\n  );\n};\n_s(LoadingOverlay, \"ztYa3D5mjp424lNh4dXmm8BFY8M=\");\n_c3 = LoadingOverlay;\nexport default LoadingOverlay;\nvar _c, _c2, _c3;\n$RefreshReg$(_c, \"LoadingStep\");\n$RefreshReg$(_c2, \"LoadingSection\");\n$RefreshReg$(_c3, \"LoadingOverlay\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/layouts/chat/components/LoadingStepsOverlay.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,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... (3970 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.008423250052146614
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/layouts/chat/components/LoadingStepsOverlay.jsx (200) — 2024-07-28T11:41:32.970Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/layouts/chat/components/LoadingStepsOverlay.jsx"
+        }
+      ]
+    }
+  ]
+}

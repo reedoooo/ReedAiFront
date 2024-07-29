@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/themed/calendar/MiniCalendar.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"2456-0GTikHtRrRTlXSM5cuqhgy95xQU\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"2456-3f+b/l0eY6YydlUAXl29Y0uheGM\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/themed/calendar/MiniCalendar.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const Fragment = __vite__cjsImport0_react_jsxDevRuntime[\"Fragment\"]; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/calendar/MiniCalendar.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport { Box, IconButton, TextField, Typography } from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport __vite__cjsImport4_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const useState = __vite__cjsImport4_react[\"useState\"];\nimport { Calendar as DashboardCalendar } from \"/node_modules/.vite/deps/react-calendar.js?v=4a244832\";\nimport { MdChevronLeft, MdChevronRight } from \"/node_modules/.vite/deps/react-icons_md.js?v=a8f9f077\";\nimport \"/node_modules/react-calendar/dist/Calendar.css\";\nimport \"/src/styles/MiniCalendar.css\";\nimport { Card } from \"/src/components/themed/card/Card.jsx\";\nexport const MiniCalendar = (props) => {\n  _s();\n  const { selectRange, ...rest } = props;\n  const [value, setValue] = useState(/* @__PURE__ */ new Date());\n  const [notes, setNotes] = useState({});\n  const [currentInput, setCurrentInput] = useState(\"\");\n  const [editingDate, setEditingDate] = useState(null);\n  const handleDateChange = (date) => {\n    setValue(date);\n    setEditingDate(date);\n  };\n  const handleKeyDown = (event) => {\n    if (event.key === \"Enter\" && editingDate) {\n      setNotes({\n        ...notes,\n        [editingDate.toString()]: currentInput\n      });\n      setCurrentInput(\"\");\n      setEditingDate(null);\n    }\n  };\n  const renderTileContent = ({ date, view }) => {\n    const note = notes[date.toString()];\n    return note && /* @__PURE__ */ jsxDEV(\n      Typography,\n      {\n        sx: {\n          display: \"flex\",\n          alignItems: \"center\",\n          fontSize: \"12px\",\n          color: \"black\",\n          whiteSpace: \"nowrap\"\n        },\n        children: [\n          \"• \",\n          /* @__PURE__ */ jsxDEV(\"strong\", { children: date.toLocaleDateString() }, void 0, false, {\n            fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/calendar/MiniCalendar.jsx\",\n            lineNumber: 47,\n            columnNumber: 13\n          }, this),\n          \" - \",\n          note\n        ]\n      },\n      void 0,\n      true,\n      {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/calendar/MiniCalendar.jsx\",\n        lineNumber: 38,\n        columnNumber: 7\n      },\n      this\n    );\n  };\n  return /* @__PURE__ */ jsxDEV(Fragment, { children: /* @__PURE__ */ jsxDEV(\n    Card,\n    {\n      align: \"center\",\n      direction: \"column\",\n      width: \"100%\",\n      maxWidth: \"max-content\",\n      padding: \"20px 15px\",\n      mx: \"auto\",\n      height: \"max-content\",\n      sx: {\n        p: \"20px\",\n        display: \"flex\",\n        flexDirection: \"column\",\n        width: \"100%\",\n        position: \"relative\",\n        borderRadius: \"20px\",\n        minWidth: \"0px\",\n        wordWrap: \"break-word\",\n        backgroundClip: \"border-box\",\n        background: (theme) => theme.palette.mode === \"dark\" ? theme.palette.background.default : \"#ffffff\"\n      },\n      ...rest,\n      children: [\n        /* @__PURE__ */ jsxDEV(\n          DashboardCalendar,\n          {\n            view: \"month\",\n            value,\n            selectRange,\n            onChange: handleDateChange,\n            tileContent: renderTileContent,\n            onKeyDown: handleKeyDown,\n            prevLabel: /* @__PURE__ */ jsxDEV(\n              IconButton,\n              {\n                component: Box,\n                \"aria-label\": \"previous month\",\n                sx: {\n                  height: \"34px !important\",\n                  minWidth: \"34px !important\",\n                  borderRadius: \"10px\"\n                },\n                children: /* @__PURE__ */ jsxDEV(\n                  MdChevronLeft,\n                  {\n                    style: {\n                      display: \"inline-block\",\n                      size: 24,\n                      color: \"#fff\"\n                    }\n                  },\n                  void 0,\n                  false,\n                  {\n                    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/calendar/MiniCalendar.jsx\",\n                    lineNumber: 97,\n                    columnNumber: 15\n                  },\n                  this\n                )\n              },\n              void 0,\n              false,\n              {\n                fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/calendar/MiniCalendar.jsx\",\n                lineNumber: 88,\n                columnNumber: 11\n              },\n              this\n            ),\n            nextLabel: /* @__PURE__ */ jsxDEV(\n              IconButton,\n              {\n                component: Box,\n                \"aria-label\": \"next month\",\n                sx: {\n                  height: \"34px !important\",\n                  minWidth: \"34px !important\",\n                  borderRadius: \"10px\"\n                },\n                children: /* @__PURE__ */ jsxDEV(\n                  MdChevronRight,\n                  {\n                    style: {\n                      display: \"inline-block\",\n                      size: 24,\n                      color: \"#fff\"\n                    }\n                  },\n                  void 0,\n                  false,\n                  {\n                    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/calendar/MiniCalendar.jsx\",\n                    lineNumber: 116,\n                    columnNumber: 15\n                  },\n                  this\n                )\n              },\n              void 0,\n              false,\n              {\n                fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/calendar/MiniCalendar.jsx\",\n                lineNumber: 107,\n                columnNumber: 11\n              },\n              this\n            )\n          },\n          void 0,\n          false,\n          {\n            fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/calendar/MiniCalendar.jsx\",\n            lineNumber: 80,\n            columnNumber: 9\n          },\n          this\n        ),\n        editingDate && /* @__PURE__ */ jsxDEV(\n          TextField,\n          {\n            fullWidth: true,\n            variant: \"outlined\",\n            size: \"small\",\n            placeholder: \"Type your note and press Enter\",\n            value: currentInput,\n            onChange: (e) => setCurrentInput(e.target.value),\n            onKeyDown: handleKeyDown,\n            InputProps: {\n              style: {\n                fontSize: \"12px\",\n                color: \"lightgrey\",\n                border: \"none\",\n                outline: \"none\"\n              }\n            },\n            sx: {\n              mt: 2,\n              \".MuiOutlinedInput-notchedOutline\": { border: 0 }\n            }\n          },\n          void 0,\n          false,\n          {\n            fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/calendar/MiniCalendar.jsx\",\n            lineNumber: 127,\n            columnNumber: 9\n          },\n          this\n        )\n      ]\n    },\n    void 0,\n    true,\n    {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/calendar/MiniCalendar.jsx\",\n      lineNumber: 55,\n      columnNumber: 7\n    },\n    this\n  ) }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/calendar/MiniCalendar.jsx\",\n    lineNumber: 54,\n    columnNumber: 5\n  }, this);\n};\n_s(MiniCalendar, \"pOKzSV74BsA5tBJ2M27yjGOK3uc=\");\n_c = MiniCalendar;\nexport default MiniCalendar;\nvar _c;\n$RefreshReg$(_c, \"MiniCalendar\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/calendar/MiniCalendar.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBOENZLFNBT1IsVUFQUTsyQkE5Q1o7QUFBY0EsTUFBWUMsY0FBV0MsT0FBVSxzQkFBdUI7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFDdEUsU0FBU0MsZ0JBQWdCO0FBQ3pCLFNBQVNDLFlBQVlDLHlCQUF5QjtBQUM5QyxTQUFTQyxlQUFlQyxzQkFBc0I7QUFDOUMsT0FBTztBQUVQLE9BQU87QUFFUCxTQUFTQyxZQUFZO0FBRWQsYUFBTUMsZUFBZUEsQ0FBQUMsVUFBUztBQUFBQyxLQUFBO0FBQ25DLFFBQU0sRUFBRUMsYUFBYSxHQUFHQyxLQUFLLElBQUlIO0FBQ2pDLFFBQU0sQ0FBQ0ksT0FBT0MsUUFBUSxJQUFJWixTQUFTLG9CQUFJYSxLQUFLLENBQUM7QUFDN0MsUUFBTSxDQUFDQyxPQUFPQyxRQUFRLElBQUlmLFNBQVMsQ0FBQyxDQUFDO0FBQ3JDLFFBQU0sQ0FBQ2dCLGNBQWNDLGVBQWUsSUFBSWpCLFNBQVMsRUFBR... (10531 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0008728330722078681
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/themed/calendar/MiniCalendar.jsx (200) — 2024-07-28T11:41:29.062Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/themed/calendar/MiniCalendar.jsx"
+        }
+      ]
+    }
+  ]
+}

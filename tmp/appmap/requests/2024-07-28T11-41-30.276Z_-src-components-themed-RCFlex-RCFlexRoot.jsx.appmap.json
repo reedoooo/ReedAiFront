@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/themed/RCFlex/RCFlexRoot.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/themed/RCFlex/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"4a7-+rZBfS2+39t3awJK4HXh3QfkK7k\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"4a7-XxJoVAXr/pn0NgvV29ZoY/ymdDs\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { Box } from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport { styled, useTheme } from \"/node_modules/.vite/deps/@mui_material_styles.js?v=869c0cd7\";\nconst validFlexDirections = [\"row\", \"row-reverse\", \"column\", \"column-reverse\"];\nconst validAlignItems = [\n  \"flex-start\",\n  \"center\",\n  \"flex-end\",\n  \"stretch\",\n  \"baseline\"\n];\nconst validJustifyContent = [\n  \"flex-start\",\n  \"center\",\n  \"flex-end\",\n  \"space-between\",\n  \"space-around\",\n  \"space-evenly\"\n];\nconst validFlexWraps = [\"nowrap\", \"wrap\", \"wrap-reverse\"];\nconst RCFlexRoot = styled(Box, {\n  shouldForwardProp: (prop) => ![\"ownerState\", \"sx\"].includes(prop)\n})(({ ownerState }) => {\n  const { direction, align, justify, wrap, basis, grow, shrink } = ownerState;\n  return {\n    display: \"flex\",\n    flexDirection: validFlexDirections.includes(direction) ? direction : \"row\",\n    alignItems: validAlignItems.includes(align) ? align : \"stretch\",\n    justifyContent: validJustifyContent.includes(justify) ? justify : \"flex-start\",\n    flexWrap: validFlexWraps.includes(wrap) ? wrap : \"nowrap\",\n    flexBasis: basis || \"auto\",\n    flexGrow: grow || 0,\n    flexShrink: shrink || 1\n  };\n});\nexport default RCFlexRoot;\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBQUEsU0FBU0EsV0FBVztBQUNwQixTQUFTQyxRQUFRQyxnQkFBZ0I7QUFFakMsTUFBTUMsc0JBQXNCLENBQUMsT0FBTyxlQUFlLFVBQVUsZ0JBQWdCO0FBQzdFLE1BQU1DLGtCQUFrQjtBQUFBLEVBQ3RCO0FBQUEsRUFDQTtBQUFBLEVBQ0E7QUFBQSxFQUNBO0FBQUEsRUFDQTtBQUFVO0FBRVosTUFBTUMsc0JBQXNCO0FBQUEsRUFDMUI7QUFBQSxFQUNBO0FBQUEsRUFDQTtBQUFBLEVBQ0E7QUFBQSxFQUNBO0FBQUEsRUFDQTtBQUFjO0FBRWhCLE1BQU1DLGlCQUFpQixDQUFDLFVBQVUsUUFBUSxjQUFjO0FBRXhELE1BQU1DLGFBQWFOLE9BQU9ELEtBQUs7QUFBQSxFQUM3QlEsbUJBQW1CQSxDQUFBQyxTQUFRLENBQUMsQ0FBQyxjQUFjLElBQUksRUFBRUMsU0FBU0QsSUFBSTtBQUNoRSxDQUFDLEVBQUUsQ0FBQyxFQUFFRSxXQUFXLE1BQU07QUFFckIsUUFBTSxFQUFFQyxXQUFXQyxPQUFPQyxTQUFTQyxNQUFNQyxPQUFPQyxNQUFNQyxPQUFPLElBQUlQO0FBRWpFLFNBQU87QUFBQSxJQUNMUSxTQUFTO0FBQUEsSUFDVEMsZUFBZWpCLG9CQUFvQk8sU0FBU0UsU0FBUyxJQUFJQSxZQUFZO0FBQUEsSUFDckVTLFlBQVlqQixnQkFBZ0JNLFNBQVNHLEtBQUssSUFBSUEsUUFBUTtBQUFBLElBQ3REUyxnQkFBZ0JqQixvQkFBb0JLLFNBQVNJLE9BQU8sSUFDaERBLFVBQ0E7QUFBQSxJQUNKUyxVQUFVakIsZUFBZUksU0FBU0ssSUFBSSxJQUFJQSxPQUFPO0FBQUEsSUFDakRTLFdBQVdSLFNBQVM7QUFBQSxJQUNwQlMsVUFBVVIsUUFBUTtBQUFBLElBQ2xCUyxZQUFZUixVQUFVO0FBQUEsRUFDeEI7QUFDRixDQUFDO0FBRUQsZUFBZVgiLCJuYW1lcyI6WyJCb3giLCJzdHlsZWQiLCJ1c2VUaGVtZSIsInZhbGlkRmxleERpcmVjdGlvbnMiLCJ2YWxpZEFsaWduSXRlbXMiLCJ2YWxpZEp1c3RpZnlDb250ZW50IiwidmFsaWRGbGV4V3JhcHMiLCJSQ0ZsZXhSb290Iiwic2hvdWxkRm9yd2FyZFByb3AiLCJwcm9wIiwiaW5jbHVkZXMiLCJvd25lclN0YXRlIiwiZGlyZWN0aW9uIiwiYWxpZ24iLCJqdXN0aWZ5Iiwid3JhcCIsImJhc2lzIiwiZ3JvdyIsInNocmluayIsImRpc3BsYXkiLCJmbGV4RGlyZWN0aW9uIiwiYWxpZ25JdGVtcyIsImp1c3RpZnlDb250ZW50IiwiZmxleFdyYXAiLCJmbGV4QmFzaXMiLCJmbGV4R3JvdyIsImZsZXhTaHJpbmsiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiUkNGbGV4Um9vdC5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQm94IH0gZnJvbSAnQG11aS9tYXRlcmlhbCc7XG5pbXBvcnQgeyBzdHlsZWQsIHVzZVRoZW1lIH0gZnJvbSAnQG11aS9tYXRlcmlhbC9zdHlsZXMnO1xuXG5jb25zdCB2YWxpZEZsZXhEaXJlY3Rpb25zID0gWydyb3cnLCAncm93LXJldmVyc2UnLCAnY29sdW1uJywgJ2NvbHVtbi1yZXZlcnNlJ107XG5jb25zdCB2YWxpZEFsaWduSXRlbXMgPSBbXG4gICdmbGV4LXN0YXJ0JyxcbiAgJ2NlbnRlcicsXG4gICdmbGV4LWVuZCcsXG4gICdzdHJldGNoJyxcbiAgJ2Jhc2VsaW5lJyxcbl07XG5jb25zdCB2YWxpZEp1c3RpZnlDb250ZW50ID0gW1xuICAnZmxleC1zdGFydCcsXG4gICdjZW50ZXInLFxuICAnZmxleC1lbmQnLFxuICAnc3BhY2UtYmV0d2VlbicsXG4gICdzcGFjZS1hcm91bmQnLFxuICAnc3BhY2UtZXZlbmx5Jyxcbl07XG5jb25zdCB2YWxpZEZsZXhXcmFwcyA9IFsnbm93cmFwJywgJ3dyYXAnLCAnd3JhcC1yZXZlcnNlJ107XG5cbmNvbnN0IFJDRmxleFJvb3QgPSBzdHlsZWQoQm94LCB7XG4gIHNob3VsZEZvcndhcmRQcm9wOiBwcm9wID0+ICFbJ293bmVyU3RhdGUnLCAnc3gnXS5pbmNsdWRlcyhwcm9wKSxcbn0pKCh7IG93bmVyU3RhdGUgfSkgPT4ge1xuICAvLyBjb25zdCB0aGVtZSA9IHVzZVRoZW1lKCk7XG4gIGNvbnN0IHsgZGlyZWN0aW9uLCBhbGlnbiwganVzdGlmeSwgd3JhcCwgYmFzaXMsIGdyb3csIHNocmluayB9ID0gb3duZXJTdGF0ZTtcblxuICByZXR1cm4ge1xuICAgIGRpc3BsYXk6ICdmbGV4JyxcbiAgICBmbGV4RGlyZWN0aW9uOiB2YWxpZEZsZXhEaXJlY3Rpb25zLmluY2x1ZGVzKGRpcmVjdGlvbikgPyBkaXJlY3Rpb24gOiAncm93JyxcbiAgICBhbGlnbkl0ZW1zOiB2YWxpZEFsaWduSXRlbXMuaW5jbHVkZXMoYWxpZ24pID8gYWxpZ24gOiAnc3RyZXRjaCcsXG4gICAganVzdGlmeUNvbnRlbnQ6IHZhbGlkSnVzdGlmeUNvbnRlbnQuaW5jbHVkZXMoanVzdGlmeSlcbiAgICAgID8ganVzdGlmeVxuICAgICAgOiAnZmxleC1zdGFydCcsXG4gICAgZmxleFdyYXA6IHZhbGlkRmxleFdyYXBzLmluY2x1ZGVzKHdyYXApID8gd3JhcCA6ICdub3dyYXAnLFxuICAgIGZsZXhCYXNpczogYmFzaXMgfHwgJ2F1dG8nLFxuICAgIGZsZXhHcm93OiBncm93IHx8IDAsXG4gICAgZmxleFNocmluazogc2hyaW5rIHx8IDEsXG4gIH07XG59KTtcblxuZXhwb3J0IGRlZmF1bHQgUkNGbGV4Um9vdDtcbiJdLCJmaWxlIjoiL1VzZXJzL3JlZWR2b2d0L0Rlc2t0b3AvUmVlZEFpRnJvbnQvc3JjL2NvbXBvbmVudHMvdGhlbWVkL1JDRmxleC9SQ0ZsZXhSb290LmpzeCJ9"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.00034629099536687136
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/themed/RCFlex/RCFlexRoot.jsx (200) — 2024-07-28T11:41:30.276Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/themed/RCFlex/RCFlexRoot.jsx"
+        }
+      ]
+    }
+  ]
+}

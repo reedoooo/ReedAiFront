@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/store/Slices/chat/helpers/defaultData.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/store/Slices/chat/helpers/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"2b3a-1EqsDZwzDJLV7n5XsppfVi0NNUs\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"2b3a-Zg2JnJdPCs25O3kq9o7U+3pPAGw\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import __vite__cjsImport0_mongoose from \"/node_modules/.vite/deps/mongoose.js?v=a0a28a61\"; const mongoose = __vite__cjsImport0_mongoose.__esModule ? __vite__cjsImport0_mongoose.default : __vite__cjsImport0_mongoose;\nexport function defaultPromptList() {\n  return [\n    {\n      userId: new mongoose.Types.ObjectId().toString(),\n      folderId: new mongoose.Types.ObjectId().toString(),\n      name: \"React Counter Component\",\n      content: \"Write the code for a React component with a stateful counter\",\n      key: \"React Counter Component\",\n      value: \"Write the code for a React component with a stateful counter\",\n      sharing: \"private\",\n      createdAt: (/* @__PURE__ */ new Date()).toISOString(),\n      metadata: {\n        label: \"Component Name\",\n        text: \"CounterComponent\",\n        createdBy: \"John Doe\",\n        description: \"A component with a stateful counter\",\n        type: \"React\",\n        style: \"functional\",\n        tags: [\"sample\", \"default\"],\n        // Tags for categorization\n        props: {\n          initialCount: 0\n        }\n      }\n    },\n    {\n      userId: new mongoose.Types.ObjectId().toString(),\n      folderId: new mongoose.Types.ObjectId().toString(),\n      name: \"Express MongoDB API\",\n      content: \"Write the code for a RESTful API with Express and MongoDB\",\n      key: \"Express MongoDB API\",\n      value: \"Write the code for a RESTful API with Express and MongoDB\",\n      sharing: \"private\",\n      promptText: \"Create a RESTful API with Express and MongoDB\",\n      createdAt: (/* @__PURE__ */ new Date()).toISOString(),\n      metadata: {\n        label: \"API Name\",\n        text: \"UserAPI\",\n        createdBy: \"Jane Smith\",\n        description: \"An API for managing users with Express and MongoDB\",\n        type: \"API\",\n        style: \"functional\",\n        tags: [\"sample\", \"default\"],\n        // Tags for categorization\n        props: {\n          routes: [\n            \"GET /users\",\n            \"POST /users\",\n            \"PUT /users/:id\",\n            \"DELETE /users/:id\"\n          ]\n        }\n      }\n    },\n    {\n      userId: new mongoose.Types.ObjectId().toString(),\n      folderId: new mongoose.Types.ObjectId().toString(),\n      name: \"Redux Authentication Store\",\n      content: \"Generate code for a Redux store with slices for managing user authentication\",\n      key: \"Redux Authentication Store\",\n      value: \"Generate code for a Redux store with slices for managing user authentication\",\n      sharing: \"private\",\n      promptText: \"Create a Redux store with slices for managing user authentication\",\n      createdAt: (/* @__PURE__ */ new Date()).toISOString(),\n      metadata: {\n        label: \"Store Name\",\n        text: \"AuthStore\",\n        createdBy: \"Sam Wilson\",\n        description: \"A Redux store with slices for managing user authentication\",\n        type: \"Redux\",\n        style: \"functional\",\n        tags: [\"sample\", \"default\"],\n        // Tags for categorization\n        props: {\n          slices: [\"auth\", \"user\"],\n          actions: [\"login\", \"logout\", \"setUser\"]\n        }\n      }\n    }\n  ];\n}\nexport function defaultUserSessionData() {\n  return {\n    user: {\n      username: \"\",\n      email: \"\",\n      firstName: \"\",\n      lastName: \"\",\n      dateJoined: (/* @__PURE__ */ new Date()).toISOString(),\n      isActive: false,\n      auth: {\n        password: \"\",\n        // Ideally, hashed if used\n        management: {},\n        chatModelPrivileges: [],\n        lastLogin: (/* @__PURE__ */ new Date()).toISOString(),\n        isSuperuser: false\n      },\n      authSession: {\n        token: \"\",\n        tokenType: \"\",\n        accessToken: \"\",\n        refreshToken: \"\"\n      },\n      profile: {\n        stats: {\n          totalMessages: 0,\n          totalTokenCount: 0,\n          totalMessages3Days: 0,\n          totalTokenCount3Days: 0\n        },\n        location: {\n          city: \"\",\n          state: \"\",\n          country: \"\"\n        },\n        social: {\n          facebook: \"\",\n          twitter: \"\",\n          instagram: \"\",\n          linkedin: \"\",\n          github: \"\",\n          website: \"\"\n        },\n        dashboard: {\n          projects: {}\n        },\n        settings: {\n          user: {\n            theme: \"light\",\n            fontSize: 16,\n            language: \"en\",\n            timezone: \"Seattle\"\n          },\n          chat: {\n            presets: {\n              contextLength: 0,\n              description: \"\",\n              embeddingsProvider: \"\",\n              folderId: \"\",\n              includeProfileContext: false,\n              includeWorkspaceInstructions: false,\n              model: \"\",\n              name: \"\",\n              prompt: \"\",\n              sharing: \"\",\n              temperature: 0,\n              userId: \"\"\n            }\n          }\n        },\n        img: \"path/to/default/image\",\n        imagePath: \"path/to/default/image\",\n        profileImages: [],\n        selectedProfileImage: \"path/to/default/image\",\n        filename: \"avatar1.png\",\n        bio: \"\",\n        displayName: \"\",\n        hasOnboarded: false,\n        identity: {\n          identityData: {\n            email: \"\",\n            emailVerified: false,\n            phoneVerified: false,\n            sub: \"\"\n          },\n          identityId: \"\",\n          userId: \"\",\n          provider: \"\",\n          lastSignInAt: null\n        },\n        openai: {\n          apiKey: \"\",\n          organizationId: \"\",\n          apiVersion: \"\",\n          projects: []\n        }\n      },\n      openai: {\n        apiKey: \"\",\n        organizationId: \"\",\n        apiVersion: \"\",\n        projects: []\n      },\n      appMetadata: {\n        provider: \"\",\n        providers: []\n      },\n      workspaces: [\n        {\n          chatSessions: [],\n          folders: [],\n          name: \"Default Workspace\",\n          description: \"Default workspace for the user\",\n          imagePath: \"\",\n          active: false\n        }\n      ],\n      assistants: [\n        {\n          name: \"ChatBot Assistant\",\n          instructions: \"Provide helpful responses to user queries.\",\n          description: \"An assistant designed to help with general questions.\",\n          model: \"gpt-3.5-turbo\",\n          tools: [\n            {\n              type: \"text-generator\"\n            }\n          ],\n          tool_resources: {\n            code_interpreter: {\n              file_ids: []\n            }\n          }\n        }\n      ],\n      prompts: [\n        {\n          name: \"React Counter Component\",\n          content: \"Write the code for a React component with a stateful counter\",\n          key: \"React Counter Component\",\n          value: \"Write the code for a React component with a stateful counter\",\n          sharing: \"private\",\n          metadata: {\n            label: \"Component Name\",\n            text: \"CounterComponent\",\n            createdBy: \"John Doe\",\n            description: \"A component with a stateful counter\",\n            type: \"React\",\n            style: \"functional\",\n            tags: [\"sample\", \"default\"],\n            // Tags for categorization\n            props: {\n              initialCount: 0\n            }\n          }\n        }\n      ],\n      chatSessions: [\n        {\n          stats: {\n            tokenUsage: 0,\n            messageCount: 0\n          },\n          name: \"First Chat\",\n          topic: \"Getting Started\",\n          model: \"gpt-4-turbo-preview\",\n          prompt: \"Let's start our first conversation.\",\n          active: true,\n          activeSessionId: null,\n          settings: {\n            maxTokens: 500,\n            temperature: 0.7,\n            model: \"gpt-4-turbo-preview\",\n            topP: 1,\n            n: 1,\n            debug: false,\n            summarizeMode: false\n          },\n          messages: [],\n          tuning: {\n            debug: false,\n            summary: \"\",\n            summarizeMode: false\n          },\n          __v: 0\n        }\n      ],\n      folders: [],\n      files: [\n        {\n          metadata: {\n            fileSize: 0,\n            fileType: \"\",\n            lastModified: (/* @__PURE__ */ new Date()).toISOString()\n          },\n          name: \"Deep Learning Research.pdf\",\n          description: \"A comprehensive paper on deep learning.\",\n          filePath: \"/public/files/default.pdf\",\n          data: null,\n          size: 2048,\n          tokens: 3500,\n          type: \"pdf\",\n          sharing: \"private\",\n          mimeType: \"application/pdf\",\n          createdAt: (/* @__PURE__ */ new Date()).toISOString(),\n          updatedAt: (/* @__PURE__ */ new Date()).toISOString(),\n          __v: 0\n        }\n      ],\n      collections: [\n        {\n          name: \"Default Collection\",\n          description: \"This is the default collection\",\n          sharing: \"private\",\n          createdAt: (/* @__PURE__ */ new Date()).toISOString(),\n          updatedAt: (/* @__PURE__ */ new Date()).toISOString(),\n          __v: 0\n        }\n      ],\n      models: [\n        {\n          apiKey: \"\",\n          baseUrl: \"https://api.openai.com/v1\",\n          modelId: \"gpt-4-turbo-preview\",\n          contextLength: 4e3,\n          name: \"Default Model\",\n          description: \"This is the default model\",\n          isDefault: false,\n          createdAt: (/* @__PURE__ */ new Date()).toISOString(),\n          updatedAt: (/* @__PURE__ */ new Date()).toISOString(),\n          __v: 0\n        }\n      ],\n      tools: [\n        {\n          name: \"Default Tool\",\n          description: \"This is the default tool\",\n          url: \"http://example.com\",\n          sharing: \"private\",\n          createdAt: (/* @__PURE__ */ new Date()).toISOString(),\n          updatedAt: (/* @__PURE__ */ new Date()).toISOString(),\n          __v: 0\n        }\n      ],\n      presets: [\n        {\n          name: \"Default Preset\",\n          description: \"Default preset for new users\",\n          contextLength: 4e3,\n          embeddingsProvider: \"openai\",\n          includeProfileContext: true,\n          includeWorkspaceInstructions: true,\n          model: \"gpt-4-turbo-preview\",\n          prompt: \"Default prompt\",\n         ... (27257 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.00033916602842509747
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/store/Slices/chat/helpers/defaultData.jsx (200) — 2024-07-28T11:41:29.161Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/store/Slices/chat/helpers/defaultData.jsx"
+        }
+      ]
+    }
+  ]
+}

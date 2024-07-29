@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/store/Slices/chat/generalChatSlice.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/store/Slices/chat/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"2f4-CiInuRDi0h52uNUAtJxaZTAZvg4\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"2f4-COxfG2aF6rKhuM2TCu3KbhwiRWI\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createSlice } from \"/node_modules/.vite/deps/@reduxjs_toolkit.js?v=6cb72b4f\";\nconst initialState = {\n  chat: {},\n  chats: [],\n  envKeyMap: {\n    openai: \"OPENAI_API_KEY\",\n    openai_organization_id: \"OPENAI_ORGANIZATION_ID\"\n  }\n};\nexport const generalChatSlice = createSlice({\n  name: \"generalChat\",\n  initialState,\n  reducers: {\n    setChat: (state, action) => {\n      state.chat = action.payload;\n    },\n    setChats: (state, action) => {\n      state.chats = action.payload;\n    },\n    setEnvKeyMap: (state, action) => {\n      state.envKeyMap = action.payload;\n    }\n  }\n});\nexport { initialState as chatGeneralInitialState };\nexport const { setEnvKeyMap, setChats, setChat } = generalChatSlice.actions;\nexport default generalChatSlice.reducer;\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBQUEsU0FBU0EsbUJBQW1CO0FBRTVCLE1BQU1DLGVBQWU7QUFBQSxFQUNuQkMsTUFBTSxDQUFDO0FBQUEsRUFDUEMsT0FBTztBQUFBLEVBQ1BDLFdBQVc7QUFBQSxJQUNUQyxRQUFRO0FBQUEsSUFDUkMsd0JBQXdCO0FBQUEsRUFDMUI7QUFDRjtBQUVPLGFBQU1DLG1CQUFtQlAsWUFBWTtBQUFBLEVBQzFDUSxNQUFNO0FBQUEsRUFDTlA7QUFBQUEsRUFDQVEsVUFBVTtBQUFBLElBQ1JDLFNBQVNBLENBQUNDLE9BQU9DLFdBQVc7QUFDMUJELFlBQU1ULE9BQU9VLE9BQU9DO0FBQUFBLElBQ3RCO0FBQUEsSUFDQUMsVUFBVUEsQ0FBQ0gsT0FBT0MsV0FBVztBQUMzQkQsWUFBTVIsUUFBUVMsT0FBT0M7QUFBQUEsSUFDdkI7QUFBQSxJQUNBRSxjQUFjQSxDQUFDSixPQUFPQyxXQUFXO0FBQy9CRCxZQUFNUCxZQUFZUSxPQUFPQztBQUFBQSxJQUMzQjtBQUFBLEVBQ0Y7QUFDRixDQUFDO0FBRUQsU0FBU1osZ0JBQWdCZTtBQUVsQixhQUFNLEVBQUVELGNBQWNELFVBQVVKLFFBQVEsSUFBSUgsaUJBQWlCVTtBQUVwRSxlQUFlVixpQkFBaUJXIiwibmFtZXMiOlsiY3JlYXRlU2xpY2UiLCJpbml0aWFsU3RhdGUiLCJjaGF0IiwiY2hhdHMiLCJlbnZLZXlNYXAiLCJvcGVuYWkiLCJvcGVuYWlfb3JnYW5pemF0aW9uX2lkIiwiZ2VuZXJhbENoYXRTbGljZSIsIm5hbWUiLCJyZWR1Y2VycyIsInNldENoYXQiLCJzdGF0ZSIsImFjdGlvbiIsInBheWxvYWQiLCJzZXRDaGF0cyIsInNldEVudktleU1hcCIsImNoYXRHZW5lcmFsSW5pdGlhbFN0YXRlIiwiYWN0aW9ucyIsInJlZHVjZXIiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiZ2VuZXJhbENoYXRTbGljZS5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgY3JlYXRlU2xpY2UgfSBmcm9tICdAcmVkdXhqcy90b29sa2l0JztcblxuY29uc3QgaW5pdGlhbFN0YXRlID0ge1xuICBjaGF0OiB7fSxcbiAgY2hhdHM6IFtdLFxuICBlbnZLZXlNYXA6IHtcbiAgICBvcGVuYWk6ICdPUEVOQUlfQVBJX0tFWScsXG4gICAgb3BlbmFpX29yZ2FuaXphdGlvbl9pZDogJ09QRU5BSV9PUkdBTklaQVRJT05fSUQnLFxuICB9LFxufTtcblxuZXhwb3J0IGNvbnN0IGdlbmVyYWxDaGF0U2xpY2UgPSBjcmVhdGVTbGljZSh7XG4gIG5hbWU6ICdnZW5lcmFsQ2hhdCcsXG4gIGluaXRpYWxTdGF0ZSxcbiAgcmVkdWNlcnM6IHtcbiAgICBzZXRDaGF0OiAoc3RhdGUsIGFjdGlvbikgPT4ge1xuICAgICAgc3RhdGUuY2hhdCA9IGFjdGlvbi5wYXlsb2FkO1xuICAgIH0sXG4gICAgc2V0Q2hhdHM6IChzdGF0ZSwgYWN0aW9uKSA9PiB7XG4gICAgICBzdGF0ZS5jaGF0cyA9IGFjdGlvbi5wYXlsb2FkO1xuICAgIH0sXG4gICAgc2V0RW52S2V5TWFwOiAoc3RhdGUsIGFjdGlvbikgPT4ge1xuICAgICAgc3RhdGUuZW52S2V5TWFwID0gYWN0aW9uLnBheWxvYWQ7XG4gICAgfSxcbiAgfSxcbn0pO1xuXG5leHBvcnQgeyBpbml0aWFsU3RhdGUgYXMgY2hhdEdlbmVyYWxJbml0aWFsU3RhdGUgfTtcblxuZXhwb3J0IGNvbnN0IHsgc2V0RW52S2V5TWFwLCBzZXRDaGF0cywgc2V0Q2hhdCB9ID0gZ2VuZXJhbENoYXRTbGljZS5hY3Rpb25zO1xuXG5leHBvcnQgZGVmYXVsdCBnZW5lcmFsQ2hhdFNsaWNlLnJlZHVjZXI7XG4iXSwiZmlsZSI6Ii9Vc2Vycy9yZWVkdm9ndC9EZXNrdG9wL1JlZWRBaUZyb250L3NyYy9zdG9yZS9TbGljZXMvY2hhdC9nZW5lcmFsQ2hhdFNsaWNlLmpzeCJ9"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0001639580586925149
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/store/Slices/chat/generalChatSlice.jsx (200) — 2024-07-28T11:41:27.080Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/store/Slices/chat/generalChatSlice.jsx"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/store/Slices/user/index.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/store/Slices/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"3b3-XMJ6dVFDACXaCjED9bl5wTwyFjQ\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"3b3-O5WetO4tK/c0OhW0EVsoDYpqQZo\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { combineReducers } from \"/node_modules/.vite/deps/@reduxjs_toolkit.js?v=6cb72b4f\";\nimport authReducer, {\n  handleAuthSubmit,\n  validateToken,\n  logout,\n  clearError,\n  disableForm,\n  enableForm,\n  updateAuthStateFromLocalStorage,\n  setIsRedirectToSignin\n} from \"/src/store/Slices/user/authSlice.jsx\";\nimport profileReducer, {\n  setProfile,\n  setSelectedProfileImage\n} from \"/src/store/Slices/user/profileSlice.jsx\";\nimport userReducer, {\n  fetchUserProfileImage,\n  updateUserInfo,\n  resetUserInfo,\n  setUser,\n  setUserToken,\n  setUserId\n} from \"/src/store/Slices/user/userSlice.jsx\";\nexport {\n  handleAuthSubmit,\n  validateToken,\n  logout,\n  clearError,\n  disableForm,\n  enableForm,\n  updateAuthStateFromLocalStorage,\n  setIsRedirectToSignin,\n  setProfile,\n  setSelectedProfileImage,\n  fetchUserProfileImage,\n  updateUserInfo,\n  resetUserInfo,\n  setUser,\n  setUserToken,\n  setUserId\n};\nexport { authReducer, profileReducer, userReducer };\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBQUEsU0FBU0EsdUJBQXVCO0FBSWhDLE9BQU9DO0FBQUFBLEVBQ0xDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLE9BQ0s7QUFHUCxPQUFPQztBQUFBQSxFQUNMQztBQUFBQSxFQUNBQztBQUFBQSxPQUNLO0FBR1AsT0FBT0M7QUFBQUEsRUFDTEM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsT0FDSztBQUdQO0FBQUEsRUFFRWpCO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBR0FFO0FBQUFBLEVBQ0FDO0FBQUFBLEVBR0FFO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQUFBO0FBSUYsU0FBU2xCLGFBQWFTLGdCQUFnQkciLCJuYW1lcyI6WyJjb21iaW5lUmVkdWNlcnMiLCJhdXRoUmVkdWNlciIsImhhbmRsZUF1dGhTdWJtaXQiLCJ2YWxpZGF0ZVRva2VuIiwibG9nb3V0IiwiY2xlYXJFcnJvciIsImRpc2FibGVGb3JtIiwiZW5hYmxlRm9ybSIsInVwZGF0ZUF1dGhTdGF0ZUZyb21Mb2NhbFN0b3JhZ2UiLCJzZXRJc1JlZGlyZWN0VG9TaWduaW4iLCJwcm9maWxlUmVkdWNlciIsInNldFByb2ZpbGUiLCJzZXRTZWxlY3RlZFByb2ZpbGVJbWFnZSIsInVzZXJSZWR1Y2VyIiwiZmV0Y2hVc2VyUHJvZmlsZUltYWdlIiwidXBkYXRlVXNlckluZm8iLCJyZXNldFVzZXJJbmZvIiwic2V0VXNlciIsInNldFVzZXJUb2tlbiIsInNldFVzZXJJZCJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJpbmRleC5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgY29tYmluZVJlZHVjZXJzIH0gZnJvbSAnQHJlZHV4anMvdG9vbGtpdCc7XG4vLyB1c2VyL2luZGV4LmpzXG5cbi8vIEltcG9ydGluZyBhY3Rpb25zIGFuZCB0aHVua3MgZnJvbSBhdXRoU2xpY2VcbmltcG9ydCBhdXRoUmVkdWNlciwge1xuICBoYW5kbGVBdXRoU3VibWl0LFxuICB2YWxpZGF0ZVRva2VuLFxuICBsb2dvdXQsXG4gIGNsZWFyRXJyb3IsXG4gIGRpc2FibGVGb3JtLFxuICBlbmFibGVGb3JtLFxuICB1cGRhdGVBdXRoU3RhdGVGcm9tTG9jYWxTdG9yYWdlLFxuICBzZXRJc1JlZGlyZWN0VG9TaWduaW4sXG59IGZyb20gJy4vYXV0aFNsaWNlJztcblxuLy8gSW1wb3J0aW5nIGFjdGlvbnMgZnJvbSBwcm9maWxlU2xpY2VcbmltcG9ydCBwcm9maWxlUmVkdWNlciwge1xuICBzZXRQcm9maWxlLFxuICBzZXRTZWxlY3RlZFByb2ZpbGVJbWFnZSxcbn0gZnJvbSAnLi9wcm9maWxlU2xpY2UnO1xuXG4vLyBJbXBvcnRpbmcgYWN0aW9ucyBhbmQgdGh1bmtzIGZyb20gdXNlclNsaWNlXG5pbXBvcnQgdXNlclJlZHVjZXIsIHtcbiAgZmV0Y2hVc2VyUHJvZmlsZUltYWdlLFxuICB1cGRhdGVVc2VySW5mbyxcbiAgcmVzZXRVc2VySW5mbyxcbiAgc2V0VXNlcixcbiAgc2V0VXNlclRva2VuLFxuICBzZXRVc2VySWQsXG59IGZyb20gJy4vdXNlclNsaWNlJztcblxuLy8gRXhwb3J0aW5nIGFsbCBhY3Rpb25zIGFuZCB0aHVua3NcbmV4cG9ydCB7XG4gIC8vIEF1dGggYWN0aW9ucyBhbmQgdGh1bmtzXG4gIGhhbmRsZUF1dGhTdWJtaXQsXG4gIHZhbGlkYXRlVG9rZW4sXG4gIGxvZ291dCxcbiAgY2xlYXJFcnJvcixcbiAgZGlzYWJsZUZvcm0sXG4gIGVuYWJsZUZvcm0sXG4gIHVwZGF0ZUF1dGhTdGF0ZUZyb21Mb2NhbFN0b3JhZ2UsXG4gIHNldElzUmVkaXJlY3RUb1NpZ25pbixcblxuICAvLyBQcm9maWxlIGFjdGlvbnNcbiAgc2V0UHJvZmlsZSxcbiAgc2V0U2VsZWN0ZWRQcm9maWxlSW1hZ2UsXG5cbiAgLy8gVXNlciBhY3Rpb25zIGFuZCB0aHVua3NcbiAgZmV0Y2hVc2VyUHJvZmlsZUltYWdlLFxuICB1cGRhdGVVc2VySW5mbyxcbiAgcmVzZXRVc2VySW5mbyxcbiAgc2V0VXNlcixcbiAgc2V0VXNlclRva2VuLFxuICBzZXRVc2VySWQsXG59O1xuXG4vLyBFeHBvcnRpbmcgcmVkdWNlcnNcbmV4cG9ydCB7IGF1dGhSZWR1Y2VyLCBwcm9maWxlUmVkdWNlciwgdXNlclJlZHVjZXIgfTtcblxuLy8gY29uc3Qgcm9vdFJlZHVjZXIgPSBjb21iaW5lUmVkdWNlcnMoe1xuLy8gICBhdXRoOiBhdXRoUmVkdWNlcixcbi8vICAgcHJvZmlsZTogcHJvZmlsZVJlZHVjZXIsXG4vLyAgIHVzZXI6IHVzZXJSZWR1Y2VyLFxuLy8gfSk7XG5cbi8vIGV4cG9ydCBkZWZhdWx0IHJvb3RSZWR1Y2VyO1xuIl0sImZpbGUiOiIvVXNlcnMvcmVlZHZvZ3QvRGVza3RvcC9SZWVkQWlGcm9udC9zcmMvc3RvcmUvU2xpY2VzL3VzZXIvaW5kZXguanN4In0="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.02729174995329231
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/store/Slices/user/index.jsx (200) — 2024-07-28T11:41:26.561Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/store/Slices/user/index.jsx"
+        }
+      ]
+    }
+  ]
+}

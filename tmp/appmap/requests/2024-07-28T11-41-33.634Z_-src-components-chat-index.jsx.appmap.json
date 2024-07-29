@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/chat/index.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/views/admin/chat/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"4ba0-z3Ru0Sje0hAf63bS7F+rgKeXrKY\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"4ba0-s9a3+pMSN17075MvZyyFLdvwNLI\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/chat/index.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/index.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport { Box, CircularProgress, Grid, Paper, Typography } from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport { styled } from \"/node_modules/.vite/deps/@mui_material_styles.js?v=869c0cd7\";\nimport __vite__cjsImport5_lodash from \"/node_modules/.vite/deps/lodash.js?v=8862712d\"; const debounce = __vite__cjsImport5_lodash[\"debounce\"];\nimport memoizeOne from \"/node_modules/.vite/deps/memoize-one.js?v=e0348873\";\nimport __vite__cjsImport7_mongoose from \"/node_modules/.vite/deps/mongoose.js?v=a0a28a61\"; const mongoose = __vite__cjsImport7_mongoose.__esModule ? __vite__cjsImport7_mongoose.default : __vite__cjsImport7_mongoose;\nimport __vite__cjsImport8_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport8_react.__esModule ? __vite__cjsImport8_react.default : __vite__cjsImport8_react; const useCallback = __vite__cjsImport8_react[\"useCallback\"]; const useEffect = __vite__cjsImport8_react[\"useEffect\"]; const useMemo = __vite__cjsImport8_react[\"useMemo\"]; const useRef = __vite__cjsImport8_react[\"useRef\"]; const useState = __vite__cjsImport8_react[\"useState\"]\n\n\n\n\n\n;\nimport { Navigate } from \"/node_modules/.vite/deps/react-router-dom.js?v=20530588\";\nimport {\n  fetchMessageStream,\n  saveMessagesToSession,\n  getChatSessionMessagesBySessionId\n} from \"/src/api/chat/chat_main.jsx\";\nimport {\n  ChatWindow,\n  MessageContainer,\n  Header,\n  StyledChatContainer\n} from \"/src/components/chat/styled/index.jsx\";\nimport { MessageBox } from \"/src/components/messages/index.jsx\";\nimport constants from \"/src/config/constants.jsx\";\nimport { useAuthStore, useChatStore } from \"/src/contexts/index.jsx\";\nimport { useMode } from \"/src/hooks/useMode.jsx\";\nimport useTipTapEditor from \"/src/hooks/useTipTapEditor.jsx\";\nimport { organizeMessages, safeParse } from \"/src/utils/format/index.jsx\";\nimport \"/src/styles/ChatStyles.css\";\nconst { API_URL, OPENAI_API_KEY } = constants;\nconst MessageInput = React.lazy(_c = () => import(\"/src/components/chat/inputs/MessageInput.jsx\"));\n_c2 = MessageInput;\nexport async function getChatSessionBySessionId(sessionId) {\n  try {\n    const response = await fetch(\n      \"http://localhost:3001/api/chat/chatSessions/session\",\n      {\n        method: \"POST\",\n        headers: {\n          \"Content-Type\": \"application/json\"\n        },\n        body: JSON.stringify({ sessionId })\n      }\n    );\n    if (!response.ok) {\n      throw new Error(`HTTP error! status: ${response.status}`);\n    }\n    const sessionData = await response.json();\n    return sessionData;\n  } catch (error) {\n    console.error(\"Error fetching session data:\", error);\n    throw error;\n  }\n}\nexport async function getWorkspaceByWorkspaceId(workspaceId) {\n  try {\n    const response = await fetch(\n      \"http://localhost:3001/api/chat/workspaces/workspace\",\n      {\n        method: \"POST\",\n        headers: {\n          \"Content-Type\": \"application/json\"\n        },\n        body: JSON.stringify({ workspaceId })\n      }\n    );\n    if (!response.ok) {\n      throw new Error(`HTTP error! status: ${response.status}`);\n    }\n    const workspaceData = await response.json();\n    return workspaceData;\n  } catch (error) {\n    console.error(\"Error fetching workspace data:\", error);\n    throw error;\n  }\n}\nexport const ChatApp = () => {\n  _s();\n  const { theme } = useMode();\n  const { state: authState, actions: authActions } = useAuthStore();\n  const { state: chatState } = useChatStore();\n  const { isRedirectToSignin } = authState;\n  const { setIsRedirectToSignin } = authActions;\n  const { apiKey, chatId } = chatState;\n  const userData = JSON.parse(localStorage.getItem(\"userStorage\")).user;\n  const chatSessions = userData.chatSessions;\n  const activeSession = chatSessions.find((session) => session.active === true);\n  const workspaces = userData.workspaces;\n  const activeWorkspace = workspaces.find((space) => space.isHome === true);\n  const [validSession, setValidSession] = useState(activeSession || {});\n  const [validSessionId, setValidSessionId] = useState();\n  const [validWorkspace, setValidWorkspace] = useState(activeWorkspace || {});\n  const [validWorkspaceId, setValidWorkspaceId] = useState();\n  const [validSessionMessages, setValidSessionMessages] = useState([]);\n  const sessionId = useMemo(() => activeSession?._id || \"\", [activeSession]);\n  localStorage.setItem(\"sessionId\", sessionId);\n  const workspaceId = useMemo(\n    () => activeWorkspace?._id || \"\",\n    [activeWorkspace]\n  );\n  const userId = useMemo(() => userData?._id || \"\", [userData]);\n  const [isFirstMessage, setIsFirstMessage] = useState(true);\n  const [messageParts, setMessageParts] = useState([]);\n  const [messages, setMessages] = useState(() => {\n    const savedMessages = localStorage.getItem(\"chatMessages\");\n    if (savedMessages.length > 0) {\n      setIsFirstMessage(false);\n    }\n    return savedMessages ? JSON.parse(savedMessages) : [];\n  });\n  const [userInput, setUserInput] = useState(\"\");\n  const [inputOnSubmit, setInputOnSubmit] = useState(\"\");\n  const [error, setError] = useState(\"\");\n  const [loading, setLoading] = useState(false);\n  const [isEditorActive, setIsEditorActive] = useState(false);\n  const [isMessagesUpdated, setIsMessagesUpdated] = useState(false);\n  const { editor } = useTipTapEditor(isFirstMessage, setUserInput);\n  const messagesStartRef = useRef(null);\n  const messagesEndRef = useRef(null);\n  const controllerRef = useRef(null);\n  const chatContainerRef = useRef(null);\n  const editorActiveRef = useRef(false);\n  const memoizedGetWorkspaceByWorkspaceId = memoizeOne(\n    getWorkspaceByWorkspaceId\n  );\n  const memoizedGetChatSessionBySessionId = memoizeOne(\n    getChatSessionBySessionId\n  );\n  const memoizedGetChatSessionMessagesBySessionId = memoizeOne(\n    getChatSessionMessagesBySessionId\n  );\n  const debouncedFetchMessageStream = useCallback(\n    debounce(fetchMessageStream, 500),\n    []\n  );\n  const handleSaveMessagesToSession = useCallback(async () => {\n    const sessionId2 = localStorage.getItem(\"sessionId\");\n    const userId2 = localStorage.getItem(\"userId\");\n    if (!sessionId2 || !userId2) {\n      console.error(\"No sessionId or userId available\");\n      return;\n    }\n    console.log(\"handleSaveMessagesToSession\", sessionId2);\n    const id = encodeURIComponent(sessionId2);\n    try {\n      const updatedMessages = messages.map((message) => ({\n        content: message.content,\n        role: message.role\n      }));\n      const body = {\n        sessionId: id,\n        messages: updatedMessages\n        // Assuming the server expects 'messages'\n      };\n      const response = await fetch(\n        \"/api/chat/chatSessions/session/messages/save\",\n        {\n          method: \"POST\",\n          headers: {\n            \"Content-Type\": \"application/json\"\n          },\n          body: JSON.stringify(body)\n        }\n      );\n      if (!response.ok) {\n        throw new Error(`Error saving messages: ${response.statusText}`);\n      }\n      const result = await response.json();\n      console.log(\"Messages saved successfully:\", result);\n    } catch (error2) {\n      console.error(\"Error saving messages:\", error2);\n    }\n  }, [messages]);\n  const handleGetValidWorkspace = useCallback(async () => {\n    try {\n      const response = await getWorkspaceByWorkspaceId(workspaceId);\n      console.log(\"validWorkspace\", response);\n      setValidWorkspace(response);\n      return;\n    } catch (error2) {\n      console.error(error2);\n    }\n  }, [workspaceId]);\n  const handleGetValidSession = useCallback(async () => {\n    try {\n      const response = await getChatSessionBySessionId(sessionId);\n      console.log(\"validSession\", response);\n      setValidSession(response);\n      return response;\n    } catch (error2) {\n      console.error(\"Error fetching session data:\", error2);\n      throw error2;\n    }\n  }, [sessionId]);\n  const handleGetValidSessionMessages = useCallback(async () => {\n    try {\n      const response = await memoizedGetChatSessionMessagesBySessionId(\n        validSession._id\n      );\n      console.log(\"--- validSessionMessages ---\", response);\n      return;\n    } catch (error2) {\n      console.error(error2);\n    }\n  }, [validSession._id]);\n  useEffect(() => {\n    if (!validWorkspaceId) {\n      handleGetValidWorkspace();\n      setValidWorkspaceId(validWorkspace._id);\n    }\n  }, [handleGetValidWorkspace, validWorkspace, validWorkspaceId]);\n  useEffect(() => {\n    if (!validSessionId) {\n      handleGetValidSession();\n      setValidSessionId(validSession._id);\n    }\n  }, [handleGetValidSession, validSession, validSessionId]);\n  useEffect(() => {\n    const handleScroll = debounce(() => {\n      if (chatContainerRef.current) {\n        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;\n      }\n    }, 100);\n    const container = chatContainerRef.current;\n    container.addEventListener(\"scroll\", handleScroll);\n    return () => {\n      container.re... (47219 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0007553750183433294
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/chat/index.jsx (200) — 2024-07-28T11:41:33.634Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/chat/index.jsx"
+        }
+      ]
+    }
+  ]
+}

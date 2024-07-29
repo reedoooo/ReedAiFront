@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/themed/RCCard/MemberCard.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/themed/RCCard/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"1a4b-QpcUFMMZDK2OxFU6RVYHNKxUQg0\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"1a4b-qci0dMkUiGNzyMQmML5LMkgh7NM\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/themed/RCCard/MemberCard.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MemberCard.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport __vite__cjsImport3__mui_iconsMaterial_MoreVert from \"/node_modules/.vite/deps/@mui_icons-material_MoreVert.js?v=ad79cf13\"; const MoreVertIcon = __vite__cjsImport3__mui_iconsMaterial_MoreVert.__esModule ? __vite__cjsImport3__mui_iconsMaterial_MoreVert.default : __vite__cjsImport3__mui_iconsMaterial_MoreVert;\nimport {\n  Avatar,\n  Card,\n  CardContent,\n  IconButton,\n  Typography\n} from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport useMode from \"/src/hooks/useMode.jsx\";\nexport default function MemberCard(props) {\n  _s();\n  const { avatar, name, job, ...rest } = props;\n  const { theme } = useMode();\n  const textColor = theme.palette.mode === \"dark\" ? \"white\" : theme.palette.grey[900];\n  const bgColor = theme.palette.mode === \"dark\" ? \"#1B254B\" : \"white\";\n  const boxShadow = theme.palette.mode === \"dark\" ? \"none\" : \"0px 18px 40px rgba(112, 144, 176, 0.12)\";\n  return /* @__PURE__ */ jsxDEV(Card, { sx: { boxShadow, py: 2, bgcolor: bgColor, ...rest }, children: /* @__PURE__ */ jsxDEV(CardContent, { children: /* @__PURE__ */ jsxDEV(\"div\", { style: { display: \"flex\", alignItems: \"center\" }, children: [\n    /* @__PURE__ */ jsxDEV(\"div\", { style: { display: \"flex\", alignItems: \"center\" }, children: [\n      /* @__PURE__ */ jsxDEV(\n        Avatar,\n        {\n          sx: {\n            height: { xs: 48, xl: 36, \"2xl\": 48 },\n            width: { xs: 48, xl: 36, \"2xl\": 48 },\n            marginRight: 2\n          },\n          src: avatar\n        },\n        void 0,\n        false,\n        {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MemberCard.jsx\",\n          lineNumber: 26,\n          columnNumber: 13\n        },\n        this\n      ),\n      /* @__PURE__ */ jsxDEV(\n        \"div\",\n        {\n          style: {\n            display: \"flex\",\n            flexDirection: \"column\",\n            alignItems: \"start\"\n          },\n          children: [\n            /* @__PURE__ */ jsxDEV(\n              Typography,\n              {\n                sx: {\n                  color: textColor,\n                  fontSize: {\n                    xs: \"1rem\",\n                    xl: \"0.875rem\",\n                    \"3xl\": \"1rem\"\n                  },\n                  fontWeight: 700\n                },\n                children: name\n              },\n              void 0,\n              false,\n              {\n                fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MemberCard.jsx\",\n                lineNumber: 41,\n                columnNumber: 15\n              },\n              this\n            ),\n            /* @__PURE__ */ jsxDEV(\n              Typography,\n              {\n                sx: {\n                  color: \"secondaryGray.600\",\n                  textAlign: \"left\",\n                  fontSize: {\n                    xs: \"0.875rem\",\n                    xl: \"0.75rem\",\n                    \"3xl\": \"0.875rem\"\n                  },\n                  fontWeight: 400\n                },\n                children: job\n              },\n              void 0,\n              false,\n              {\n                fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MemberCard.jsx\",\n                lineNumber: 54,\n                columnNumber: 15\n              },\n              this\n            )\n          ]\n        },\n        void 0,\n        true,\n        {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MemberCard.jsx\",\n          lineNumber: 34,\n          columnNumber: 13\n        },\n        this\n      )\n    ] }, void 0, true, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MemberCard.jsx\",\n      lineNumber: 25,\n      columnNumber: 11\n    }, this),\n    /* @__PURE__ */ jsxDEV(IconButton, { style: { marginLeft: \"auto\" }, children: /* @__PURE__ */ jsxDEV(MoreVertIcon, { style: { color: textColor } }, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MemberCard.jsx\",\n      lineNumber: 71,\n      columnNumber: 13\n    }, this) }, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MemberCard.jsx\",\n      lineNumber: 70,\n      columnNumber: 11\n    }, this)\n  ] }, void 0, true, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MemberCard.jsx\",\n    lineNumber: 24,\n    columnNumber: 9\n  }, this) }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MemberCard.jsx\",\n    lineNumber: 23,\n    columnNumber: 7\n  }, this) }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MemberCard.jsx\",\n    lineNumber: 22,\n    columnNumber: 5\n  }, this);\n}\n_s(MemberCard, \"0C8+rr4amTJBBb5hLcETPzToHLI=\", false, function() {\n  return [useMode];\n});\n_c = MemberCard;\nvar _c;\n$RefreshReg$(_c, \"MemberCard\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCCard/MemberCard.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,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LE9BaERGO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FpREEsS0FsREY7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQW1EQSxLQXBERjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBcURBO0FBRUo7QUFBQ04sR0FsRXVCRixZQUFVO0FBQUEsVUFFZEQsT0FBTztBQUFBO0FBQUE4QixLQUZIN0I7QUFBVSxJQUFBNkI7QUFBQUMsYUFBQUQsSUFBQSIsIm5hbWVzIjpbIkF2YXRhciIsIkNhcmQiLCJDYXJkQ29udGVudCIsIkljb25CdXR0b24iLCJUeXBvZ3JhcGh5IiwidXNlTW9kZSIsIk1lbWJlckNhcmQiLCJwcm9wcyIsIl9zIiwiYXZhdGFyIiwibmFtZSIsImpvYiIsInJlc3QiLCJ0aGVtZSIsInRleHRDb2xvciIsInBhbGV0dGUiLCJtb2RlIiwiZ3JleSIsImJnQ29sb3IiLCJib3hTaGFkb3ciLCJweSIsImJnY29sb3IiLCJkaXNwbGF5IiwiYWxpZ25JdGVtcyIsImhlaWdodCIsInhzIiwieGwiLCJ3aWR0aCIsIm1hcmdpblJpZ2h0IiwiZmxleERpcmVjdGlvbiIsImNvbG9yIiwiZm9udFNpemUiLCJmb250V2VpZ2h0IiwidGV4dEFsaWduIiwibWFyZ2luTGVmdCIsIl9jIiwiJFJlZnJlc2hSZWckIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIk1lbWJlckNhcmQuanN4Il0sInNvdXJjZXNDb250ZW... (3234 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0002187080681324005
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/themed/RCCard/MemberCard.jsx (200) — 2024-07-28T11:41:30.110Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/themed/RCCard/MemberCard.jsx"
+        }
+      ]
+    }
+  ]
+}

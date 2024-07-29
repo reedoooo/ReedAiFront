@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/hooks/useTipTapEditor.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/chat/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"eba-usWoHSKbduzbOmDzbo4bCnM/+Go\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"eba-7/VIo+gqojqTFPfWMlB5p+yZlWU\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/hooks/useTipTapEditor.jsx\");import RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/hooks/useTipTapEditor.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport { useEditor } from \"/node_modules/.vite/deps/@tiptap_react.js?v=a736498f\";\nimport StarterKit from \"/node_modules/.vite/deps/@tiptap_starter-kit.js?v=53a4e46e\";\nimport __vite__cjsImport4_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const useEffect = __vite__cjsImport4_react[\"useEffect\"]; const useState = __vite__cjsImport4_react[\"useState\"];\nimport { Markdown } from \"/node_modules/.vite/deps/tiptap-markdown.js?v=f5135d62\";\nconst useTipTapEditor = (isFirstMessage, setUserInput) => {\n  _s();\n  const initialContent = isFirstMessage ? \"<p><strong>Prompt:</strong> Write the code for a dialog component using material ui </p>\" : \"Message Reed GPT\";\n  const [editorContent, setEditorContent] = useState(initialContent);\n  const [contentType, setContentType] = useState(\"markdown\");\n  const editor = useEditor({\n    extensions: [StarterKit, Markdown],\n    // Start with Markdown\n    content: initialContent,\n    onUpdate: ({ editor: editor2 }) => {\n      let output = \"\";\n      switch (contentType) {\n        case \"markdown\":\n          output = editor2.getText();\n          break;\n        case \"html\":\n          output = editor2.getHTML();\n          break;\n        case \"text\":\n          output = editor2.getText();\n          break;\n        default:\n          output = editor2.getText();\n      }\n      setEditorContent(output);\n      setUserInput(output);\n    }\n  });\n  useEffect(() => {\n    if (editor) {\n      setUserInput(editor.getText());\n    }\n  }, [editor, setUserInput]);\n  const handleContentTypeChange = (event) => {\n    setContentType(event.target.value);\n    if (editor) {\n      switch (event.target.value) {\n        case \"markdown\":\n          setUserInput(editor.getText());\n          break;\n        case \"html\":\n          setUserInput(editor.getHTML());\n          break;\n        case \"text\":\n          setUserInput(editor.getText());\n          break;\n        default:\n          setUserInput(editor.getText());\n      }\n    }\n  };\n  return { editor, editorContent, contentType, handleContentTypeChange };\n};\n_s(useTipTapEditor, \"MopfSqNnd/WO3I6a4VygedaOldg=\", false, function() {\n  return [useEditor];\n});\nexport default useTipTapEditor;\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/hooks/useTipTapEditor.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IjJCQUFBO0FBQWtCLE1BQVEsY0FBZTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUN6QyxPQUFPQSxnQkFBZ0I7QUFDdkIsU0FBU0MsV0FBV0MsZ0JBQWdCO0FBQ3BDLFNBQVNDLGdCQUFnQjtBQUV6QixNQUFNQyxrQkFBa0JBLENBQUNDLGdCQUFnQkMsaUJBQWlCO0FBQUFDLEtBQUE7QUFDeEQsUUFBTUMsaUJBQWlCSCxpQkFDbkIsNkZBQ0E7QUFFSixRQUFNLENBQUNJLGVBQWVDLGdCQUFnQixJQUFJUixTQUFTTSxjQUFjO0FBQ2pFLFFBQU0sQ0FBQ0csYUFBYUMsY0FBYyxJQUFJVixTQUFTLFVBQVU7QUFFekQsUUFBTVcsU0FBU0MsVUFBVTtBQUFBLElBQ3ZCQyxZQUFZLENBQUNmLFlBQVlHLFFBQVE7QUFBQTtBQUFBLElBQ2pDYSxTQUFTUjtBQUFBQSxJQUNUUyxVQUFVQSxDQUFDLEVBQUVKLGdCQUFPLE1BQU07QUFDeEIsVUFBSUssU0FBUztBQUViLGNBQVFQLGFBQVc7QUFBQSxRQUNqQixLQUFLO0FBQ0hPLG1CQUFTTCxRQUFPTSxRQUFRO0FBQ3hCO0FBQUEsUUFDRixLQUFLO0FBQ0hELG1CQUFTTCxRQUFPTyxRQUFRO0FBQ3hCO0FBQUEsUUFDRixLQUFLO0FBQ0hGLG1CQUFTTCxRQUFPTSxRQUFRO0FBQ3hCO0FBQUEsUUFDRjtBQUNFRCxtQkFBU0wsUUFBT00sUUFBUTtBQUFBLE1BQzVCO0FBRUFULHVCQUFpQlEsTUFBTTtBQUN2QlosbUJBQWFZLE1BQU07QUFBQSxJQUNyQjtBQUFBLEVBQ0YsQ0FBQztBQUVEakIsWUFBVSxNQUFNO0FBQ2QsUUFBSVksUUFBUTtBQUNWUCxtQkFBYU8sT0FBT00sUUFBUSxDQUFDO0FBQUEsSUFDL0I7QUFBQSxFQUNGLEdBQUcsQ0FBQ04sUUFBUVAsWUFBWSxDQUFDO0FBR3pCLFFBQU1lLDBCQUEwQkEsQ0FBQUMsVUFBUztBQUN2Q1YsbUJBQWVVLE1BQU1DLE9BQU9DLEtBQUs7QUFDakMsUUFBSVgsUUFBUTtBQUNWLGNBQVFTLE1BQU1DLE9BQU9DLE9BQUs7QUFBQSxRQUN4QixLQUFLO0FBQ0hsQix1QkFBYU8sT0FBT00sUUFBUSxDQUFDO0FBQzdCO0FBQUEsUUFDRixLQUFLO0FBQ0hiLHVCQUFhTyxPQUFPTyxRQUFRLENBQUM7QUFDN0I7QUFBQSxRQUNGLEtBQUs7QUFDSGQsdUJBQWFPLE9BQU9NLFFBQVEsQ0FBQztBQUM3QjtBQUFBLFFBQ0Y7QUFDRWIsdUJBQWFPLE9BQU9NLFFBQVEsQ0FBQztBQUFBLE1BQ2pDO0FBQUEsSUFDRjtBQUFBLEVBQ0Y7QUFFQSxTQUFPLEVBQUVOLFFBQVFKLGVBQWVFLGFBQWFVLHdCQUF3QjtBQUN2RTtBQUFFZCxHQTVESUgsaUJBQWU7QUFBQSxVQVFKVSxTQUFTO0FBQUE7QUFzRDFCLGVBQWVWIiwibmFtZXMiOlsiU3RhcnRlcktpdCIsInVzZUVmZmVjdCIsInVzZVN0YXRlIiwiTWFya2Rvd24iLCJ1c2VUaXBUYXBFZGl0b3IiLCJpc0ZpcnN0TWVzc2FnZSIsInNldFVzZXJJbnB1dCIsIl9zIiwiaW5pdGlhbENvbnRlbnQiLCJlZGl0b3JDb250ZW50Iiwic2V0RWRpdG9yQ29udGVudCIsImNvbnRlbnRUeXBlIiwic2V0Q29udGVudFR5cGUiLCJlZGl0b3IiLCJ1c2VFZGl0b3IiLCJleHRlbnNpb25zIiwiY29udGVudCIsIm9uVXBkYXRlIiwib3V0cHV0IiwiZ2V0VGV4dCIsImdldEhUTUwiLCJoYW5kbGVDb250ZW50VHlwZUNoYW5nZSIsImV2ZW50IiwidGFyZ2V0IiwidmFsdWUiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsidXNlVGlwVGFwRWRpdG9yLmpzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyB1c2VFZGl0b3IgfSBmcm9tICdAdGlwdGFwL3JlYWN0JztcbmltcG9ydCBTdGFydGVyS2l0IGZyb20gJ0B0aXB0YXAvc3RhcnRlci1raXQnO1xuaW1wb3J0IHsgdXNlRWZmZWN0LCB1c2VTdGF0ZSB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7IE1hcmtkb3duIH0gZnJvbSAndGlwdGFwLW1hcmtkb3duJztcblxuY29uc3QgdXNlVGlwVGFwRWRpdG9yID0gKGlzRmlyc3RNZXNzYWdlLCBzZXRVc2VySW5wdXQpID0+IHtcbiAgY29uc3QgaW5pdGlhbENvbnRlbnQgPSBpc0ZpcnN0TWVzc2FnZVxuICAgID8gJzxwPjxzdHJvbmc+UHJvbXB0Ojwvc3Ryb25nPiBXcml0ZSB0aGUgY29kZSBmb3IgYSBkaWFsb2cgY29tcG9uZW50IHVzaW5nIG1hdGVyaWFsIHVpIDwvcD4nXG4gICAgOiAnTWVzc2FnZSBSZWVkIEdQVCc7XG5cbiAgY29uc3QgW2VkaXRvckNvbnRlbnQsIHNldEVkaXRvckNvbnRlbnRdID0gdXNlU3RhdGUoaW5pdGlhbENvbnRlbnQpO1xuICBjb25zdCBbY29udGVudFR5cGUsIHNldENvbnRlbnRUeXBlXSA9IHVzZVN0YXRlKCdtYXJrZG93bicpOyAvLyBEZWZhdWx0IGNvbnRlbnQgdHlwZVxuXG4gIGNvbnN0IGVkaXRvciA9IHVzZUVkaXRvcih7XG4gICAgZXh0ZW5zaW9uczogW1N0YXJ0ZXJLaXQsIE1hcmtkb3duXSwgLy8gU3RhcnQgd2l0aCBNYXJrZG93blxuICAgIGNvbnRlbnQ6IGluaXRpYWxDb250ZW50LFxuICAgIG9uVXBkYXRlOiAoeyBlZGl0b3IgfSkgPT4ge1xuICAgICAgbGV0IG91dHB1dCA9ICcnO1xuXG4gICAgICBzd2l0Y2ggKGNvbnRlbnRUeXBlKSB7XG4gICAgICAgIGNhc2UgJ21hcmtkb3duJzpcbiAgICAgICAgICBvdXRwdXQgPSBlZGl0b3IuZ2V0VGV4dCgpOyAvLyBNYXJrZG93biBvdXRwdXRcbiAgICAgICAgICBicmVhaztcbiAgICAgICAgY2FzZSAnaHRtbCc6XG4gICAgICAgICAgb3V0cHV0ID0gZWRpdG9yLmdldEhUTUwoKTsgLy8gSFRNTCBvdXRwdXRcbiAgICAgICAgICBicmVhaztcbiAgICAgICAgY2FzZSAndGV4dCc6XG4gICAgICAgICAgb3V0cHV0ID0gZWRpdG9yLmdldFRleHQoKTsgLy8gUGxhaW4gdGV4dCBvdXRwdXRcbiAgICAgICAgICBicmVhaztcbiAgICAgICAgZGVmYXVsdDpcbiAgICAgICAgICBvdXRwdXQgPSBlZGl0b3IuZ2V0VGV4dCgpO1xuICAgICAgfVxuXG4gICAgICBzZXRFZGl0b3JDb250ZW50KG91dHB1dCk7XG4gICAgICBzZXRVc2VySW5wdXQob3V0cHV0KTtcbiAgICB9LFxuICB9KTtcblxuICB1c2VFZmZlY3QoKCkgPT4ge1xuICAgIGlmIChlZGl0b3IpIHtcbiAgICAgIHNldFVzZXJJbnB1dChlZGl0b3IuZ2V0VGV4dCgpKTtcbiAgICB9XG4gIH0sIFtlZGl0b3IsIHNldFVzZXJJbnB1dF0pO1xuXG4gIC8vIEhhbmRsZSBjb250ZW50IHR5cGUgY2hhbmdlXG4gIGNvbnN0IGhhbmRsZUNvbnRlbnRUeXBlQ2hhbmdlID0gZXZlbnQgPT4ge1xuICAgIHNldENvbnRlbnRUeXBlKGV2ZW50LnRhcmdldC52YWx1ZSk7XG4gICAgaWYgKGVkaXRvcikge1xuICAgICAgc3dpdGNoIChldmVudC50YXJnZXQudmFsdWUpIHtcbiAgICAgICAgY2FzZSAnbWFya2Rvd24nOlxuICAgICAgICAgIHNldFVzZXJJbnB1dChlZGl0b3IuZ2V0VGV4dCgpKTsgLy8gR2V0IE1hcmtkb3duXG4gICAgICAgICAgYnJlYWs7XG4gICAgICAgIGNhc2UgJ2h0bWwnOlxuICAgICAgICAgIHNldFVzZXJJbnB1dChlZGl0b3IuZ2V0SFRNTCgpKTsgLy8gR2V0IEhUTUxcbiAgICAgICAgICBicmVhaztcbiAgICAgICAgY2FzZSAndGV4dCc6XG4gICAgICAgICAgc2V0VXNlcklucHV0KGVkaXRvci5nZXRUZXh0KCkpOyAvLyBHZXQgUGxhaW4gdGV4dFxuICAgICAgICAgIGJyZWFrO1xuICAgICAgICBkZWZhdWx0OlxuICAgICAgICAgIHNldFVzZXJJbnB1dChlZGl0b3IuZ2V0VGV4dCgpKTtcbiAgICAgIH1cbiAgICB9XG4gIH07XG5cbiAgcmV0dXJuIHsgZWRpdG9yLCBlZGl0b3JDb250ZW50LCBjb250ZW50VHlwZSwgaGFuZGxlQ29udGVudFR5cGVDaGFuZ2UgfTtcbn07XG5cbmV4cG9ydCBkZWZhdWx0IHVzZVRpcFRhcEVkaXRvcjtcbiJdLCJmaWxlIjoiL1VzZXJzL3JlZWR2b2d0L0Rlc2t0b3AvUmVlZEFpRnJvbnQvc3JjL2hvb2tzL3VzZVRpcFRhcEVkaXRvci5qc3gifQ=="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.000345999957062304
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/hooks/useTipTapEditor.jsx (200) — 2024-07-28T11:41:33.672Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/hooks/useTipTapEditor.jsx"
+        }
+      ]
+    }
+  ]
+}

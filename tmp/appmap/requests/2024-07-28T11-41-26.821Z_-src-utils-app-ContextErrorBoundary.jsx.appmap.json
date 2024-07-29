@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/utils/app/ContextErrorBoundary.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/contexts/Providers.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"81c-jdgrSJt4/5dM/1vLueVAJ26fl7k\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"81c-krosm5qe9gOwjVAyMdkmBDAzO6k\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/utils/app/ContextErrorBoundary.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nimport __vite__cjsImport2_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport2_react.__esModule ? __vite__cjsImport2_react.default : __vite__cjsImport2_react; const Component = __vite__cjsImport2_react[\"Component\"];\nexport class ContextErrorBoundary extends Component {\n  constructor(props) {\n    super(props);\n    this.state = { hasError: false, error: null };\n  }\n  static getDerivedStateFromError(error) {\n    return { hasError: true, error };\n  }\n  componentDidCatch(error, errorInfo) {\n    console.error(\"Context Error Boundary caught an error:\", error, errorInfo);\n  }\n  render() {\n    if (this.state.hasError) {\n      return /* @__PURE__ */ jsxDEV(\"h1\", { children: \"Something went wrong in a context provider. Please try again later.\" }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/utils/app/ContextErrorBoundary.jsx\",\n        lineNumber: 23,\n        columnNumber: 9\n      }, this);\n    }\n    return this.props.children;\n  }\n}\nexport default ContextErrorBoundary;\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/utils/app/ContextErrorBoundary.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBc0JRO0FBdEJSLE9BQU9BLG9CQUFrQjtBQUFlO0FBQUE7QUFFakMsYUFBTUMsNkJBQTZCQyxVQUFVO0FBQUEsRUFDbERDLFlBQVlDLE9BQU87QUFDakIsVUFBTUEsS0FBSztBQUNYLFNBQUtDLFFBQVEsRUFBRUMsVUFBVSxPQUFPQyxPQUFPLEtBQUs7QUFBQSxFQUM5QztBQUFBLEVBRUEsT0FBT0MseUJBQXlCRCxPQUFPO0FBRXJDLFdBQU8sRUFBRUQsVUFBVSxNQUFNQyxNQUFNO0FBQUEsRUFDakM7QUFBQSxFQUVBRSxrQkFBa0JGLE9BQU9HLFdBQVc7QUFFbENDLFlBQVFKLE1BQU0sMkNBQTJDQSxPQUFPRyxTQUFTO0FBQUEsRUFDM0U7QUFBQSxFQUVBRSxTQUFTO0FBQ1AsUUFBSSxLQUFLUCxNQUFNQyxVQUFVO0FBRXZCLGFBQ0UsdUJBQUMsUUFBRSxtRkFBSDtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBRUE7QUFBQSxJQUVKO0FBRUEsV0FBTyxLQUFLRixNQUFNUztBQUFBQSxFQUNwQjtBQUNGO0FBRUEsZUFBZVoiLCJuYW1lcyI6WyJSZWFjdCIsIkNvbnRleHRFcnJvckJvdW5kYXJ5IiwiQ29tcG9uZW50IiwiY29uc3RydWN0b3IiLCJwcm9wcyIsInN0YXRlIiwiaGFzRXJyb3IiLCJlcnJvciIsImdldERlcml2ZWRTdGF0ZUZyb21FcnJvciIsImNvbXBvbmVudERpZENhdGNoIiwiZXJyb3JJbmZvIiwiY29uc29sZSIsInJlbmRlciIsImNoaWxkcmVuIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkNvbnRleHRFcnJvckJvdW5kYXJ5LmpzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QsIHsgQ29tcG9uZW50IH0gZnJvbSAncmVhY3QnO1xuXG5leHBvcnQgY2xhc3MgQ29udGV4dEVycm9yQm91bmRhcnkgZXh0ZW5kcyBDb21wb25lbnQge1xuICBjb25zdHJ1Y3Rvcihwcm9wcykge1xuICAgIHN1cGVyKHByb3BzKTtcbiAgICB0aGlzLnN0YXRlID0geyBoYXNFcnJvcjogZmFsc2UsIGVycm9yOiBudWxsIH07XG4gIH1cblxuICBzdGF0aWMgZ2V0RGVyaXZlZFN0YXRlRnJvbUVycm9yKGVycm9yKSB7XG4gICAgLy8gVXBkYXRlIHN0YXRlIHNvIHRoZSBuZXh0IHJlbmRlciBzaG93cyB0aGUgZmFsbGJhY2sgVUkuXG4gICAgcmV0dXJuIHsgaGFzRXJyb3I6IHRydWUsIGVycm9yIH07XG4gIH1cblxuICBjb21wb25lbnREaWRDYXRjaChlcnJvciwgZXJyb3JJbmZvKSB7XG4gICAgLy8gWW91IGNhbiBhbHNvIGxvZyB0aGUgZXJyb3IgdG8gYW4gZXJyb3IgcmVwb3J0aW5nIHNlcnZpY2VcbiAgICBjb25zb2xlLmVycm9yKCdDb250ZXh0IEVycm9yIEJvdW5kYXJ5IGNhdWdodCBhbiBlcnJvcjonLCBlcnJvciwgZXJyb3JJbmZvKTtcbiAgfVxuXG4gIHJlbmRlcigpIHtcbiAgICBpZiAodGhpcy5zdGF0ZS5oYXNFcnJvcikge1xuICAgICAgLy8gWW91IGNhbiByZW5kZXIgYW55IGN1c3RvbSBmYWxsYmFjayBVSVxuICAgICAgcmV0dXJuIChcbiAgICAgICAgPGgxPlxuICAgICAgICAgIFNvbWV0aGluZyB3ZW50IHdyb25nIGluIGEgY29udGV4dCBwcm92aWRlci4gUGxlYXNlIHRyeSBhZ2FpbiBsYXRlci5cbiAgICAgICAgPC9oMT5cbiAgICAgICk7XG4gICAgfVxuXG4gICAgcmV0dXJuIHRoaXMucHJvcHMuY2hpbGRyZW47XG4gIH1cbn1cblxuZXhwb3J0IGRlZmF1bHQgQ29udGV4dEVycm9yQm91bmRhcnk7XG4iXSwiZmlsZSI6Ii9Vc2Vycy9yZWVkdm9ndC9EZXNrdG9wL1JlZWRBaUZyb250L3NyYy91dGlscy9hcHAvQ29udGV4dEVycm9yQm91bmRhcnkuanN4In0="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0006469169165939093
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/utils/app/ContextErrorBoundary.jsx (200) — 2024-07-28T11:41:26.821Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/utils/app/ContextErrorBoundary.jsx"
+        }
+      ]
+    }
+  ]
+}

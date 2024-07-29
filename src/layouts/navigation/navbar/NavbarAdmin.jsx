@@ -4,7 +4,7 @@ import { motion, useAnimation } from 'framer-motion';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import routes, { extractPaths } from '@/routes/index';
+import routes from '@/routes/index';
 import useMode from 'hooks/useMode';
 import { NavbarContainer } from '../shared/navbarcontainer'; // Import the new NavbarContainer
 import AdminNavbarLinks from './NavbarLinksAdmin';

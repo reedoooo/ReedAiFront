@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/themed/basic/PageLayout.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"af7-SKHUTKFeaFcmt+1J6Z/LHbwtbec\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"af7-kI0shvAAIceFjU5njiETkF58O+4\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/themed/basic/PageLayout.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/basic/PageLayout.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nimport { Box, Grid } from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nconst PageLayout = ({ children }) => {\n  return /* @__PURE__ */ jsxDEV(\n    Box,\n    {\n      width: \"100vw\",\n      height: \"100%\",\n      minHeight: \"100vh\",\n      maxWidth: \"100%\",\n      sx: { overflowX: \"hidden\", m: 0, p: 0 },\n      children: /* @__PURE__ */ jsxDEV(\n        Grid,\n        {\n          container: true,\n          sx: { minHeight: \"100vh\", minWidth: \"100vw\", m: 0, p: 0 },\n          children\n        },\n        void 0,\n        false,\n        {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/basic/PageLayout.jsx\",\n          lineNumber: 12,\n          columnNumber: 7\n        },\n        this\n      )\n    },\n    void 0,\n    false,\n    {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/basic/PageLayout.jsx\",\n      lineNumber: 5,\n      columnNumber: 5\n    },\n    this\n  );\n};\n_c = PageLayout;\nexport default PageLayout;\nvar _c;\n$RefreshReg$(_c, \"PageLayout\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/basic/PageLayout.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBV007QUFYTiwyQkFBMEI7QUFBZTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFFekMsTUFBTUEsYUFBYUEsQ0FBQyxFQUFFQyxTQUFTLE1BQU07QUFDbkMsU0FDRTtBQUFBLElBQUM7QUFBQTtBQUFBLE1BQ0MsT0FBTTtBQUFBLE1BQ04sUUFBTztBQUFBLE1BQ1AsV0FBVTtBQUFBLE1BQ1YsVUFBUztBQUFBLE1BQ1QsSUFBSSxFQUFFQyxXQUFXLFVBQVVDLEdBQUcsR0FBR0MsR0FBRyxFQUFFO0FBQUEsTUFFdEM7QUFBQSxRQUFDO0FBQUE7QUFBQSxVQUNDO0FBQUEsVUFDQSxJQUFJLEVBQUVDLFdBQVcsU0FBU0MsVUFBVSxTQUFTSCxHQUFHLEdBQUdDLEdBQUcsRUFBRTtBQUFBLFVBRXZESDtBQUFBQTtBQUFBQSxRQUpIO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxNQUtBO0FBQUE7QUFBQSxJQVpGO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxFQWFBO0FBRUo7QUFBRU0sS0FqQklQO0FBa0JOLGVBQWVBO0FBQVcsSUFBQU87QUFBQUMsYUFBQUQsSUFBQSIsIm5hbWVzIjpbIlBhZ2VMYXlvdXQiLCJjaGlsZHJlbiIsIm92ZXJmbG93WCIsIm0iLCJwIiwibWluSGVpZ2h0IiwibWluV2lkdGgiLCJfYyIsIiRSZWZyZXNoUmVnJCJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJQYWdlTGF5b3V0LmpzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBCb3gsIEdyaWQgfSBmcm9tICdAbXVpL21hdGVyaWFsJztcblxuY29uc3QgUGFnZUxheW91dCA9ICh7IGNoaWxkcmVuIH0pID0+IHtcbiAgcmV0dXJuIChcbiAgICA8Qm94XG4gICAgICB3aWR0aD1cIjEwMHZ3XCJcbiAgICAgIGhlaWdodD1cIjEwMCVcIlxuICAgICAgbWluSGVpZ2h0PVwiMTAwdmhcIlxuICAgICAgbWF4V2lkdGg9XCIxMDAlXCJcbiAgICAgIHN4PXt7IG92ZXJmbG93WDogJ2hpZGRlbicsIG06IDAsIHA6IDAgfX0gLy8gRW5zdXJlIG5vIG1hcmdpbnMgb3IgcGFkZGluZ3NcbiAgICA+XG4gICAgICA8R3JpZFxuICAgICAgICBjb250YWluZXJcbiAgICAgICAgc3g9e3sgbWluSGVpZ2h0OiAnMTAwdmgnLCBtaW5XaWR0aDogJzEwMHZ3JywgbTogMCwgcDogMCB9fVxuICAgICAgPlxuICAgICAgICB7Y2hpbGRyZW59XG4gICAgICA8L0dyaWQ+XG4gICAgPC9Cb3g+XG4gICk7XG59O1xuZXhwb3J0IGRlZmF1bHQgUGFnZUxheW91dDtcbiJdLCJmaWxlIjoiL1VzZXJzL3JlZWR2b2d0L0Rlc2t0b3AvUmVlZEFpRnJvbnQvc3JjL2NvbXBvbmVudHMvdGhlbWVkL2Jhc2ljL1BhZ2VMYXlvdXQuanN4In0="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0002780839568004012
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/themed/basic/PageLayout.jsx (200) — 2024-07-28T11:41:29.069Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/themed/basic/PageLayout.jsx"
+        }
+      ]
+    }
+  ]
+}

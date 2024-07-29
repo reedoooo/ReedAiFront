@@ -1,0 +1,7 @@
+[
+  {
+    "route": "GET /src/views/error/index.jsx",
+    "parameters": "()",
+    "status": 304
+  }
+]

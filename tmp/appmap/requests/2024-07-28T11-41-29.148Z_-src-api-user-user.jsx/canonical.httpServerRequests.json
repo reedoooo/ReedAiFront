@@ -1,0 +1,7 @@
+[
+  {
+    "route": "GET /src/api/user/user.jsx",
+    "parameters": "()",
+    "status": 304
+  }
+]

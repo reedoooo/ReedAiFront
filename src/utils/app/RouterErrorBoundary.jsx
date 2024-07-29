@@ -30,6 +30,7 @@ export function RootBoundary() {
       componentStack,
       cause,
     });
+    console.log(errorInfo);
     if (error.status === 404) {
       return <div>Page not found</div>;
     }

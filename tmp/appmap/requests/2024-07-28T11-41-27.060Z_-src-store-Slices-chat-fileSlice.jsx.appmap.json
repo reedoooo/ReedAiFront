@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/store/Slices/chat/fileSlice.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/store/Slices/chat/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"df4-OadRWQfeWEVduG+wgSwbQzlHBAA\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"df4-f5T1UfFR100WuStUZ5yflxG4vyk\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createAsyncThunk, createSlice } from \"/node_modules/.vite/deps/@reduxjs_toolkit.js?v=6cb72b4f\";\nimport __vite__cjsImport1_lodash from \"/node_modules/.vite/deps/lodash.js?v=8862712d\"; const uniqueId = __vite__cjsImport1_lodash[\"uniqueId\"];\nconst initialState = {\n  files: [],\n  chatFiles: [],\n  chatImages: [],\n  newMessageFiles: [],\n  newMessageImages: [],\n  showFilesDisplay: false,\n  fileRequest: {\n    status: \"idle\",\n    error: null\n  }\n};\nexport const fetchFileData = createAsyncThunk(\n  \"files/fetchData\",\n  async ({ url, fileType }, { rejectWithValue }) => {\n    try {\n      const response = await fetch(url);\n      if (!response.ok) {\n        throw new Error(`Network response was not ok: ${response.statusText}`);\n      }\n      const data = await response.json();\n      return { files: data, fileType };\n    } catch (error) {\n      console.error(`Fetch error for ${fileType}:`, error);\n      return rejectWithValue(error.message);\n    }\n  }\n);\nexport const processFiles = createAsyncThunk(\n  \"files/processFiles\",\n  async ({ files, fileType }, { dispatch }) => {\n    if (fileType === \"png\") {\n      const pngFiles = files.filter((file) => file.type === \"png\");\n      localStorage.setItem(\"pngFiles\", JSON.stringify(pngFiles));\n      dispatch(setChatImages(pngFiles));\n    } else if (fileType === \"json\") {\n      const organizedFiles = files.map((file) => ({\n        id: getNewPromptId(file.name),\n        title: file.name,\n        content: file.content\n      }));\n      if (organizedFiles.length > 0 && organizedFiles[0].title && organizedFiles[0].content) {\n        localStorage.setItem(\"customPrompts\", JSON.stringify(organizedFiles));\n        dispatch(setFiles(organizedFiles));\n      } else {\n        console.error(\"Data structure is not as expected\", organizedFiles);\n      }\n    }\n  }\n);\nconst getNewPromptId = (file) => {\n  const id = file.split(\"/\").pop().split(\".\")[0];\n  const idParts = id.split(\"-\");\n  return uniqueId(idParts[idParts.length - 1]);\n};\nexport const fileSlice = createSlice({\n  name: \"files\",\n  initialState,\n  reducers: {\n    setFiles: (state, action) => {\n      state.files = action.payload;\n    },\n    setChatFiles: (state, action) => {\n      state.chatFiles = action.payload;\n    },\n    setChatImages: (state, action) => {\n      state.chatImages = action.payload;\n    },\n    setNewMessageFiles: (state, action) => {\n      state.newMessageFiles = action.payload;\n    },\n    setNewMessageImages: (state, action) => {\n      state.newMessageImages = action.payload;\n    },\n    setShowFilesDisplay: (state, action) => {\n      state.showFilesDisplay = action.payload;\n    }\n  },\n  extraReducers: (builder) => {\n    builder.addCase(fetchFileData.pending, (state, action) => {\n      console.log(\"Fetching data...\");\n      state.fileRequest.status = \"loading\";\n    }).addCase(fetchFileData.fulfilled, (state, action) => {\n      console.log(\"Handling fetch data logic...\", action.payload);\n      state.fileRequest.status = \"succeeded\";\n    }).addCase(fetchFileData.rejected, (state, action) => {\n      console.error(\"Handling fetch data rejection:\", action.payload);\n      state.fileRequest.status = \"failed\";\n      state.fileRequest.error = action.payload;\n    }).addCase(processFiles.fulfilled, (state, action) => {\n      console.log(\"Handling process files logic...\", action.payload);\n      state.fileRequest.status = \"succeeded\";\n    });\n  }\n});\nexport const {\n  setFiles,\n  setChatFiles,\n  setChatImages,\n  setNewMessageFiles,\n  setNewMessageImages,\n  setShowFilesDisplay\n} = fileSlice.actions;\nexport default fileSlice.reducer;\n\n//# sourceMappingURL=data:application/json;base64,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O0FBRWQsZUFBZWhCLFVBQVVpQiIsIm5hbWVzIjpbImNyZWF0ZUFzeW5jVGh1bmsiLCJjcmVhdGVTbGljZSIsInVuaXF1ZUlkIiwiaW5pdGlhbFN0YXRlIiwiZmlsZXMiLCJjaGF0RmlsZXMiLCJjaGF0SW1hZ2VzIiwibmV3TWVzc2FnZUZpbGVzIiwibmV3TWVzc2FnZUltYWdlcyIsInNob3dGaWxlc0Rpc3BsYXkiLCJmaWxlUmVxdWVzdCIsInN0YXR1cyIsImVycm9yIiwiZmV0Y2hGaWxlRGF0YSIsInVybCIsImZpbGVUeXBlIiwicmVqZWN0V2l0aFZhbHVlIiwicmVzcG9uc2UiLCJmZXRjaCIsIm9rIiwiRXJyb3IiLCJzdGF0dXNUZXh0IiwiZGF0YSIsImpzb24iLCJjb25zb2xlIiwibWVzc2FnZSIsInByb2Nlc3NGaWxlcyIsImRpc3BhdGNoIiwicG5nRmlsZXMiLCJmaWx0ZXIiLCJmaWxlIiwidHlwZSIsImxvY2FsU3RvcmFnZSIsInNldEl0ZW0iLCJKU09OIiwic3RyaW5naWZ5Iiwic2V0Q2hhdEltYWdlcyIsIm9yZ2FuaXplZEZpbGVzIiwibWFwIiwiaWQiLCJnZXROZXdQcm9tcHRJZCIsIm5hbWUiLCJ0aXRsZSIsImNvbnRlbnQiLCJsZW5ndGgiLCJzZXRGaWxlcyIsInNwbGl0IiwicG9wIiwiaWRQYXJ0cyIsImZpbGVTbGljZSIsInJlZHVjZXJzIiwic3RhdGUiLCJhY3Rpb24iLCJwYXlsb2FkIiwic2V0Q2hhdEZpbGVzIiwic2V0TmV3TWVzc2FnZUZpbGVzIiwic2V0TmV3TWVzc2FnZUltYWdlcyIsInNldFNob3dGaWxlc0Rpc3BsYXkiLCJleHRyYVJlZHVjZXJzIiwiYnVpbGRlciIsImFkZENhc2UiLCJwZW5kaW5nIiwibG9nIiwiZnVsZmlsbGVkIiwicmVqZWN0ZWQiLCJhY3Rpb25zIiwicmVkdWNlciJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJmaWxlU2xpY2UuanN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGNyZWF0ZUFzeW5jVGh1bmssIGNyZWF0ZVNsaWNlIH0gZnJvbSAnQHJlZHV4anMvdG9vbGtpdCc7XG5pbXBvcnQgeyB1bmlxdWVJZCB9IGZyb20gJ2xvZGFzaCc7XG5cbi8vIEluaXRpYWwgc3RhdGUgZm9yIGZpbGUgc2xpY2VcbmNvbnN0IGluaXRpYWxTdGF0ZSA9IHtcbiAgZmlsZXM6IFtdLFxuICBjaGF0RmlsZXM6IFtdLFxuICBjaGF0SW1hZ2VzOiBbXSxcbiAgbmV3TWVzc2FnZUZpbGVzOiBbXSxcbiAgbmV3TWVzc2FnZUltYWdlczogW10sXG4gIHNob3dGaWxlc0Rpc3BsYXk6IGZhbHNlLFxuICBmaWxlUmVxdWVzdDoge1xuICAgIHN0YXR1czogJ2lkbGUnLFxuICAgIGVycm9yOiBudWxsLFxuICB9LFxufTtcblxuLy8gQXN5bmMgdGh1bmtzIGZvciBmaWxlIG9wZXJhdGlvbnNcbi8vIGV4cG9ydCBjb25zdCBmZXRjaEZpbGVEYXRhID0gY3JlYXRlQXN5bmNUaHVuayhcbi8vICAgJ2ZpbGVzL2ZldGNoRGF0YScsXG4vLyAgIGFzeW5jICh7IHVybCwgZmlsZVR5cGUgfSwgeyBkaXNwYXRjaCB9KSA9PiB7XG4vLyAgICAgdHJ5IHtcbi8vICAgICAgIGNvbnN0IHJlc3BvbnNlID0gYXdhaXQgZmV0Y2godXJsKTtcbi8vICAgICAgIGlmICghcmVzcG9uc2Uub2spIHtcbi8vICAgICAgICAgdGhyb3cgbmV3IEVycm9yKCdOZXR3b3JrIHJlc3BvbnNlIHdhcyBub3Qgb2snKTtcbi8vICAgICAgIH1cbi8vICAgICAgIGNvbnN0IGRhdGEgPSBhd2FpdCByZXNwb25zZS5qc29uKCk7XG4vLyAgICAgICBkaXNwYXRjaChwcm9jZXNzRmlsZXMoeyBmaWxlczogZGF0YSwgZmlsZVR5cGUgfSkpO1xuLy8gICAgICAgcmV0dXJuIGRhdGE7XG4vLyAgICAgfSBjYXRjaCAoZXJyb3IpIHtcbi8vICAgICAgIGNvbnNvbGUuZXJyb3IoXG4vLyAgICAgICAgIGBUaGVyZSB3YXMgYSBwcm9ibGVtIHdpdGggdGhlIGZldGNoIG9wZXJhdGlvbiBmb3IgJHtmaWxlVHlwZX06YCxcbi8vICAgICAgICAgZXJyb3Jcbi8vICAgICAgICk7XG4vLyAgICAgICByZXR1cm4gbnVsbDtcbi8vICAgICB9XG4vLyAgIH1cbi8vICk7XG5leHBvcnQgY29uc3QgZmV0Y2hGaWxlRGF0YSA9IGNyZWF0ZUFzeW5jVGh1bmsoXG4gICdmaWxlcy9mZXRjaERhdGEnLFxuICBhc3luYyAoeyB1cmwsIGZpbGVUeXBlIH0sIHsgcmVqZWN0V2l0aFZhbHVlIH0pID0+IHtcbiAgICB0cnkge1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaCh1cmwpO1xuICAgICAgaWYgKCFyZXNwb25zZS5va... (4379 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0007152920588850975
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/store/Slices/chat/fileSlice.jsx (200) — 2024-07-28T11:41:27.060Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/store/Slices/chat/fileSlice.jsx"
+        }
+      ]
+    }
+  ]
+}

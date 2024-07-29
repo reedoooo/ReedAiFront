@@ -2,6 +2,8 @@
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { CustomLogoIcon } from 'assets/humanIcons/custom-logo';
+import { StyledLogoIcon } from 'components/themed/styled';
 import { BreadcrumbsComponent } from '../breadcrumbs'; // Adjust the path as needed
 
 export const NavbarContainer = ({
@@ -77,16 +79,38 @@ export const NavbarContainer = ({
       <Box
         sx={{
           width: '100%',
+          // maxWidth: '350px',
           display: 'flex',
           flexDirection: {
             xs: 'column',
+            sm: 'row',
             md: 'row',
+            lg: 'row',
+            xl: 'row',
           },
           alignItems: { xl: 'center' },
           mb: gap,
         }}
       >
-        <Box mb={{ xs: '8px', md: '0px' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: '100%',
+            maxWidth: '350px',
+            mb: { xs: '8px', md: '0px' },
+          }}
+        >
+          <Box
+            sx={{
+              mr: '8px',
+            }}
+          >
+            <StyledLogoIcon hVal={'120px'}>
+              <CustomLogoIcon />
+            </StyledLogoIcon>
+          </Box>
           <BreadcrumbsComponent
             pathName={pathName}
             brandText={brandText}

@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/themed/RCButton/index.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/themed/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"151a-KQnBYmjRWlpjdlmFsdQxlRfnA6o\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"151a-/62BEmbJI7W+7TCvWz6wVa4mIEc\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/themed/RCButton/index.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCButton/index.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport { Box } from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport __vite__cjsImport4_propTypes from \"/node_modules/.vite/deps/prop-types.js?v=da689d69\"; const PropTypes = __vite__cjsImport4_propTypes.__esModule ? __vite__cjsImport4_propTypes.default : __vite__cjsImport4_propTypes;\nimport __vite__cjsImport5_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport5_react.__esModule ? __vite__cjsImport5_react.default : __vite__cjsImport5_react;\nimport useMode from \"/src/hooks/useMode.jsx\";\nimport RCButtonRoot from \"/src/components/themed/RCButton/RCButtonRoot.jsx\";\nconst ButtonContainer = ({ children, withContainer }) => /* @__PURE__ */ jsxDEV(\n  Box,\n  {\n    sx: {\n      flex: 1,\n      display: \"flex\",\n      justifyContent: \"flex-end\",\n      maxWidth: withContainer ? \"50%\" : \"100%\"\n    },\n    children\n  },\n  void 0,\n  false,\n  {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCButton/index.jsx\",\n    lineNumber: 9,\n    columnNumber: 1\n  },\n  this\n);\n_c = ButtonContainer;\nconst RCButton = _s(React.forwardRef(\n  _c2 = _s(\n    ({\n      color = \"white\",\n      variant = \"outlined\",\n      textSizeVariant = \"button\",\n      textWeightVariant = \"regular\",\n      size = \"medium\",\n      circular = false,\n      iconOnly = false,\n      children,\n      withContainer = false,\n      ...rest\n    }, ref) => {\n      _s();\n      const darkMode = false;\n      const { theme } = useMode();\n      const ButtonContent = /* @__PURE__ */ jsxDEV(\n        RCButtonRoot,\n        {\n          ...rest,\n          ref,\n          color: \"primary.main\",\n          variant: variant === \"gradient\" ? \"contained\" : variant,\n          size,\n          theme,\n          ownerState: {\n            color,\n            variant,\n            size,\n            circular,\n            iconOnly,\n            darkMode,\n            textSizeVariant,\n            textWeightVariant\n          },\n          children\n        },\n        void 0,\n        false,\n        {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCButton/index.jsx\",\n          lineNumber: 57,\n          columnNumber: 5\n        },\n        this\n      );\n      if (withContainer) {\n        return /* @__PURE__ */ jsxDEV(ButtonContainer, { withContainer, children: ButtonContent }, void 0, false, {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCButton/index.jsx\",\n          lineNumber: 80,\n          columnNumber: 9\n        }, this);\n      }\n      return ButtonContent;\n    },\n    \"0C8+rr4amTJBBb5hLcETPzToHLI=\",\n    false,\n    function() {\n      return [useMode];\n    }\n  )\n), \"0C8+rr4amTJBBb5hLcETPzToHLI=\", false, function() {\n  return [useMode];\n});\n_c3 = RCButton;\nRCButton.displayName = \"RCButton\";\nRCButton.propTypes = {\n  size: PropTypes.oneOf([\"small\", \"medium\", \"large\"]),\n  variant: PropTypes.oneOf(\n    [\n      \"text\",\n      \"contained\",\n      \"outlined\",\n      \"gradient\",\n      \"holo\"\n    ]\n  ),\n  textSizeVariant: PropTypes.oneOf([\"button\", \"body\", \"default\", \"header\"]),\n  textWeightVariant: PropTypes.oneOf([\"regular\", \"bold\"]),\n  color: PropTypes.oneOf(\n    [\n      \"white\",\n      \"primary\",\n      \"secondary\",\n      \"info\",\n      \"success\",\n      \"warning\",\n      \"error\",\n      \"light\",\n      \"dark\"\n    ]\n  ),\n  circular: PropTypes.bool,\n  iconOnly: PropTypes.bool,\n  withContainer: PropTypes.bool,\n  children: PropTypes.node.isRequired\n};\nexport default RCButton;\nvar _c, _c2, _c3;\n$RefreshReg$(_c, \"ButtonContainer\");\n$RefreshReg$(_c2, \"RCButton$React.forwardRef\");\n$RefreshReg$(_c3, \"RCButton\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCButton/index.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,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QVV0QixVQUFVZ0M7QUFBQUEsRUFDcEIxQixlQUFlTixVQUFVZ0M7QUFBQUEsRUFDekIzQixVQUFVTCxVQUFVaUMsS0FBS0M7QUFDM0I7QUFFQSxlQUFldEI7QUFBUyxJQUFBRCxJQUFBSSxLQUFBYTtBQUFBTyxhQUFBeEIsSUFBQTtBQUFBd0IsYUFBQXBCLEtBQUE7QUFBQW9CLGFBQUFQLEtBQUEiLCJuYW1lcyI6WyJQcm9wVHlwZXMiLCJSZWFjdCIsInVzZU1vZGUiLCJSQ0J1dHRvblJvb3QiLCJCdXR0b25Db250YWluZXIiLCJjaGlsZHJlbiIsIndpdGhDb250YWluZXIiLCJmbGV4IiwiZGlzcGxheSIsImp1c3RpZnlDb250ZW50IiwibWF4V2lkdGgiLCJfYyIsIlJDQnV0dG9uIiwiX3MiLCJmb3J3YXJkUmVmIiwiX2MyIiwiY29sb3IiLCJ2YXJpYW50IiwidGV4dFNpemVWYXJpYW50IiwidGV4dFdlaWdodFZhcmlhbnQiLCJzaXplIiwiY2lyY3VsYXIiLCJpY29uT25seSIsInJlc3QiLCJyZWYiLCJkYXJrTW9kZSIsInRoZW1lIiwiQnV0dG9uQ29udGVudCIsIl9jMyIsImRpc3BsYXlOYW1lIiwicHJvcFR5cGVzIiwib25lT2YiLCJib29sIiwibm9kZSIsImlzUmVxdWlyZWQiLCIkUmVmcmVzaFJlZyQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiaW5kZXguanN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEJveCB9IGZyb20gJ0BtdWkvbWF0ZXJpYWwnO1xuaW1wb3J0IFByb3BUeXBlcyBmcm9tICdwcm9wLXR5cGVzJztcbmltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XG5pbXBvcnQgdXNlTW9kZSBmcm9tICdob29rcy91c2VNb2RlJztcbmltcG9ydCBSQ0J1dHRvblJvb3QgZnJvbSAnLi9SQ0J1dHRvblJvb3QnO1xuXG4vLyBXcmFwcGVyIGNvbXBvbmVudCBmb3Igd2hlbiB5b3UgbmVlZCBhIGNvbnRhaW5lciBhcm91bmQgdGhlIGJ1dHRvblxuY29uc3QgQnV0dG9uQ29udGFpbmVyID0gKHsgY2hpbGRyZW4sIHdpdGhDb250YWluZXIgfSkgPT4gKFxuICA8Qm94XG4gICAgc3g9e3tcbiAgICAgIGZsZXg6IDEsXG4gICAgICBkaXNwbGF5OiAnZmxleCcsXG4gICAgICBqdXN0aWZ5Q29udGVudDogJ2ZsZXgtZW5kJyxcbiAgICAgIG1heFdpZHRoOiB3aXRoQ29udGFpbmVyID8gJzUwJScgOiAnMTAwJScsXG4gICAgfX1cbiAgPlxuICAgIHtjaGlsZHJlbn1cbiAgPC9Cb3g+XG4pO1xuXG4vKipcbiAqIFJlcHJlc2VudHMgYSB0aGVtZWQgYnV0dG9uIGNvbXBvbmVudC5cbiAqXG4gKiBAY29tcG9uZW50XG4gKiBAcGFyYW0ge09iamVjdH0gcHJvcHMgLSBUaGUgY29tcG9uZW50IHByb3BzLlxuICogQHBhcmFtIHtzdHJpbmd9IFtwcm9wcy5jb2xvcj0nd2hpdGUnXSAtIFRoZSBjb2xvciBvZiB0aGUgYnV0dG9uLlxuICogQHBhcmFtIHtzdHJpbmd9IFtwcm9wcy52YXJpYW50PSdvdXRsaW5lZCddIC0gVGhlIHZhcmlhbnQgb2YgdGhlIGJ1dHRvbi5cbiAqIEBwYXJhbSB7c3RyaW5nfSBbcHJvcHMudGV4dFNpemVWYXJpYW50PSdidXR0b24nXSAtIFRoZSB0ZXh0IHNpemUgdmFyaWFudCBvZiB0aGUgYnV0dG9uLlxuICogQHBhcmFtIHtzdHJpbmd9IFtwcm9wcy50ZXh0V2VpZ2h0VmFyaWFudD0ncmVndWxhciddIC0gVGhlIHRleHQgd2VpZ2h0IHZhcmlhbnQgb2YgdGhlIGJ1dHRvbi5cbiAqIEBwYXJhbSB7c3RyaW5nfSBbcHJvcHMuc2l... (3281 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.00042158295400440693
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/themed/RCButton/index.jsx (200) — 2024-07-28T11:41:29.564Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/themed/RCButton/index.jsx"
+        }
+      ]
+    }
+  ]
+}

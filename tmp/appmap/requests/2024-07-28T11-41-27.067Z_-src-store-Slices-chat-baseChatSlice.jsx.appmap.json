@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/store/Slices/chat/baseChatSlice.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/store/Slices/chat/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"17e3-2pz++bgSdYBObv62O39YjHqSP4s\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"17e3-uJce5LNxJym3Ni+50cd2+bsDGoY\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createSlice, combineSlices } from \"/node_modules/.vite/deps/@reduxjs_toolkit.js?v=6cb72b4f\";\nexport const baseChatSlice = createSlice({\n  name: \"chat\",\n  initialState: {\n    // chatRequests: {\n    //   pending: [],\n    //   resolved: [],\n    //   rejected: [],\n    // },\n    chatRequest: {\n      status: \"idle\",\n      error: null,\n      success: null,\n      message: \"\"\n    },\n    apiKey: localStorage.getItem(\"apiKey\") || \"\",\n    chatId: localStorage.getItem(\"chatId\") || \"\",\n    sessionId: localStorage.getItem(\"sessionId\") || \"\",\n    activeSession: JSON.parse(localStorage.getItem(\"activeSession\")) || null\n  },\n  reducers: {\n    setLoading: (state, action) => {\n      state.chatRequest.status = \"loading\";\n      state.chatRequest.error = null;\n    },\n    setError: (state, action) => {\n      state.chatRequest.status = \"failed\";\n      state.chatRequest.error = action.payload;\n      state.chatRequest.message = action.payload.message || \"An error occurred\";\n    },\n    setChatRequestData: (state, action) => {\n      state.chatRequest.status = \"succeeded\";\n      state.chatRequest.success = action.payload;\n      state.chatRequest.message = action.payload.message || \"Chat request successful\";\n    },\n    setApiKey: (state, action) => {\n      state.apiKey = action.payload;\n      localStorage.setItem(\"apiKey\", action.payload);\n    },\n    setChatId: (state, action) => {\n      state.chatId = action.payload;\n      localStorage.setItem(\"chatId\", action.payload);\n    },\n    setSessionId: (state, action) => {\n      state.sessionId = action.payload;\n      localStorage.setItem(\"sessionId\", action.payload);\n    },\n    setActiveSession: (state, action) => {\n      state.activeSession = action.payload;\n      localStorage.setItem(\"activeSession\", JSON.stringify(action.payload));\n    }\n    //     addChatSessionReducer: (state, action) => {\n    //       state.history = [action.payload.history, ...state.history];\n    //       state.chats = {\n    //         ...state.chats,\n    //         [action.payload.history.id]: action.payload.chatData,\n    //       };\n    //       state.active = action.payload.history.id;\n    //     },\n    //     updateChatSessionReducer: (state, action) => {\n    //       state.history = state.history.map(item =>\n    //         item.id === action.payload.id\n    //           ? { ...item, ...action.payload.edit }\n    //           : item\n    //       );\n    //     },\n    //     deleteChatSessionReducer: (state, action) => {\n    //       const updatedHistory = [...state.history];\n    //       const deletedSession = updatedHistory.splice(action.payload.index, 1)[0];\n    //       const newActive =\n    //         updatedHistory.length === 0\n    //           ? null\n    //           : updatedHistory[\n    //               Math.min(action.payload.index, updatedHistory.length - 1)\n    //             ].id;\n    //       state.history = updatedHistory;\n    //       state.chats = Object.keys(state.chats)\n    //         .filter(key => key !== deletedSession.id)\n    //         .reduce((res, key) => ((res[key] = state.chats[key]), res), {});\n    //       state.active = newActive;\n    //     },\n    //     addChatById: (state, action) => {\n    //       const newChatState = { ...state.chats };\n    //       if (!newChatState[action.payload.id]) {\n    //         newChatState[action.payload.id] = [];\n    //       }\n    //       newChatState[action.payload.id].push(action.payload.chat);\n    //       state.chats = newChatState;\n    //     },\n    //     updateChatById: (state, action) => {\n    //       const { id, index, chat } = action.payload;\n    //       state.chats = {\n    //         ...state.chats,\n    //         [id]: state.chats[id].map((item, i) => (i === index ? chat : item)),\n    //       };\n    //     },\n    //     getChatByIdAndIndex: (state, action) => {\n    //       state.chats = {\n    //         ...state.chats,\n    //         [action.payload.id]: state.chats[action.payload.id].map((item, i) =>\n    //           i === action.payload.index ? action.payload.chat : item\n    //         ),\n    //       };\n    //     },\n    //     clearChatById: (state, action) => {\n    //       state.chats = {\n    //         ...state.chats,\n    //         [action.payload.id]: [],\n    //       };\n    //     },\n    //     updateChatPartialById: (state, action) => {\n    //       const { id, index, chat } = action.payload;\n    //       state.chats = {\n    //         ...state.chats,\n    //         [id]: state.chats[id].map((item, i) => (i === index ? chat : item)),\n    //       };\n    //     },\n    //     deleteChatById: async (state, action) => {\n    //       const { id, index } = action.payload;\n    //       const [keys, keys_length] = Object.entries(state.chats);\n    //       if (!id) {\n    //         if (keys_length) {\n    //           const chatData = state.chats[keys[0]];\n    //           const chat = chatData[index];\n    //           chatData.splice(index, 1);\n    //           if (chat) await deleteChatData(chat);\n    //         }\n    //         return;\n    //       }\n    //       if (keys.includes(id)) {\n    //         const chatData = state.chats[id];\n    //         const chat = chatData[index];\n    //         chatData.splice(index, 1);\n    //         if (chat) await deleteChatData(chat);\n    //       }\n    //     },\n    //     updateChatSessionIfEdited: async (state, action) => {\n    //       const { id, edit } = action.payload;\n    //       const session = state.history.find(item => item.id === id);\n    //       if (session) {\n    //         const updatedSession = { ...session, ...edit };\n    //         state.history = state.history.map(item =>\n    //           item.id === id ? updatedSession : item\n    //         );\n    //         await fetchUpdateChatById(id, edit);\n    //       }\n    //     },\n    //     clearState: state => {\n    //       state.history = [];\n    //       state.active = null;\n    //       state.chats = {};\n    //     },\n  }\n});\nexport const {\n  setLoading,\n  setError,\n  setChatRequestData,\n  setApiKey,\n  setChatId,\n  setSessionId,\n  setActiveSession\n} = baseChatSlice.actions;\nexport default baseChatSlice.reducer;\n\n//# sourceMappingURL=data:application/json;base64,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QSxFQUNBRztBQUFBQSxFQUNBRTtBQUFBQSxFQUNBQztBQUFBQSxFQUNBRTtBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUNGLElBQUkzQixjQUFjNkI7QUFFbEIsZUFBZTdCLGNBQWM4QiIsIm5hbWVzIjpbImNyZWF0ZVNsaWNlIiwiY29tYmluZVNsaWNlcyIsImJhc2VDaGF0U2xpY2UiLCJuYW1lIiwiaW5pdGlhbFN0YXRlIiwiY2hhdFJlcXVlc3QiLCJzdGF0dXMiLCJlcnJvciIsInN1Y2Nlc3MiLCJtZXNzYWdlIiwiYXBpS2V5IiwibG9jYWxTdG9yYWdlIiwiZ2V0SXRlbSIsImNoYXRJZCIsInNlc3Npb25JZCIsImFjdGl2ZVNlc3Npb24iLCJKU09OIiwicGFyc2UiLCJyZWR1Y2VycyIsInNldExvYWRpbmciLCJzdGF0ZSIsImFjdGlvbiIsInNldEVycm9yIiwicGF5bG9hZCIsInNldENoYXRSZXF1ZXN0RGF0YSIsInNldEFwaUtleSIsInNldEl0ZW0iLCJzZXRDaGF0SWQiLCJzZXRTZXNzaW9uSWQiLCJzZXRBY3RpdmVTZXNzaW9uIiwic3RyaW5naWZ5IiwiYWN0aW9ucyIsInJlZHVjZXIiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiYmFzZUNoYXRTbGljZS5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgY3JlYXRlU2xpY2UsIGNvbWJpbmVTbGljZXMgfSBmcm9tICdAcmVkdXhqcy90b29sa2l0JztcblxuZXhwb3J0IGNvbnN0IGJhc2VDaGF0U2xpY2UgPSBjcmVhdGVTbGljZSh7XG4gIG5hbWU6ICdjaGF0JyxcbiAgaW5pdGlhbFN0YXRlOiB7XG4gICAgLy8gY2hhdFJlcXVlc3RzOiB7XG4gICAgLy8gICBwZW5kaW5nOiBbXSxcbiAgICAvLyAgIHJlc29sdmVkOiBbXSxcbiAgICAvLyAgIHJlamVjdGVkOiBbXSxcbiAgICAvLyB9LFxuICAgIGNoYXRSZXF1ZXN0OiB7XG4gICAgICBzdGF0dXM6ICdpZGxlJyxcbiAgICAgIGVycm9yOiBudWxsLFxuICAgICAgc3VjY2VzczogbnVsbCxcbiAgICAgIG1lc3NhZ2U6ICcnLFxuICAgIH0sXG4gICAgYXBpS2V5OiBsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgnYXBpS2V5JykgfHwgJycsXG4gICAgY2hhdElkOiBsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgnY2hhdElkJykgfHwgJycsXG4gICAgc2Vzc2lvbklkOiBsb2NhbFN0b3JhZ2UuZ2V0SXRlbS... (7798 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0004215420922264457
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/store/Slices/chat/baseChatSlice.jsx (200) — 2024-07-28T11:41:27.067Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/store/Slices/chat/baseChatSlice.jsx"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/chat/sidebar/main.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/chat/sidebar/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"44c1-9HKr1Qlj7+yzJMT+ARV8Lnx1VrI\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"4491-Ht75Ja7J/qnlXCFkS8fmsOtfCZc\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/chat/sidebar/main.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport { Avatar, Box, Drawer, IconButton, Tooltip } from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport { styled } from \"/node_modules/.vite/deps/@mui_system.js?v=a0e8a9f1\";\nimport __vite__cjsImport5_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport5_react.__esModule ? __vite__cjsImport5_react.default : __vite__cjsImport5_react; const useState = __vite__cjsImport5_react[\"useState\"];\nimport {\n  AccountCircleRoundedIcon,\n  AiIcon,\n  AssistantIcon,\n  ChatIcon,\n  FilePresentIcon,\n  FingerprintIcon,\n  HomeIcon,\n  KeyIcon,\n  SettingsIcon\n} from \"/src/assets/humanIcons/index.jsx\";\nimport { ChatBotIcon } from \"/src/assets/humanIcons/custom/index.jsx\";\nimport ValidationIcon from \"/src/components/themed/styled/ValidationIcon.jsx\";\nimport { useAuthStore } from \"/src/contexts/AuthProvider.jsx\";\nimport { useChatStore } from \"/src/contexts/ChatProvider.jsx\";\nimport useMode from \"/src/hooks/useMode.jsx\";\nimport useRouter from \"/src/hooks/useRouter.jsx\";\nimport { SidebarContainer, SidebarPanel } from \"/src/components/chat/styled/index.jsx\";\nimport Assistants from \"/src/components/chat/sidebar/panel/Assistants.jsx\";\nimport Chat from \"/src/components/chat/sidebar/panel/Chat.jsx\";\nimport Files from \"/src/components/chat/sidebar/panel/Files.jsx\";\nimport Prompts from \"/src/components/chat/sidebar/panel/Prompts.jsx\";\nimport User from \"/src/components/chat/sidebar/panel/User.jsx\";\nimport Workspace from \"/src/components/chat/sidebar/panel/Workspace.jsx\";\nconst sidebarIconStyle = {\n  width: \"32px\",\n  height: \"32px\",\n  color: \"white\"\n};\nexport const ChatSidebar = () => {\n  _s();\n  const [tab, setTab] = useState(null);\n  const [showSidebar, setShowSidebar] = useState(true);\n  const sideBarWidthRef = React.useRef(null);\n  const { navigate } = useRouter();\n  const {\n    state: { user, formDisabled, isAuthenticated },\n    actions: { logout }\n  } = useAuthStore();\n  const {\n    state: {\n      folders,\n      chatSessions,\n      presets,\n      prompts,\n      files,\n      collections,\n      assistants,\n      tools,\n      models\n    },\n    actions: { setfolders, setChatSessions, setPresets, setPrompts, setFiles }\n  } = useChatStore();\n  const { theme } = useMode();\n  React.useEffect(() => {\n    if (sideBarWidthRef.current) {\n      console.log(\"Sidebar width:\", sideBarWidthRef.current.offsetWidth);\n    }\n  }, []);\n  const handleSidebarOpen = (index) => {\n    setTab(index);\n    setShowSidebar(true);\n  };\n  const handleSidebarClose = () => {\n    setShowSidebar(false);\n    setTab(null);\n  };\n  const renderContent = () => {\n    switch (tab) {\n      case 0:\n        return /* @__PURE__ */ jsxDEV(User, {}, void 0, false, {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n          lineNumber: 79,\n          columnNumber: 16\n        }, this);\n      case 1:\n        return /* @__PURE__ */ jsxDEV(Workspace, {}, void 0, false, {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n          lineNumber: 81,\n          columnNumber: 16\n        }, this);\n      case 2:\n        return /* @__PURE__ */ jsxDEV(Chat, {}, void 0, false, {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n          lineNumber: 83,\n          columnNumber: 16\n        }, this);\n      case 3:\n        return /* @__PURE__ */ jsxDEV(Prompts, {}, void 0, false, {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n          lineNumber: 85,\n          columnNumber: 16\n        }, this);\n      case 4:\n        return /* @__PURE__ */ jsxDEV(Assistants, {}, void 0, false, {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n          lineNumber: 87,\n          columnNumber: 16\n        }, this);\n      case 5:\n        return /* @__PURE__ */ jsxDEV(Files, {}, void 0, false, {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n          lineNumber: 89,\n          columnNumber: 16\n        }, this);\n      default:\n        return /* @__PURE__ */ jsxDEV(DefaultTab, {}, void 0, false, {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n          lineNumber: 91,\n          columnNumber: 16\n        }, this);\n    }\n  };\n  return /* @__PURE__ */ jsxDEV(SidebarContainer, { children: [\n    /* @__PURE__ */ jsxDEV(SidebarPanel, { ref: sideBarWidthRef, children: [\n      /* @__PURE__ */ jsxDEV(\n        Avatar,\n        {\n          sx: {\n            width: 40,\n            height: 40,\n            bgcolor: theme.palette.primary.main,\n            marginBottom: \"0.5rem\"\n          },\n          children: /* @__PURE__ */ jsxDEV(AiIcon, { sx: { fontSize: 32, color: theme.palette.common.white } }, void 0, false, {\n            fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n            lineNumber: 115,\n            columnNumber: 11\n          }, this)\n        },\n        void 0,\n        false,\n        {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n          lineNumber: 107,\n          columnNumber: 9\n        },\n        this\n      ),\n      /* @__PURE__ */ jsxDEV(Tooltip, { title: \"User Settings\", placement: \"right\", children: /* @__PURE__ */ jsxDEV(IconButton, { onClick: () => handleSidebarOpen(0), children: /* @__PURE__ */ jsxDEV(AccountCircleRoundedIcon, { sx: sidebarIconStyle }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n        lineNumber: 119,\n        columnNumber: 13\n      }, this) }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n        lineNumber: 118,\n        columnNumber: 11\n      }, this) }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n        lineNumber: 117,\n        columnNumber: 9\n      }, this),\n      /* @__PURE__ */ jsxDEV(Tooltip, { title: \"Workspaces\", placement: \"right\", children: /* @__PURE__ */ jsxDEV(IconButton, { onClick: () => handleSidebarOpen(1), children: /* @__PURE__ */ jsxDEV(SettingsIcon, { sx: sidebarIconStyle }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n        lineNumber: 124,\n        columnNumber: 13\n      }, this) }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n        lineNumber: 123,\n        columnNumber: 11\n      }, this) }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n        lineNumber: 122,\n        columnNumber: 9\n      }, this),\n      /* @__PURE__ */ jsxDEV(Tooltip, { title: \"Chats\", placement: \"right\", children: /* @__PURE__ */ jsxDEV(IconButton, { onClick: () => handleSidebarOpen(2), children: /* @__PURE__ */ jsxDEV(ChatIcon, { sx: sidebarIconStyle }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n        lineNumber: 129,\n        columnNumber: 13\n      }, this) }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n        lineNumber: 128,\n        columnNumber: 11\n      }, this) }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n        lineNumber: 127,\n        columnNumber: 9\n      }, this),\n      /* @__PURE__ */ jsxDEV(Tooltip, { title: \"Prompts\", placement: \"right\", children: /* @__PURE__ */ jsxDEV(IconButton, { onClick: () => handleSidebarOpen(3), children: /* @__PURE__ */ jsxDEV(ChatBotIcon, { sx: sidebarIconStyle }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n        lineNumber: 134,\n        columnNumber: 13\n      }, this) }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n        lineNumber: 133,\n        columnNumber: 11\n      }, this) }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n        lineNumber: 132,\n        columnNumber: 9\n      }, this),\n      /* @__PURE__ */ jsxDEV(Tooltip, { title: \"Assistants\", placement: \"right\", children: /* @__PURE__ */ jsxDEV(IconButton, { onClick: () => handleSidebarOpen(4), children: /* @__PURE__ */ jsxDEV(AssistantIcon, { sx: sidebarIconStyle }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/main.jsx\",\n        lineNumber: 139,\n        columnNumber: 13\n      }, this) }, void 0, false, {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sideba... (29036 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.005455292062833905
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/chat/sidebar/main.jsx (200) — 2024-07-28T11:41:32.990Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/chat/sidebar/main.jsx"
+        }
+      ]
+    }
+  ]
+}

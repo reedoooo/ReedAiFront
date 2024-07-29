@@ -1,0 +1,7 @@
+[
+  {
+    "route": "GET /src/assets/img/avatars/avatar5.png",
+    "parameters": "(import)",
+    "status": 304
+  }
+]

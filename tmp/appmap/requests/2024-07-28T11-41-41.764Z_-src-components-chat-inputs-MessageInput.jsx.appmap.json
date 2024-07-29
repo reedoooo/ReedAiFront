@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/chat/inputs/MessageInput.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/chat/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"1ed5-SJU5Id/sfFEVmB0U2FNGEtE9C0A\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"1ec5-lwo/pPG3Y5whDXsHmrDFVoHCVBg\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/chat/inputs/MessageInput.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/MessageInput.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport __vite__cjsImport3__mui_iconsMaterial_StopCircle from \"/node_modules/.vite/deps/@mui_icons-material_StopCircle.js?v=d990624f\"; const StopCircleIcon = __vite__cjsImport3__mui_iconsMaterial_StopCircle.__esModule ? __vite__cjsImport3__mui_iconsMaterial_StopCircle.default : __vite__cjsImport3__mui_iconsMaterial_StopCircle;\nimport { Box, Card, CardActions, CardContent, IconButton } from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport { EditorContent } from \"/node_modules/.vite/deps/@tiptap_react.js?v=a736498f\";\nimport __vite__cjsImport6_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const useEffect = __vite__cjsImport6_react[\"useEffect\"]; const useState = __vite__cjsImport6_react[\"useState\"];\nimport { SendIcon } from \"/src/assets/humanIcons/index.jsx\";\nimport { useChatStore } from \"/src/contexts/ChatProvider.jsx\";\nimport useDialog from \"/src/hooks/useDialog.jsx\";\nimport { InputActions } from \"/src/components/chat/inputs/toolbar/InputActions.jsx\";\nexport const MessageInput = ({\n  theme,\n  editor,\n  handleSendMessage,\n  disabled,\n  setIsEditorActive,\n  editorRef,\n  setUserInput,\n  isFirstMessage\n}) => {\n  _s();\n  const apiKeyDialog = useDialog();\n  const chatStore = useChatStore();\n  const handleSendMessageWrapper = async () => {\n    await handleSendMessage();\n  };\n  useEffect(() => {\n    if (editor) {\n      editor.on(\"focus\", () => {\n        setIsEditorActive(true);\n        editorRef.current = true;\n      });\n      editor.on(\"blur\", () => {\n        setIsEditorActive(false);\n        editorRef.current = false;\n      });\n    }\n    return () => {\n      if (editor) {\n        editor.off(\"focus\", () => {\n          setIsEditorActive(true);\n          editorRef.current = true;\n        });\n        editor.off(\"blur\", () => {\n          setIsEditorActive(false);\n          editorRef.current = false;\n        });\n      }\n    };\n  }, [editor, setIsEditorActive, editorRef]);\n  return /* @__PURE__ */ jsxDEV(Card, { sx: { backgroundColor: \"#26242C\", borderRadius: 2, mt: 2, mb: 2 }, children: [\n    /* @__PURE__ */ jsxDEV(CardContent, { sx: { p: 2 }, children: /* @__PURE__ */ jsxDEV(\n      Box,\n      {\n        sx: {\n          backgroundColor: \"#333\",\n          borderRadius: 1,\n          p: 2,\n          color: \"white\"\n        },\n        children: /* @__PURE__ */ jsxDEV(EditorContent, { editor }, void 0, false, {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/MessageInput.jsx\",\n          lineNumber: 63,\n          columnNumber: 11\n        }, this)\n      },\n      void 0,\n      false,\n      {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/MessageInput.jsx\",\n        lineNumber: 55,\n        columnNumber: 9\n      },\n      this\n    ) }, void 0, false, {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/MessageInput.jsx\",\n      lineNumber: 54,\n      columnNumber: 7\n    }, this),\n    /* @__PURE__ */ jsxDEV(\n      CardActions,\n      {\n        sx: {\n          justifyContent: \"space-between\",\n          backgroundColor: \"#26242C\",\n          borderTop: \"1px solid #444\",\n          p: 1\n        },\n        children: [\n          /* @__PURE__ */ jsxDEV(\n            InputActions,\n            {\n              editor,\n              theme,\n              setApiKey: chatStore.setApiKey,\n              handleOpenApiModal: apiKeyDialog.handleOpen,\n              setUserInput,\n              isFirstMessage\n            },\n            void 0,\n            false,\n            {\n              fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/MessageInput.jsx\",\n              lineNumber: 74,\n              columnNumber: 9\n            },\n            this\n          ),\n          /* @__PURE__ */ jsxDEV(\n            IconButton,\n            {\n              onClick: () => {\n                if (!chatStore.state.apiKey) {\n                  console.log(\"No API Key\");\n                  apiKeyDialog.handleOpen();\n                } else if (disabled) {\n                  console.log(\"Already Sending\");\n                } else {\n                  console.log(\"Sending\");\n                  handleSendMessageWrapper();\n                }\n              },\n              children: !disabled ? /* @__PURE__ */ jsxDEV(\n                SendIcon,\n                {\n                  style: { color: theme.palette.primary.main, fontSize: 20 }\n                },\n                void 0,\n                false,\n                {\n                  fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/MessageInput.jsx\",\n                  lineNumber: 98,\n                  columnNumber: 11\n                },\n                this\n              ) : /* @__PURE__ */ jsxDEV(\n                StopCircleIcon,\n                {\n                  style: { color: theme.palette.primary.main, fontSize: 20 }\n                },\n                void 0,\n                false,\n                {\n                  fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/MessageInput.jsx\",\n                  lineNumber: 102,\n                  columnNumber: 11\n                },\n                this\n              )\n            },\n            void 0,\n            false,\n            {\n              fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/MessageInput.jsx\",\n              lineNumber: 83,\n              columnNumber: 9\n            },\n            this\n          )\n        ]\n      },\n      void 0,\n      true,\n      {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/MessageInput.jsx\",\n        lineNumber: 66,\n        columnNumber: 7\n      },\n      this\n    )\n  ] }, void 0, true, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/MessageInput.jsx\",\n    lineNumber: 53,\n    columnNumber: 5\n  }, this);\n};\n_s(MessageInput, \"1VgwUdXu+8J6Adl8+hCFXt82fd8=\", false, function() {\n  return [useDialog, useChatStore];\n});\n_c = MessageInput;\nexport default MessageInput;\nvar _c;\n$RefreshReg$(_c, \"MessageInput\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/inputs/MessageInput.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,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... (6348 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.17162166605703533
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/chat/inputs/MessageInput.jsx (200) — 2024-07-28T11:41:41.764Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/chat/inputs/MessageInput.jsx"
+        }
+      ]
+    }
+  ]
+}

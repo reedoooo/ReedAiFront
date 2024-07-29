@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/hooks/cleanup/useApiService.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/cleanup/unused/cover_letter_drafts.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"16a-LU33R9L0bQToylfpON7+IVNYfqY\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"16a-Knu+bJJGF7hmLDa3YWYy8EMOCOk\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import __vite__cjsImport0_lodash from \"/node_modules/.vite/deps/lodash.js?v=8862712d\"; const create = __vite__cjsImport0_lodash[\"create\"];\nimport constants from \"/src/config/constants.jsx\";\nconst { API_URL } = constants;\nconst useApiService = create({\n  baseURL: API_URL,\n  headers: {\n    \"Content-Type\": \"application/json\"\n  }\n});\nexport default useApiService;\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBQUEsU0FBU0EsY0FBYztBQUN2QixPQUFPQyxlQUFlO0FBRXRCLE1BQU0sRUFBRUMsUUFBUSxJQUFJRDtBQUNwQixNQUFNRSxnQkFBZ0JILE9BQU87QUFBQSxFQUMzQkksU0FBU0Y7QUFBQUEsRUFDVEcsU0FBUztBQUFBLElBQ1AsZ0JBQWdCO0FBQUEsRUFDbEI7QUFDRixDQUFDO0FBQ0QsZUFBZUYiLCJuYW1lcyI6WyJjcmVhdGUiLCJjb25zdGFudHMiLCJBUElfVVJMIiwidXNlQXBpU2VydmljZSIsImJhc2VVUkwiLCJoZWFkZXJzIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbInVzZUFwaVNlcnZpY2UuanN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGNyZWF0ZSB9IGZyb20gJ2xvZGFzaCc7XG5pbXBvcnQgY29uc3RhbnRzIGZyb20gJ2NvbmZpZy9jb25zdGFudHMnO1xuXG5jb25zdCB7IEFQSV9VUkwgfSA9IGNvbnN0YW50cztcbmNvbnN0IHVzZUFwaVNlcnZpY2UgPSBjcmVhdGUoe1xuICBiYXNlVVJMOiBBUElfVVJMLFxuICBoZWFkZXJzOiB7XG4gICAgJ0NvbnRlbnQtVHlwZSc6ICdhcHBsaWNhdGlvbi9qc29uJyxcbiAgfSxcbn0pO1xuZXhwb3J0IGRlZmF1bHQgdXNlQXBpU2VydmljZTtcbiJdLCJmaWxlIjoiL1VzZXJzL3JlZWR2b2d0L0Rlc2t0b3AvUmVlZEFpRnJvbnQvc3JjL2hvb2tzL2NsZWFudXAvdXNlQXBpU2VydmljZS5qc3gifQ=="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.00020649994257837534
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/hooks/cleanup/useApiService.jsx (200) — 2024-07-28T11:41:29.998Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/hooks/cleanup/useApiService.jsx"
+        }
+      ]
+    }
+  ]
+}

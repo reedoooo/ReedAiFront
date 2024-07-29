@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/hooks/useManageCookies.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/contexts/ColorModeProvider.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"c9f-B04PqXXuv8kxADCD4K8S72A+Tm4\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"c9f-HJkheyC9+7Cl9Xiw6Fi2HSrVvow\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/hooks/useManageCookies.jsx\");import RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/hooks/useManageCookies.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport { useCookies } from \"/node_modules/.vite/deps/react-cookie.js?v=1e55bfd7\";\nfunction useManageCookies() {\n  _s();\n  const [cookies, setCookie, removeCookie] = useCookies();\n  const addCookie = (name, value, options = {}) => {\n    setCookie(name, value, options);\n  };\n  const addCookies = (names, values, options = {}) => {\n    if (Array.isArray(names) && Array.isArray(values)) {\n      names.forEach((name, index) => {\n        const value = values[index];\n        if (value !== void 0) {\n          setCookie(name, JSON.stringify(value), options);\n        }\n      });\n    } else {\n      setCookie(names, JSON.stringify(values), options);\n    }\n  };\n  const getCookie = (nameOrNames) => {\n    const parseCookieValue = (value) => {\n      try {\n        value = JSON.parse(value);\n      } catch (e) {\n        if (value === \"true\") return true;\n        if (value === \"false\") return false;\n      }\n      return value;\n    };\n    if (Array.isArray(nameOrNames)) {\n      return nameOrNames.reduce((acc, name) => {\n        acc[name] = parseCookieValue(cookies[name]);\n        return acc;\n      }, {});\n    }\n    return parseCookieValue(cookies[nameOrNames]);\n  };\n  const deleteCookie = (name) => {\n    removeCookie(name);\n  };\n  const deleteCookies = (names) => {\n    if (Array.isArray(names)) {\n      names.forEach((name) => {\n        removeCookie(name);\n      });\n    } else {\n      removeCookie(names);\n    }\n  };\n  return { addCookie, addCookies, getCookie, deleteCookie, deleteCookies };\n}\n_s(useManageCookies, \"CNPRx2yWTCxM3rIcIUTwJbky37I=\", false, function() {\n  return [useCookies];\n});\nexport default useManageCookies;\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/hooks/useManageCookies.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IjJCQUFBO0FBQW1CLE1BQVEsY0FBYztBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUV6QyxTQUFTQSxtQkFBbUI7QUFBQUMsS0FBQTtBQUMxQixRQUFNLENBQUNDLFNBQVNDLFdBQVdDLFlBQVksSUFBSUMsV0FBVztBQUV0RCxRQUFNQyxZQUFZQSxDQUFDQyxNQUFNQyxPQUFPQyxVQUFVLENBQUMsTUFBTTtBQUMvQ04sY0FBVUksTUFBTUMsT0FBT0MsT0FBTztBQUFBLEVBQ2hDO0FBRUEsUUFBTUMsYUFBYUEsQ0FBQ0MsT0FBT0MsUUFBUUgsVUFBVSxDQUFDLE1BQU07QUFDbEQsUUFBSUksTUFBTUMsUUFBUUgsS0FBSyxLQUFLRSxNQUFNQyxRQUFRRixNQUFNLEdBQUc7QUFDakRELFlBQU1JLFFBQVEsQ0FBQ1IsTUFBTVMsVUFBVTtBQUM3QixjQUFNUixRQUFRSSxPQUFPSSxLQUFLO0FBQzFCLFlBQUlSLFVBQVVTLFFBQVc7QUFDdkJkLG9CQUFVSSxNQUFNVyxLQUFLQyxVQUFVWCxLQUFLLEdBQUdDLE9BQU87QUFBQSxRQUNoRDtBQUFBLE1BQ0YsQ0FBQztBQUFBLElBQ0gsT0FBTztBQUNMTixnQkFBVVEsT0FBT08sS0FBS0MsVUFBVVAsTUFBTSxHQUFHSCxPQUFPO0FBQUEsSUFDbEQ7QUFBQSxFQUNGO0FBRUEsUUFBTVcsWUFBWUEsQ0FBQUMsZ0JBQWU7QUFDL0IsVUFBTUMsbUJBQW1CQSxDQUFBZCxVQUFTO0FBQ2hDLFVBQUk7QUFDRkEsZ0JBQVFVLEtBQUtLLE1BQU1mLEtBQUs7QUFBQSxNQUMxQixTQUFTZ0IsR0FBRztBQUNWLFlBQUloQixVQUFVLE9BQVEsUUFBTztBQUM3QixZQUFJQSxVQUFVLFFBQVMsUUFBTztBQUFBLE1BQ2hDO0FBQ0EsYUFBT0E7QUFBQUEsSUFDVDtBQUVBLFFBQUlLLE1BQU1DLFFBQVFPLFdBQVcsR0FBRztBQUM5QixhQUFPQSxZQUFZSSxPQUFPLENBQUNDLEtBQUtuQixTQUFTO0FBQ3ZDbUIsWUFBSW5CLElBQUksSUFBSWUsaUJBQWlCcEIsUUFBUUssSUFBSSxDQUFDO0FBQzFDLGVBQU9tQjtBQUFBQSxNQUNULEdBQUcsQ0FBQyxDQUFDO0FBQUEsSUFDUDtBQUNBLFdBQU9KLGlCQUFpQnBCLFFBQVFtQixXQUFXLENBQUM7QUFBQSxFQUM5QztBQUVBLFFBQU1NLGVBQWVBLENBQUFwQixTQUFRO0FBQzNCSCxpQkFBYUcsSUFBSTtBQUFBLEVBQ25CO0FBRUEsUUFBTXFCLGdCQUFnQkEsQ0FBQWpCLFVBQVM7QUFDN0IsUUFBSUUsTUFBTUMsUUFBUUgsS0FBSyxHQUFHO0FBQ3hCQSxZQUFNSSxRQUFRLENBQUFSLFNBQVE7QUFDcEJILHFCQUFhRyxJQUFJO0FBQUEsTUFDbkIsQ0FBQztBQUFBLElBQ0gsT0FBTztBQUNMSCxtQkFBYU8sS0FBSztBQUFBLElBQ3BCO0FBQUEsRUFDRjtBQUVBLFNBQU8sRUFBRUwsV0FBV0ksWUFBWVUsV0FBV08sY0FBY0MsY0FBYztBQUN6RTtBQUFDM0IsR0F2RFFELGtCQUFnQjtBQUFBLFVBQ29CSyxVQUFVO0FBQUE7QUF3RHZELGVBQWVMIiwibmFtZXMiOlsidXNlTWFuYWdlQ29va2llcyIsIl9zIiwiY29va2llcyIsInNldENvb2tpZSIsInJlbW92ZUNvb2tpZSIsInVzZUNvb2tpZXMiLCJhZGRDb29raWUiLCJuYW1lIiwidmFsdWUiLCJvcHRpb25zIiwiYWRkQ29va2llcyIsIm5hbWVzIiwidmFsdWVzIiwiQXJyYXkiLCJpc0FycmF5IiwiZm9yRWFjaCIsImluZGV4IiwidW5kZWZpbmVkIiwiSlNPTiIsInN0cmluZ2lmeSIsImdldENvb2tpZSIsIm5hbWVPck5hbWVzIiwicGFyc2VDb29raWVWYWx1ZSIsInBhcnNlIiwiZSIsInJlZHVjZSIsImFjYyIsImRlbGV0ZUNvb2tpZSIsImRlbGV0ZUNvb2tpZXMiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsidXNlTWFuYWdlQ29va2llcy5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgdXNlQ29va2llcyB9IGZyb20gJ3JlYWN0LWNvb2tpZSc7XG5cbmZ1bmN0aW9uIHVzZU1hbmFnZUNvb2tpZXMoKSB7XG4gIGNvbnN0IFtjb29raWVzLCBzZXRDb29raWUsIHJlbW92ZUNvb2tpZV0gPSB1c2VDb29raWVzKCk7XG5cbiAgY29uc3QgYWRkQ29va2llID0gKG5hbWUsIHZhbHVlLCBvcHRpb25zID0ge30pID0+IHtcbiAgICBzZXRDb29raWUobmFtZSwgdmFsdWUsIG9wdGlvbnMpO1xuICB9O1xuXG4gIGNvbnN0IGFkZENvb2tpZXMgPSAobmFtZXMsIHZhbHVlcywgb3B0aW9ucyA9IHt9KSA9PiB7XG4gICAgaWYgKEFycmF5LmlzQXJyYXkobmFtZXMpICYmIEFycmF5LmlzQXJyYXkodmFsdWVzKSkge1xuICAgICAgbmFtZXMuZm9yRWFjaCgobmFtZSwgaW5kZXgpID0+IHtcbiAgICAgICAgY29uc3QgdmFsdWUgPSB2YWx1ZXNbaW5kZXhdO1xuICAgICAgICBpZiAodmFsdWUgIT09IHVuZGVmaW5lZCkge1xuICAgICAgICAgIHNldENvb2tpZShuYW1lLCBKU09OLnN0cmluZ2lmeSh2YWx1ZSksIG9wdGlvbnMpO1xuICAgICAgICB9XG4gICAgICB9KTtcbiAgICB9IGVsc2Uge1xuICAgICAgc2V0Q29va2llKG5hbWVzLCBKU09OLnN0cmluZ2lmeSh2YWx1ZXMpLCBvcHRpb25zKTtcbiAgICB9XG4gIH07XG5cbiAgY29uc3QgZ2V0Q29va2llID0gbmFtZU9yTmFtZXMgPT4ge1xuICAgIGNvbnN0IHBhcnNlQ29va2llVmFsdWUgPSB2YWx1ZSA9PiB7XG4gICAgICB0cnkge1xuICAgICAgICB2YWx1ZSA9IEpTT04ucGFyc2UodmFsdWUpO1xuICAgICAgfSBjYXRjaCAoZSkge1xuICAgICAgICBpZiAodmFsdWUgPT09ICd0cnVlJykgcmV0dXJuIHRydWU7XG4gICAgICAgIGlmICh2YWx1ZSA9PT0gJ2ZhbHNlJykgcmV0dXJuIGZhbHNlO1xuICAgICAgfVxuICAgICAgcmV0dXJuIHZhbHVlO1xuICAgIH07XG5cbiAgICBpZiAoQXJyYXkuaXNBcnJheShuYW1lT3JOYW1lcykpIHtcbiAgICAgIHJldHVybiBuYW1lT3JOYW1lcy5yZWR1Y2UoKGFjYywgbmFtZSkgPT4ge1xuICAgICAgICBhY2NbbmFtZV0gPSBwYXJzZUNvb2tpZVZhbHVlKGNvb2tpZXNbbmFtZV0pO1xuICAgICAgICByZXR1cm4gYWNjO1xuICAgICAgfSwge30pO1xuICAgIH1cbiAgICByZXR1cm4gcGFyc2VDb29raWVWYWx1ZShjb29raWVzW25hbWVPck5hbWVzXSk7XG4gIH07XG5cbiAgY29uc3QgZGVsZXRlQ29va2llID0gbmFtZSA9PiB7XG4gICAgcmVtb3ZlQ29va2llKG5hbWUpO1xuICB9O1xuXG4gIGNvbnN0IGRlbGV0ZUNvb2tpZXMgPSBuYW1lcyA9PiB7XG4gICAgaWYgKEFycmF5LmlzQXJyYXkobmFtZXMpKSB7XG4gICAgICBuYW1lcy5mb3JFYWNoKG5hbWUgPT4ge1xuICAgICAgICByZW1vdmVDb29raWUobmFtZSk7XG4gICAgICB9KTtcbiAgICB9IGVsc2Uge1xuICAgICAgcmVtb3ZlQ29va2llKG5hbWVzKTtcbiAgICB9XG4gIH07XG5cbiAgcmV0dXJuIHsgYWRkQ29va2llLCBhZGRDb29raWVzLCBnZXRDb29raWUsIGRlbGV0ZUNvb2tpZSwgZGVsZXRlQ29va2llcyB9O1xufVxuXG5leHBvcnQgZGVmYXVsdCB1c2VNYW5hZ2VDb29raWVzO1xuIl0sImZpbGUiOiIvVXNlcnMvcmVlZHZvZ3QvRGVza3RvcC9SZWVkQWlGcm9udC9zcmMvaG9va3MvdXNlTWFuYWdlQ29va2llcy5qc3gifQ=="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0010585000272840261
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/hooks/useManageCookies.jsx (200) — 2024-07-28T11:41:26.724Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/hooks/useManageCookies.jsx"
+        }
+      ]
+    }
+  ]
+}

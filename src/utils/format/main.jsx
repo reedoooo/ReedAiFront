@@ -17,8 +17,8 @@ export function encodeHTML(source) {
  * @param text
  */
 export function includeCode(text) {
-  const regexp = /^(?:\s{4}|\t).+/gm;
-  return !!(text?.includes(' = ') || text?.match(regexp));
+  const regexp = /^(?:\s{4}|\t).+/m;
+  return text?.includes(' = ') || regexp.test(text);
 }
 
 /**
@@ -41,25 +41,20 @@ export function copyText(options) {
   document.body.removeChild(input);
 }
 
-export const formatCodeResponse = data => {
-  return `### Code\n\n\`\`\`${data.language}\n${data.content}\n\`\`\`\n\n`;
-};
+export const formatCodeResponse = data =>
+  `### Code\n\n\`\`\`${data.language}\n${data.content}\n\`\`\`\n\n`;
 
-export const formatMarkdownResponse = data => {
-  return `### Markdown\n\n${data.content}\n\n`;
-};
+export const formatMarkdownResponse = data =>
+  `### Markdown\n\n${data.content}\n\n`;
 
-export const formatTextResponse = data => {
-  return `### Text\n\n${data.content}\n\n`;
-};
+export const formatTextResponse = data => `### Text\n\n${data.content}\n\n`;
 
-export const formatImageResponse = data => {
-  return `### Image\n\n![${data.title}](${data.url})\n\n`;
-};
+export const formatImageResponse = data =>
+  `### Image\n\n![${data.title}](${data.url})\n\n`;
 
-export const formatJSONResponse = data => {
-  return `### JSON\n\n\`\`\`json\n${JSON.stringify(data, null, 2)}\n\`\`\`\n\n`;
-};
+export const formatJSONResponse = data =>
+  `### JSON\n\n\`\`\`json\n${JSON.stringify(data, null, 2)}\n\`\`\`\n\n`;
+
 /**
  * Safely parses a JSON string into an object.
  * @param {string} jsonString - The JSON string to parse.
@@ -74,6 +69,7 @@ export const safeParse = (jsonString, defaultValue = null) => {
     return defaultValue;
   }
 };
+
 export const formatResponse = json => {
   let formatted = '';
   // const jsonObjects = inputString.match(/{[^}]*"type"[^}]*}/g);
@@ -95,6 +91,7 @@ export const formatResponse = json => {
 
   return formatted;
 };
+
 export function extractHTMLContent(data) {
   const sections = data.sections;
   let htmlContent = '';
@@ -152,16 +149,39 @@ export function extractHTMLContent(data) {
   return htmlContent;
 }
 
-export function parseJsonString(jsonString) {
+export function extractMarkdownContent(messageContent) {
   try {
-    // First, unescape the double quotes
-    const correctedString = jsonString.replace(/\\"/g, '"');
-    // Remove any backslashes that are not part of the JSON structure
-    const cleanedString = correctedString.replace(/\\(?!["\\])/g, '');
+    if (
+      typeof messageContent === 'string' &&
+      messageContent.startsWith('{') &&
+      messageContent.endsWith('}')
+    ) {
+      const parsedContent = JSON.parse(messageContent?.data);
+      if (parsedContent.pageLayout) {
+        return parsedContent.pageLayout;
+      }
+      return JSON.stringify(parsedContent, null, 2);
+    }
+  } catch (error) {
+    console.error('Error parsing JSON content:', error);
+  }
 
+  return messageContent;
+}
+
+export function parseJsonString(jsonString) {
+  if (typeof jsonString !== 'string') {
+    return null;
+  }
+
+  // First, unescape the double quotes
+  const correctedString = jsonString.replace(/\\"/g, '"');
+  // Remove any backslashes that are not part of the JSON structure
+  const cleanedString = correctedString.replace(/\\(?!["\\/])/g, '');
+
+  try {
     // Attempt to parse the cleaned JSON string
-    const jsonObject = JSON.parse(cleanedString);
-    return jsonObject;
+    return JSON.parse(cleanedString);
   } catch (error) {
     console.error('Failed to parse JSON string:', error);
     return null;

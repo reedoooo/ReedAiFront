@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/themed/basic/FlexBetween.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"12a-fHR1lh7vyILEFQVNiLrj4Eu/3jU\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"12a-/ciGNbFn3ARF1jDzXxcrY0mUDHI\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { Box } from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport styled from \"/node_modules/.vite/deps/styled-components.js?v=5417f7aa\";\nconst FlexBetween = styled(Box)({\n  display: \"flex\",\n  justifyContent: \"space-between\",\n  alignItems: \"center\"\n});\nexport default FlexBetween;\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBQUEsU0FBU0EsV0FBVztBQUNwQixPQUFPQyxZQUFZO0FBRW5CLE1BQU1DLGNBQWNELE9BQU9ELEdBQUcsRUFBRTtBQUFBLEVBQzlCRyxTQUFTO0FBQUEsRUFDVEMsZ0JBQWdCO0FBQUEsRUFDaEJDLFlBQVk7QUFDZCxDQUFDO0FBQ0QsZUFBZUgiLCJuYW1lcyI6WyJCb3giLCJzdHlsZWQiLCJGbGV4QmV0d2VlbiIsImRpc3BsYXkiLCJqdXN0aWZ5Q29udGVudCIsImFsaWduSXRlbXMiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiRmxleEJldHdlZW4uanN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEJveCB9IGZyb20gJ0BtdWkvbWF0ZXJpYWwnO1xuaW1wb3J0IHN0eWxlZCBmcm9tICdzdHlsZWQtY29tcG9uZW50cyc7XG5cbmNvbnN0IEZsZXhCZXR3ZWVuID0gc3R5bGVkKEJveCkoe1xuICBkaXNwbGF5OiAnZmxleCcsXG4gIGp1c3RpZnlDb250ZW50OiAnc3BhY2UtYmV0d2VlbicsXG4gIGFsaWduSXRlbXM6ICdjZW50ZXInLFxufSk7XG5leHBvcnQgZGVmYXVsdCBGbGV4QmV0d2VlbjtcbiJdLCJmaWxlIjoiL1VzZXJzL3JlZWR2b2d0L0Rlc2t0b3AvUmVlZEFpRnJvbnQvc3JjL2NvbXBvbmVudHMvdGhlbWVkL2Jhc2ljL0ZsZXhCZXR3ZWVuLmpzeCJ9"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0007955419132485986
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/themed/basic/FlexBetween.jsx (200) — 2024-07-28T11:41:29.088Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/themed/basic/FlexBetween.jsx"
+        }
+      ]
+    }
+  ]
+}

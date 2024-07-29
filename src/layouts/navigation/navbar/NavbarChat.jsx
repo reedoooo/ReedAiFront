@@ -3,7 +3,7 @@ import { Box, useMediaQuery, useScrollTrigger } from '@mui/material';
 import { motion, useAnimation } from 'framer-motion';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import routes, { extractPaths } from '@/routes/index';
+import routes from '@/routes/index';
 import useMode from 'hooks/useMode';
 import NavbarContainer from '../shared/navbarcontainer'; // Import the new NavbarContainer
 import ChatNavbarLinks from './ChatNavbarLinks';

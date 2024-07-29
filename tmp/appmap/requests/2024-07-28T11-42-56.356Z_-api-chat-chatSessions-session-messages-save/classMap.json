@@ -1,0 +1,22 @@
+[
+  {
+    "type": "http",
+    "name": "HTTP server requests",
+    "children": [
+      {
+        "type": "route",
+        "name": "POST /api/chat/chatSessions/session/messages/save"
+      }
+    ]
+  },
+  {
+    "type": "external-service",
+    "name": "localhost:3001",
+    "children": [
+      {
+        "type": "external-route",
+        "name": "POST http://localhost:3001/chat/chatSessions/session/messages/save"
+      }
+    ]
+  }
+]

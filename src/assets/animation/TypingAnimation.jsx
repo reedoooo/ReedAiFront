@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { AspectRatioBox, StyledPaper } from 'components/index';
 import useMode from 'hooks/useMode';
 
-function TypingAnimation() {
+export function TypingAnimation() {
   const { theme } = useMode();
   const [text, setText] = useState('');
   const coverLetter =

@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/themed/RCBox/index.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/themed/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"e72-sbmBjoG8kPsNIVGVgqqgscKylGs\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"e72-BmFY1rKU1TrGrPBYfihxeuq3HYc\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/themed/RCBox/index.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCBox/index.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nimport __vite__cjsImport3_propTypes from \"/node_modules/.vite/deps/prop-types.js?v=da689d69\"; const PropTypes = __vite__cjsImport3_propTypes.__esModule ? __vite__cjsImport3_propTypes.default : __vite__cjsImport3_propTypes;\nimport __vite__cjsImport4_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport4_react.__esModule ? __vite__cjsImport4_react.default : __vite__cjsImport4_react;\nimport RCBoxRoot from \"/src/components/themed/RCBox/RCBoxRoot.jsx\";\nconst RCBox = React.forwardRef(\n  _c = ({\n    variant = \"contained\",\n    bgColor = \"transparent\",\n    color = \"dark\",\n    opacity = 1,\n    hasBorderRadius = false,\n    borderRadius = \"none\",\n    shadow = \"none\",\n    coloredShadow = \"none\",\n    ...rest\n  }, ref) => /* @__PURE__ */ jsxDEV(\n    RCBoxRoot,\n    {\n      ...rest,\n      ref,\n      ownerState: {\n        variant,\n        bgColor,\n        color,\n        opacity,\n        borderRadius,\n        shadow,\n        coloredShadow\n      }\n    },\n    void 0,\n    false,\n    {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCBox/index.jsx\",\n      lineNumber: 36,\n      columnNumber: 1\n    },\n    this\n  )\n);\n_c2 = RCBox;\nRCBox.displayName = \"RCBox\";\nRCBox.propTypes = {\n  variant: PropTypes.oneOf(\n    [\n      \"contained\",\n      \"gradient\",\n      \"dashboard\",\n      \"none\",\n      \"outlined\",\n      \"text\",\n      \"button\",\n      \"paper\",\n      \"card\",\n      \"flexBetween\"\n    ]\n  ),\n  bgColor: PropTypes.string,\n  color: PropTypes.string,\n  opacity: PropTypes.number,\n  hasBorderRadius: PropTypes.bool,\n  borderRadius: PropTypes.string,\n  shadow: PropTypes.string,\n  coloredShadow: PropTypes.oneOf(\n    [\n      \"primary\",\n      \"secondary\",\n      \"info\",\n      \"success\",\n      \"warning\",\n      \"error\",\n      \"light\",\n      \"dark\"\n    ]\n  )\n};\nexport default RCBox;\nvar _c, _c2;\n$RefreshReg$(_c, \"RCBox$React.forwardRef\");\n$RefreshReg$(_c2, \"RCBox\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCBox/index.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBbUNJO0FBbkNKLE9BQU9BLG9CQUFlO0FBQVk7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQ2xDLE9BQU9DLFdBQVc7QUFDbEIsT0FBT0MsZUFBZTtBQWtCdEIsTUFBTUMsUUFBUUYsTUFBTUc7QUFBQUEsRUFBVUMsS0FDNUJBLENBQ0U7QUFBQSxJQUNFQyxVQUFVO0FBQUEsSUFDVkMsVUFBVTtBQUFBLElBQ1ZDLFFBQVE7QUFBQSxJQUNSQyxVQUFVO0FBQUEsSUFDVkMsa0JBQWtCO0FBQUEsSUFDbEJDLGVBQWU7QUFBQSxJQUNmQyxTQUFTO0FBQUEsSUFDVEMsZ0JBQWdCO0FBQUEsSUFDaEIsR0FBR0M7QUFBQUEsRUFDTCxHQUNBQyxRQUVBO0FBQUEsSUFBQztBQUFBO0FBQUEsTUFDQyxHQUFJRDtBQUFBQSxNQUNKO0FBQUEsTUFDQSxZQUFZO0FBQUEsUUFDVlI7QUFBQUEsUUFDQUM7QUFBQUEsUUFDQUM7QUFBQUEsUUFDQUM7QUFBQUEsUUFDQUU7QUFBQUEsUUFDQUM7QUFBQUEsUUFDQUM7QUFBQUEsTUFDRjtBQUFBO0FBQUEsSUFYRjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsRUFXSTtBQUdSO0FBQUVHLE1BN0JJYjtBQStCTkEsTUFBTWMsY0FBYztBQUdwQmQsTUFBTWUsWUFBWTtBQUFBLEVBQ2hCWixTQUFTTixVQUFVbUI7QUFBQUEsSUFBTTtBQUFBLE1BQ3ZCO0FBQUEsTUFDQTtBQUFBLE1BQ0E7QUFBQSxNQUNBO0FBQUEsTUFDQTtBQUFBLE1BQ0E7QUFBQSxNQUNBO0FBQUEsTUFDQTtBQUFBLE1BQ0E7QUFBQSxNQUNBO0FBQUEsSUFBYTtBQUFBLEVBQ2Q7QUFBQSxFQUNEWixTQUFTUCxVQUFVb0I7QUFBQUEsRUFDbkJaLE9BQU9SLFVBQVVvQjtBQUFBQSxFQUNqQlgsU0FBU1QsVUFBVXFCO0FBQUFBLEVBQ25CWCxpQkFBaUJWLFVBQVVzQjtBQUFBQSxFQUMzQlgsY0FBY1gsVUFBVW9CO0FBQUFBLEVBQ3hCUixRQUFRWixVQUFVb0I7QUFBQUEsRUFDbEJQLGVBQWViLFVBQVVtQjtBQUFBQSxJQUFNO0FBQUEsTUFDN0I7QUFBQSxNQUNBO0FBQUEsTUFDQTtBQUFBLE1BQ0E7QUFBQSxNQUNBO0FBQUEsTUFDQTtBQUFBLE1BQ0E7QUFBQSxNQUNBO0FBQUEsSUFBTTtBQUFBLEVBQ1A7QUFDSDtBQUVBLGVBQWVoQjtBQUFNLElBQUFFLElBQUFXO0FBQUFPLGFBQUFsQixJQUFBO0FBQUFrQixhQUFBUCxLQUFBIiwibmFtZXMiOlsiUHJvcFR5cGVzIiwiUmVhY3QiLCJSQ0JveFJvb3QiLCJSQ0JveCIsImZvcndhcmRSZWYiLCJfYyIsInZhcmlhbnQiLCJiZ0NvbG9yIiwiY29sb3IiLCJvcGFjaXR5IiwiaGFzQm9yZGVyUmFkaXVzIiwiYm9yZGVyUmFkaXVzIiwic2hhZG93IiwiY29sb3JlZFNoYWRvdyIsInJlc3QiLCJyZWYiLCJfYzIiLCJkaXNwbGF5TmFtZSIsInByb3BUeXBlcyIsIm9uZU9mIiwic3RyaW5nIiwibnVtYmVyIiwiYm9vbCIsIiRSZWZyZXNoUmVnJCJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJpbmRleC5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFByb3BUeXBlcyBmcm9tICdwcm9wLXR5cGVzJztcbmltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XG5pbXBvcnQgUkNCb3hSb290IGZyb20gJy4vUkNCb3hSb290JztcblxuLyoqXG4gKiBBIGN1c3RvbWl6YWJsZSBib3ggY29tcG9uZW50LlxuICpcbiAqIEBjb21wb25lbnRcbiAqIEBwYXJhbSB7T2JqZWN0fSBwcm9wcyAtIFRoZSBjb21wb25lbnQgcHJvcHMuXG4gKiBAcGFyYW0ge3N0cmluZ30gW3Byb3BzLnZhcmlhbnQ9J2NvbnRhaW5lZCddIC0gT3B0aW9uczogbm9uZSwgY29udGFpbmVkLCBvdXRsaW5lZCwgdGV4dCwgYnV0dG9uLlxuICogQHBhcmFtIHtzdHJpbmd9IFtwcm9wcy5iZ0NvbG9yPSd0cmFuc3BhcmVudCddIC0gT3B0aW9uczogdHJhbnNwYXJlbnQsIHByaW1hcnksIHNlY29uZGFyeVxuICogQHBhcmFtIHtzdHJpbmd9IFtwcm9wcy5jb2xvcj0nZGFyayddIC0gT3B0aW9uczogcHJpbWFyeSwgc2Vjb25kYXJ5LCBkYXJrXG4gKiBAcGFyYW0ge251bWJlcn0gW3Byb3BzLm9wYWNpdHk9MV0gLSBPcHRpb25zOiAwIC0gMVxuICogQHBhcmFtIHtib29sZWFufSBbcHJvcHMuaGFzQm9yZGVyUmFkaXVzPWZhbHNlXSAtIFdoZXRoZXIgdG8gYXBwbHkgYSBib3JkZXIgcmFkaXVzIHRvIHRoZSBib3guXG4gKiBAcGFyYW0ge3N0cmluZ30gW3Byb3BzLmJvcmRlclJhZGl1cz0nbm9uZSddIC0gT3B0aW9uczogbm9uZSwgc20sIG1kLCBsZywgeGwsIGZ1bGwuXG4gKiBAcGFyYW0ge3N0cmluZ30gW3Byb3BzLnNoYWRvdz0nbm9uZSddIC0gT3B0aW9uczogbm9uZSwgc20sIG1kLCBsZywgeGwsIGZ1bGwuXG4gKiBAcGFyYW0ge3N0cmluZ30gW3Byb3BzLmNvbG9yZWRTaGFkb3c9J25vbmUnXSAtIE9wdGlvbnM6IG5vbmUsIHNtLCBtZCwgbGcsIHhsLCBmdWxsLlxuICogQHBhcmFtIHtSZWFjdC5SZWZ9IHJlZiAtIFRoZSByZWYgb2JqZWN0IGZvciB0aGUgY29tcG9uZW50LlxuICogQHJldHVybnMge1JlYWN0LkVsZW1lbnR9IFRoZSByZW5kZXJlZCBSQ0JveCBjb21wb25lbnQuXG4gKi9cbmNvbnN0IFJDQm94ID0gUmVhY3QuZm9yd2FyZFJlZihcbiAgKFxuICAgIHtcbiAgICAgIHZhcmlhbnQgPSAnY29udGFpbmVkJyxcbiAgICAgIGJnQ29sb3IgPSAndHJhbnNwYXJlbnQnLFxuICAgICAgY29sb3IgPSAnZGFyaycsXG4gICAgICBvcGFjaXR5ID0gMSxcbiAgICAgIGhhc0JvcmRlclJhZGl1cyA9IGZhbHNlLFxuICAgICAgYm9yZGVyUmFkaXVzID0gJ25vbmUnLFxuICAgICAgc2hhZG93ID0gJ25vbmUnLFxuICAgICAgY29sb3JlZFNoYWRvdyA9ICdub25lJyxcbiAgICAgIC4uLnJlc3RcbiAgICB9LFxuICAgIHJlZlxuICApID0+IChcbiAgICA8UkNCb3hSb290XG4gICAgICB7Li4ucmVzdH1cbiAgICAgIHJlZj17cmVmfVxuICAgICAgb3duZXJTdGF0ZT17e1xuICAgICAgICB2YXJpYW50LFxuICAgICAgICBiZ0NvbG9yLFxuICAgICAgICBjb2xvcixcbiAgICAgICAgb3BhY2l0eSxcbiAgICAgICAgYm9yZGVyUmFkaXVzLFxuICAgICAgICBzaGFkb3csXG4gICAgICAgIGNvbG9yZWRTaGFkb3csXG4gICAgICB9fVxuICAgIC8+XG4gIClcbik7XG5cblJDQm94LmRpc3BsYXlOYW1lID0gJ1JDQm94JztcblxuLy8gVHlwZWNoZWNraW5nIHByb3BzIGZvciB0aGUgUkNCb3hcblJDQm94LnByb3BUeXBlcyA9IHtcbiAgdmFyaWFudDogUHJvcFR5cGVzLm9uZU9mKFtcbiAgICAnY29udGFpbmVkJyxcbiAgICAnZ3JhZGllbnQnLFxuICAgICdkYXNoYm9hcmQnLFxuICAgICdub25lJyxcbiAgICAnb3V0bGluZWQnLFxuICAgICd0ZXh0JyxcbiAgICAnYnV0dG9uJyxcbiAgICAncGFwZXInLFxuICAgICdjYXJkJyxcbiAgICAnZmxleEJldHdlZW4nLFxuICBdKSxcbiAgYmdDb2xvcjogUHJvcFR5cGVzLnN0cmluZyxcbiAgY29sb3I6IFByb3BUeXBlcy5zdHJpbmcsXG4gIG9wYWNpdHk6IFByb3BUeXBlcy5udW1iZXIsXG4gIGhhc0JvcmRlclJhZGl1czogUHJvcFR5cGVzLmJvb2wsXG4gIGJvcmRlclJhZGl1czogUHJvcFR5cGVzLnN0cmluZyxcbiAgc2hhZG93OiBQcm9wVHlwZXMuc3RyaW5nLFxuICBjb2xvcmVkU2hhZG93OiBQcm9wVHlwZXMub25lT2YoW1xuICAgICdwcmltYXJ5JyxcbiAgICAnc2Vjb25kYXJ5JyxcbiAgICAnaW5mbycsXG4gICAgJ3N1Y2Nlc3MnLFxuICAgICd3YXJuaW5nJyxcbiAgICAnZXJyb3InLFxuICAgICdsaWdodCcsXG4gICAgJ2RhcmsnLFxuICBdKSxcbn07XG5cbmV4cG9ydCBkZWZhdWx0IFJDQm94O1xuIl0sImZpbGUiOiIvVXNlcnMvcmVlZHZvZ3QvRGVza3RvcC9SZWVkQWlGcm9udC9zcmMvY29tcG9uZW50cy90aGVtZWQvUkNCb3gvaW5kZXguanN4In0="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0003341659903526306
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/themed/RCBox/index.jsx (200) — 2024-07-28T11:41:29.835Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/themed/RCBox/index.jsx"
+        }
+      ]
+    }
+  ]
+}

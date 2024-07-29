@@ -1,0 +1,85 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/admin/chat/chat-home",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Cache-Control": "max-age=0",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Upgrade-Insecure-Requests": "1",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "navigate",
+          "Sec-Fetch-User": "?1",
+          "Sec-Fetch-Dest": "document",
+          "Referer": "http://localhost:3000/admin/chat/chat-home",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"cc8-apQzeI5tz01o+RkX6ANYBLYNWNs\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/html",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"cb8-Hnl03WYWzwsumpPp+bFMfPgay0U\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <script type=\"module\">\nimport RefreshRuntime from \"/@react-refresh\"\nRefreshRuntime.injectIntoGlobalHook(window)\nwindow.$RefreshReg$ = () => {}\nwindow.$RefreshSig$ = () => (type) => type\nwindow.__vite_plugin_react_preamble_installed__ = true\n</script>\n\n    <script type=\"module\" src=\"/@vite/client\"></script>\n\n    <meta charset=\"UTF-8\" />\n    <link rel=\"icon\" type=\"image/svg+xml\" href=\"/vite.svg\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Cover Letter Generator</title>\n    <!-- MUI Global Theme Font -->\n    <link\n      rel=\"stylesheet\"\n      href=\"https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap\"\n    />\n    <link\n      rel=\"stylesheet\"\n      href=\"https://fonts.googleapis.com/icon?family=Material+Icons\"\n    />\n    <link\n      href=\"https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap\"\n      rel=\"stylesheet\"\n    />\n    <link\n      rel=\"stylesheet\"\n      href=\"https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0\"\n    />\n    <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap\" rel=\"stylesheet\">\n    <!-- TABLE ICONS FONT -->\n    <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\" />\n    <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin />\n    <link\n      href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap\"\n      rel=\"stylesheet\"\n    />\n    <!-- Main Quill library -->\n    <script src=\"https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js\"></script>\n    <link href=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css\" rel=\"stylesheet\" />\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js\"></script>\n\n    <!-- Theme included stylesheets -->\n    <link\n      href=\"https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css\"\n      rel=\"stylesheet\"\n    />\n    <link\n      href=\"https://cdn.jsdelivr.net/npm/quill@2/dist/quill.bubble.css\"\n      rel=\"stylesheet\"\n    />\n    <!-- Core build with no theme, formatting, non-essential modules -->\n    <link\n      href=\"https://cdn.jsdelivr.net/npm/quill@2/dist/quill.core.css\"\n      rel=\"stylesheet\"\n    />\n    <script src=\"https://cdn.jsdelivr.net/npm/quill@2/dist/quill.core.js\"></script>\n\n    <link rel=\"icon\" href=\"/favicon.ico\" />\n    <meta\n      name=\"description\"\n      content=\"Web site created using create-react-app\"\n    />\n    <link rel=\"apple-touch-icon\" href=\"/logo192.png\" />\n    <link rel=\"manifest\" href=\"/manifest.json\" />\n    <title>React App</title>\n  </head>\n  <body>\n    <noscript>You need to enable JavaScript to run this app.</noscript>\n    <div id=\"root\"></div>\n    <script type=\"module\" src=\"/src/index.jsx\"></script>\n    <!--\n      This HTML file is a template.\n      If you open it directly in the browser, you will see an empty page.\n\n      You can add webfonts, meta tags, or analytics to this file.\n      The build step will place the bundled scripts into the <body> tag.\n\n      To begin the development, run `npm start` or `yarn start`.\n      To create a production bundle, use `npm run build` or `yarn build`.\n    -->\n  </body>\n</html>\n"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.1446109579410404
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /admin/chat/chat-home (200) — 2024-07-28T11:41:21.121Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /admin/chat/chat-home"
+        }
+      ]
+    }
+  ]
+}

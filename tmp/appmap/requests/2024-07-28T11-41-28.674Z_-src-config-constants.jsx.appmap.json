@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/config/constants.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/store/Slices/user/authSlice.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"45a-d/P39j1v+tTN9zq41/cVPQ8Nj0k\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"45a-A2qemwF/y3eBKlpcD1l8b2EkAGU\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import.meta.env = {\"BASE_URL\": \"/\", \"DEV\": true, \"MODE\": \"development\", \"PROD\": false, \"SSR\": false, \"VITE_API_URL\": \"http://localhost:3001/api\", \"VITE_APP_API_BASE\": \"http://localhost:3001/api\", \"VITE_APP_API_URL\": \"http://localhost:3001/api\", \"VITE_APP_Environment\": \"development\", \"VITE_APP_SERVER_URL\": \"http://localhost:3001\", \"VITE_OPENAI_API_KEY\": \"sk-proj-v0iAxlIMgmBD4oI0xXitT3BlbkFJJ0Lr54k6PrhvSbyEeGOl\", \"VITE_PUBLIC_URL\": \"http://localhost:3001\"};import { pdfjs } from \"/node_modules/.vite/deps/react-pdf.js?v=e69fbb6b\";\nexport const constants = {\n  API_URL: import.meta.env.VITE_API_URL,\n  OPENAI_API_KEY: import.meta.env.VITE_OPENAI_API_KEY,\n  PUBLIC_URL: import.meta.env.VITE_PUBLIC_URL,\n  // SERVER_URL: import.meta.env.REACT_APP_SERVER_URL,\n  PDF_WORKER_SRC: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`,\n  DEFAULT_LINKEDIN_URL: encodeURI(\n    \"https://www.linkedin.com/jobs/search/?currentJobId=3917250167&geoId=103644278&keywords=developer%20tcgplayer&location=United%20States&origin=JOB_SEARCH_PAGE_SEARCH_BUTTON&refresh=true\"\n  )\n};\nexport default constants;\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBRUEsU0FBU0EsYUFBYTtBQUVmLGFBQU1DLFlBQVk7QUFBQSxFQUN2QkMsU0FBU0MsWUFBWUMsSUFBSUM7QUFBQUEsRUFDekJDLGdCQUFnQkgsWUFBWUMsSUFBSUc7QUFBQUEsRUFDaENDLFlBQVlMLFlBQVlDLElBQUlLO0FBQUFBO0FBQUFBLEVBRTVCQyxnQkFBZ0IsaURBQWlEVixNQUFNVyxPQUFPO0FBQUEsRUFDOUVDLHNCQUFzQkM7QUFBQUEsSUFDcEI7QUFBQSxFQUNGO0FBQ0Y7QUFDQSxlQUFlWiIsIm5hbWVzIjpbInBkZmpzIiwiY29uc3RhbnRzIiwiQVBJX1VSTCIsImltcG9ydCIsImVudiIsIlZJVEVfQVBJX1VSTCIsIk9QRU5BSV9BUElfS0VZIiwiVklURV9PUEVOQUlfQVBJX0tFWSIsIlBVQkxJQ19VUkwiLCJWSVRFX1BVQkxJQ19VUkwiLCJQREZfV09SS0VSX1NSQyIsInZlcnNpb24iLCJERUZBVUxUX0xJTktFRElOX1VSTCIsImVuY29kZVVSSSJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJjb25zdGFudHMuanN4Il0sInNvdXJjZXNDb250ZW50IjpbIi8qIGVzbGludC1kaXNhYmxlIG1heC1sZW4gKi9cbi8vIHNyYy92YXJpYWJsZXMvY29uc3RhbnRzLmpzXG5pbXBvcnQgeyBwZGZqcyB9IGZyb20gJ3JlYWN0LXBkZic7XG5cbmV4cG9ydCBjb25zdCBjb25zdGFudHMgPSB7XG4gIEFQSV9VUkw6IGltcG9ydC5tZXRhLmVudi5WSVRFX0FQSV9VUkwsXG4gIE9QRU5BSV9BUElfS0VZOiBpbXBvcnQubWV0YS5lbnYuVklURV9PUEVOQUlfQVBJX0tFWSxcbiAgUFVCTElDX1VSTDogaW1wb3J0Lm1ldGEuZW52LlZJVEVfUFVCTElDX1VSTCxcbiAgLy8gU0VSVkVSX1VSTDogaW1wb3J0Lm1ldGEuZW52LlJFQUNUX0FQUF9TRVJWRVJfVVJMLFxuICBQREZfV09SS0VSX1NSQzogYGh0dHBzOi8vY2RuanMuY2xvdWRmbGFyZS5jb20vYWpheC9saWJzL3BkZi5qcy8ke3BkZmpzLnZlcnNpb259L3BkZi53b3JrZXIuanNgLFxuICBERUZBVUxUX0xJTktFRElOX1VSTDogZW5jb2RlVVJJKFxuICAgICdodHRwczovL3d3dy5saW5rZWRpbi5jb20vam9icy9zZWFyY2gvP2N1cnJlbnRKb2JJZD0zOTE3MjUwMTY3Jmdlb0lkPTEwMzY0NDI3OCZrZXl3b3Jkcz1kZXZlbG9wZXIlMjB0Y2dwbGF5ZXImbG9jYXRpb249VW5pdGVkJTIwU3RhdGVzJm9yaWdpbj1KT0JfU0VBUkNIX1BBR0VfU0VBUkNIX0JVVFRPTiZyZWZyZXNoPXRydWUnXG4gICksXG59O1xuZXhwb3J0IGRlZmF1bHQgY29uc3RhbnRzO1xuIl0sImZpbGUiOiIvVXNlcnMvcmVlZHZvZ3QvRGVza3RvcC9SZWVkQWlGcm9udC9zcmMvY29uZmlnL2NvbnN0YW50cy5qc3gifQ=="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0003077499568462372
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/config/constants.jsx (200) — 2024-07-28T11:41:28.674Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/config/constants.jsx"
+        }
+      ]
+    }
+  ]
+}

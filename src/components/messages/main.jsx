@@ -1,14 +1,8 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable react/no-children-prop */
-import {
-  Box,
-  Card,
-  Typography,
-  Avatar,
-  styled,
-  IconButton,
-} from '@mui/material';
+import { Box, Typography, IconButton } from '@mui/material';
 import memoizeOne from 'memoize-one';
+import PropTypes from 'prop-types';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FaCopy, FaUser } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
@@ -16,153 +10,104 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import gfm from 'remark-gfm';
 import { AiIcon } from 'assets/humanIcons';
-import useMode from 'hooks/useMode';
+import {
+  ChatBubbleAvatarWrapper,
+  ChatBubbleWrapper,
+} from 'components/chat/styled';
+import { useMode } from 'hooks/useMode';
+import { extractMarkdownContent } from 'utils/format';
 import MessageOptions from './MessageOptions';
+import 'styles/MarkdownBlockStyles.css';
 
-function extractMarkdownContent(messageContent) {
-  try {
-    if (
-      typeof messageContent === 'string' &&
-      messageContent.startsWith('{') &&
-      messageContent.endsWith('}')
-    ) {
-      const parsedContent = JSON.parse(messageContent?.data);
-      // If the parsed content contains a markdown key, use it
-      if (parsedContent.pageLayout) {
-        return parsedContent.pageLayout;
-      }
-      return JSON.stringify(parsedContent, null, 2);
-    }
-  } catch (error) {
-    console.error('Error parsing JSON content:', error);
-  }
-
-  return messageContent;
-}
-const ChatBubbleWrapper = styled(Box)(({ theme, sender }) => ({
-  backgroundColor: sender === 'user' ? '#26242C' : '#26242C',
-  margin: '10px',
-  padding: '10px',
-  borderRadius: '12px',
-  alignSelf: sender === 'user' ? 'flex-end' : 'flex-start',
-  display: 'flex',
-  alignItems: 'flex-start',
-  justifyContent: sender === 'user' ? 'flex-end' : 'flex-start',
-  flexDirection: sender === 'user' ? 'row-reverse' : 'row',
-  maxWidth: '90%',
-  flexGrow: 1,
-}));
-
-const AvatarWrapper = styled(Avatar)(({ theme, sender }) => ({
-  width: 40,
-  height: 40,
-  marginRight: sender === 'assistant' ? 2 : 0,
-  marginLeft: sender === 'user' ? 2 : 0,
-  backgroundColor:
-    sender === 'user'
-      ? theme.palette.primary.main
-      : theme.palette.secondary.main,
-}));
-
-const TypographyWrapper = styled(Typography)({
-  color: '#6b7280',
-  fontSize: '0.875rem',
-  flexGrow: 1,
-  overflowWrap: 'break-word',
-});
-
-const CodeBlockWithCopy = ({ children, language }) => {
+export const RenderContent = ({ content, sender, maxWidth }) => {
   const [copied, setCopied] = useState(false);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(children);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  function codeBlock({ node, inline, className, children, ...props }) {
+    if (!children) {
+      return null;
+    }
+    const value = String(children).replace(/\n$/, '');
+    if (!value) {
+      return null;
+    }
+
+    const handleCopy = () => {
+      navigator.clipboard.writeText(children);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    };
+    const match = /language-(\w+)/.exec(className || '');
+
+    return !inline && match ? (
+      <Box sx={{ position: 'relative', overflowX: 'auto', maxWidth: '100%' }}>
+        <Box
+          sx={{
+            // mb: 1,
+            display: 'flex',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            backgroundColor: '#333',
+            padding: 1, // equal to 24px (MuiBox)
+            color: '#fff',
+            borderRadius: '4px 4px 0 0',
+          }}
+        >
+          <Typography variant="caption" sx={{ fontWeight: 'bold', ml: 2 }}>
+            {match[1]}
+          </Typography>
+          {copied ? (
+            <Typography variant="caption" color="success.main">
+              Copied!
+            </Typography>
+          ) : (
+            <IconButton size="small" onClick={handleCopy}>
+              <FaCopy />
+            </IconButton>
+          )}
+        </Box>
+        <Box sx={{ overflowY: 'auto' }}>
+          <SyntaxHighlighter
+            // children={String(children).replace(/\n$/, '')}
+            children={value}
+            style={oneDark}
+            language={match[1]}
+            PreTag="div"
+            customStyle={{ margin: '0' }}
+            // {...props}
+          />
+        </Box>
+      </Box>
+    ) : (
+      <code className={className} {...props}>
+        {value}
+      </code>
+    );
+  }
+
+  const renderers = {
+    code: codeBlock,
   };
 
   return (
-    <Box sx={{ position: 'relative', overflowX: 'auto', maxWidth: '100%' }}>
-      <Box
-        sx={{
-          // mb: 1,
-          display: 'flex',
-          width: '100%',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          backgroundColor: '#333',
-          padding: 1, // equal to 24px (MuiBox)
-          color: '#fff',
-          borderRadius: '4px 4px 0 0',
-        }}
-      >
-        <Typography variant="caption" sx={{ fontWeight: 'bold', ml: 2 }}>
-          {language}
-        </Typography>
-        <IconButton size="small" onClick={handleCopy}>
-          <FaCopy />
-        </IconButton>
-      </Box>
-      <SyntaxHighlighter
-        children={String(children).replace(/\n$/, '')}
-        style={oneDark}
-        language={language}
-        PreTag="div"
-        // {...props}
+    <Box
+      component="div"
+      className="markdown-body"
+      sx={{
+        overflowX: 'auto',
+        maxWidth: '90%',
+      }}
+    >
+      <ReactMarkdown
+        children={content}
+        remarkPlugins={[gfm]}
+        components={renderers}
       />
-      {/* <SyntaxHighlighter style={oneDark} language={language} PreTag="div">
-        {children}
-      </SyntaxHighlighter> */}
-      {copied && (
-        <Typography variant="caption" color="success.main">
-          Copied!
-        </Typography>
-      )}
     </Box>
   );
 };
 
-export const RenderContent = ({ content, sender, maxWidth }) => {
-  return (
-    <ReactMarkdown
-      children={content}
-      remarkPlugins={[gfm]}
-      components={{
-        code({ node, inline, className, children, ...props }) {
-          const match = /language-(\w+)/.exec(className || '');
-          return !inline && match ? (
-            <Box
-              component="div"
-              sx={{
-                overflowX: 'auto',
-                maxWidth: maxWidth || '90%',
-              }}
-            >
-              <CodeBlockWithCopy language={match[1]}>
-                {String(children).replace(/\n$/, '')}
-              </CodeBlockWithCopy>
-            </Box>
-          ) : (
-            <code className={className} {...props}>
-              {children}
-            </code>
-          );
-        },
-        a({ href, children, ...props }) {
-          return (
-            <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
-              {children}
-            </a>
-          );
-        },
-        img({ alt, src, ...props }) {
-          return (
-            <img alt={alt} src={src} style={{ maxWidth: '100%' }} {...props} />
-          );
-        },
-      }}
-    />
-  );
-};
+const MemoizedRenderContent = React.memo(RenderContent);
 
 export const ChatBubble = ({ message, sender }) => {
   const { theme } = useMode();
@@ -189,39 +134,55 @@ export const ChatBubble = ({ message, sender }) => {
   const icon = sender === 'user' ? <FaUser /> : <AiIcon />;
 
   return (
-    <ChatBubbleWrapper ref={bubbleRef} sender={sender} theme={theme}>
-      <AvatarWrapper sx={avatarStyle} theme={theme} sender={sender}>
+    <ChatBubbleWrapper
+      ref={bubbleRef}
+      sender={sender}
+      theme={theme}
+      className={`chat-bubble-wrapper-${sender}`}
+    >
+      <ChatBubbleAvatarWrapper sx={avatarStyle} theme={theme} sender={sender}>
         {icon}
-      </AvatarWrapper>
-      <TypographyWrapper variant="body2">
-        <div className={`chat-message ${sender}`}>
-          <div className="message-content">
-            <RenderContent
-              content={message.content}
-              maxWidth={maxWidth}
-              sender={sender}
-            />
-          </div>
-        </div>
-        {sender === 'assistant' && (
-          <MessageOptions
-            message={message}
-            onRegenerate={() => {
-              // Handle regeneration logic here
-              const messages = JSON.parse(localStorage.getItem('chatMessages'));
-              const mostRecentPrompt = messages[messages.length - 1].content;
-              console.log(`Regenerating message: ${mostRecentPrompt}`);
-            }}
+      </ChatBubbleAvatarWrapper>
+      {/* <ChatBubbleTypographyWrapper variant="body2"> */}
+      <div className={`chat-message-${sender}`}>
+        <div className={`message-content-${sender}`}>
+          <MemoizedRenderContent
+            content={message.content}
+            maxWidth={maxWidth}
+            sender={sender}
           />
-        )}
-      </TypographyWrapper>
+        </div>
+      </div>
+      {sender === 'assistant' && (
+        <MessageOptions
+          message={message}
+          onRegenerate={() => {
+            // Handle regeneration logic here
+            const messages = JSON.parse(localStorage.getItem('chatMessages'));
+            const mostRecentPrompt = messages[messages.length - 1].content;
+            console.log(`Regenerating message: ${mostRecentPrompt}`);
+          }}
+        />
+      )}
+      {/* </ChatBubbleTypographyWrapper> */}
     </ChatBubbleWrapper>
   );
 };
 
+const MemoizedChatBubble = React.memo(ChatBubble);
+
 export const UserMessage = React.memo(({ message }) => (
-  <ChatBubble message={message} sender="user" />
+  <MemoizedChatBubble message={message} sender="user" />
 ));
+
+UserMessage.displayName = 'UserMessage';
+
+UserMessage.propTypes = {
+  message: PropTypes.shape({
+    content: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export const AssistantMessage = React.memo(({ message }) => {
   const memoizedExtractMarkdownContent = useMemo(
@@ -229,7 +190,7 @@ export const AssistantMessage = React.memo(({ message }) => {
     []
   );
   return (
-    <ChatBubble
+    <MemoizedChatBubble
       message={{
         ...message,
         content: memoizedExtractMarkdownContent(message.content),
@@ -239,6 +200,14 @@ export const AssistantMessage = React.memo(({ message }) => {
   );
 });
 
+AssistantMessage.displayName = 'AssistantMessage';
+
+AssistantMessage.propTypes = {
+  message: PropTypes.shape({
+    content: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+  }).isRequired,
+};
 export const MessageBox = props => {
   const { messages } = props;
 

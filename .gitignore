@@ -5,7 +5,7 @@
 /.pnp
 .pnp.js
 package-lock.json
-
+.npmrc
 
 # guides and docs
 /dev

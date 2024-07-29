@@ -1,5 +1,13 @@
 import StopCircleIcon from '@mui/icons-material/StopCircle';
-import { Box, Card, CardActions, CardContent, IconButton } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  IconButton,
+  LinearProgress,
+  Typography,
+} from '@mui/material';
 import { EditorContent } from '@tiptap/react';
 import { useEffect, useState } from 'react';
 import { SendIcon } from 'assets/humanIcons';
@@ -15,6 +23,7 @@ export const MessageInput = ({
   setIsEditorActive,
   editorRef,
   setUserInput,
+  setFileInput,
   isFirstMessage,
 }) => {
   const apiKeyDialog = useDialog();
@@ -77,6 +86,7 @@ export const MessageInput = ({
           setApiKey={chatStore.setApiKey}
           handleOpenApiModal={apiKeyDialog.handleOpen}
           setUserInput={setUserInput}
+          setFileInput={setFileInput}
           isFirstMessage={isFirstMessage}
         />
 

@@ -15,10 +15,11 @@ export const ContentTypeDropDown = ({
   handleMenuOpen,
   isFirstMessage,
   setUserInput,
+  setFileInput,
 }) => {
   const forms = ['Select input', 'Text input'];
   const { editorContent, contentType, handleContentTypeChange } =
-    useTipTapEditor(isFirstMessage, setUserInput);
+    useTipTapEditor(isFirstMessage, setUserInput, setFileInput);
 
   return (
     <>

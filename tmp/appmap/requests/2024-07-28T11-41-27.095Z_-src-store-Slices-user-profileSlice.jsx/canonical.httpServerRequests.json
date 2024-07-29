@@ -1,0 +1,7 @@
+[
+  {
+    "route": "GET /src/store/Slices/user/profileSlice.jsx",
+    "parameters": "()",
+    "status": 200
+  }
+]

@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/views/error/NotFound/index.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/views/error/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"1d70-tTe3CqydzZxI9tHdsMAg6D+jfew\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"20d3-LzJzHK4Yvn3qaYB+nv4msOo2B5A\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/views/error/NotFound/index.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const Fragment = __vite__cjsImport0_react_jsxDevRuntime[\"Fragment\"]; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/views/error/NotFound/index.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport { Box, Typography, Button } from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport __vite__cjsImport4_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport4_react.__esModule ? __vite__cjsImport4_react.default : __vite__cjsImport4_react;\nimport { NavLink, useNavigate } from \"/node_modules/.vite/deps/react-router-dom.js?v=20530588\";\nimport { FlexBetween } from \"/src/components/index.jsx\";\nimport { errorProps, buttonsData } from \"/src/config/data.jsx\";\nimport useMode from \"/src/hooks/useMode.jsx\";\nconst returnErrText = ({\n  variant,\n  color,\n  fontWeight,\n  fontSize,\n  lineHeight,\n  textAlign,\n  gutterBottom,\n  styles,\n  content\n}) => /* @__PURE__ */ jsxDEV(\n  Typography,\n  {\n    variant,\n    color,\n    fontWeight,\n    sx: {\n      ...styles,\n      fontSize,\n      lineHeight,\n      textAlign,\n      gutterBottom\n    },\n    gutterBottom,\n    children: content\n  },\n  void 0,\n  false,\n  {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/views/error/NotFound/index.jsx\",\n    lineNumber: 21,\n    columnNumber: 1\n  },\n  this\n);\nconst renderError = ({\n  theme,\n  statusText,\n  message,\n  mainText,\n  subTextA,\n  subTextB\n}) => {\n  return /* @__PURE__ */ jsxDEV(Fragment, { children: [\n    returnErrText({\n      variant: \"h1\",\n      fontWeight: 700,\n      fontSize: \"6rem\",\n      gutterBottom: true,\n      content: statusText\n    }),\n    returnErrText({ variant: \"h4\", gutterBottom: true, content: message }),\n    returnErrText({\n      variant: \"subtitle1\",\n      styles: {\n        mb: 4,\n        textAlign: \"center\",\n        color: theme.palette.text.primary\n      },\n      content: mainText\n    }),\n    /* @__PURE__ */ jsxDEV(\n      FlexBetween,\n      {\n        sx: {\n          width: \"100%\",\n          justifyContent: \"center\",\n          alignItems: \"center\",\n          mb: 4\n        },\n        children: [\n          returnErrText({\n            variant: \"subtitle1\",\n            styles: { textAlign: \"center\", color: theme.palette.text.tertiary },\n            content: subTextA\n          }),\n          returnErrText({\n            variant: \"subtitle1\",\n            fontWeight: 700,\n            styles: { ml: 1, color: theme.palette.error.main },\n            content: subTextB\n          })\n        ]\n      },\n      void 0,\n      true,\n      {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/views/error/NotFound/index.jsx\",\n        lineNumber: 64,\n        columnNumber: 7\n      },\n      this\n    )\n  ] }, void 0, true, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/views/error/NotFound/index.jsx\",\n    lineNumber: 46,\n    columnNumber: 5\n  }, this);\n};\nconst ActionButton = ({\n  startIcon,\n  variant,\n  color,\n  component,\n  to,\n  sx,\n  children\n}) => /* @__PURE__ */ jsxDEV(\n  Button,\n  {\n    startIcon,\n    variant,\n    color,\n    component,\n    to,\n    sx,\n    children\n  },\n  void 0,\n  false,\n  {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/views/error/NotFound/index.jsx\",\n    lineNumber: 97,\n    columnNumber: 1\n  },\n  this\n);\n_c = ActionButton;\nconst renderButtonStack = ({ buttonsData: buttonsData2 }) => {\n  return buttonsData2.map(\n    ({ startIcon, variant, color, component, to, sx, children }) => /* @__PURE__ */ jsxDEV(\n      ActionButton,\n      {\n        startIcon,\n        variant,\n        color,\n        component,\n        to,\n        sx,\n        children\n      },\n      children,\n      false,\n      {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/views/error/NotFound/index.jsx\",\n        lineNumber: 112,\n        columnNumber: 5\n      },\n      this\n    )\n  );\n};\nconst NotFoundPage = (props) => {\n  _s();\n  const { theme } = useMode();\n  const navigate = useNavigate();\n  const clickHandlers = {\n    goHome: \"/\",\n    goBack: () => navigate(-1),\n    retry: () => window.location.reload(),\n    copy: () => navigator.clipboard.writeText(window.location.href),\n    refresh: () => window.location.reload()\n  };\n  const buttonProps = buttonsData.map((btn) => ({\n    ...btn,\n    component: btn.handler === \"goHome\" ? NavLink : btn.handler === \"goBack\" || btn.handler === \"retry\" || btn.handler === \"copy\" || btn.handler === \"refresh\" ? \"button\" : NavLink,\n    to: btn.handler === \"goHome\" ? clickHandlers[btn.handler] : void 0,\n    onClick: btn.handler === \"retry\" || btn.handler === \"copy\" || btn.handler === \"refresh\" ? clickHandlers[btn.handler] : btn.handler === \"goBack\" ? clickHandlers[btn.handler] : void 0\n  }));\n  let errType = errorProps?.errorTypes[props.error.status];\n  const activeErrProps = {\n    theme,\n    statusText: errType?.statusText,\n    message: errType?.message,\n    mainText: errType?.mainText,\n    subTextA: errType?.subTextA,\n    subTextB: props.error?.path\n  };\n  return /* @__PURE__ */ jsxDEV(\n    Box,\n    {\n      sx: {\n        display: \"flex\",\n        flexDirection: \"column\",\n        alignItems: \"center\",\n        justifyContent: \"center\",\n        minHeight: \"100vh\",\n        px: 3,\n        // Apply some padding for smaller screens\n        bgcolor: theme.palette.background.default,\n        color: theme.palette.text.primary\n      },\n      children: [\n        renderError(activeErrProps),\n        renderButtonStack({ buttonsData: buttonProps }),\n        props.resetErrorBoundary && /* @__PURE__ */ jsxDEV(\"div\", { children: /* @__PURE__ */ jsxDEV(\"button\", { className: \"retry-button\", onClick: props.resetErrorBoundary, children: \"🔄 Try Again!\" }, void 0, false, {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/views/error/NotFound/index.jsx\",\n          lineNumber: 186,\n          columnNumber: 11\n        }, this) }, void 0, false, {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/views/error/NotFound/index.jsx\",\n          lineNumber: 185,\n          columnNumber: 7\n        }, this)\n      ]\n    },\n    void 0,\n    true,\n    {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/views/error/NotFound/index.jsx\",\n      lineNumber: 170,\n      columnNumber: 5\n    },\n    this\n  );\n};\n_s(NotFoundPage, \"zIlzZBFYcpcsXc2Fm5DhuArBeQg=\", false, function() {\n  return [useMode, useNavigate];\n});\n_c2 = NotFoundPage;\nexport const ErrorFallBack = (props) => {\n  return /* @__PURE__ */ jsxDEV(NotFoundPage, { ...props }, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/views/error/NotFound/index.jsx\",\n    lineNumber: 198,\n    columnNumber: 10\n  }, this);\n};\n_c3 = ErrorFallBack;\nexport default NotFoundPage;\nvar _c, _c2, _c3;\n$RefreshReg$(_c, \"ActionButton\");\n$RefreshReg$(_c2, \"NotFoundPage\");\n$RefreshReg$(_c3, \"ErrorFallBack\");\nif (import.meta.hot && !inWebWorker) {\n  window.$RefreshReg$ = prevRefreshReg;\n  window.$RefreshSig$ = prevRefreshSig;\n}\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/views/error/NotFound/index.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBb0JFLFNBeUJFLFVBekJGOzJCQXBCRjtBQUFjQSxNQUFZQyxjQUFjLDZCQUFlO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQ3ZELE9BQU9DLFdBQVc7QUFDbEIsU0FBU0MsU0FBU0MsbUJBQW1CO0FBR3JDLFNBQVNDLG1CQUFtQjtBQUM1QixTQUFTQyxZQUFZQyxtQkFBbUI7QUFDeEMsT0FBT0MsYUFBYTtBQUVwQixNQUFNQyxnQkFBZ0JBLENBQUM7QUFBQSxFQUNyQkM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFDRixNQUNFO0FBQUEsRUFBQztBQUFBO0FBQUEsSUFDQztBQUFBLElBQ0E7QUFBQSxJQUNBO0FBQUEsSUFDQSxJQUFJO0FBQUEsTUFDRixHQUFHRDtBQUFBQSxNQUNISjtBQUFBQSxNQUNBQztBQUFBQSxNQUNBQztBQUFBQSxNQUNBQztBQUFBQSxJQUNGO0FBQUEsSUFDQTtBQUFBLElBRUNFO0FBQUFBO0FBQUFBLEVBYkg7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQWNBO0FBRUYsTUFBTUMsY0FBY0EsQ0FBQztBQUFBLEVBQ25CQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUNGLE1BQU07QUFDSixTQUNFLG1DQUNHaEI7QUFBQUEsa0JBQWM7QUFBQSxNQUNiQyxTQUFTO0FBQUEsTUFDVEUsWUFBWTtBQUFBLE1BQ1pDLFVBQVU7QUFBQSxNQUNWRyxjQUFjO0FBQUEsTUFDZEUsU0FBU0c7QUFBQUEsSUFDWCxDQUFDO0FBQUEsSUFDQVosY0FBYyxFQUFFQyxTQUFTLE1BQU1NLGNBQWMsTUFBTUUsU0FBU0ksUUFBUSxDQUFDO0FBQUEsSUFDckViLGNBQWM7QUFBQSxNQUNiQyxTQUFTO0FBQUEsTUFDVE8sUUFBUTtBQUFBLFFBQ05TLElBQUk7QUFBQSxRQUNKWCxXQUFXO0FBQUEsUUFDWEosT0FBT1MsTUFBTU8sUUFBUUMsS0FBS0M7QUFBQUEsTUFDNUI7QUFBQSxNQUNBWCxTQUFTSztBQUFBQSxJQUNYLENBQUM7QUFBQSxJQUNEO0FBQUEsTUFBQztBQUFBO0FBQUEsUUFDQyxJQUFJO0FBQUEsVUFDRk8sT0FBTztBQUFBLFVBQ1BDLGdCQUFnQjtBQUFBLFVBQ2hCQyxZQUFZO0FBQUEsVUFDWk4s... (11792 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0018961249152198434
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/views/error/NotFound/index.jsx (200) — 2024-07-28T11:41:26.979Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/views/error/NotFound/index.jsx"
+        }
+      ]
+    }
+  ]
+}

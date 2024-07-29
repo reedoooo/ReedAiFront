@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/themed/RCSnackbar/index.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/themed/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"29b0-ZqUl1J2LnQbcecCSsblc8IqQiv8\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"29b0-J9LvQJTJkKUsWiWt1QDeA7IA7yQ\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/themed/RCSnackbar/index.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCSnackbar/index.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nimport Divider from \"/node_modules/.vite/deps/@mui_material_Divider.js?v=8e290c38\";\nimport Fade from \"/node_modules/.vite/deps/@mui_material_Fade.js?v=3cff11b2\";\nimport Icon from \"/node_modules/.vite/deps/@mui_material_Icon.js?v=a9c623cc\";\nimport IconButton from \"/node_modules/.vite/deps/@mui_material_IconButton.js?v=f78b4f31\";\nimport Snackbar from \"/node_modules/.vite/deps/@mui_material_Snackbar.js?v=6cde3bf3\";\nimport __vite__cjsImport8_propTypes from \"/node_modules/.vite/deps/prop-types.js?v=da689d69\"; const PropTypes = __vite__cjsImport8_propTypes.__esModule ? __vite__cjsImport8_propTypes.default : __vite__cjsImport8_propTypes;\nimport RCBox from \"/src/components/themed/RCBox/index.jsx\";\nimport RCTypography from \"/src/components/themed/RCTypography/index.jsx\";\nimport RCSnackbarIconRoot from \"/src/components/themed/RCSnackbar/RCSnackbarIconRoot.jsx\";\nfunction RCSnackbar({\n  color = \"info\",\n  icon = /* @__PURE__ */ jsxDEV(Icon, {}, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCSnackbar/index.jsx\",\n    lineNumber: 14,\n    columnNumber: 10\n  }, this),\n  title = \"Default Title\",\n  dateTime = \"Just now\",\n  content = /* @__PURE__ */ jsxDEV(RCTypography, {}, void 0, false, {\n    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCSnackbar/index.jsx\",\n    lineNumber: 17,\n    columnNumber: 13\n  }, this),\n  close = () => {\n  },\n  bgWhite = false,\n  ...rest\n}) {\n  const darkMode = false;\n  let titleColor;\n  let dateTimeColor;\n  let dividerColor;\n  if (bgWhite) {\n    titleColor = color;\n    dateTimeColor = \"dark\";\n    dividerColor = false;\n  } else if (color === \"light\") {\n    titleColor = darkMode ? \"inherit\" : \"dark\";\n    dateTimeColor = darkMode ? \"inherit\" : \"text\";\n  } else {\n    titleColor = \"white\";\n    dateTimeColor = \"white\";\n    dividerColor = true;\n  }\n  return /* @__PURE__ */ jsxDEV(\n    Snackbar,\n    {\n      TransitionComponent: Fade,\n      autoHideDuration: 5e3,\n      anchorOrigin: {\n        vertical: \"bottom\",\n        horizontal: \"right\"\n      },\n      ...rest,\n      action: /* @__PURE__ */ jsxDEV(\n        IconButton,\n        {\n          size: \"small\",\n          \"aria-label\": \"close\",\n          color: \"inherit\",\n          onClick: close,\n          children: /* @__PURE__ */ jsxDEV(Icon, { fontSize: \"small\", children: \"close\" }, void 0, false, {\n            fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCSnackbar/index.jsx\",\n            lineNumber: 56,\n            columnNumber: 11\n          }, this)\n        },\n        void 0,\n        false,\n        {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCSnackbar/index.jsx\",\n          lineNumber: 50,\n          columnNumber: 7\n        },\n        this\n      ),\n      children: /* @__PURE__ */ jsxDEV(\n        RCBox,\n        {\n          variant: bgWhite ? \"contained\" : \"gradient\",\n          bgColor: bgWhite ? \"#fff\" : color,\n          minWidth: \"21.875rem\",\n          maxWidth: \"100%\",\n          shadow: \"md\",\n          borderRadius: \"md\",\n          p: 1,\n          sx: {\n            backgroundColor: ({ palette }) => darkMode ? palette.background.card : palette[color] || palette.white.main\n          },\n          children: [\n            /* @__PURE__ */ jsxDEV(\n              RCBox,\n              {\n                display: \"flex\",\n                justifyContent: \"space-between\",\n                alignItems: \"center\",\n                color: \"dark\",\n                p: 1.5,\n                children: [\n                  /* @__PURE__ */ jsxDEV(RCBox, { display: \"flex\", alignItems: \"center\", lineHeight: 0, children: [\n                    /* @__PURE__ */ jsxDEV(\n                      RCSnackbarIconRoot,\n                      {\n                        fontSize: \"small\",\n                        ownerState: { color, bgWhite },\n                        children: icon\n                      },\n                      void 0,\n                      false,\n                      {\n                        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCSnackbar/index.jsx\",\n                        lineNumber: 83,\n                        columnNumber: 13\n                      },\n                      this\n                    ),\n                    /* @__PURE__ */ jsxDEV(\n                      RCTypography,\n                      {\n                        variant: \"button\",\n                        fontWeight: \"medium\",\n                        color: titleColor,\n                        textGradient: bgWhite,\n                        children: title\n                      },\n                      void 0,\n                      false,\n                      {\n                        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCSnackbar/index.jsx\",\n                        lineNumber: 89,\n                        columnNumber: 13\n                      },\n                      this\n                    )\n                  ] }, void 0, true, {\n                    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCSnackbar/index.jsx\",\n                    lineNumber: 82,\n                    columnNumber: 11\n                  }, this),\n                  /* @__PURE__ */ jsxDEV(RCTypography, { variant: \"caption\", color: dateTimeColor, children: dateTime }, void 0, false, {\n                    fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCSnackbar/index.jsx\",\n                    lineNumber: 98,\n                    columnNumber: 11\n                  }, this),\n                  /* @__PURE__ */ jsxDEV(\n                    Icon,\n                    {\n                      sx: {\n                        color: ({ palette: { dark, white } }) => bgWhite && !darkMode || color === \"light\" ? dark.main : white.main,\n                        fontWeight: ({ typography: { fontWeightBold } }) => fontWeightBold,\n                        cursor: \"pointer\",\n                        marginLeft: 2,\n                        transform: \"translateY(-1px)\"\n                      },\n                      onClick: close,\n                      children: \"close\"\n                    },\n                    void 0,\n                    false,\n                    {\n                      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCSnackbar/index.jsx\",\n                      lineNumber: 101,\n                      columnNumber: 11\n                    },\n                    this\n                  )\n                ]\n              },\n              void 0,\n              true,\n              {\n                fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCSnackbar/index.jsx\",\n                lineNumber: 75,\n                columnNumber: 9\n              },\n              this\n            ),\n            /* @__PURE__ */ jsxDEV(Divider, { sx: { margin: 0 }, light: dividerColor }, void 0, false, {\n              fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCSnackbar/index.jsx\",\n              lineNumber: 118,\n              columnNumber: 9\n            }, this),\n            /* @__PURE__ */ jsxDEV(\n              RCTypography,\n              {\n                sx: {\n                  fontSize: ({ typography: { size } }) => size.sm,\n                  color: ({ palette: { white, text } }) => {\n                    let colorValue = bgWhite || color === \"light\" ? text.main : white.main;\n                    if (darkMode) {\n                      colorValue = color === \"light\" ? \"inherit\" : white.main;\n                    }\n                    return colorValue;\n                  }\n                },\n                children: content\n              },\n              void 0,\n              false,\n              {\n                fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCSnackbar/index.jsx\",\n                lineNumber: 119,\n                columnNumber: 9\n              },\n              this\n            )\n          ]\n        },\n        void 0,\n        true,\n        {\n          fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCSnackbar/index.jsx\",\n          lineNumber: 60,\n          columnNumber: 7\n        },\n        this\n      )\n    },\n    void 0,\n    false,\n    {\n      fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/RCSnackbar/index.jsx\",\n      lineNumber: 41,\n      columnNumber: 5\n    },\n    this\n  );\n}\n_c = RCSnackbar;\nRCSnackbar.propTypes = {\n  color: PropTypes.oneOf(\n    [\n      \"primary\",\n      \"secondary\",\n      \"info\",\n      \"success\",\n      \"warning\",\n      \"error\",\n      \"dark\",\n      \"light\"\n    ]\n  ),\n  icon: PropTypes.node,\n  title: PropTypes.string,\n  dateTime: PropTypes.string,\n  content: PropTypes.node,\n  close: PropTypes.func,\n  bgWhite: PropTypes.bool\n};\nexport default RCSnackbar;\nvar _c;\n$RefreshReg$(_c, \"RCSnackbar\")... (11919 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.00028316699899733067
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/themed/RCSnackbar/index.jsx (200) — 2024-07-28T11:41:29.847Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/themed/RCSnackbar/index.jsx"
+        }
+      ]
+    }
+  ]
+}

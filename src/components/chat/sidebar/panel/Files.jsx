@@ -9,29 +9,10 @@ import {
   Card,
 } from '@mui/material';
 import { styled } from '@mui/system';
+import axios from 'axios';
 import React, { useState } from 'react';
-import { FaFile, FaSave } from 'react-icons/fa';
-import { RCInput } from 'components/themed';
-
-const StyledTextField = styled(TextField)({
-  margin: '10px 0',
-  '& label': {
-    color: '#fff',
-    '&.Mui-focused': { color: 'grey' },
-  },
-  '& .MuiInput-underline:after': { borderBottomColor: 'grey' },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': { borderColor: 'grey' },
-    '&:hover fieldset': { borderColor: 'grey' },
-    '&.Mui-focused fieldset': { borderColor: 'grey' },
-  },
-  '& .MuiInputBase-input': { color: '#fff', background: '#000' },
-});
-const StyledButton = styled(Button)({
-  color: '#fff',
-  borderColor: '#fff',
-  margin: '10px 0',
-});
+import { FaSave } from 'react-icons/fa';
+import { StyledButton, StyledTextField } from 'components/chat/styled';
 const StyledTabs = styled(Tabs)({
   background: '#808080',
   borderRadius: '5px',
@@ -42,6 +23,54 @@ const StyledTabs = styled(Tabs)({
     margin: '5px',
   },
 });
+
+export function UpsertDocsForm() {
+  const [url, setUrl] = useState('');
+  const [library, setLibrary] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        `http://localhost:3001/api/chat/upsert-docs`,
+        { url, library }
+      );
+      setMessage(response.data);
+    } catch (error) {
+      console.error(error);
+      setMessage('Error upserting documentation.');
+    }
+  };
+
+  return (
+    <div className="UpsertDocsForm">
+      <h2>Upsert Documentation</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          URL:
+          <input
+            type="text"
+            value={url}
+            onChange={e => setUrl(e.target.value)}
+          />
+        </label>
+        <br />
+        <label>
+          Library:
+          <input
+            type="text"
+            value={library}
+            onChange={e => setLibrary(e.target.value)}
+          />
+        </label>
+        <br />
+        <button type="submit">Submit</button>
+      </form>
+      {message && <p>{message}</p>}
+    </div>
+  );
+}
 
 const Files = () => {
   const [tab, setTab] = useState(0);
@@ -77,6 +106,10 @@ const Files = () => {
           />
           <Tab
             label="File Info"
+            style={{ color: '#fff', borderRadius: '5px' }}
+          />
+          <Tab
+            label="Upsert Docs"
             style={{ color: '#fff', borderRadius: '5px' }}
           />
           <Tab label="List" style={{ color: '#fff', borderRadius: '5px' }} />
@@ -157,22 +190,9 @@ const Files = () => {
             justifyContent: 'space-between',
           }}
         >
-          <StyledTextField
-            label="File Description"
-            value={fileDescription}
-            onChange={e => setFileDescription(e.target.value)}
-            fullWidth
-            margin="normal"
-          />
-          <StyledButton variant="outlined" component="label">
-            Choose File <input type="file" hidden />
-          </StyledButton>
-          <Box>
-            <StyledButton variant="outlined" style={{ marginRight: '10px' }}>
-              Cancel
-            </StyledButton>
-            <StyledButton variant="outlined">Save</StyledButton>
-          </Box>
+          <Card style={{ width: '100%', borderRadius: '5px' }}>
+            <UpsertDocsForm />
+          </Card>
         </Box>
       )}
     </>

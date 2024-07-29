@@ -1,0 +1,7 @@
+[
+  {
+    "route": "POST http://localhost:3001/chat/chatSessions/session/messages/save",
+    "parameters": "()",
+    "status": 200
+  }
+]

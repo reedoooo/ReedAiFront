@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/store/Slices/user/userSlice.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/contexts/UserProvider.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"afb-Vx40DbM54/piqARM5Qaqz4uprlE\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"afb-wBsDPN4FrK8gYYOjyBC8mpC9ohw\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createAsyncThunk, createSlice } from \"/node_modules/.vite/deps/@reduxjs_toolkit.js?v=6cb72b4f\";\nimport avatar5 from \"/src/assets/img/avatars/avatar5.png?import\";\nconst LOCAL_NAME = \"userStorage\";\nfunction defaultSetting() {\n  return {\n    user: {},\n    userId: null,\n    token: null,\n    profileImage: avatar5,\n    // Add default profile image to state\n    userInfo: {\n      name: \"\",\n      email: \"\",\n      profileImage: avatar5,\n      // Add default profile image to state\n      isImageRetrieved: false\n    }\n  };\n}\nexport const fetchUserProfileImage = createAsyncThunk(\n  \"user/fetchUserProfileImage\",\n  async (imgWithExt, { rejectWithValue }) => {\n    try {\n      const response = await fetch(\n        `http://localhost:3001/static/files/${imgWithExt}`\n      );\n      if (!response.ok) {\n        throw new Error(\"Network response was not ok\");\n      }\n      return response.url;\n    } catch (error) {\n      console.error(\"Error fetching profile image:\", error);\n      return rejectWithValue(error.message);\n    }\n  }\n);\nfunction getLocalState() {\n  const localSetting = JSON.parse(localStorage.getItem(LOCAL_NAME) || \"{}\");\n  return { ...defaultSetting(), ...localSetting };\n}\nfunction setLocalState(setting) {\n  localStorage.setItem(LOCAL_NAME, JSON.stringify(setting));\n}\nexport const userSlice = createSlice({\n  name: \"user\",\n  initialState: getLocalState(),\n  reducers: {\n    updateUserInfo: (state, action) => {\n      const updatedUserInfo = { ...state.userInfo, ...action.payload };\n      setLocalState({ ...state, userInfo: updatedUserInfo });\n      state.userInfo = updatedUserInfo;\n    },\n    resetUserInfo: (state) => {\n      const defaultUserInfo = defaultSetting().userInfo;\n      setLocalState({ ...state, userInfo: defaultUserInfo });\n      state.userInfo = defaultUserInfo;\n    },\n    setUser: (state, action) => {\n      setLocalState({ ...state, user: action.payload });\n      state.user = action.payload;\n    },\n    setUserToken: (state, action) => {\n      localStorage.setItem(\"userToken\", JSON.stringify(action.payload));\n      state.token = action.payload;\n    },\n    setUserId: (state, action) => {\n      localStorage.setItem(\"userId\", action.payload);\n      state.userId = action.payload;\n    }\n  },\n  extraReducers: (builder) => {\n    builder.addCase(fetchUserProfileImage.fulfilled, (state, action) => {\n      state.userInfo.profileImage = action.payload;\n      state.profileImage = action.payload;\n      state.userInfo.isImageRetrieved = true;\n      setLocalState(state);\n    }).addCase(fetchUserProfileImage.rejected, (state, action) => {\n      console.error(\"Failed to fetch profile image:\", action.payload);\n    });\n  }\n});\nexport const {\n  updateUserInfo,\n  resetUserInfo,\n  setUser,\n  setUserToken,\n  setUserId\n} = userSlice.actions;\nexport default userSlice.reducer;\n\n//# sourceMappingURL=data:application/json;base64,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S0FBSztBQUFBLElBQ3JCLENBQUMsRUFDQVcsUUFBUXBDLHNCQUFzQnNDLFVBQVUsQ0FBQ2IsT0FBT0MsV0FBVztBQUMxRGpCLGNBQVFELE1BQU0sa0NBQWtDa0IsT0FBT0UsT0FBTztBQUFBLElBQ2hFLENBQUM7QUFBQSxFQUNMO0FBQ0YsQ0FBQztBQUVNLGFBQU07QUFBQSxFQUNYSjtBQUFBQSxFQUNBSztBQUFBQSxFQUNBRTtBQUFBQSxFQUNBQztBQUFBQSxFQUNBQztBQUNGLElBQUlaLFVBQVVrQjtBQUVkLGVBQWVsQixVQUFVbUIiLCJuYW1lcyI6WyJjcmVhdGVBc3luY1RodW5rIiwiY3JlYXRlU2xpY2UiLCJhdmF0YXI1IiwiTE9DQUxfTkFNRSIsImRlZmF1bHRTZXR0aW5nIiwidXNlciIsInVzZXJJZCIsInRva2VuIiwicHJvZmlsZUltYWdlIiwidXNlckluZm8iLCJuYW1lIiwiZW1haWwiLCJpc0ltYWdlUmV0cmlldmVkIiwiZmV0Y2hVc2VyUHJvZmlsZUltYWdlIiwiaW1nV2l0aEV4dCIsInJlamVjdFdpdGhWYWx1ZSIsInJlc3BvbnNlIiwiZmV0Y2giLCJvayIsIkVycm9yIiwidXJsIiwiZXJyb3IiLCJjb25zb2xlIiwibWVzc2FnZSIsImdldExvY2FsU3RhdGUiLCJsb2NhbFNldHRpbmciLCJKU09OIiwicGFyc2UiLCJsb2NhbFN0b3JhZ2UiLCJnZXRJdGVtIiwic2V0TG9jYWxTdGF0ZSIsInNldHRpbmciLCJzZXRJdGVtIiwic3RyaW5naWZ5IiwidXNlclNsaWNlIiwiaW5pdGlhbFN0YXRlIiwicmVkdWNlcnMiLCJ1cGRhdGVVc2VySW5mbyIsInN0YXRlIiwiYWN0aW9uIiwidXBkYXRlZFVzZXJJbmZvIiwicGF5bG9hZCIsInJlc2V0VXNlckluZm8iLCJkZWZhdWx0VXNlckluZm8iLCJzZXRVc2VyIiwic2V0VXNlclRva2VuIiwic2V0VXNlcklkIiwiZXh0cmFSZWR1Y2VycyIsImJ1aWxkZXIiLCJhZGRDYXNlIiwiZnVsZmlsbGVkIiwicmVqZWN0ZWQiLCJhY3Rpb25zIiwicmVkdWNlciJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJ1c2VyU2xpY2UuanN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGNyZWF0ZUFzeW5jVGh1bmssIGNyZWF0ZVNsaWNlIH0gZnJvbSAnQHJlZHV4anMvdG9vbGtpdCc7XG5pbXBvcnQgYXZhdGFyNSBmcm9tICdhc3NldHMvaW1nL2F2YXRhcnMvYXZhdGFyNS5wbmcnOyAvLyBGYWxsYmFjayBhdmF0YXJcblxuY29uc3QgTE9DQUxfTkFNRSA9ICd1c2VyU3RvcmFnZSc7XG5cbmZ1bmN0aW9uIGRlZmF1bHRTZXR0aW5nKCkge1xuICByZXR1cm4ge1xuICAgIHVzZXI6IHt9LFxuICAgIHVzZXJJZDogbnVsbCxcbiAgICB0b2tlbjogbnVsbCxcbiAgICBwcm9maWxlSW1hZ2U6IGF2YXRhcjUsIC8vIEFkZCBkZWZhdWx0IHByb2ZpbGUgaW1hZ2UgdG8gc3RhdGVcbiAgICB1c2VySW5mbzoge1xuICAgICAgbmFtZTogJycsXG4gICAgICBlbWFpbDogJycsXG4gICAgICBwcm9maWxlSW1hZ2U6IGF2YXRhcjUsIC8vIEFkZCBkZWZhdWx0IHByb2ZpbGUgaW1hZ2UgdG8gc3RhdGVcbiAgICAgIGlzSW1hZ2VSZXRyaWV2ZWQ6IGZhbHNlLFxuICAgIH0sXG4gIH07XG59XG4vLyBBc3luYyBhY3Rpb24gdG8gZmV0Y2ggdXNlciBwcm9maWxlIGltYWdlXG5leHBvcnQgY29uc3QgZmV0Y2hVc2VyUHJvZmlsZUltYWdlID0gY3JlYXRlQXN5bmNUaHVuayhcbiAgJ3VzZXIvZmV0Y2hVc2VyUHJvZmlsZUltYWdlJyxcbiAgYXN5bmMgKGltZ1dpdGhFeHQsIHsgcmVqZWN0V2l0aFZhbHVlIH0pID0+IHtcbiAgICB0cnkge1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChcbiAgICAgICAgYGh0dHA6Ly9sb2NhbGhvc3Q6MzAwMS9zdGF0aWMvZmlsZXMvJHtpbWdXaXRoRXh0fWBcbiAgICAgICk7XG4gICAgICBpZiAoIXJlc3BvbnNlLm9rKSB7XG4gICAgICAgIHRocm93IG5ldyBFcnJvcignTmV0d29yayByZXNwb25zZSB3YXMgbm90IG9rJyk7XG4gICAgICB9XG4gICAgICByZXR1cm4gcmVzcG9uc2UudXJsO1xuICAgIH0gY2F0Y2ggKGVycm9yKSB7XG4gICAgICBjb25zb2xlLmVycm9yKCdFcnJvciBmZXRjaGluZyBwcm9maWxlIGltYWdlOicsIGVycm9yKTtcbiAgICAgIHJldHVybiByZWplY3RXaXRoVmFsdWUoZXJyb3IubWVzc2FnZSk7XG4gICAgfVxuICB9XG4pO1xuZnVuY3Rpb24gZ2V0TG9jYWxTdGF0ZSgpIHtcbiAgY29uc3QgbG9jYWxTZXR0aW5nID0gSlNPTi5wYXJzZShsb2NhbFN0b3JhZ2UuZ2V0SXRlbShMT0NBTF9OQU1FKSB8fCAne30nKTtcbiAgcmV0dXJuIHsgLi4uZGVmYXVsdFNldHRpbmcoKSwgLi4ubG9jYWxTZXR0aW5nIH07XG59XG5cbmZ1bmN0aW9uIHNldExvY2FsU3RhdGUoc2V0dGluZykge1xuICBsb2NhbFN0b3JhZ2Uuc2V0SXRlbShMT0NBTF9OQU1FLCBKU09OLnN0cmluZ2lmeShzZXR0aW5nKSk7XG59XG5cbmV4cG9ydCBjb25zdCB1c2VyU2xpY2UgPSBjcmVhdGVTbGljZSh7XG4gIG5hbWU6ICd1c2VyJyxcbiAgaW5pdGlhbFN0YXRlOiBnZXRMb2NhbFN0YXRlKCksXG4gIHJlZHVjZXJzOiB7XG4gICAgdXBkYXRlVXNlckluZm86IChzdGF0ZSwgYWN0aW9uKSA9PiB7XG4gICAgICBjb25zdCB1cGRhdGVkVXNlckluZm8gPSB7IC4uLnN0YXRlLnVzZXJJbmZvLCAuLi5hY3Rpb24ucGF5bG9hZCB9O1xuICAgICAgc2V0TG9jYWxTdGF0ZSh7IC4uLnN0YXRlLCB1c2VySW5mbzogdXBkYXRlZFVzZXJJbmZvIH0pO1xuICAgICAgc3RhdGUudXNlckluZm8gPSB1cGRhdGVkVXNlckluZm87XG4gICAgfSxcbiAgICByZXNldFVzZXJJbmZvOiBzdGF0ZSA9PiB7XG4gICAgICBjb25zdCBkZWZhdWx0VXNlckluZm8gPSBkZWZhdWx0U2V0dGluZygpLnVzZXJJbmZvO1xuICAgICAgc2V0TG9jYWxTdGF0ZSh7IC4uLnN0YXRlLCB1c2VySW5mbzogZGVmYXVsdFVzZXJJbmZvIH0pO1xuICAgICAgc3RhdGUudXNlckluZm8gPSBkZWZhdWx0VXNlckluZm87XG4gICAgfSxcbiAgICBzZXRVc2VyOiAoc3RhdGUsIGFjdGlvbikgPT4ge1xuICAgICAgc2V0TG9jYWxTdGF0ZSh7IC4uLnN0YXRlLCB1c2VyOiBhY3Rpb24ucGF5bG9hZCB9KTtcbiAgICAgIHN0YXRlLnVzZXIgPSBhY3Rpb24ucGF5bG9hZDtcbiAgICB9LFxuICAgIHNldFVzZXJUb2tlbjogKHN0YXRlLCBhY3Rpb24pID0+IHtcbiAgICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKCd1c2VyVG9rZW4nLCBKU09OLnN0cmluZ2lmeShhY3Rpb24ucGF5bG9hZCkpO1xuICAgICAgc3RhdGUudG9rZW4gPSBhY3Rpb24ucGF5bG9hZDtcbiAgICB9LFxuICAgIHNldFVzZXJJZDogKHN0YXRlLCBhY3Rpb24pID0+IHtcbiAgICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKCd1c2VySWQnLCBhY3Rpb24ucGF5bG9hZCk7XG4gICAgICBzdGF0ZS51c2VySWQgPSBhY3Rpb24ucGF5bG9hZDtcbiAgICB9LFxuICB9LFxuICBleHRyYVJlZHVjZXJzOiBidWlsZGVyID0+IHtcbiAgICBidWlsZGVyXG4gICAgICAuYWRkQ2FzZShmZXRjaFVzZXJQcm9maWxlSW1hZ2UuZnVsZmlsbGVkLCAoc3RhdGUsIGFjdGlvbikgPT4ge1xuICAgICAgICBzdGF0ZS51c2VySW5mby5wcm9maWxlSW1hZ2UgPSBhY3Rpb24ucGF5bG9hZDtcbiAgICAgICAgc3RhdGUucHJvZmlsZUltYWdlID0gYWN0aW9uLnBheWxvYWQ7XG4gICAgICAgIHN0YXRlLnVzZXJJbmZvLmlzSW1hZ2VSZXRyaWV2ZWQgPSB0cnVlO1xuICAgICAgIC... (590 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.017265166039578617
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/store/Slices/user/userSlice.jsx (200) — 2024-07-28T11:41:26.604Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/store/Slices/user/userSlice.jsx"
+        }
+      ]
+    }
+  ]
+}

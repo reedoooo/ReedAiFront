@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/chat/sidebar/panel/Assistants.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/chat/sidebar/main.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"4625-DsDYjFrf8J/NFFiTxC7aNnjihqQ\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"4615-QfHHCPnCZH2qCkiosF5yruvPDUo\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/chat/sidebar/panel/Assistants.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const Fragment = __vite__cjsImport0_react_jsxDevRuntime[\"Fragment\"]; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nlet prevRefreshReg;\nlet prevRefreshSig;\nif (import.meta.hot && !inWebWorker) {\n  if (!window.__vite_plugin_react_preamble_installed__) {\n    throw new Error(\"@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201\");\n  }\n  prevRefreshReg = window.$RefreshReg$;\n  prevRefreshSig = window.$RefreshSig$;\n  window.$RefreshReg$ = (type, id) => {\n    RefreshRuntime.register(type, \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/panel/Assistants.jsx \" + id);\n  };\n  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;\n}\nvar _s = $RefreshSig$();\nimport {\n  Box,\n  Tabs,\n  Tab,\n  List,\n  ListItem,\n  ListItemText,\n  TextField,\n  Button,\n  IconButton,\n  Typography,\n  useMediaQuery\n} from \"/node_modules/.vite/deps/@mui_material.js?v=6aadf61c\";\nimport { styled } from \"/node_modules/.vite/deps/@mui_system.js?v=a0e8a9f1\";\nimport __vite__cjsImport5_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport5_react.__esModule ? __vite__cjsImport5_react.default : __vite__cjsImport5_react; const useState = __vite__cjsImport5_react[\"useState\"]; const useEffect = __vite__cjsImport5_react[\"useEffect\"]; const useRef = __vite__cjsImport5_react[\"useRef\"];\nimport { FaSignOutAlt, FaTrashAlt } from \"/node_modules/.vite/deps/react-icons_fa.js?v=d5fae110\";\nimport useMode from \"/src/hooks/useMode.jsx\";\nconst StyledTextField = styled(TextField)({\n  margin: \"10px 0\",\n  \"& label\": {\n    color: \"#fff\",\n    \"&.Mui-focused\": { color: \"grey\" }\n  },\n  \"& .MuiInput-underline:after\": { borderBottomColor: \"grey\" },\n  \"& .MuiOutlinedInput-root\": {\n    \"& fieldset\": { borderColor: \"grey\" },\n    \"&:hover fieldset\": { borderColor: \"grey\" },\n    \"&.Mui-focused fieldset\": { borderColor: \"grey\" }\n  },\n  \"& .MuiInputBase-input\": { color: \"#fff\", background: \"#000\" }\n});\n_c = StyledTextField;\nconst StyledButton = styled(Button)({\n  color: \"#fff\",\n  borderColor: \"#fff\",\n  margin: \"10px 0\"\n});\n_c2 = StyledButton;\nconst StyledTabs = styled(Tabs)({\n  background: \"#808080\",\n  borderRadius: \"5px\",\n  \"& .Mui-selected\": {\n    backgroundColor: \"#000\",\n    color: \"#fff\",\n    margin: \"5px\"\n  }\n});\n_c3 = StyledTabs;\nconst TabContent = styled(Box)({\n  display: \"flex\",\n  flexDirection: \"column\",\n  flexGrow: 1,\n  padding: \"1rem\",\n  backgroundColor: \"#1c1c1c\",\n  borderRadius: \"5px\",\n  color: \"white\"\n});\n_c4 = TabContent;\nconst Assistants = () => {\n  _s();\n  const [tab, setTab] = useState(0);\n  const [defaultAssistant, setDefaultAssistant] = useState({\n    name: \"\",\n    role: \"\"\n  });\n  const [defaultTemplate, setDefaultTemplate] = useState({\n    name: \"\",\n    content: \"\"\n  });\n  const { theme } = useMode();\n  useEffect(() => {\n    setDefaultAssistant({ name: \"Default Assistant\", role: \"Default Role\" });\n    setDefaultTemplate({\n      name: \"Default Template\",\n      content: \"Default Content\"\n    });\n  }, []);\n  const handleTabChange = (event, newValue) => {\n    setTab(newValue);\n  };\n  const isMobile = useMediaQuery(theme.breakpoints.down(\"sm\"));\n  const [selectedTab, setSelectedTab] = useState(\"main\");\n  const [name, setName] = useState(\"\");\n  const [description, setDescription] = useState(\"\");\n  const [instructions, setInstructions] = useState(\"\");\n  const itemRef = useRef(null);\n  const [isHovering, setIsHovering] = useState(false);\n  const [isTyping, setIsTyping] = useState(false);\n  const handleSave = () => {\n    console.log(\"Workspace updated!\");\n  };\n  const handleChangeTab = (event, newValue) => {\n    setTab(newValue);\n  };\n  const handleKeyDown = (e) => {\n    if (e.key === \"Enter\") {\n      e.stopPropagation();\n      itemRef.current?.click();\n    }\n  };\n  const assistantList = [\n    { name: \"Assistant 1\", _id: \"1\" },\n    { name: \"Assistant 2\", _id: \"2\" }\n    // Add more assistants as needed\n  ];\n  const templateList = [\n    { templateName: \"Template 1\", templateText: \"Content 1\", _id: \"1\" },\n    { templateName: \"Template 2\", templateText: \"Content 2\", _id: \"2\" }\n    // Add more templates as needed\n  ];\n  const handleAssistantChange = (e) => {\n    const { name: name2, value } = e.target;\n    setDefaultAssistant((prev) => ({\n      ...prev,\n      [name2]: value\n    }));\n  };\n  const handleCreateAssistant = () => {\n    console.log(\"New Assistant Created:\", defaultAssistant);\n  };\n  const deleteAssistant = (id) => {\n    console.log(\"Delete Assistant with ID:\", id);\n  };\n  const handleTemplateChange = (e) => {\n    const { name: name2, value } = e.target;\n    setDefaultTemplate((prev) => ({\n      ...prev,\n      [name2]: value\n    }));\n  };\n  const handleCreateTemplate = () => {\n    console.log(\"New Template Created:\", defaultTemplate);\n  };\n  const deleteTemplate = (id) => {\n    console.log(\"Delete Template with ID:\", id);\n  };\n  return /* @__PURE__ */ jsxDEV(Fragment, { children: [\n    /* @__PURE__ */ jsxDEV(\n      Box,\n      {\n        ref: itemRef,\n        sx: {\n          \"&:hover\": {\n            backgroundColor: \"accent.main\",\n            opacity: 0.5\n          },\n          display: \"flex\",\n          width: \"100%\",\n          cursor: \"pointer\",\n          alignItems: \"center\",\n          borderRadius: \"4px\",\n          padding: \"8px\",\n          outline: \"none\"\n        },\n        tabIndex: 0,\n        onKeyDown: handleKeyDown,\n        onMouseEnter: () => setIsHovering(true),\n        onMouseLeave: () => setIsHovering(false),\n        children: [\n          /* @__PURE__ */ jsxDEV(FaSignOutAlt, { sx: { fontSize: 30 } }, void 0, false, {\n            fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/panel/Assistants.jsx\",\n            lineNumber: 174,\n            columnNumber: 9\n          }, this),\n          \" \",\n          /* @__PURE__ */ jsxDEV(\n            Typography,\n            {\n              sx: {\n                marginLeft: \"12px\",\n                flex: 1,\n                textOverflow: \"ellipsis\",\n                overflow: \"hidden\",\n                whiteSpace: \"nowrap\",\n                fontSize: \"14px\",\n                fontWeight: \"600\"\n              },\n              children: \"Assistant and Template Manager\"\n            },\n            void 0,\n            false,\n            {\n              fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/panel/Assistants.jsx\",\n              lineNumber: 175,\n              columnNumber: 9\n            },\n            this\n          )\n        ]\n      },\n      void 0,\n      true,\n      {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/panel/Assistants.jsx\",\n        lineNumber: 154,\n        columnNumber: 7\n      },\n      this\n    ),\n    /* @__PURE__ */ jsxDEV(\n      Box,\n      {\n        sx: {\n          display: \"flex\",\n          flexDirection: \"column\",\n          alignItems: \"center\",\n          padding: \"1rem\",\n          color: \"white\",\n          borderRadius: \"14px\",\n          background: \"#1c1c1c\"\n        },\n        children: /* @__PURE__ */ jsxDEV(\n          StyledTabs,\n          {\n            value: tab,\n            onChange: (e, newValue) => setTab(newValue),\n            indicatorColor: \"#fff\",\n            children: [\n              /* @__PURE__ */ jsxDEV(\n                Tab,\n                {\n                  label: \"Assistants\",\n                  style: { color: \"#fff\", borderRadius: \"5px\" }\n                },\n                void 0,\n                false,\n                {\n                  fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/panel/Assistants.jsx\",\n                  lineNumber: 205,\n                  columnNumber: 11\n                },\n                this\n              ),\n              /* @__PURE__ */ jsxDEV(\n                Tab,\n                {\n                  label: \"Assistant Templates\",\n                  style: { color: \"#fff\", borderRadius: \"5px\" }\n                },\n                void 0,\n                false,\n                {\n                  fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/panel/Assistants.jsx\",\n                  lineNumber: 209,\n                  columnNumber: 11\n                },\n                this\n              )\n            ]\n          },\n          void 0,\n          true,\n          {\n            fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/panel/Assistants.jsx\",\n            lineNumber: 200,\n            columnNumber: 9\n          },\n          this\n        )\n      },\n      void 0,\n      false,\n      {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/panel/Assistants.jsx\",\n        lineNumber: 189,\n        columnNumber: 7\n      },\n      this\n    ),\n    tab === 0 && /* @__PURE__ */ jsxDEV(TabContent, { children: [\n      /* @__PURE__ */ jsxDEV(List, { children: assistantList.map(\n        (assistant, index) => /* @__PURE__ */ jsxDEV(ListItem, { children: [\n          /* @__PURE__ */ jsxDEV(ListItemText, { primary: assistant.name }, void 0, false, {\n            fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/chat/sidebar/panel/Assistants.jsx\",\n            lineNumber: 221,\n            columnNumber: 17\n          }, this),\n          /* @__PURE__ */ jsxDEV(\n            IconButton,\n            {\n              edge: \"end\",\n              onClick: () => deleteAssistant(assistant._id),\n              children: /* @__PURE__ */ jsxDEV(FaTrashAlt, { style: { color: \"#fff\" } }, void 0, false, {\n   ... (30880 more characters)"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0008930829353630543
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/chat/sidebar/panel/Assistants.jsx (200) — 2024-07-28T11:41:33.128Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/chat/sidebar/panel/Assistants.jsx"
+        }
+      ]
+    }
+  ]
+}

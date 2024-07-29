@@ -12,8 +12,18 @@ import {
   Avatar,
   AppBar,
   Toolbar,
+  SvgIcon,
 } from '@mui/material';
 import { styled } from 'styled-components';
+
+const StyledLogoIcon = styled(SvgIcon)(({ theme, hVal }) => ({
+  width: hVal || '50px',
+  height: hVal || '50px',
+  borderRadius: '50%',
+  boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+  overflow: 'hidden',
+  my: 'auto',
+}));
 
 const StyledIconContainer = styled(Box)(({ theme }) => ({
   marginLeft: theme.spacing(0.5),
@@ -227,4 +237,5 @@ export {
   PageWrapper,
   AppBarStyled,
   ToolbarStyled,
+  StyledLogoIcon,
 };

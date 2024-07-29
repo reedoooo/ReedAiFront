@@ -1,0 +1,7 @@
+[
+  {
+    "route": "GET /logo192.png",
+    "parameters": "()",
+    "status": 304
+  }
+]

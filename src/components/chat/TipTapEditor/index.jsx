@@ -9,11 +9,11 @@ import {
 import React from 'react';
 import useTipTapEditor from 'hooks/useTipTapEditor';
 
-const TipTapEditor = ({ setUserInput }) => {
+const TipTapEditor = ({ setUserInput, setFileInput }) => {
   const initialContent =
     '<p><strong>Prompt:</strong> Write the code for a dialog component using material ui </p>';
   const { editor, editorContent, contentType, handleContentTypeChange } =
-    useTipTapEditor(initialContent, setUserInput);
+    useTipTapEditor(initialContent, setUserInput, setFileInput);
   // return editor ? <div ref={editor.view.dom} /> : null;
   return (
     <Box>

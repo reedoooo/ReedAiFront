@@ -15,27 +15,7 @@ import { styled } from '@mui/system';
 import React, { useState, useEffect } from 'react';
 import { FaSignOutAlt, FaTrashAlt } from 'react-icons/fa';
 import { MdInfoOutline } from 'react-icons/md';
-
-const StyledTextField = styled(TextField)({
-  margin: '10px 0',
-  '& label': {
-    color: '#fff',
-    '&.Mui-focused': { color: 'grey' },
-  },
-  '& .MuiInput-underline:after': { borderBottomColor: 'grey' },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': { borderColor: 'grey' },
-    '&:hover fieldset': { borderColor: 'grey' },
-    '&.Mui-focused fieldset': { borderColor: 'grey' },
-  },
-  '& .MuiInputBase-input': { color: '#fff', background: '#000' },
-});
-
-const StyledButton = styled(Button)({
-  color: '#fff',
-  borderColor: '#fff',
-  margin: '10px 0',
-});
+import { StyledButton, StyledTextField } from 'components/chat/styled';
 
 const StyledTabs = styled(Tabs)({
   background: '#808080',
@@ -71,18 +51,13 @@ const Chat = () => {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [infoAnchorEl, setInfoAnchorEl] = useState(null);
-
+  const userSession = JSON.parse(localStorage.getItem('userSession'));
+  const chatSessions = userSession?.user?.chatSessions;
   useEffect(() => {
     // Fetch conversations from an API or local storage
-    setConversations([
-      { id: 1, title: 'Conversation 1', messages: ['Hi', 'Hello'] },
-      {
-        id: 2,
-        title: 'Conversation 2',
-        messages: ['How are you?', 'I am fine'],
-      },
-    ]);
-  }, []);
+    console.log('chatSessions', chatSessions);
+    setConversations(chatSessions);
+  }, [chatSessions]);
 
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
@@ -181,12 +156,12 @@ const Chat = () => {
             padding: '1rem',
           }}
         >
-          {conversations.map(conversation => (
+          {conversations?.map(conversation => (
             <ConversationCard
-              key={conversation.id}
+              key={conversation._id}
               onClick={() => handleConversationClick(conversation)}
             >
-              <Typography variant="h6">{conversation.title}</Typography>
+              <Typography variant="h6">{conversation.name}</Typography>
               <IconButton onClick={handleMenuClick}>
                 <MdInfoOutline style={{ color: '#fff' }} />
               </IconButton>
@@ -199,7 +174,7 @@ const Chat = () => {
                 {/* <MenuItem onClick={handleExportCSV}>Export as CSV</MenuItem> */}
                 <MenuItem onClick={handleExportJSON}>Export as JSON</MenuItem>
                 <MenuItem
-                  onClick={() => handleDeleteConversation(conversation.id)}
+                  onClick={() => handleDeleteConversation(conversation._id)}
                 >
                   Delete
                 </MenuItem>
@@ -209,7 +184,7 @@ const Chat = () => {
           {selectedConversation && (
             <Box>
               <Typography variant="h6" style={{ color: '#fff' }}>
-                {selectedConversation.title}
+                {selectedConversation.name}
               </Typography>
               <Box
                 sx={{

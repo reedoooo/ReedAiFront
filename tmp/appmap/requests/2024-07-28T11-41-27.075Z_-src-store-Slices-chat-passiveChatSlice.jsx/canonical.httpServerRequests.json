@@ -1,0 +1,7 @@
+[
+  {
+    "route": "GET /src/store/Slices/chat/passiveChatSlice.jsx",
+    "parameters": "()",
+    "status": 200
+  }
+]

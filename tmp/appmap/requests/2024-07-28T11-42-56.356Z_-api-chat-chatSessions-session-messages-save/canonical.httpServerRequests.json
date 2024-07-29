@@ -1,0 +1,7 @@
+[
+  {
+    "route": "POST /api/chat/chatSessions/session/messages/save",
+    "parameters": "()",
+    "status": 200
+  }
+]

@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/components/themed/charts/BarChart.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/components/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"8ff-pGvIq/CvK06STcUM3Y0ktSvo2hE\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"8ff-byPxzyh2x9yw1LtfsYkt/7bosxE\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createHotContext as __vite__createHotContext } from \"/@vite/client\";import.meta.hot = __vite__createHotContext(\"/src/components/themed/charts/BarChart.jsx\");import __vite__cjsImport0_react_jsxDevRuntime from \"/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=f00dba07\"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime[\"jsxDEV\"];\nimport RefreshRuntime from \"/@react-refresh\";\nconst inWebWorker = typeof WorkerGlobalScope !== \"undefined\" && self instanceof WorkerGlobalScope;\nimport __vite__cjsImport2_react from \"/node_modules/.vite/deps/react.js?v=f00dba07\"; const React = __vite__cjsImport2_react.__esModule ? __vite__cjsImport2_react.default : __vite__cjsImport2_react; const Component = __vite__cjsImport2_react[\"Component\"];\nimport __vite__cjsImport3_reactApexcharts from \"/node_modules/.vite/deps/react-apexcharts.js?v=06d54987\"; const Chart = __vite__cjsImport3_reactApexcharts.__esModule ? __vite__cjsImport3_reactApexcharts.default : __vite__cjsImport3_reactApexcharts;\nclass ColumnChart extends Component {\n  constructor(props) {\n    super(props);\n    this.state = {\n      chartData: [],\n      chartOptions: {}\n    };\n  }\n  componentDidMount() {\n    this.setState({\n      chartData: this.props.chartData,\n      chartOptions: this.props.chartOptions\n    });\n  }\n  render() {\n    return /* @__PURE__ */ jsxDEV(\n      Chart,\n      {\n        options: this.state.chartOptions,\n        series: this.state.chartData,\n        type: \"bar\",\n        width: \"100%\",\n        height: \"100%\"\n      },\n      void 0,\n      false,\n      {\n        fileName: \"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/charts/BarChart.jsx\",\n        lineNumber: 22,\n        columnNumber: 7\n      },\n      this\n    );\n  }\n}\nexport default ColumnChart;\nif (import.meta.hot && !inWebWorker) {\n  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {\n    RefreshRuntime.registerExportsForReactRefresh(\"/Users/reedvogt/Desktop/ReedAiFront/src/components/themed/charts/BarChart.jsx\", currentExports);\n    import.meta.hot.accept((nextExports) => {\n      if (!nextExports) return;\n      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate(currentExports, nextExports);\n      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);\n    });\n  });\n}\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBcUJNO0FBckJOLE9BQU9BLG9CQUFrQjtBQUFlO0FBQUE7QUFDeEMsT0FBT0MsV0FBVztBQUVsQixNQUFNQyxvQkFBb0JDLFVBQVU7QUFBQSxFQUNsQ0MsWUFBWUMsT0FBTztBQUNqQixVQUFNQSxLQUFLO0FBQ1gsU0FBS0MsUUFBUTtBQUFBLE1BQ1hDLFdBQVc7QUFBQSxNQUNYQyxjQUFjLENBQUM7QUFBQSxJQUNqQjtBQUFBLEVBQ0Y7QUFBQSxFQUVBQyxvQkFBb0I7QUFDbEIsU0FBS0MsU0FBUztBQUFBLE1BQ1pILFdBQVcsS0FBS0YsTUFBTUU7QUFBQUEsTUFDdEJDLGNBQWMsS0FBS0gsTUFBTUc7QUFBQUEsSUFDM0IsQ0FBQztBQUFBLEVBQ0g7QUFBQSxFQUVBRyxTQUFTO0FBQ1AsV0FDRTtBQUFBLE1BQUM7QUFBQTtBQUFBLFFBQ0MsU0FBUyxLQUFLTCxNQUFNRTtBQUFBQSxRQUNwQixRQUFRLEtBQUtGLE1BQU1DO0FBQUFBLFFBQ25CLE1BQUs7QUFBQSxRQUNMLE9BQU07QUFBQSxRQUNOLFFBQU87QUFBQTtBQUFBLE1BTFQ7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLElBS2U7QUFBQSxFQUduQjtBQUNGO0FBRUEsZUFBZUwiLCJuYW1lcyI6WyJSZWFjdCIsIkNoYXJ0IiwiQ29sdW1uQ2hhcnQiLCJDb21wb25lbnQiLCJjb25zdHJ1Y3RvciIsInByb3BzIiwic3RhdGUiLCJjaGFydERhdGEiLCJjaGFydE9wdGlvbnMiLCJjb21wb25lbnREaWRNb3VudCIsInNldFN0YXRlIiwicmVuZGVyIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkJhckNoYXJ0LmpzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QsIHsgQ29tcG9uZW50IH0gZnJvbSAncmVhY3QnO1xuaW1wb3J0IENoYXJ0IGZyb20gJ3JlYWN0LWFwZXhjaGFydHMnO1xuXG5jbGFzcyBDb2x1bW5DaGFydCBleHRlbmRzIENvbXBvbmVudCB7XG4gIGNvbnN0cnVjdG9yKHByb3BzKSB7XG4gICAgc3VwZXIocHJvcHMpO1xuICAgIHRoaXMuc3RhdGUgPSB7XG4gICAgICBjaGFydERhdGE6IFtdLFxuICAgICAgY2hhcnRPcHRpb25zOiB7fSxcbiAgICB9O1xuICB9XG5cbiAgY29tcG9uZW50RGlkTW91bnQoKSB7XG4gICAgdGhpcy5zZXRTdGF0ZSh7XG4gICAgICBjaGFydERhdGE6IHRoaXMucHJvcHMuY2hhcnREYXRhLFxuICAgICAgY2hhcnRPcHRpb25zOiB0aGlzLnByb3BzLmNoYXJ0T3B0aW9ucyxcbiAgICB9KTtcbiAgfVxuXG4gIHJlbmRlcigpIHtcbiAgICByZXR1cm4gKFxuICAgICAgPENoYXJ0XG4gICAgICAgIG9wdGlvbnM9e3RoaXMuc3RhdGUuY2hhcnRPcHRpb25zfVxuICAgICAgICBzZXJpZXM9e3RoaXMuc3RhdGUuY2hhcnREYXRhfVxuICAgICAgICB0eXBlPVwiYmFyXCJcbiAgICAgICAgd2lkdGg9XCIxMDAlXCJcbiAgICAgICAgaGVpZ2h0PVwiMTAwJVwiXG4gICAgICAvPlxuICAgICk7XG4gIH1cbn1cblxuZXhwb3J0IGRlZmF1bHQgQ29sdW1uQ2hhcnQ7XG4iXSwiZmlsZSI6Ii9Vc2Vycy9yZWVkdm9ndC9EZXNrdG9wL1JlZWRBaUZyb250L3NyYy9jb21wb25lbnRzL3RoZW1lZC9jaGFydHMvQmFyQ2hhcnQuanN4In0="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.001504582935012877
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/components/themed/charts/BarChart.jsx (200) — 2024-07-28T11:41:29.101Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/components/themed/charts/BarChart.jsx"
+        }
+      ]
+    }
+  ]
+}

@@ -18,8 +18,12 @@ import {
 import { motion } from 'framer-motion';
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { checkARouterValue } from '@/routes/index';
-import TypingAnimation from 'assets/animation/TypingAnimation';
+import {
+  TypingAnimation,
+  CodingAnimation,
+  ImagePromptAnimation,
+  SequentialAnimations,
+} from 'assets/animation';
 import { PageLayout } from 'components/index';
 import RCTypography from 'components/themed/RCTypography';
 import { templateData } from 'config/data';
@@ -88,9 +92,6 @@ function Landing() {
   const [menuItemsVisible, setMenuItemsVisible] = useState(false);
   const getInfoRef = React.useRef(null);
   const open = Boolean(anchorEl);
-  const handleCheckRouterValuesClick = () => {
-    checkARouterValue();
-  };
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -196,14 +197,6 @@ function Landing() {
               >
                 Generate
               </Button>
-              {/* <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                onClick={handleCheckRouterValuesClick}
-              >
-                Check Router Values
-              </Button> */}
               <Button
                 id="open-route-list-menu"
                 aria-controls={open ? 'demo-customized-menu' : undefined}
@@ -370,7 +363,8 @@ function Landing() {
             }}
           >
             <Box sx={{ width: '100%', marginBottom: 4 }}>
-              <TypingAnimation />
+              {/* <TypingAnimation /> */}
+              <SequentialAnimations />
             </Box>
             <Paper
               sx={{

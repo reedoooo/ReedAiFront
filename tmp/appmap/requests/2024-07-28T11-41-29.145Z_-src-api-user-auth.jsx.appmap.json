@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/api/user/auth.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/api/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"5a7-/0mlOEHb94tUZxtJQV/t8U1UJD0\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"5a7-yRfzo4FXrmIm73zjZWutmHsC8JY\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import axios from \"/node_modules/.vite/deps/axios.js?v=c9970fe2\";\nimport constants from \"/src/config/constants.jsx\";\nconst { API_URL } = constants;\nexport const authAPI = {\n  async handleAuthSubmit(values) {\n    const { username, password, email, isSignup } = values;\n    const url = isSignup ? `${API_URL}/user/signup` : `${API_URL}/user/login`;\n    const usernameOrEmail = !email ? username : email;\n    const payload = isSignup ? { username, password, email } : { usernameOrEmail, password };\n    try {\n      const { data } = await axios.post(url, payload);\n      return {\n        user: data.user,\n        token: data.token,\n        userId: data.user._id\n      };\n    } catch (error) {\n      console.error(isSignup ? \"Signup failed:\" : \"Login failed:\", error);\n      throw error;\n    }\n  },\n  async validateToken(token) {\n    try {\n      const response = await axios.get(`${API_URL}/user/validate-token`, {\n        headers: {\n          Authorization: `Bearer ${token}`\n        }\n      });\n      return response.status === 200;\n    } catch (error) {\n      console.error(\"Token validation error:\", error);\n      throw error;\n    }\n  },\n  async logout(token) {\n    try {\n      await axios.post(\n        `${API_URL}/user/logout`,\n        {},\n        {\n          headers: {\n            Authorization: `Bearer ${token}`\n          }\n        }\n      );\n    } catch (error) {\n      console.error(\"Logout error:\", error);\n      throw error;\n    }\n  }\n};\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBQUEsT0FBT0EsV0FBVztBQUNsQixPQUFPQyxlQUFlO0FBRXRCLE1BQU0sRUFBRUMsUUFBUSxJQUFJRDtBQUViLGFBQU1FLFVBQVU7QUFBQSxFQUNyQixNQUFNQyxpQkFBaUJDLFFBQVE7QUFDN0IsVUFBTSxFQUFFQyxVQUFVQyxVQUFVQyxPQUFPQyxTQUFTLElBQUlKO0FBQ2hELFVBQU1LLE1BQU1ELFdBQVcsR0FBR1AsT0FBTyxpQkFBaUIsR0FBR0EsT0FBTztBQUM1RCxVQUFNUyxrQkFBa0IsQ0FBQ0gsUUFBUUYsV0FBV0U7QUFDNUMsVUFBTUksVUFBVUgsV0FDWixFQUFFSCxVQUFVQyxVQUFVQyxNQUFNLElBQzVCLEVBQUVHLGlCQUFpQkosU0FBUztBQUVoQyxRQUFJO0FBQ0YsWUFBTSxFQUFFTSxLQUFLLElBQUksTUFBTWIsTUFBTWMsS0FBS0osS0FBS0UsT0FBTztBQUU5QyxhQUFPO0FBQUEsUUFDTEcsTUFBTUYsS0FBS0U7QUFBQUEsUUFDWEMsT0FBT0gsS0FBS0c7QUFBQUEsUUFDWkMsUUFBUUosS0FBS0UsS0FBS0c7QUFBQUEsTUFDcEI7QUFBQSxJQUNGLFNBQVNDLE9BQU87QUFDZEMsY0FBUUQsTUFBTVYsV0FBVyxtQkFBbUIsaUJBQWlCVSxLQUFLO0FBQ2xFLFlBQU1BO0FBQUFBLElBQ1I7QUFBQSxFQUNGO0FBQUEsRUFFQSxNQUFNRSxjQUFjTCxPQUFPO0FBQ3pCLFFBQUk7QUFDRixZQUFNTSxXQUFXLE1BQU10QixNQUFNdUIsSUFBSSxHQUFHckIsT0FBTyx3QkFBd0I7QUFBQSxRQUNqRXNCLFNBQVM7QUFBQSxVQUNQQyxlQUFlLFVBQVVULEtBQUs7QUFBQSxRQUNoQztBQUFBLE1BQ0YsQ0FBQztBQUNELGFBQU9NLFNBQVNJLFdBQVc7QUFBQSxJQUM3QixTQUFTUCxPQUFPO0FBQ2RDLGNBQVFELE1BQU0sMkJBQTJCQSxLQUFLO0FBQzlDLFlBQU1BO0FBQUFBLElBQ1I7QUFBQSxFQUNGO0FBQUEsRUFFQSxNQUFNUSxPQUFPWCxPQUFPO0FBQ2xCLFFBQUk7QUFDRixZQUFNaEIsTUFBTWM7QUFBQUEsUUFDVixHQUFHWixPQUFPO0FBQUEsUUFDVixDQUFDO0FBQUEsUUFDRDtBQUFBLFVBQ0VzQixTQUFTO0FBQUEsWUFDUEMsZUFBZSxVQUFVVCxLQUFLO0FBQUEsVUFDaEM7QUFBQSxRQUNGO0FBQUEsTUFDRjtBQUFBLElBQ0YsU0FBU0csT0FBTztBQUNkQyxjQUFRRCxNQUFNLGlCQUFpQkEsS0FBSztBQUNwQyxZQUFNQTtBQUFBQSxJQUNSO0FBQUEsRUFDRjtBQUNGIiwibmFtZXMiOlsiYXhpb3MiLCJjb25zdGFudHMiLCJBUElfVVJMIiwiYXV0aEFQSSIsImhhbmRsZUF1dGhTdWJtaXQiLCJ2YWx1ZXMiLCJ1c2VybmFtZSIsInBhc3N3b3JkIiwiZW1haWwiLCJpc1NpZ251cCIsInVybCIsInVzZXJuYW1lT3JFbWFpbCIsInBheWxvYWQiLCJkYXRhIiwicG9zdCIsInVzZXIiLCJ0b2tlbiIsInVzZXJJZCIsIl9pZCIsImVycm9yIiwiY29uc29sZSIsInZhbGlkYXRlVG9rZW4iLCJyZXNwb25zZSIsImdldCIsImhlYWRlcnMiLCJBdXRob3JpemF0aW9uIiwic3RhdHVzIiwibG9nb3V0Il0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbImF1dGguanN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBheGlvcyBmcm9tICdheGlvcyc7XG5pbXBvcnQgY29uc3RhbnRzIGZyb20gJ2NvbmZpZy9jb25zdGFudHMnO1xuXG5jb25zdCB7IEFQSV9VUkwgfSA9IGNvbnN0YW50cztcblxuZXhwb3J0IGNvbnN0IGF1dGhBUEkgPSB7XG4gIGFzeW5jIGhhbmRsZUF1dGhTdWJtaXQodmFsdWVzKSB7XG4gICAgY29uc3QgeyB1c2VybmFtZSwgcGFzc3dvcmQsIGVtYWlsLCBpc1NpZ251cCB9ID0gdmFsdWVzO1xuICAgIGNvbnN0IHVybCA9IGlzU2lnbnVwID8gYCR7QVBJX1VSTH0vdXNlci9zaWdudXBgIDogYCR7QVBJX1VSTH0vdXNlci9sb2dpbmA7XG4gICAgY29uc3QgdXNlcm5hbWVPckVtYWlsID0gIWVtYWlsID8gdXNlcm5hbWUgOiBlbWFpbDtcbiAgICBjb25zdCBwYXlsb2FkID0gaXNTaWdudXBcbiAgICAgID8geyB1c2VybmFtZSwgcGFzc3dvcmQsIGVtYWlsIH1cbiAgICAgIDogeyB1c2VybmFtZU9yRW1haWwsIHBhc3N3b3JkIH07XG5cbiAgICB0cnkge1xuICAgICAgY29uc3QgeyBkYXRhIH0gPSBhd2FpdCBheGlvcy5wb3N0KHVybCwgcGF5bG9hZCk7XG4gICAgICAvLyBFbnN1cmUgdGhlIGRhdGEgcmV0dXJuZWQgaXMgaW4gdGhlIGNvcnJlY3Qgc3RydWN0dXJlIGZvciB0aGUgcmVkdWNlclxuICAgICAgcmV0dXJuIHtcbiAgICAgICAgdXNlcjogZGF0YS51c2VyLFxuICAgICAgICB0b2tlbjogZGF0YS50b2tlbixcbiAgICAgICAgdXNlcklkOiBkYXRhLnVzZXIuX2lkLFxuICAgICAgfTtcbiAgICB9IGNhdGNoIChlcnJvcikge1xuICAgICAgY29uc29sZS5lcnJvcihpc1NpZ251cCA/ICdTaWdudXAgZmFpbGVkOicgOiAnTG9naW4gZmFpbGVkOicsIGVycm9yKTtcbiAgICAgIHRocm93IGVycm9yO1xuICAgIH1cbiAgfSxcblxuICBhc3luYyB2YWxpZGF0ZVRva2VuKHRva2VuKSB7XG4gICAgdHJ5IHtcbiAgICAgIGNvbnN0IHJlc3BvbnNlID0gYXdhaXQgYXhpb3MuZ2V0KGAke0FQSV9VUkx9L3VzZXIvdmFsaWRhdGUtdG9rZW5gLCB7XG4gICAgICAgIGhlYWRlcnM6IHtcbiAgICAgICAgICBBdXRob3JpemF0aW9uOiBgQmVhcmVyICR7dG9rZW59YCxcbiAgICAgICAgfSxcbiAgICAgIH0pO1xuICAgICAgcmV0dXJuIHJlc3BvbnNlLnN0YXR1cyA9PT0gMjAwO1xuICAgIH0gY2F0Y2ggKGVycm9yKSB7XG4gICAgICBjb25zb2xlLmVycm9yKCdUb2tlbiB2YWxpZGF0aW9uIGVycm9yOicsIGVycm9yKTtcbiAgICAgIHRocm93IGVycm9yO1xuICAgIH1cbiAgfSxcblxuICBhc3luYyBsb2dvdXQodG9rZW4pIHtcbiAgICB0cnkge1xuICAgICAgYXdhaXQgYXhpb3MucG9zdChcbiAgICAgICAgYCR7QVBJX1VSTH0vdXNlci9sb2dvdXRgLFxuICAgICAgICB7fSxcbiAgICAgICAge1xuICAgICAgICAgIGhlYWRlcnM6IHtcbiAgICAgICAgICAgIEF1dGhvcml6YXRpb246IGBCZWFyZXIgJHt0b2tlbn1gLFxuICAgICAgICAgIH0sXG4gICAgICAgIH1cbiAgICAgICk7XG4gICAgfSBjYXRjaCAoZXJyb3IpIHtcbiAgICAgIGNvbnNvbGUuZXJyb3IoJ0xvZ291dCBlcnJvcjonLCBlcnJvcik7XG4gICAgICB0aHJvdyBlcnJvcjtcbiAgICB9XG4gIH0sXG59O1xuIl0sImZpbGUiOiIvVXNlcnMvcmVlZHZvZ3QvRGVza3RvcC9SZWVkQWlGcm9udC9zcmMvYXBpL3VzZXIvYXV0aC5qc3gifQ=="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0005672499537467957
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/api/user/auth.jsx (200) — 2024-07-28T11:41:29.145Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/api/user/auth.jsx"
+        }
+      ]
+    }
+  ]
+}

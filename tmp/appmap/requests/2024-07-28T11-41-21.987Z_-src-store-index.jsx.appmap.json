@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/store/index.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"160-jPRBNNPuucHgHYwdCvVO7Lp4RAQ\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"160-l1ihKvxaSzA7/nGGVB9llnGPWgA\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { configureStore } from \"/node_modules/.vite/deps/@reduxjs_toolkit.js?v=6cb72b4f\";\nimport rootReducer from \"/src/store/Slices/index.jsx\";\nexport const store = configureStore({\n  reducer: rootReducer\n});\nexport const dispatch = store.dispatch;\nexport const setField = (field, value) => dispatch(setField({ field, value }));\nexport default store;\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBQUEsU0FBU0Esc0JBQXNCO0FBQy9CLE9BQU9DLGlCQUFpQjtBQUVqQixhQUFNQyxRQUFRRixlQUFlO0FBQUEsRUFDbENHLFNBQVNGO0FBQ1gsQ0FBQztBQUNNLGFBQU1HLFdBQVdGLE1BQU1FO0FBQ3ZCLGFBQU1DLFdBQVdBLENBQUNDLE9BQU9DLFVBQVVILFNBQVNDLFNBQVMsRUFBRUMsT0FBT0MsTUFBTSxDQUFDLENBQUM7QUFFN0UsZUFBZUwiLCJuYW1lcyI6WyJjb25maWd1cmVTdG9yZSIsInJvb3RSZWR1Y2VyIiwic3RvcmUiLCJyZWR1Y2VyIiwiZGlzcGF0Y2giLCJzZXRGaWVsZCIsImZpZWxkIiwidmFsdWUiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiaW5kZXguanN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGNvbmZpZ3VyZVN0b3JlIH0gZnJvbSAnQHJlZHV4anMvdG9vbGtpdCc7XG5pbXBvcnQgcm9vdFJlZHVjZXIgZnJvbSAnLi9TbGljZXMnO1xuXG5leHBvcnQgY29uc3Qgc3RvcmUgPSBjb25maWd1cmVTdG9yZSh7XG4gIHJlZHVjZXI6IHJvb3RSZWR1Y2VyLFxufSk7XG5leHBvcnQgY29uc3QgZGlzcGF0Y2ggPSBzdG9yZS5kaXNwYXRjaDtcbmV4cG9ydCBjb25zdCBzZXRGaWVsZCA9IChmaWVsZCwgdmFsdWUpID0+IGRpc3BhdGNoKHNldEZpZWxkKHsgZmllbGQsIHZhbHVlIH0pKTtcblxuZXhwb3J0IGRlZmF1bHQgc3RvcmU7XG4iXSwiZmlsZSI6Ii9Vc2Vycy9yZWVkdm9ndC9EZXNrdG9wL1JlZWRBaUZyb250L3NyYy9zdG9yZS9pbmRleC5qc3gifQ=="
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.0002650830429047346
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/store/index.jsx (200) — 2024-07-28T11:41:21.987Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/store/index.jsx"
+        }
+      ]
+    }
+  ]
+}

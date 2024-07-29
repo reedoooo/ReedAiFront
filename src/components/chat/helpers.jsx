@@ -48,25 +48,7 @@ const getContentType = content => {
     return 'text';
   }
 };
-// Function to extract code blocks from markdown content
-// const extractCodeBlocks = content => {
-//   const codeBlocks = [];
-//   const regex = /```([\s\S]*?)```/g;
-//   let match;
-//   while ((match = regex.exec(content)) !== null) {
-//     codeBlocks.push(match[1]);
-//   }
-//   const remainingContent = content.replace(regex, '');
-//   return { codeBlocks, remainingContent };
-// };
-// const generateRandomString = (length, lowercase = false) => {
-//   const chars = 'ABCDEFGHJKLMNPQRSTUVWXY3456789'; // excluding similar looking characters like Z, 2, I, 1, O, 0
-//   let result = '';
-//   for (let i = 0; i < length; i++) {
-//     result += chars.charAt(Math.floor(Math.random() * chars.length));
-//   }
-//   return lowercase ? result.toLowerCase() : result;
-// };
+
 export async function consumeReadableStream(stream, callback, signal) {
   const reader = stream.getReader();
   const decoder = new TextDecoder();

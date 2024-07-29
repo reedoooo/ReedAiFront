@@ -1,6 +1,11 @@
 import { createBrowserHistory } from 'history';
-import React, { lazy } from 'react';
-import { Navigate, createBrowserRouter, redirect } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import {
+  Navigate,
+  Outlet,
+  createBrowserRouter,
+  redirect,
+} from 'react-router-dom';
 import {
   AdminPanelSettingsRoundedIcon,
   AiIcon,
@@ -58,7 +63,11 @@ const baseRoutes = [
     title: 'Docs',
     path: '/land',
     breadcrumb: 'Docs',
-    element: <BlankLayout />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <BlankLayout />
+      </Suspense>
+    ),
     errorElement: <RootErrorBoundary />,
     icon: <HomeIcon />,
     collapse: true,
@@ -90,7 +99,11 @@ const adminRoutes = [
     title: 'Admin',
     path: '/admin',
     breadcrumb: 'Admin',
-    element: <AdminLayout />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <AdminLayout />
+      </Suspense>
+    ),
     errorElement: <RootErrorBoundary />,
     icon: <AdminPanelSettingsRoundedIcon />,
     collapse: true,
@@ -120,7 +133,11 @@ const adminRoutes = [
         title: 'Chat',
         path: 'chat',
         breadcrumb: 'Chat',
-        element: <ChatLayout />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <ChatLayout />
+          </Suspense>
+        ),
         icon: <AiIcon />,
         collapse: true,
         children: [
@@ -139,19 +156,24 @@ const adminRoutes = [
         ],
       },
       {
-        name: 'Templates Home',
-        title: 'TemplatesHome',
-        path: 'templates-home',
-        breadcrumb: 'Templates Home',
-        element: <BlankLayout />,
+        name: 'Templates',
+        title: 'Templates',
+        path: 'templates',
+        breadcrumb: 'Templates',
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <BlankLayout />
+          </Suspense>
+        ),
         icon: <DocumentScannerRoundedIcon />,
         collapse: true,
         children: [
           {
-            name: 'Templates',
-            title: 'Templates',
-            path: 'templates',
-            breadcrumb: 'Templates',
+            index: true,
+            name: 'Templates Home',
+            title: 'TemplatesHome',
+            path: 'templates-home',
+            breadcrumb: 'Templates Home',
             element: <Templates />,
             icon: <HomeIcon />,
             description: 'Templates',
@@ -173,13 +195,20 @@ const authRoutes = [
     title: 'Auth',
     path: '/auth',
     breadcrumb: 'Auth',
-    element: <AuthLayout />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <AuthLayout />
+      </Suspense>
+    ),
     errorElement: <RootErrorBoundary />,
     icon: <LockIcon />,
     collapse: true,
     children: [
       {
         index: true,
+        element: <Navigate to="sign-in" replace />,
+      },
+      {
         name: 'Sign In',
         title: 'SignIn',
         path: 'sign-in',
@@ -233,7 +262,7 @@ const rootRoutes = [
     name: 'Root',
     title: 'Root',
     path: '/',
-    element: <BlankLayout />,
+    element: <Outlet />,
     errorElement: <RootErrorBoundary />,
     children: [
       {
@@ -247,101 +276,7 @@ const rootRoutes = [
   },
 ];
 const routes = [...rootRoutes];
-const extractPropertyValues = (routes, property) => {
-  const values = [];
-  routes.forEach(route => {
-    if (route[property]) {
-      values.push(route[property]);
-    }
-    if (route.children) {
-      values.push(...extractPropertyValues(route.children, property));
-    }
-  });
-  return values;
-};
-
-export const extractPaths = (routes, basePath = '') => {
-  const paths = [];
-  routes.forEach(route => {
-    if (route.path) {
-      const fullPath =
-        basePath === '/' ? `/${route.path}` : `${basePath}${route.path}`;
-      paths.push(fullPath);
-      if (route.children) {
-        paths.push(
-          ...extractPaths(
-            route.children,
-            fullPath === '/' ? '' : `${fullPath}/`
-          )
-        );
-      }
-    } else if (route.index) {
-      const fullPath = basePath.endsWith('/')
-        ? basePath.slice(0, -1)
-        : basePath;
-      paths.push(fullPath);
-    }
-  });
-  return paths;
-};
-const addItemsToRoutes = routes => {
-  const routeLinks = extractPaths(routes);
-  routes.forEach((route, index) => {
-    const linkPath = routeLinks[index];
-    console.log(`[LINK PATH @ ${route?.name}] `, linkPath);
-    if (route.collapse) {
-      route.items = route.children.map(child => ({
-        ...child,
-        link: linkPath,
-      }));
-    }
-    if (route.children) {
-      addItemsToRoutes(route.children);
-    }
-  });
-};
-addItemsToRoutes(routes);
 
 export const Router = createBrowserRouter(routes, { history: customHistory });
-
-export const checkARouterValue = () => {
-  const linkPaths = extractPaths(rootRoutes);
-  console.log(linkPaths);
-  console.log('ROUTES', routes);
-  console.log('ROUTER', Router);
-};
-
-export const validateLinkPath = path => {
-  const correctPaths = [
-    '/',
-    '/land',
-    '/land/heroDocs',
-    '/test',
-    '/test/test-home',
-    '/test/chat-test',
-    '/admin',
-    '/admin/dashboard',
-    '/admin/templates',
-    '/admin/profile',
-    '/admin/templates/templates-home',
-    '/admin/templates/original-chat-ai',
-    '/admin/templates/generate-template',
-    '/auth',
-    '/auth/sign-in',
-    '/auth/sign-up',
-    '/auth/logout',
-    '/404',
-  ];
-  if (correctPaths.includes(path)) {
-    return true;
-  } else {
-    console.log('Invalid Path:', path);
-    return false;
-  }
-};
-
-export const getRoutesPropertyValues = property => {
-  return extractPropertyValues(routes, property);
-};
 
 export default routes;

@@ -2,8 +2,8 @@
 import { Box, Breadcrumbs, Link, Typography } from '@mui/material';
 import { uniqueId } from 'lodash';
 import React from 'react';
-import { extractPaths } from '@/routes/index';
 import constants from 'config/constants';
+import { extractPaths } from 'utils/navigation';
 
 const findBreadcrumbs = (path, linkPaths) => {
   const pathParts = path.split('/').filter(Boolean);

@@ -27,6 +27,7 @@ const handleFormContentInsert = (editor, form) => {
 export const InputActions = ({
   isFirstMessage,
   setUserInput,
+  setFileInput,
   editor,
   theme,
 }) => {
@@ -58,6 +59,7 @@ export const InputActions = ({
             console.log('File selected:', file.name);
           }
         }}
+        setFileInput={setFileInput}
         iconStyle={{ color: theme.palette.primary.main, fontSize: 20 }}
       />
       <FormTemplatesDropDown
@@ -84,6 +86,7 @@ export const InputActions = ({
       <ContentTypeDropDown
         isFirstMessage={isFirstMessage}
         setUserInput={setUserInput}
+        setFileInput={setFileInput}
         open={contentMenu.isOpen}
         anchorEl={contentMenu.anchorEl}
         handleClose={contentMenu.handleMenuClose}

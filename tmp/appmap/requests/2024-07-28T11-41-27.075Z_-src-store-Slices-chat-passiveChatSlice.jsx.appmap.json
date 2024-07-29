@@ -1,0 +1,83 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "path_info": "/src/store/Slices/chat/passiveChatSlice.jsx",
+        "request_method": "GET",
+        "headers": {
+          "Host": "localhost:3000",
+          "Connection": "keep-alive",
+          "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "Origin": "http://localhost:3000",
+          "Sec-Ch-Ua-Mobile": "?0",
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Sec-Ch-Ua-Platform": "\"macOS\"",
+          "Accept": "*/*",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Dest": "script",
+          "Referer": "http://localhost:3000/src/store/Slices/chat/index.jsx",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Cookie": "__stripe_mid=ebfd26b6-c829-4742-8893-abaf894eb93edc4c96; colorMode=%22dark%22",
+          "If-None-Match": "W/\"790-FK7PbLPw70/F4LIAtiTz0Rmv8u4\""
+        },
+        "protocol": "HTTP/1.1"
+      },
+      "id": 1,
+      "thread_id": 0
+    },
+    {
+      "event": "return",
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "text/javascript",
+          "Cache-Control": "no-cache",
+          "Etag": "W/\"790-mDDriP7bzZou+vYYW5vBrb4IREs\""
+        },
+        "return_value": {
+          "class": "[ResponseBody]",
+          "value": "import { createAsyncThunk, createSlice } from \"/node_modules/.vite/deps/@reduxjs_toolkit.js?v=6cb72b4f\";\nimport { getChatSessionMessagesBySessionId } from \"/src/api/index.jsx\";\nconst initialState = {\n  userInput: \"\",\n  chatMessages: [],\n  chatSettings: {\n    model: \"gpt-4-turbo-preview\",\n    prompt: \"You are a helpful AI assistant.\",\n    temperature: 0.5,\n    contextLength: 4e3,\n    includeProfileContext: true,\n    includeWorkspaceInstructions: true,\n    embeddingsProvider: \"openai\"\n  },\n  selectedChat: null,\n  chatFileItems: []\n};\nexport const syncChatMessages = createAsyncThunk(\n  \"chat/syncChatMessages\",\n  async (id, { dispatch }) => {\n    if (id) {\n      const response = await getChatSessionMessagesBySessionId(id);\n      dispatch(\n        passiveChatSlice.actions.setChatMessages({\n          id,\n          messages: response\n        })\n      );\n    }\n  }\n);\nexport const passiveChatSlice = createSlice({\n  name: \"passiveChat\",\n  initialState,\n  reducers: {\n    setUserInput: (state, action) => {\n      state.userInput = action.payload;\n    },\n    setChatMessages: (state, action) => {\n      state.chatMessages = action.payload;\n    },\n    setChatSettings: (state, action) => {\n      state.chatSettings = action.payload;\n    },\n    setSelectedChat: (state, action) => {\n      state.selectedChat = action.payload;\n    },\n    setChatFileItems: (state, action) => {\n      state.chatFileItems = action.payload;\n    }\n  },\n  extraReducers: (builder) => {\n    builder.addCase(syncChatMessages.fulfilled, (state, action) => {\n      const { id, messages } = action.payload;\n      if (state.selectedChat && state.selectedChat.id === id) {\n        state.chatMessages = messages;\n      }\n    });\n  }\n});\nexport { initialState as chatPassiveInitialState };\nexport const {\n  setUserInput,\n  setChatMessages,\n  setChatSettings,\n  setSelectedChat,\n  setChatFileItems\n} = passiveChatSlice.actions;\nexport default passiveChatSlice.reducer;\n\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBQUEsU0FBU0Esa0JBQWtCQyxtQkFBbUI7QUFDOUMsU0FBU0MseUNBQXlDO0FBRWxELE1BQU1DLGVBQWU7QUFBQSxFQUNuQkMsV0FBVztBQUFBLEVBQ1hDLGNBQWM7QUFBQSxFQUNkQyxjQUFjO0FBQUEsSUFDWkMsT0FBTztBQUFBLElBQ1BDLFFBQVE7QUFBQSxJQUNSQyxhQUFhO0FBQUEsSUFDYkMsZUFBZTtBQUFBLElBQ2ZDLHVCQUF1QjtBQUFBLElBQ3ZCQyw4QkFBOEI7QUFBQSxJQUM5QkMsb0JBQW9CO0FBQUEsRUFDdEI7QUFBQSxFQUNBQyxjQUFjO0FBQUEsRUFDZEMsZUFBZTtBQUNqQjtBQUNPLGFBQU1DLG1CQUFtQmhCO0FBQUFBLEVBQzlCO0FBQUEsRUFDQSxPQUFPaUIsSUFBSSxFQUFFQyxTQUFTLE1BQU07QUFDMUIsUUFBSUQsSUFBSTtBQUNOLFlBQU1FLFdBQVcsTUFBTWpCLGtDQUFrQ2UsRUFBRTtBQUMzREM7QUFBQUEsUUFDRUUsaUJBQWlCQyxRQUFRQyxnQkFBZ0I7QUFBQSxVQUN2Q0w7QUFBQUEsVUFDQU0sVUFBVUo7QUFBQUEsUUFDWixDQUFDO0FBQUEsTUFDSDtBQUFBLElBQ0Y7QUFBQSxFQUNGO0FBQ0Y7QUFDTyxhQUFNQyxtQkFBbUJuQixZQUFZO0FBQUEsRUFDMUN1QixNQUFNO0FBQUEsRUFDTnJCO0FBQUFBLEVBQ0FzQixVQUFVO0FBQUEsSUFDUkMsY0FBY0EsQ0FBQ0MsT0FBT0MsV0FBVztBQUMvQkQsWUFBTXZCLFlBQVl3QixPQUFPQztBQUFBQSxJQUMzQjtBQUFBLElBQ0FQLGlCQUFpQkEsQ0FBQ0ssT0FBT0MsV0FBVztBQUNsQ0QsWUFBTXRCLGVBQWV1QixPQUFPQztBQUFBQSxJQUM5QjtBQUFBLElBQ0FDLGlCQUFpQkEsQ0FBQ0gsT0FBT0MsV0FBVztBQUNsQ0QsWUFBTXJCLGVBQWVzQixPQUFPQztBQUFBQSxJQUM5QjtBQUFBLElBQ0FFLGlCQUFpQkEsQ0FBQ0osT0FBT0MsV0FBVztBQUNsQ0QsWUFBTWIsZUFBZWMsT0FBT0M7QUFBQUEsSUFDOUI7QUFBQSxJQUNBRyxrQkFBa0JBLENBQUNMLE9BQU9DLFdBQVc7QUFDbkNELFlBQU1aLGdCQUFnQmEsT0FBT0M7QUFBQUEsSUFDL0I7QUFBQSxFQUNGO0FBQUEsRUFDQUksZUFBZUEsQ0FBQUMsWUFBVztBQUN4QkEsWUFBUUMsUUFBUW5CLGlCQUFpQm9CLFdBQVcsQ0FBQ1QsT0FBT0MsV0FBVztBQUM3RCxZQUFNLEVBQUVYLElBQUlNLFNBQVMsSUFBSUssT0FBT0M7QUFDaEMsVUFBSUYsTUFBTWIsZ0JBQWdCYSxNQUFNYixhQUFhRyxPQUFPQSxJQUFJO0FBQ3REVSxjQUFNdEIsZUFBZWtCO0FBQUFBLE1BQ3ZCO0FBQUEsSUFDRixDQUFDO0FBQUEsRUFDSDtBQUNGLENBQUM7QUFFRCxTQUFTcEIsZ0JBQWdCa0M7QUFFbEIsYUFBTTtBQUFBLEVBQ1hYO0FBQUFBLEVBQ0FKO0FBQUFBLEVBQ0FRO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDO0FBQ0YsSUFBSVosaUJBQWlCQztBQUVyQixlQUFlRCxpQkFBaUJrQiIsIm5hbWVzIjpbImNyZWF0ZUFzeW5jVGh1bmsiLCJjcmVhdGVTbGljZSIsImdldENoYXRTZXNzaW9uTWVzc2FnZXNCeVNlc3Npb25JZCIsImluaXRpYWxTdGF0ZSIsInVzZXJJbnB1dCIsImNoYXRNZXNzYWdlcyIsImNoYXRTZXR0aW5ncyIsIm1vZGVsIiwicHJvbXB0IiwidGVtcGVyYXR1cmUiLCJjb250ZXh0TGVuZ3RoIiwiaW5jbHVkZVByb2ZpbGVDb250ZXh0IiwiaW5jbHVkZVdvcmtzcGFjZUluc3RydWN0aW9ucyIsImVtYmVkZGluZ3NQcm92aWRlciIsInNlbGVjdGVkQ2hhdCIsImNoYXRGaWxlSXRlbXMiLCJzeW5jQ2hhdE1lc3NhZ2VzIiwiaWQiLCJkaXNwYXRjaCIsInJlc3BvbnNlIiwicGFzc2l2ZUNoYXRTbGljZSIsImFjdGlvbnMiLCJzZXRDaGF0TWVzc2FnZXMiLCJtZXNzYWdlcyIsIm5hbWUiLCJyZWR1Y2VycyIsInNldFVzZXJJbnB1dCIsInN0YXRlIiwiYWN0aW9uIiwicGF5bG9hZCIsInNldENoYXRTZXR0aW5ncyIsInNldFNlbGVjdGVkQ2hhdCIsInNldENoYXRGaWxlSXRlbXMiLCJleHRyYVJlZHVjZXJzIiwiYnVpbGRlciIsImFkZENhc2UiLCJmdWxmaWxsZWQiLCJjaGF0UGFzc2l2ZUluaXRpYWxTdGF0ZSIsInJlZHVjZXIiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsicGFzc2l2ZUNoYXRTbGljZS5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgY3JlYXRlQXN5bmNUaHVuaywgY3JlYXRlU2xpY2UgfSBmcm9tICdAcmVkdXhqcy90b29sa2l0JztcbmltcG9ydCB7IGdldENoYXRTZXNzaW9uTWVzc2FnZXNCeVNlc3Npb25JZCB9IGZyb20gJ2FwaS9pbmRleCc7XG5cbmNvbnN0IGluaXRpYWxTdGF0ZSA9IHtcbiAgdXNlcklucHV0OiAnJyxcbiAgY2hhdE1lc3NhZ2VzOiBbXSxcbiAgY2hhdFNldHRpbmdzOiB7XG4gICAgbW9kZWw6ICdncHQtNC10dXJiby1wcmV2aWV3JyxcbiAgICBwcm9tcHQ6ICdZb3UgYXJlIGEgaGVscGZ1bCBBSSBhc3Npc3RhbnQuJyxcbiAgICB0ZW1wZXJhdHVyZTogMC41LFxuICAgIGNvbnRleHRMZW5ndGg6IDQwMDAsXG4gICAgaW5jbHVkZVByb2ZpbGVDb250ZXh0OiB0cnVlLFxuICAgIGluY2x1ZGVXb3Jrc3BhY2VJbnN0cnVjdGlvbnM6IHRydWUsXG4gICAgZW1iZWRkaW5nc1Byb3ZpZGVyOiAnb3BlbmFpJyxcbiAgfSxcbiAgc2VsZWN0ZWRDaGF0OiBudWxsLFxuICBjaGF0RmlsZUl0ZW1zOiBbXSxcbn07XG5leHBvcnQgY29uc3Qgc3luY0NoYXRNZXNzYWdlcyA9IGNyZWF0ZUFzeW5jVGh1bmsoXG4gICdjaGF0L3N5bmNDaGF0TWVzc2FnZXMnLFxuICBhc3luYyAoaWQsIHsgZGlzcGF0Y2ggfSkgPT4ge1xuICAgIGlmIChpZCkge1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBnZXRDaGF0U2Vzc2lvbk1lc3NhZ2VzQnlTZXNzaW9uSWQoaWQpO1xuICAgICAgZGlzcGF0Y2goXG4gICAgICAgIHBhc3NpdmVDaGF0U2xpY2UuYWN0aW9ucy5zZXRDaGF0TWVzc2FnZXMoe1xuICAgICAgICAgIGlkLFxuICAgICAgICAgIG1lc3NhZ2VzOiByZXNwb25zZSxcbiAgICAgICAgfSlcbiAgICAgICk7XG4gICAgfVxuICB9XG4pO1xuZXhwb3J0IGNvbnN0IHBhc3NpdmVDaGF0U2xpY2UgPSBjcmVhdGVTbGljZSh7XG4gIG5hbWU6ICdwYXNzaXZlQ2hhdCcsXG4gIGluaXRpYWxTdGF0ZSxcbiAgcmVkdWNlcnM6IHtcbiAgICBzZXRVc2VySW5wdXQ6IChzdGF0ZSwgYWN0aW9uKSA9PiB7XG4gICAgICBzdGF0ZS51c2VySW5wdXQgPSBhY3Rpb24ucGF5bG9hZDtcbiAgICB9LFxuICAgIHNldENoYXRNZXNzYWdlczogKHN0YXRlLCBhY3Rpb24pID0+IHtcbiAgICAgIHN0YXRlLmNoYXRNZXNzYWdlcyA9IGFjdGlvbi5wYXlsb2FkO1xuICAgIH0sXG4gICAgc2V0Q2hhdFNldHRpbmdzOiAoc3RhdGUsIGFjdGlvbikgPT4ge1xuICAgICAgc3RhdGUuY2hhdFNldHRpbmdzID0gYWN0aW9uLnBheWxvYWQ7XG4gICAgfSxcbiAgICBzZXRTZWxlY3RlZENoYXQ6IChzdGF0ZSwgYWN0aW9uKSA9PiB7XG4gICAgICBzdGF0ZS5zZWxlY3RlZENoYXQgPSBhY3Rpb24ucGF5bG9hZDtcbiAgICB9LFxuICAgIHNldENoYXRGaWxlSXRlbXM6IChzdGF0ZSwgYWN0aW9uKSA9PiB7XG4gICAgICBzdGF0ZS5jaGF0RmlsZUl0ZW1zID0gYWN0aW9uLnBheWxvYWQ7XG4gICAgfSxcbiAgfSxcbiAgZXh0cmFSZWR1Y2VyczogYnVpbGRlciA9PiB7XG4gICAgYnVpbGRlci5hZGRDYXNlKHN5bmNDaGF0TWVzc2FnZXMuZnVsZmlsbGVkLCAoc3RhdGUsIGFjdGlvbikgPT4ge1xuICAgICAgY29uc3QgeyBpZCwgbWVzc2FnZXMgfSA9IGFjdGlvbi5wYXlsb2FkO1xuICAgICAgaWYgKHN0YXRlLnNlbGVjdGVkQ2hhdCAmJiBzdGF0ZS5zZWxlY3RlZENoYXQuaWQgPT09IGlkKSB7XG4gICAgICAgIHN0YXRlLmNoYXRNZXNzYWdlcyA9IG1lc3NhZ2VzO1xuICAgICAgfVxuICAgIH0pO1xuICB9LFxufSk7XG5cbmV4cG9ydCB7IGluaXRpYWxTdGF0ZSBhcyBjaGF0UGFzc2l2ZUluaXRpYWxTdGF0ZSB9O1xuXG5leHBvcnQgY29uc3Qge1xuICBzZXRVc2VySW5wdXQsXG4gIHNldENoYXRNZXNzYWdlcyxcbiAgc2V0Q2hhdFNldHRpbmdzLFxuICBzZXRTZWxlY3RlZENoYXQsXG4gIHNldENoYXRGaWxlSXRlbXMsXG59ID0gcGFzc2l2ZUNoYXRTbGljZS5hY3Rpb25zO1xuXG5leHBvcnQgZGVmYXVsdCBwYXNzaXZlQ2hhdFNsaWNlLnJlZHVjZXI7XG4iXSwiZmlsZSI6Ii9Vc2Vycy9yZWVkdm9ndC9EZXNrdG9wL1JlZWRBaUZyb250L3NyYy9zdG9yZS9TbGljZXMvY2hhdC9wYXNzaXZlQ2hhdFNsaWNlLmpzeCJ9"
+        }
+      },
+      "id": 2,
+      "thread_id": 0,
+      "parent_id": 1,
+      "elapsed": 0.00047224992886185646
+    }
+  ],
+  "version": "1.12",
+  "metadata": {
+    "client": {
+      "name": "appmap-node",
+      "version": "2.23.1",
+      "url": "https://github.com/getappmap/appmap-node"
+    },
+    "language": {
+      "name": "javascript",
+      "engine": "Node.js",
+      "version": "v20.15.1"
+    },
+    "app": "MyApp",
+    "recorder": {
+      "type": "requests",
+      "name": "requests"
+    },
+    "name": "GET /src/store/Slices/chat/passiveChatSlice.jsx (200) — 2024-07-28T11:41:27.075Z"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /src/store/Slices/chat/passiveChatSlice.jsx"
+        }
+      ]
+    }
+  ]
+}

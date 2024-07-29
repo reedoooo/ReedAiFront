@@ -1,102 +1,171 @@
 import AttachFileIcon from '@mui/icons-material/AttachFile';
-import { Button, CircularProgress, IconButton } from '@mui/material';
+import {
+  Button,
+  CircularProgress,
+  IconButton,
+  Typography,
+} from '@mui/material';
+import axios from 'axios';
 import { debounce } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
-// import { getChatFilesList } from 'api/chat/chat_file';
-import { updateChatSession } from 'api/chat/chat_session';
-import { useAuthStore } from 'contexts/AuthProvider';
-import { useChatStore } from 'contexts/ChatProvider';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import useTipTapEditor from 'hooks/useTipTapEditor';
+import { preprocessImage } from 'utils/files/main';
+import FilePreview from './FilePreview';
+
+export const TEXT_MIME_TYPES = [
+  'text/plain',
+  'text/csv',
+  'text/html',
+  'text/css',
+  'text/javascript',
+  'text/xml',
+  'application/json',
+  'text/markdown',
+];
+export const IMAGE_MIME_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'image/webp',
+  'image/svg+xml',
+];
+export const SNIPPET_MARKERS = {
+  begin: '----BEGIN-SNIPPET----',
+  end: '----END-SNIPPET----',
+};
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ALLOWED_FILE_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'text/plain',
+];
+
+export const insertTextAtCursorPosition = (editor, text) => {
+  if (editor) {
+    editor.commands.insertContent(text);
+  }
+};
+
+export const handleTextFile = (file, editor) => {
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    const textContent = reader.result;
+    const formattedText = `File: ${file.name}:\n${SNIPPET_MARKERS.begin}\n${textContent}\n${SNIPPET_MARKERS.end}\n`;
+    insertTextAtCursorPosition(editor, formattedText);
+    if (editor) {
+      editor.commands.focus();
+      editor.commands.setTextSelection(editor.state.doc.content.size);
+    }
+  };
+  reader.onerror = errorEvent => {
+    console.error('File reading error:', errorEvent.target?.error);
+  };
+  reader.readAsText(file);
+};
+
+export const handleImageFile = (file, fileDataRef, setUploadedFiles) => {
+  if (fileDataRef.current.length >= 5) {
+    // Show an error message that max 5 files are allowed
+    return;
+  }
+
+  const fileData = {
+    data: URL.createObjectURL(file),
+    type: file.type,
+    source: 'filename',
+    filename: file.name,
+  };
+  fileDataRef.current = [...fileDataRef.current, fileData];
+  setUploadedFiles(prevFiles => [...prevFiles, fileData]);
+};
+
+export const handleFiles = (files, editor, fileDataRef, setUploadedFiles) => {
+  files.forEach(file => {
+    if (file.type.startsWith('image/')) {
+      handleImageFile(file, fileDataRef, setUploadedFiles);
+    } else if (file.type.startsWith('text/')) {
+      handleTextFile(file, editor);
+    }
+  });
+};
 
 export const FileUpload = ({ sessionId, showUploaderButton, iconStyle }) => {
   const fileInputRef = useRef(null);
-  const chatStore = useChatStore();
-  const authStore = useAuthStore();
-  const [fileListData, setFileListData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [headers, setHeaders] = useState({});
-  const [data, setData] = useState({});
-  const queryClient = useRef(null); // Simulating Vue's useQueryClient
-  const [model, setModel] = useState({
-    chatModel: 'gpt-3.5-turbo',
-  });
-  const token = localStorage.getItem('user-token');
-  const userId = localStorage.getItem('user-id');
-  const baseURL = process.env.REACT_APP_API_URL; // Adjust the environment variable name
-  const actionURL = `${baseURL}/upload`;
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [showPreview, setShowPreview] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState({});
+  const [uploadedFiles, setUploadedFiles] = useState([]);
 
-  // useEffect(() => {
-  //   setHeaders({
-  //     Authorization: `Bearer ${token}`,
-  //   });
+  // const messageImages = [
+  //   ...newMessageImages.filter(
+  //     image =>
+  //       !chatImages.some(chatImage => chatImage.messageId === image.messageId)
+  //   ),
+  // ];
 
-  //   setData({
-  //     'session-uuid': sessionId,
-  //   });
+  // const combinedChatFiles = [
+  //   ...newMessageFiles.filter(
+  //     file => !chatFiles.some(chatFile => chatFile.id === file.id)
+  //   ),
+  //   ...chatFiles,
+  // ];
 
-  //   const fetchData = async () => {
-  //     setIsLoading(true);
-  //     const result = await getChatFilesList(sessionId, userId);
-  //     setFileListData(result);
-  //     setIsLoading(false);
-  //   };
+  const handleFileChange = useCallback(
+    debounce(event => {
+      const files = Array.from(event.target.files);
+      const validFiles = files.filter(
+        file =>
+          file.size <= MAX_FILE_SIZE && ALLOWED_FILE_TYPES.includes(file.type)
+      );
+      setSelectedFiles(validFiles);
+    }, 300),
+    []
+  );
 
-  //   fetchData();
-  // }, [sessionId, token]);
-
-  // const debouncedUpdate = debounce(updatedModel => {
-  //   updateChatSession(sessionId, {
-  //     maxLength: updatedModel.contextCount,
-  //     temperature: updatedModel.temperature,
-  //     maxTokens: updatedModel.maxTokens,
-  //     topP: updatedModel.topP,
-  //     n: updatedModel.n,
-  //     debug: updatedModel.debug,
-  //     model: updatedModel.chatModel,
-  //     summarizeMode: updatedModel.summarizeMode,
-  //   });
-  // }, 200);
-
-  // useEffect(() => {
-  //   debouncedUpdate(model);
-  // }, []);
-
-  const handleClick = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleFileChange = event => {
-    const file = event.target.files[0];
-    beforeUpload(file);
-    handleFinish({
-      file,
-      event: {
-        currentTarget: {
-          response: JSON.stringify({ url: 'fake-url' }),
-        },
-      },
+  const handleUpload = async () => {
+    const formData = new FormData();
+    selectedFiles.forEach((file, index) => {
+      formData.append(`file${index}`, file);
     });
-  };
 
-  // const handleFileListUpdate = fileList => {
-  //   console.log(fileList);
-  // };
+    try {
+      const response = await axios.post(
+        '/api/upload/multi-type-upload',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          onUploadProgress: progressEvent => {
+            const progress = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setUploadProgress({
+              ...uploadProgress,
+              [selectedFiles[0].name]: progress,
+            });
+          },
+        }
+      );
 
-  const beforeUpload = file => {
-    console.log(file);
-    // You can return a Promise to reject the file
-    // return Promise.reject(new Error('Invalid file type'));
-  };
-
-  const handleFinish = ({ file, event }) => {
-    console.log(file, event);
-    if (!event) {
-      return;
+      if (response.status === 200) {
+        setUploadedFiles([...uploadedFiles, ...selectedFiles]);
+        setSelectedFiles([]);
+        setUploadProgress({});
+      } else {
+        throw new Error('File upload failed');
+      }
+    } catch (error) {
+      console.error('Error uploading files:', error);
     }
-    file.url = JSON.parse(event.currentTarget.response).url;
-    console.log(file, event);
-    // Invalidate queries to refresh file list
-    setFileListData([...fileListData, file]);
-    return file;
   };
 
   // const handleRemove = file => {
@@ -133,66 +202,70 @@ export const FileUpload = ({ sessionId, showUploaderButton, iconStyle }) => {
   //   const url = `/download/${file_id}`;
   //   return url;
   // };
+  const handleRemove = file => {
+    setSelectedFiles(prevFiles => prevFiles.filter(f => f !== file));
+    setUploadedFiles(prevFiles => prevFiles.filter(f => f !== file));
+  };
+  const handleClick = () => {
+    fileInputRef.current.click();
+  };
+  const previewFiles = useMemo(
+    () =>
+      selectedFiles.map(file => (
+        <FilePreview
+          key={file.name}
+          file={file}
+          onRemove={() => handleRemove(file)}
+        />
+      )),
+    [selectedFiles]
+  );
+
+  const uploadedFilesList = useMemo(
+    () => uploadedFiles.map(file => <div key={file.name}>{file.name}</div>),
+    [uploadedFiles]
+  );
 
   return (
     <>
-      {isLoading ? (
-        <IconButton>
-          <CircularProgress size={24} />
+      {showUploaderButton && (
+        <IconButton onClick={handleClick} style={iconStyle}>
+          <AttachFileIcon />
         </IconButton>
-      ) : (
-        <>
-          <IconButton onClick={handleClick}>
-            <AttachFileIcon style={iconStyle} />
-          </IconButton>
-          <input
-            type="file"
-            ref={fileInputRef}
-            style={{ display: 'none' }}
-            onChange={handleFileChange}
-          />
-          {showUploaderButton && (
-            <Button
-              id="attach_file_button"
-              data-testid="attach_file_button"
-              variant="contained"
-              color="primary"
-            >
-              Attach File
-            </Button>
-          )}
-        </>
+      )}
+      <input
+        type="file"
+        multiple
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
+      {previewFiles}
+
+      {Object.keys(uploadProgress).length > 0 && (
+        <div>
+          <Typography variant="h6">Upload Progress:</Typography>
+          {Object.keys(uploadProgress).map((fileName, index) => (
+            <div key={index}>
+              <Typography>{fileName}</Typography>
+              <CircularProgress
+                variant="determinate"
+                value={uploadProgress[fileName]}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+      {uploadedFiles.length > 0 && (
+        <div>
+          <h3>Uploaded Files:</h3>
+          {uploadedFiles.map(file => (
+            <div key={file.name}>{file.name}</div>
+          ))}
+        </div>
       )}
     </>
   );
 };
 
 export default FileUpload;
-
-// import AttachFileIcon from '@mui/icons-material/AttachFile';
-// import { IconButton } from '@mui/material';
-// import React, { useRef } from 'react';
-
-// export const FileUpload = ({ onFileChange, iconStyle }) => {
-//   const fileInputRef = useRef(null);
-
-//   const handleClick = () => {
-//     fileInputRef.current.click();
-//   };
-
-//   return (
-//     <>
-//       <IconButton onClick={handleClick}>
-//         <AttachFileIcon style={iconStyle} />
-//       </IconButton>
-//       <input
-//         type="file"
-//         ref={fileInputRef}
-//         style={{ display: 'none' }}
-//         onChange={onFileChange}
-//       />
-//     </>
-//   );
-// };
-
-// export default FileUpload;
