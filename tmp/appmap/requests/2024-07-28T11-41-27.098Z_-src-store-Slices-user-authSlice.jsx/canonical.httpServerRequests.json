@@ -1,7 +1,0 @@
-[
-  {
-    "route": "GET /src/store/Slices/user/authSlice.jsx",
-    "parameters": "()",
-    "status": 200
-  }
-]

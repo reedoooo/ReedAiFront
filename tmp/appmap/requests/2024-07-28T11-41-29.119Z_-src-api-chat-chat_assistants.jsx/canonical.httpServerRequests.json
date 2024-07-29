@@ -1,7 +1,0 @@
-[
-  {
-    "route": "GET /src/api/chat/chat_assistants.jsx",
-    "parameters": "()",
-    "status": 200
-  }
-]

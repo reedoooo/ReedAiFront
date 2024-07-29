@@ -1,7 +1,0 @@
-[
-  {
-    "route": "GET /src/api/user/auth.jsx",
-    "parameters": "()",
-    "status": 200
-  }
-]

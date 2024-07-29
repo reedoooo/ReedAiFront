@@ -1,7 +1,0 @@
-[
-  {
-    "route": "GET /service-worker.js",
-    "parameters": "()",
-    "status": 304
-  }
-]

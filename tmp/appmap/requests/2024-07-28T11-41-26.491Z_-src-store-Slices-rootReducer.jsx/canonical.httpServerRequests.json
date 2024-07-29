@@ -1,7 +1,0 @@
-[
-  {
-    "route": "GET /src/store/Slices/rootReducer.jsx",
-    "parameters": "()",
-    "status": 200
-  }
-]

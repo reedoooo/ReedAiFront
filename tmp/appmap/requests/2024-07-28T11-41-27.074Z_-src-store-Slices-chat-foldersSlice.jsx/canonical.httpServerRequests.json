@@ -1,7 +1,0 @@
-[
-  {
-    "route": "GET /src/store/Slices/chat/foldersSlice.jsx",
-    "parameters": "()",
-    "status": 200
-  }
-]

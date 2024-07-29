@@ -1,7 +1,0 @@
-[
-  {
-    "route": "GET /manifest.json",
-    "parameters": "()",
-    "status": 304
-  }
-]

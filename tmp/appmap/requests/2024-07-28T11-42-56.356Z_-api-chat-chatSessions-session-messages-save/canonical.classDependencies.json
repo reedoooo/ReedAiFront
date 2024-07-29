@@ -1,6 +1,0 @@
-[
-  {
-    "caller": "POST /api/chat/chatSessions/session/messages/save",
-    "callee": "POST http://localhost:3001/chat/chatSessions/session/messages/save"
-  }
-]

@@ -1,7 +1,0 @@
-[
-  {
-    "route": "GET /src/assets/recommend.json",
-    "parameters": "(import)",
-    "status": 304
-  }
-]

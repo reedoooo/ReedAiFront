@@ -1,7 +1,0 @@
-[
-  {
-    "route": "GET /src/api/export.jsx",
-    "parameters": "()",
-    "status": 304
-  }
-]

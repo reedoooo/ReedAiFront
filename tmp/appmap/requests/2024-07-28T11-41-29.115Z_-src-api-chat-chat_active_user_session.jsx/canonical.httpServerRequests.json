@@ -1,7 +1,0 @@
-[
-  {
-    "route": "GET /src/api/chat/chat_active_user_session.jsx",
-    "parameters": "()",
-    "status": 304
-  }
-]
