@@ -1,0 +1,20 @@
+[
+  {
+    "key": "awesome-chatgpt-prompts",
+    "desc": "ChatGPT General Prompts",
+    "downloadUrl": "/static/awesome-chatgpt-prompts.json",
+    "url": "https://github.com/f/awesome-chatgpt-prompts"
+  },
+  {
+    "key": "awesome-chatgpt-prompts-github",
+    "desc": "ChatGPT Github Prompts",
+    "downloadUrl": "/static/awesome-chatgpt-prompts-github.json",
+    "url": "https://github.com/awesome-chatgpt-prompts/awesome-chatgpt-prompts-github"
+  },
+  {
+    "key": "custom-chatgpt-prompts",
+    "desc": "ChatGPT Github Prompts",
+    "downloadUrl": "/static/chatgpt-prompts-custom.json",
+    "url": "https://github.com/reedoooo"
+  }
+]

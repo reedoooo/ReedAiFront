@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+/* index.css or App.css */
+/* @import 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf_viewer.css'; */
+/* Add this to your global CSS file */
+@import '~highlight.js/styles/github.css';
+
+.app a {
+  display: grid;
+  place-items: center;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  background: rgb(255 255 255 / 9%);
+}
+
+.app a:nth-child(odd) {
+  background: rgb(255 255 255 / 6%);
+}

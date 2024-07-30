@@ -1,0 +1,41 @@
+[
+  {
+    "company_name": ["Company A", true],
+    "application_data": [
+      { "icon": "📄", "text": "Resume" },
+      { "icon": "📄", "text": "Cover Letter" }
+    ],
+    "notes": ["Note 1", false],
+    "submitted": "2024-05-01",
+    "progress": 80,
+    "status": "In Progress"
+  },
+  {
+    "company_name": ["Company B", false],
+    "application_data": [{ "icon": "📄", "text": "Resume" }],
+    "notes": ["Note 2", true],
+    "submitted": "2024-05-03",
+    "progress": 100,
+    "status": "Approved"
+  },
+  {
+    "company_name": ["Company C", true],
+    "application_data": [
+      { "icon": "📄", "text": "Resume" },
+      { "icon": "📄", "text": "Cover Letter" },
+      { "icon": "📄", "text": "Portfolio" }
+    ],
+    "notes": ["Note 3", true],
+    "submitted": "2024-05-05",
+    "progress": 50,
+    "status": "Pending"
+  },
+  {
+    "company_name": ["Company D", false],
+    "application_data": [{ "icon": "📄", "text": "Resume" }],
+    "notes": ["Note 4", false],
+    "submitted": "2024-05-07",
+    "progress": 25,
+    "status": "Rejected"
+  }
+]

@@ -1,0 +1,48 @@
+{
+  "cSpell.words": [
+    "apexcharts",
+    "apos",
+    "appbar",
+    "autofocus",
+    "bgcolor",
+    "CHAKRA",
+    "depcheckrc",
+    "doesn",
+    "Formik",
+    "Fshape",
+    "haspopup",
+    "jspdf",
+    "multilines",
+    "noopener",
+    "noreferrer",
+    "OPENAI",
+    "Pageview",
+    "Parens",
+    "predeploy",
+    "reduxjs",
+    "Roboto",
+    "scrollbars",
+    "svgr",
+    "toolz",
+    "Zshape"
+  ],
+  "liveServer.settings.root": "/public",
+  "editor.formatOnSave": true, // Prettier auto format on save
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "always",
+    "source.sortMembers": "always",
+    "source.sortImports": "always"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": true,
+  "CodeGPT.apiKey": "CodeGPT Plus Beta"
+  // "editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint"]
+}
