@@ -7,10 +7,10 @@ const { size, fontWeightRegular } = typography;
 const { borderRadius } = borders;
 
 export default {
-  defaultProps: {
-    arrow: true,
-    TransitionComponent: Fade,
-  },
+  // defaultProps: {
+  //   arrow: true,
+  //   TransitionComponent: Fade,
+  // },
   styleOverrides: {
     root: {
       maxWidth: pxToRem(200),

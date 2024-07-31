@@ -1,31 +1,26 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable max-len */
 import {
+  alpha,
   Box,
   Button,
   Container,
-  Grid,
-  Paper,
-  Typography,
-  styled,
-  alpha,
-  MenuItem,
-  ListItemText,
   Divider,
+  Grid,
   ListItemIcon,
+  ListItemText,
+  MenuItem,
   MenuList,
+  Paper,
+  styled,
+  Typography,
 } from '@mui/material';
 import { motion } from 'framer-motion';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import {
-  TypingAnimation,
-  CodingAnimation,
-  ImagePromptAnimation,
-  SequentialAnimations,
-} from 'assets/animation';
+import { SequentialAnimations } from 'assets/animation';
 import { PageLayout } from 'components/index';
-import RCTypography from 'components/themed/RCTypography';
+import RCTypography from 'components/themed/HumanUi/RCTypography';
 import { templateData } from 'config/data';
 import useMode from 'hooks/useMode';
 import useRouter from 'hooks/useRouter';
@@ -76,9 +71,6 @@ const StyledMenuList = styled(props => (
           theme.palette.action.selectedOpacity
         ),
       },
-      // '& .MuiSvgIcon-root': {
-      //   color: theme.palette.text.secondary,
-      // },
     },
   },
 }));

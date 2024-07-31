@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { CustomLogoIcon } from 'assets/humanIcons/custom-logo';
-import { StyledLogoIcon } from 'components/themed/styled';
+import { StyledLogoIcon } from 'components/styled';
 import { BreadcrumbsComponent } from '../breadcrumbs'; // Adjust the path as needed
 
 export const NavbarContainer = ({
@@ -107,7 +107,7 @@ export const NavbarContainer = ({
               mr: '8px',
             }}
           >
-            <StyledLogoIcon hVal={'120px'}>
+            <StyledLogoIcon hval="120px">
               <CustomLogoIcon />
             </StyledLogoIcon>
           </Box>

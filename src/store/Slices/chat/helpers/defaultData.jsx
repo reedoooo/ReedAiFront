@@ -369,6 +369,10 @@ export function defaultWorkspaceData() {
       name: '',
       description: '',
       image: null,
+      chatSessions: [],
+      folders: [],
+      activeChatSession: null,
+      systemPrompt: '',
     },
   };
 }

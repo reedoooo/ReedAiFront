@@ -1,10 +1,9 @@
 import { Button, CircularProgress, Container } from '@mui/material';
 import { debounce } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
-// import { getChatFilesList } from 'api/chat/chat_file';
+import apiUtils from '@/lib/apiUtils';
 import { useAuthStore } from 'contexts/AuthProvider';
 import { useChatStore } from 'contexts/ChatProvider';
-import request from 'utils/request/axios';
 
 const UploadComponent = ({ sessionId, showUploaderButton }) => {
   const chatStore = useChatStore();
@@ -20,26 +19,6 @@ const UploadComponent = ({ sessionId, showUploaderButton }) => {
   const token = authStore.getToken();
   const baseURL = process.env.REACT_APP_API_URL; // Adjust the environment variable name
   const actionURL = `${baseURL}/upload`;
-
-  // useEffect(() => {
-  //   setHeaders({
-  //     Authorization: `Bearer ${token}`,
-  //   });
-
-  //   setData({
-  //     'session-uuid': sessionId,
-  //   });
-
-  //   const fetchData = async () => {
-  //     setIsLoading(true);
-  //     const result = await getChatFilesList(sessionId);
-  //     setFileListData(result);
-  //     setIsLoading(false);
-  //   };
-
-  //   fetchData();
-  // }, [sessionId, token]);
-
   const debouncedUpdate = debounce(updatedModel => {
     chatStore.updateChatSession(sessionId, {
       maxLength: updatedModel.contextCount,
@@ -56,17 +35,14 @@ const UploadComponent = ({ sessionId, showUploaderButton }) => {
   useEffect(() => {
     debouncedUpdate(model);
   }, [model]);
-
   const handleFileListUpdate = fileList => {
     console.log(fileList);
   };
-
   const beforeUpload = file => {
     console.log(file);
     // You can return a Promise to reject the file
     // return Promise.reject(new Error('Invalid file type'));
   };
-
   const handleFinish = ({ file, event }) => {
     console.log(file, event);
     if (!event) {
@@ -78,22 +54,20 @@ const UploadComponent = ({ sessionId, showUploaderButton }) => {
     setFileListData([...fileListData, file]);
     return file;
   };
-
   const handleRemove = file => {
     console.log('remove', file);
     if (file.url) {
       const url = fileUrl(file);
       // Simulate file delete mutation
-      request.delete(url).then(() => {
+      apiUtils.delete(url).then(() => {
         setFileListData(fileListData.filter(f => f.url !== file.url));
       });
     }
   };
-
   const handleDownload = async file => {
     console.log('download', file);
     const url = fileUrl(file);
-    const response = await request.get(url, {
+    const response = await apiUtils.get(url, {
       responseType: 'blob', // Important: set the response type to blob
     });
     const blob = new Blob([response.data], {
@@ -107,13 +81,11 @@ const UploadComponent = ({ sessionId, showUploaderButton }) => {
     document.body.removeChild(link);
     return false; // Cancel original download
   };
-
   const fileUrl = file => {
     const file_id = file.url?.split('/').pop();
     const url = `/download/${file_id}`;
     return url;
   };
-
   return (
     <Container>
       <div>

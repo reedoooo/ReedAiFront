@@ -11,7 +11,6 @@ import useFetchChatStream from './useFetchChatStream';
 import useFormikSchema from './useFormikSchema';
 import useLocalStorage from './useLocalStorage';
 import useManageCookies from './useManageCookies';
-import useMarkdownProcessor from './useMarkdownProcessor';
 import useMenu from './useMenu';
 import useMermaidDiagram from './useMermaidDiagram';
 import useMode from './useMode';
@@ -33,7 +32,6 @@ export {
   useFormikSchema,
   useLocalStorage,
   useManageCookies,
-  useMarkdownProcessor,
   useMenu,
   useMermaidDiagram,
   useMode,
@@ -57,7 +55,6 @@ export default {
   useFormikSchema,
   useLocalStorage,
   useManageCookies,
-  useMarkdownProcessor,
   useMenu,
   useMode,
   useNotification,

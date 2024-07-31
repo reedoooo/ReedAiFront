@@ -5,59 +5,35 @@ import {
   Box,
   Button,
   IconButton,
-  Menu,
-  MenuItem,
-  MenuList,
-  Toolbar,
-  Typography,
-  useMediaQuery,
-  Link as MuiLink,
   ListItemIcon,
   ListItemText,
-  Divider,
-  Tooltip,
+  Menu,
+  MenuItem,
+  useMediaQuery,
 } from '@mui/material';
 // MUI Icons
 import PropTypes from 'prop-types';
 
 import React, { useState } from 'react';
-import { MdNotificationsNone, MdInfoOutline, MdSettings } from 'react-icons/md';
+import { MdInfoOutline, MdNotificationsNone } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import routes from '@/routes/index';
 import {
   CheckCircleRoundedIcon,
+  ExitToAppIcon,
   MailIcon,
+  NotificationsActiveIcon,
+  NotificationsNoneIcon,
   PersonIcon,
   SettingsIcon,
-  ExitToAppIcon,
-  NotificationsNoneIcon,
-  NotificationsActiveIcon,
 } from 'assets/humanIcons';
-import { HelpIcon } from 'assets/humanIcons/custom';
+import { ReusableDropdownMenu } from 'components/themed';
 import { useAuthStore } from 'contexts/AuthProvider';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useUserStore } from 'contexts/UserProvider';
-import useMode from 'hooks/useMode';
-import { ReusableDropdownMenu } from '../menu';
+import { useMode } from 'hooks/useMode';
 import { SearchBar } from '../shared/searchBar/SearchBar';
 import Sidebar from '../sidebar';
-const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  background: theme.palette.common.white,
-  boxShadow: '14px 17px 40px 4px rgba(112, 144, 176, 0.18)',
-  borderRadius: '30px',
-  justifyContent: 'space-around',
-  alignItems: 'flex-end',
-  p: '10px',
-  flexDirection: 'row',
-  width: { sx: '100%', md: 'auto' },
-  maxWidth: '50%',
-  flexWrap: {
-    sx: 'wrap',
-    md: 'nowrap',
-  },
-  color: theme.palette.text.primary, // Ensure text color is dark for readability
-}));
 
 export default function HeaderLinks(props) {
   const { secondary } = props;
@@ -138,6 +114,13 @@ export default function HeaderLinks(props) {
       sx={{
         display: 'flex',
         alignItems: 'center',
+        flexDirection: 'row',
+        flexWrap: 'nowrap', // 'unset' is equivalent to 'nowrap' in this context
+        boxShadow: 'rgba(112, 144, 176, 0.18) 14px 17px 40px 4px',
+        borderRadius: '30px',
+        // zIndex: 100,
+        background: 'white',
+        // padding: '10px',
         // width: { xs: '100%', md: 'auto' },
         // flexDirection: 'row',
         // bgcolor: menuBg,
@@ -148,6 +131,10 @@ export default function HeaderLinks(props) {
       }}
     >
       <SearchBar
+        variant=""
+        background=""
+        borderRadius="30px"
+        placeHolder="Search..."
         sx={{
           mb: secondary ? { xs: '10px', md: 'unset' } : 'unset',
           mr: '10px',

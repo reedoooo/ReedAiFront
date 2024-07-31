@@ -53,14 +53,14 @@ export default function AdminNavbar(props) {
     gap: '0px',
     paddingStyles: {
       pb: '8px',
-      px: {
-        xs: '15px',
-        md: '10px',
-      },
-      pl: {
-        xl: '12px',
-      },
-      pt: '8px',
+      // px: {
+      //   xs: '15px',
+      //   md: '10px',
+      // },
+      // pl: {
+      //   xl: '12px',
+      // },
+      // pt: '8px',
     },
     marginStyles: {
       mx: 'auto',

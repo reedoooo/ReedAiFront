@@ -49,7 +49,7 @@ export default {
           backgroundColor: light.main,
         },
         bar: {
-          backgroundColor: '#7551ff',
+          backgroundColor: '#94e2cd',
         },
       },
     },

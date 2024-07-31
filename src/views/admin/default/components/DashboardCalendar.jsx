@@ -1,9 +1,9 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Box, CardContent, Typography } from '@mui/material';
-import React from 'react';
-import { Card, IconBox, MiniCalendar } from 'components/index';
-import PaperCard from 'components/themed/basic/PaperCard';
+import IconBox from 'assets/humanIcons/utils/IconBox';
+import { Card, MiniCalendar, PaperCard } from 'components';
 import useMode from 'hooks/useMode';
+import React from 'react';
 import 'react-calendar/dist/Calendar.css';
 // import 'react-quill/dist/quill.snow.css';
 import 'styles/MiniCalendar.css';
@@ -36,7 +36,7 @@ export const CalendarComponent = props => {
                 sx={{
                   width: 24,
                   height: 24,
-                  color: '#422AFB',
+                  color: '#18b984',
                 }}
               />
             }

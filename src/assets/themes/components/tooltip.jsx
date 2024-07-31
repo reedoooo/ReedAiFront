@@ -7,10 +7,10 @@ const { size, fontWeightRegular } = typography;
 const { borderRadius } = borders;
 
 const tooltip = {
-  defaultProps: {
-    arrow: true,
-    TransitionComponent: Fade,
-  },
+  // defaultProps: {
+  //   arrow: true,
+  //   TransitionComponent: Fade,
+  // },
   styleOverrides: {
     tooltip: {
       maxWidth: pxToRem(200),

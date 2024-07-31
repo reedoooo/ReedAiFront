@@ -1,22 +1,22 @@
 import CloseIcon from '@mui/icons-material/Close';
 import {
-  TextField,
-  Button,
-  MenuItem,
-  Typography,
-  Container,
-  Box,
-  Divider,
   Autocomplete,
+  Box,
+  Button,
   Chip,
+  Container,
   Dialog,
-  DialogTitle,
-  DialogContent,
   DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
   IconButton,
+  MenuItem,
+  TextField,
+  Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import StarRating from 'components/themed/rating';
+import StarRating from 'components/themed/UncommonUi/rating';
 
 const promptTemplates = [
   {

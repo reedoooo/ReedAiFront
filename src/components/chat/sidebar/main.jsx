@@ -1,5 +1,4 @@
 import { Avatar, Box, Drawer, IconButton, Tooltip } from '@mui/material';
-import { styled } from '@mui/system';
 import React, { useState } from 'react';
 import {
   AccountCircleRoundedIcon,
@@ -14,9 +13,10 @@ import {
 } from 'assets/humanIcons';
 
 import { ChatBotIcon } from 'assets/humanIcons/custom';
-import ValidationIcon from 'components/themed/styled/ValidationIcon';
+import ValidationIcon from 'components/styled/ValidationIcon';
 import { useAuthStore } from 'contexts/AuthProvider';
 import { useChatStore } from 'contexts/ChatProvider';
+import { useUserStore } from 'contexts/UserProvider';
 import useMode from 'hooks/useMode';
 import useRouter from 'hooks/useRouter';
 import { SidebarContainer, SidebarPanel } from '../styled';
@@ -34,31 +34,18 @@ const sidebarIconStyle = {
 };
 
 export const ChatSidebar = () => {
+  const {
+    state: { user, isAuthenticated },
+  } = useUserStore();
+  const {
+    state: { apiKey },
+  } = useChatStore();
+  const { theme } = useMode();
+  const { navigate } = useRouter();
   const [tab, setTab] = useState(null);
   const [showSidebar, setShowSidebar] = useState(true);
   const sideBarWidthRef = React.useRef(null);
-  const { navigate } = useRouter();
-  const {
-    state: { user, formDisabled, isAuthenticated },
-    actions: { logout },
-  } = useAuthStore();
-  const {
-    state: {
-      folders,
-      chatSessions,
-      presets,
-      prompts,
-      files,
-      collections,
-      assistants,
-      tools,
-      models,
-    },
-    actions: { setfolders, setChatSessions, setPresets, setPrompts, setFiles },
-  } = useChatStore();
-
-  const { theme } = useMode();
-
+  const isValidApiKey = Boolean(apiKey);
   React.useEffect(() => {
     if (sideBarWidthRef.current) {
       console.log('Sidebar width:', sideBarWidthRef.current.offsetWidth);
@@ -157,16 +144,13 @@ export const ChatSidebar = () => {
             <IconButton onClick={() => handleSidebarOpen(6)}>
               <ValidationIcon
                 IconComponent={FingerprintIcon}
-                isLoggedIn={isAuthenticated}
+                isValid={isAuthenticated}
               />{' '}
             </IconButton>
           </Tooltip>{' '}
           <Tooltip title="Api Key" placement="right">
             <IconButton onClick={() => handleSidebarOpen(6)}>
-              <ValidationIcon
-                IconComponent={KeyIcon}
-                isLoggedIn={isAuthenticated}
-              />{' '}
+              <ValidationIcon IconComponent={KeyIcon} isValid={isValidApiKey} />{' '}
             </IconButton>
           </Tooltip>
         </Box>

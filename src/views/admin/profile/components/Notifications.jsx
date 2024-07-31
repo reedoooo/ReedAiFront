@@ -1,14 +1,14 @@
 import {
+  Box,
   Card,
   CardContent,
-  Typography,
-  Switch,
   FormControlLabel,
-  Box,
+  Switch,
+  Typography,
 } from '@mui/material';
 import React from 'react';
+import MainMenu from 'components/themed/CommonUi/menu/MainMenu';
 import configs from 'config/index';
-import MainMenu from 'layouts/navigation/menu/MainMenu';
 
 export default function Notifications(props) {
   return (

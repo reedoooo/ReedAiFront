@@ -1,10 +1,10 @@
 import { pxToRem } from 'assets/themes/functions';
 
 export default {
-  defaultProps: {
-    baseClassName: 'material-icons-round',
-    fontSize: 'inherit',
-  },
+  // defaultProps: {
+  //   baseClassName: 'material-icons-round',
+  //   fontSize: 'inherit',
+  // },
   styleOverrides: {
     fontSizeInherit: {
       fontSize: 'inherit !important',

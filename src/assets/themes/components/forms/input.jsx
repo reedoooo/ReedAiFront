@@ -10,6 +10,7 @@ export default {
     root: {
       fontSize: size.sm,
       color: dark.main,
+      bg: alpha(action.dark.hover, 0.15),
       '&:hover:not(.Mui-disabled):before': {
         borderBottom: `${borderWidth[1]} solid ${alpha(action.dark.hover, 0.15)}`,
       },

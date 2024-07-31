@@ -3,7 +3,7 @@
 import { pdfjs } from 'react-pdf';
 
 export const constants = {
-  API_URL: import.meta.env.VITE_API_URL,
+  API_URL: 'http://localhost:3001/api',
   OPENAI_API_KEY: import.meta.env.VITE_OPENAI_API_KEY,
   PUBLIC_URL: import.meta.env.VITE_PUBLIC_URL,
   // SERVER_URL: import.meta.env.REACT_APP_SERVER_URL,

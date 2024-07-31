@@ -1,4 +1,7 @@
 /* eslint-disable no-case-declarations */
+
+import { Typography } from '@mui/material';
+
 /**
  * Escape HTML characters
  * @param source
@@ -208,3 +211,20 @@ export const organizeMessages = messages => {
 
   return organizedMessages;
 };
+
+export const formatText = text => {
+  const formattedText = text
+    .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') // Bold
+    .replace(/\*(.*?)\*/g, '<i>$1</i>') // Italic
+    .replace(/`(.*?)`/g, '<code>$1</code>'); // Code
+
+  return <Typography dangerouslySetInnerHTML={{ __html: formattedText }} />;
+};
+
+export function removeCodeWrapping(str) {
+  if (str.startsWith('```') && str.endsWith('```')) {
+    return str.slice(3, -3);
+  } else {
+    return str.replace('```', '');
+  }
+}

@@ -1,3 +1,4 @@
+import { alpha } from '@mui/material/styles';
 import { borders, colors, typography } from 'assets/themes/base';
 import { pxToRem } from 'assets/themes/functions';
 
@@ -13,8 +14,6 @@ export default {
     fontSize: size.sm,
     fontWeight: fontWeightRegular,
     borderRadius: borderRadius.lg,
-    // color: '#5CDB95',
-    // color: text.dark.main,
     padding: `${pxToRem(6.302)} ${pxToRem(16.604)}`,
     lineHeight: 1.4,
     textAlign: 'center',
@@ -23,9 +22,10 @@ export default {
     backgroundSize: '150% !important',
     backgroundPositionX: '25% !important',
     transition: 'all 150ms ease-in',
-    background: '#5CDB95',
     '&:hover': {
-      backgroundColor: '#3da58a',
+      // backgroundColor: '#3da58a',
+      backgroundColor: `${alpha('#3da58a', 0.25)} 0 0 0 0.25rem !important`,
+      color: '#fff',
     },
     '@media (max-width:600px)': {
       fontSize: '0.875rem',

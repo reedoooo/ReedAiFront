@@ -21,9 +21,10 @@
       "@/routes/*": ["routes/*"],
       "@/config/*": ["config/*"],
       "@/colors/*": ["assets/themes/base/*"],
+      "@/lib/*": ["lib/*"],
       "@/humanIcons/*": ["assets/humanIcons/*"],
     },
   },
   "exclude": ["node_modules", "build"],
-  "include": ["src", "cleanup/savedUnused", "cleanup/cleanupAdmin", "cleanup/scroll", "cleanup/header", "cleanup/v6", "cleanup/user", "cleanup/prompt", "cleanup/colormode", "cleanup/chat", "cleanup/auth", "cleanup/app", "cleanup/landing", "cleanup/container", "cleanup/logo", "cleanup/ChatBot.jsx", "cleanup/useChatBot.jsx", "cleanup/Settings", "cleanup/FormContainerWithBackdrop.jsx", "cleanup/workspaces", "cleanup/loaders", "cleanup/unused", "cleanup/oldVersion/cleanup"],
+  "include": ["src", "cleanup/editor-configs", "cleanup/hosted"],
 }

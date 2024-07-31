@@ -9,7 +9,7 @@ const { size } = typography;
 export default {
   styleOverrides: {
     root: {
-      borderRadius: borderRadius.md,
+      // borderRadius: borderRadius.md,
       '&:hover': {
         borderColor: action.dark.disabled,
         borderWidth: '3px',
@@ -23,11 +23,11 @@ export default {
     input: {
       backgroundColor: background.default,
     },
-    notchedOutline: {
-      borderColor: action.dark.disabled,
-      borderWidth: '2px',
-      boxShadow: `${alpha(action.dark.disabled, 0.25)} 0 0 0 0.2rem !important`,
-    },
+    // notchedOutline: {
+    //   borderColor: action.dark.disabled,
+    //   borderWidth: '2px',
+    //   boxShadow: `${alpha(action.dark.disabled, 0.25)} 0 0 0 0.2rem !important`,
+    // },
     inputSizeSmall: {
       fontSize: size.xs,
       padding: pxToRem(10),

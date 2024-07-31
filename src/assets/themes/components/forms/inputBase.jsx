@@ -1,14 +1,16 @@
-import { typography, colors } from 'assets/themes/base';
+import { typography, colors, borders } from 'assets/themes/base';
 
 const { size } = typography;
 const { black } = colors;
+const { borderRadius } = borders;
+
 export default {
   styleOverrides: {
     root: {
-      fontSize: size.md,
+      fontSize: size.sm,
       textAlign: 'center',
       '&.MuiRCInputBase': {
-        backgroundColor: black.generic,
+        // backgroundColor: black.generic,
         color: '#fff',
         borderColor: 'grey',
         // ADD LABEL STYLES
@@ -41,6 +43,44 @@ export default {
         //   fontSize: '14px',
         //   fontWeight: '500',
         // },
+      },
+    },
+    searchbar: {
+      width: '100%',
+      minWidth: 0,
+      // outline: 'transparent solid 2px',
+      outlineOffset: '2px',
+      position: 'relative',
+      appearance: 'none',
+      transitionProperty: 'all',
+      transitionDuration: '0.2s',
+      fontWeight: 500,
+      borderRadius: '30px',
+      fontSize: '0.875rem',
+      paddingLeft: '2.5rem', // padding-inline-start
+      paddingRight: '1rem', // padding-inline-end
+      height: '2.5rem',
+      border: 'none',
+      paddingTop: '11px',
+      paddingBottom: '11px',
+      background: '#E2E8F0', // Equivalent to chakra-colors-secondaryGray-300
+      color: '#4A5568', // Equivalent to chakra-colors-gray-700
+      '&::placeholder': {
+        color: '#A0AEC0', // Equivalent to chakra-colors-gray-500
+      },
+      '&:hover': {
+        borderColor: 'transparent',
+      },
+      '&:focus': {
+        borderColor: 'transparent',
+        boxShadow: 'none',
+      },
+      '&.MuiInputLabel-shrink': {
+        lineHeight: 1.5,
+        fontSize: size.md,
+        '&.MuiInputBase-root.MuiOutlinedInput-notchedOutline legend': {
+          fontSize: '0.85em',
+        },
       },
     },
   },

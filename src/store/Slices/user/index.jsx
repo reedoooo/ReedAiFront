@@ -4,13 +4,13 @@ import { combineReducers } from '@reduxjs/toolkit';
 // Importing actions and thunks from authSlice
 import authReducer, {
   handleAuthSubmit,
-  validateToken,
   logout,
   clearError,
   disableForm,
   enableForm,
   updateAuthStateFromLocalStorage,
   setIsRedirectToSignin,
+  refreshAccessToken,
 } from './authSlice';
 
 // Importing actions from profileSlice
@@ -25,22 +25,22 @@ import userReducer, {
   updateUserInfo,
   resetUserInfo,
   setUser,
-  setUserToken,
   setUserId,
+  setAuthTokens,
+  setIsAuthenticated,
 } from './userSlice';
 
 // Exporting all actions and thunks
 export {
   // Auth actions and thunks
   handleAuthSubmit,
-  validateToken,
   logout,
   clearError,
   disableForm,
   enableForm,
   updateAuthStateFromLocalStorage,
   setIsRedirectToSignin,
-
+  refreshAccessToken,
   // Profile actions
   setProfile,
   setSelectedProfileImage,
@@ -50,8 +50,9 @@ export {
   updateUserInfo,
   resetUserInfo,
   setUser,
-  setUserToken,
   setUserId,
+  setAuthTokens,
+  setIsAuthenticated,
 };
 
 // Exporting reducers

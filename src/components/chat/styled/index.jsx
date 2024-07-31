@@ -90,6 +90,27 @@ export const StyledTextField = styled(TextField)({
   '& .MuiInputBase-input': { color: '#fff', background: '#000' },
 });
 
+export const StyledTextareaAutosize = styled(TextareaAutosize)(({ theme }) => ({
+  backgroundColor: theme.palette.background.default,
+  '&:focus-visible': {
+    outline: `2px solid ${theme.palette.primary.main}`,
+  },
+  flex: '1 1 auto',
+  width: '100%',
+  resize: 'none',
+  borderRadius: theme.shape.borderRadius,
+  border: `2px solid ${theme.palette.divider}`,
+  padding: theme.spacing(1),
+  fontSize: theme.typography.pxToRem(14),
+  '&::placeholder': {
+    color: theme.palette.text.disabled,
+  },
+  '&:disabled': {
+    cursor: 'not-allowed',
+    opacity: 0.5,
+  },
+}));
+
 export const StyledButton = styled(Button)({
   color: '#fff',
   borderColor: '#fff',
@@ -188,8 +209,10 @@ export const ChatWindow = styled(Paper)(({ theme }) => ({
 
 export const Header = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
-  backgroundColor: theme.palette.background.paper,
-  borderBottom: `1px solid ${theme.palette.divider}`,
+  backgroundColor: 'transparent',
+  borderBottom: `1px solid ${theme.palette.primary.main}`,
+  display: 'flex',
+  flexDirection: 'row',
 }));
 
 /* --- CHAT - MESSAGE COMPONENTS --- */
@@ -232,3 +255,26 @@ export const ChatBubbleTypographyWrapper = styled(Typography)({
   flexGrow: 1,
   overflowWrap: 'break-word',
 });
+
+/*  --- CHAT - FILES --- */
+export const FileItemsPreviewContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  cursor: 'pointer',
+  alignItems: 'center',
+  borderRadius: theme.shape.borderRadius,
+  padding: theme.spacing(2),
+  '&:hover, &:focus': {
+    backgroundColor: theme.palette.action.hover,
+    outline: 'none',
+  },
+}));
+export const SelectedFileItemsContainer = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(1),
+  borderRadius: theme.shape.borderRadius,
+  border: `2px solid ${theme.palette.divider}`,
+  padding: theme.spacing(2),
+  fontSize: theme.typography.fontSize,
+}));

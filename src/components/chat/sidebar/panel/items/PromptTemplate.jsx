@@ -1,17 +1,17 @@
 // ChatBotPromptForm.jsx
 import {
-  TextField,
-  Button,
-  MenuItem,
-  Typography,
-  Container,
-  Box,
-  Divider,
   Autocomplete,
+  Box,
+  Button,
   Chip,
+  Container,
+  Divider,
+  MenuItem,
+  TextField,
+  Typography,
 } from '@mui/material';
+import StarRating from 'components/themed/UncommonUi/rating';
 import React, { useState } from 'react';
-import StarRating from 'components/themed/rating';
 const promptTemplates = [
   {
     name: 'Customer Service - Product Return',

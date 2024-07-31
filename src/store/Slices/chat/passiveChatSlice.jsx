@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import mongoose from 'mongoose';
 import { getChatSessionMessagesBySessionId } from 'api/index';
+import { getItem } from 'utils/storage';
 
 const initialState = {
   userInput: '',
@@ -15,6 +17,25 @@ const initialState = {
   },
   selectedChat: null,
   chatFileItems: [],
+  payload: {},
+  // payload: {
+  //   sessionId: getItem('sessionId'),
+  //   chatId: getItem('chatId'),
+  //   regenerate: false,
+  //   prompt: 'Hello, I need help with a project. Can you help me with that?',
+  //   userId: getItem('userId'),
+  //   clientApiKey: getItem('apiKey'),
+  //   role: 'user',
+  //   signal: new AbortController().signal,
+  //   // file: new FormData().append(
+  //   //   'file',
+  //   //   new File(
+  //   //     ['Hello, I need help with a project. Can you help me with that?'],
+  //   //     'test.txt',
+  //   //     { type: 'text/plain' }
+  //   //   )
+  //   // ),
+  // },
 };
 export const syncChatMessages = createAsyncThunk(
   'chat/syncChatMessages',
@@ -49,15 +70,18 @@ export const passiveChatSlice = createSlice({
     setChatFileItems: (state, action) => {
       state.chatFileItems = action.payload;
     },
+    setPayload: (state, action) => {
+      state.payload = action.payload;
+    },
   },
-  extraReducers: builder => {
-    builder.addCase(syncChatMessages.fulfilled, (state, action) => {
-      const { id, messages } = action.payload;
-      if (state.selectedChat && state.selectedChat.id === id) {
-        state.chatMessages = messages;
-      }
-    });
-  },
+  // extraReducers: builder => {
+  //   builder.addCase(syncChatMessages.fulfilled, (state, action) => {
+  //     const { id, messages } = action.payload;
+  //     if (state.selectedChat && state.selectedChat.id === id) {
+  //       state.chatMessages = messages;
+  //     }
+  //   });
+  // },
 });
 
 export { initialState as chatPassiveInitialState };
@@ -68,6 +92,7 @@ export const {
   setChatSettings,
   setSelectedChat,
   setChatFileItems,
+  setPayload,
 } = passiveChatSlice.actions;
 
 export default passiveChatSlice.reducer;

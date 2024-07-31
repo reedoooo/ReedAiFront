@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { MessageIcon } from 'assets/humanIcons';
 import {
   Sheet,
   SheetContent,
@@ -9,6 +8,7 @@ import {
   SheetTrigger,
 } from 'components/SheetComponents';
 import React, { useState } from 'react';
+import { MessageIcon } from 'assets/humanIcons';
 
 import { WithTooltip } from '../../../../themed/TooltipComponent';
 import { MESSAGE_ICON_SIZE } from './message-actions';

@@ -8,12 +8,27 @@ function defaultSetting() {
     user: {},
     userId: null,
     token: null,
+    accessToken: null,
+    refreshToken: null,
+    expiresIn: null,
+    expiresAt: null,
+    createdAt: null,
+    isAuthenticated: false,
     profileImage: avatar5, // Add default profile image to state
     userInfo: {
       name: '',
       email: '',
       profileImage: avatar5, // Add default profile image to state
       isImageRetrieved: false,
+    },
+    authSession: {
+      token: '',
+      tokenType: '',
+      accessToken: '',
+      refreshToken: '',
+      expiresIn: '',
+      expiresAt: '',
+      createdAt: '',
     },
   };
 }
@@ -59,29 +74,46 @@ export const userSlice = createSlice({
       state.userInfo = defaultUserInfo;
     },
     setUser: (state, action) => {
-      setLocalState({ ...state, user: action.payload });
-      state.user = action.payload;
+      const user = action.payload;
+      console.log('USER SLICE ACTION PAYLOAD:', user);
+      setLocalState({ ...state, ...user });
+      state.user = { ...user };
     },
-    setUserToken: (state, action) => {
-      localStorage.setItem('userToken', JSON.stringify(action.payload));
-      state.token = action.payload;
+    setAuthTokens: (state, action) => {
+      console.log('setAuthTokens', action.payload);
+      const accessToken = action.payload;
+      localStorage.setItem('userToken', accessToken);
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', accessToken);
+      localStorage.setItem('expiresIn', '1d');
+      sessionStorage.setItem('userToken', accessToken);
+      sessionStorage.setItem('accessToken', accessToken);
+      sessionStorage.setItem('refreshToken', accessToken);
+      sessionStorage.setItem('expiresIn', '1d');
+      state.accessToken = accessToken;
+      state.token = accessToken;
+      state.refreshToken = accessToken;
+      state.expiresIn = '1d';
+      state.authSession.accessToken = accessToken;
+      state.authSession.refreshToken = accessToken;
+      state.authSession.expiresIn = '1d';
     },
     setUserId: (state, action) => {
       localStorage.setItem('userId', action.payload);
       state.userId = action.payload;
     },
+    setIsAuthenticated: (state, action) => {
+      state.isAuthenticated = action.payload;
+      setLocalState(state);
+    },
   },
   extraReducers: builder => {
-    builder
-      .addCase(fetchUserProfileImage.fulfilled, (state, action) => {
-        state.userInfo.profileImage = action.payload;
-        state.profileImage = action.payload;
-        state.userInfo.isImageRetrieved = true;
-        setLocalState(state);
-      })
-      .addCase(fetchUserProfileImage.rejected, (state, action) => {
-        console.error('Failed to fetch profile image:', action.payload);
-      });
+    builder.addCase(fetchUserProfileImage.fulfilled, (state, action) => {
+      state.userInfo.profileImage = action.payload;
+      state.profileImage = action.payload;
+      state.userInfo.isImageRetrieved = true;
+      setLocalState(state);
+    });
   },
 });
 
@@ -91,6 +123,8 @@ export const {
   setUser,
   setUserToken,
   setUserId,
+  setAuthTokens,
+  setIsAuthenticated,
 } = userSlice.actions;
 
 export default userSlice.reducer;

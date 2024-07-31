@@ -1,26 +1,27 @@
-import { Menu } from '@mui/icons-material';
-import { Box, LinearProgress, Typography, useTheme } from '@mui/material';
+import { Box, Card, LinearProgress, Typography, useTheme } from '@mui/material';
 import { MdOutlineCloudDone } from 'react-icons/md';
-import { Card, IconBox } from 'components/index';
+import IconBox from 'assets/humanIcons/utils/IconBox';
+import { MainMenu } from 'components/index';
+import configs from 'config/index';
 import useMode from 'hooks/useMode';
 
 export default function Banner(props) {
-  const { used, total } = props;
+  const { used, total, ...rest } = props;
   const { theme } = useMode();
-  const textColorPrimary =
-    theme.palette.mode === 'light'
-      ? theme.palette.text.primary
-      : theme.palette.common.white;
+  const textColorPrimary = theme.palette.text.primary;
   const textColorSecondary = theme.palette.text.secondary;
-  const boxBg =
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[300]
-      : theme.palette.grey[900];
+  const boxBg = theme.palette.grey[300];
+  const cloud = theme.palette.text.primary;
+  const storageSpace = theme.palette.text.primary;
 
   return (
-    <Card mb={{ base: '0px', lg: '20px' }} align="center">
-      <Box display="flex" width="100%">
-        <Menu ms="auto" />
+    <Card
+      {...rest}
+      // sx={{ mb: 2.5, p: 2.5, textAlign: 'center' }}
+      sx={{ mb: 2.5, p: 2.5, textAlign: 'center', minHeight: '100%' }}
+    >
+      <Box display="flex" width="100%" justifyContent="flex-end">
+        <MainMenu items={configs.menus.genericMenuItems} ms="auto" />
       </Box>
       <IconBox
         mx="auto"

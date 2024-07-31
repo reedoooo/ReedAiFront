@@ -20,10 +20,10 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import React, { useContext, useRef, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { deleteFolder, updateFolder } from 'api/index';
 import { EditIcon } from 'assets/humanIcons';
 import { TrashCanIcon } from 'assets/humanIcons/custom';
 import { useChatStore } from 'contexts/ChatProvider';
+import { deleteFolder, updateFolder } from './Folders';
 
 export const UpdateFolder = ({ folder }) => {
   const { setFolders } = useChatStore();

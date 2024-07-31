@@ -53,12 +53,14 @@ export const InputActions = ({
       <FileUpload
         showUploaderButton={true}
         sessionId={chatStore.state.sessionId}
-        onFileChange={event => {
-          const file = event.target.files[0];
-          if (file) {
-            console.log('File selected:', file.name);
-          }
-        }}
+        // onFileChange={event => {
+        //   const file = event.target.files[0];
+        //   if (file) {
+        //     console.log('File selected:', file.name);
+        //   }
+        // }}
+        setUserInput={setUserInput}
+        editor={editor}
         setFileInput={setFileInput}
         iconStyle={{ color: theme.palette.primary.main, fontSize: 20 }}
       />

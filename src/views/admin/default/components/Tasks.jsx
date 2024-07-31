@@ -9,17 +9,18 @@ import {
   ListItem,
   Typography,
 } from '@mui/material';
-import { MdCheckBox, MdDragIndicator } from 'react-icons/md';
-import { Card, IconBox, PaperCard } from 'components/index';
+import IconBox from 'assets/humanIcons/utils/IconBox';
+import { Card, PaperCard } from 'components/index';
+import Menu from 'components/themed/CommonUi/menu/MainMenu.jsx';
 import configs from 'config/index';
 import useMode from 'hooks/useMode';
-import Menu from 'layouts/navigation/menu/MainMenu.jsx';
+import { MdCheckBox, MdDragIndicator } from 'react-icons/md';
 
 export const Conversion = props => {
   const { theme } = useMode();
   const textColor = '#1B2559';
   const boxBg = '#F4F7FE';
-  const brandColor = '#422AFB';
+  const brandColor = '#18b984';
 
   return (
     <Card

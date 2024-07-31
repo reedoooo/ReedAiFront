@@ -1,4 +1,3 @@
-import Document from '@tiptap/extension-document';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { FileHandler } from '@tiptap-pro/extension-file-handler';
@@ -15,8 +14,21 @@ const useTipTapEditor = (isFirstMessage, setUserInput, setFileInput) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
+      // StarterKit.configure({
+      //   // bind Tiptap to `.element`
+      //   element: document.querySelector('.element'),
+      //   // register extensions
+      //   extensions: [Document, Paragraph, Text],
+      //   // set the initial content
+      //   content: '<p>Example Text</p>',
+      //   // place the cursor in the editor after initialization
+      //   autofocus: true,
+      //   // make the text editable (but that’s the default anyway)
+      //   editable: true,
+      //   // disable the loading of the default CSS (which is not much anyway)
+      //   injectCSS: false,
+      // }),
       Markdown,
-      Document,
       FileHandler.configure({
         onDrop: (editor, files, pos) => {
           // Handle file drop
@@ -38,8 +50,27 @@ const useTipTapEditor = (isFirstMessage, setUserInput, setFileInput) => {
           };
           reader.readAsText(file);
         },
-        allowedMimeTypes: ['text/plain', 'application/json', 'text/markdown'], // Adjust as needed
+        allowedMimeTypes: [
+          'text/plain',
+          'application/json',
+          'text/markdown',
+          'application/javascript',
+          'text/javascript',
+        ],
       }),
+      // Autocomplete.configure({
+      //   suggestion: {
+      //     items: [
+      //       { label: 'JavaScript', value: 'javascript' },
+      //       { label: 'TypeScript', value: 'typescript' },
+      //       { label: 'React', value: 'react' },
+      //     ],
+      //   },
+      // }),
+      // Image.configure({
+      //   inline: true,
+      //   allowBase64: true,
+      // }),
     ],
     content: initialContent,
     onUpdate: ({ editor }) => {
