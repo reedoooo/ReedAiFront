@@ -1,7 +1,7 @@
 import mermaid from 'mermaid';
 import { useEffect, useState } from 'react';
 
-const useMermaidDiagram = content => {
+export const useMermaidDiagram = content => {
   const [diagram, setDiagram] = useState('Rendering diagram...');
 
   useEffect(() => {

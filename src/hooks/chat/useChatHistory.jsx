@@ -8,7 +8,7 @@ import { useState, useCallback } from 'react';
  *   - setNewMessageContentToPreviousUserMessage: Sets the new message content to the previous user message.
  *   - setNewMessageContentToNextUserMessage: Sets the new message content to the next user message in the chat history.
  */
-const useChatHistoryHandler = () => {
+export const useChatHistoryHandler = () => {
   const [chatHistory, setChatHistory] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [newMessageContent, setNewMessageContent] = useState('');

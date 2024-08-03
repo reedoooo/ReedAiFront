@@ -6,6 +6,7 @@ export const completions = {
   getStream: async function fetchMessageStream({
     sessionId,
     workspaceId,
+    regenerate,
     prompt,
     userId,
     clientApiKey,
@@ -24,6 +25,7 @@ export const completions = {
         body: JSON.stringify({
           sessionId,
           workspaceId,
+          regenerate,
           prompt,
           userId,
           clientApiKey,

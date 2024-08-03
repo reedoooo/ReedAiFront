@@ -7,6 +7,8 @@ const { size } = typography;
 export default {
   base: {
     background: '#5CDB95',
+    borderColor: '#808080',
+    borderWidth: '3px',
     minHeight: pxToRem(40),
     color: text.main,
     padding: `${pxToRem(10)} ${pxToRem(24)}`,

@@ -1,9 +1,9 @@
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import MessageMarkdownMemoized from 'components/chat/messages/message-markdown-memoized';
 import React from 'react';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
-import MessageMarkdownMemoized from 'components/messages/message-markdown-memoized';
 import { MessageCodeBlock } from '../code/ChatBotUiCodeBlock';
 
 const StyledBox = styled(Box)(({ theme }) => ({

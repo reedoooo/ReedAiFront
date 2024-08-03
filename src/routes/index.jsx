@@ -17,6 +17,7 @@ import {
   PersonAddIcon,
   PersonIcon,
 } from 'assets/humanIcons';
+import LoadingScreen from 'components/themed/UncommonUi/loadingScreen';
 import { Loadable } from 'layouts/navigation/shared/loadable';
 import { dispatch, setField } from 'store/index';
 
@@ -58,7 +59,7 @@ const baseRoutes = [
     path: '/land',
     breadcrumb: 'Docs',
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingScreen />}>
         <BlankLayout />
       </Suspense>
     ),
@@ -91,7 +92,7 @@ const adminRoutes = [
     path: '/admin',
     breadcrumb: 'Admin',
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingScreen />}>
         <AdminLayout />
       </Suspense>
     ),
@@ -125,7 +126,7 @@ const adminRoutes = [
         path: 'chat',
         breadcrumb: 'Chat',
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<LoadingScreen />}>
             <ChatLayout />
           </Suspense>
         ),
@@ -152,7 +153,7 @@ const adminRoutes = [
         path: 'templates',
         breadcrumb: 'Templates',
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<LoadingScreen />}>
             <BlankLayout />
           </Suspense>
         ),
@@ -187,7 +188,7 @@ const authRoutes = [
     path: '/auth',
     breadcrumb: 'Auth',
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingScreen />}>
         <AuthLayout />
       </Suspense>
     ),

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import useContentTypeCheck from './useContentTypeCheck';
+import useContentTypeCheck from '../useContentTypeCheck';
 function parseCode(response) {
   const textCode = response.match(/```([\s\S]+?)```/g);
   if (!textCode) return response;
@@ -17,7 +17,7 @@ function parseCode(response) {
     })
     .join('\n\n');
 }
-const useFetchChatStream = () => {
+export const useFetchChatStream = () => {
   const [data, setData] = useState(null);
   const [imageLoading, setImageLoading] = useState(false);
   const [imageData, setImageData] = useState(null);

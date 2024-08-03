@@ -21,12 +21,15 @@ export const sessions = {
     }
   },
 
-  create: async (sessionId, name, model) => {
+  create: async name => {
     try {
       const data = await apiUtils.post('/chat/sessions/create', {
-        sessionId,
+        userId: localStorage.getItem('userId'),
+        workspaceId: localStorage.getItem('workspaceId'),
+        name: name,
         topic: name,
-        model,
+        model: 'gpt-4o-mini',
+        active: true,
       });
       return data;
     } catch (error) {

@@ -11,3 +11,5 @@ export const useData = endpoint => {
     isError: error,
   };
 };
+
+export default useData;

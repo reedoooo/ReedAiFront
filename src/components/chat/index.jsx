@@ -1,47 +1,33 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-empty */
 /* eslint-disable no-constant-condition */
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Grid,
-  Paper,
-  Typography,
-} from '@mui/material';
+// import { Typewriter } from 'react-simple-typewriter';
+import { CircularProgress, Grid, Typography } from '@mui/material';
 import { debounce } from 'lodash';
 import mongoose from 'mongoose';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-// import { Typewriter } from 'react-simple-typewriter';
-import apiUtils from '@/lib/apiUtils';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { apiUtils } from '@/lib/apiUtils';
 import {
-  chatFiles,
   completions as completionsApi,
   sessions as sessionApi,
   workspaces as workspaceApi,
 } from 'api/chat';
+import { MessageBox } from 'components/chat/messages';
 import {
   ChatWindow,
   MessageContainer,
-  Header,
   StyledChatContainer,
 } from 'components/chat/styled';
-import { MessageBox } from 'components/messages';
 import { useAuthStore, useChatStore, useUserStore } from 'contexts';
-import useDialog from 'hooks/useDialog';
+import { useTipTapEditor } from 'hooks/chat';
+import { useDialog } from 'hooks/useDialog';
 import { useMode } from 'hooks/useMode';
-import useTipTapEditor from 'hooks/useTipTapEditor';
 import { organizeMessages, safeParse } from 'utils/format';
+import { ChatHeader } from './ChatHeader';
 import 'styles/ChatStyles.css';
-import NewSessionDialog from './NewSessionDialog';
 
 const MessageInput = React.lazy(() => import('./inputs/MessageInput'));
+const NewSessionDialog = React.lazy(() => import('./NewSessionDialog'));
 
 export async function createNewSession({ sessionName, instructions, topic }) {
   try {
@@ -68,43 +54,50 @@ export const ChatApp = () => {
     selectedFiles,
     activeSession,
     activeWorkspace,
+    userInput,
   } = chatState;
   const {
     user: { chatSessions, workspaces, _id },
     userId,
   } = userState;
   const { setIsRedirectToSignin } = authActions;
-  const { setUploadedFiles, setActiveSession, setActiveWorkspace } =
-    chatActions;
-  // --- state management for new state ---
-  const [validSession, setValidSession] = useState(
-    chatSessions.find(session => session.active === true) || {}
-  );
-  const [validSessionId, setValidSessionId] = useState();
-  const [validWorkspace, setValidWorkspace] = useState(
-    workspaces.find(space => space.isHome === true) || {}
-  );
-  const [validWorkspaceId, setValidWorkspaceId] = useState();
-  const [validSessionMessages, setValidSessionMessages] = useState([]);
-
-  // --- memoized IDs ---
-  // const sessionId = useMemo(() => validSession?._id || '', [validSession]);
-  // localStorage.setItem('sessionId', sessionId);
-  const [isFirstMessage, setIsFirstMessage] = useState(true);
+  const {
+    setWorkspaceId,
+    setSessionId,
+    setActiveWorkspace,
+    setActiveSession,
+    setUserInput,
+  } = chatActions;
   // --- state management for messages ---
+  const handleContentChange = content => {
+    setUserInput(content);
+  };
+  const clearInput = () => {
+    setUserInput('');
+  };
+  const [isFirstMessage, setIsFirstMessage] = useState(true);
   const [messageParts, setMessageParts] = useState([]);
+  const [sessionHeader, setSessionHeader] = useState('');
   const [messages, setMessages] = useState(() => {
     const savedMessages = localStorage.getItem('chatMessages');
-    if (savedMessages?.length > 0) {
-      setIsFirstMessage(false);
-    }
     return savedMessages ? JSON.parse(savedMessages) : [];
   });
-  const [userInput, setUserInput] = useState('');
-  const [inputOnSubmit, setInputOnSubmit] = useState('');
   const [error, setError] = useState('');
-  const [fileInput, setFileInput] = useState(null);
-
+  // --- functions for sending messages ---
+  useEffect(() => {
+    if (messages.length === 0) {
+      handleContentChange(
+        'Generate a data table component for organizing a list of data, UI library documents, which have been upserted into a vector database'
+      );
+    }
+    if (messages.length > 0) {
+      setIsFirstMessage(false);
+      setSessionHeader(messages[0]?.content || '');
+    }
+    if (isFirstMessage) {
+      setSessionHeader(userInput);
+    }
+  }, [messages, userInput, isFirstMessage]);
   // --- state management for loading and editor ---
   const [loading, setLoading] = useState(false);
   const [isRegenerating, setIsRegenerating] = useState(false);
@@ -112,11 +105,6 @@ export const ChatApp = () => {
   const [isMessagesUpdated, setIsMessagesUpdated] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   // --- functions for updating state ---
-  const { editor } = useTipTapEditor(
-    isFirstMessage,
-    setUserInput,
-    setFileInput
-  );
   const messagesStartRef = useRef(null);
   const messagesEndRef = useRef(null);
   const controllerRef = useRef(null);
@@ -124,20 +112,27 @@ export const ChatApp = () => {
   const editorActiveRef = useRef(false);
   const newSessionDialog = useDialog();
 
+  const handleNewSession = useCallback(
+    async props => {
+      const { sessionName, instructions, topic } = props;
+      const data = await sessionApi.create({
+        sessionName,
+        instructions,
+        topic,
+      });
+      console.log('New session created:', data);
+      setActiveSession(data.session);
+      setSessionId(data.session._id);
+      localStorage.setItem('activeChatSession', JSON.stringify(data.session));
+    },
+    [setActiveSession, setSessionId]
+  );
   // --- functions for handling data ---
-  const handleNewSession = async props => {
-    const { sessionName, instructions, topic } = props;
-    const data = await createNewSession({ sessionName, instructions, topic });
-    console.log('New session created:', data);
-    setValidSession(data.session);
-    setValidSessionId(data.session._id);
-    localStorage.setItem('validChatSession', JSON.stringify(data.session));
-  };
   const handleSaveMessagesToSession = useCallback(async () => {
     try {
       const response = await sessionApi.saveMessage(sessionId, messages);
       console.log('SavedMessage successfully', response);
-      setValidWorkspace(response);
+      setActiveWorkspace(response);
       return;
     } catch (error) {
       console.error(error);
@@ -147,7 +142,7 @@ export const ChatApp = () => {
     try {
       const response = await workspaceApi.getById(workspaceId);
       console.log('validWorkspace', response);
-      setValidWorkspace(response);
+      setActiveWorkspace(response);
       return;
     } catch (error) {
       console.error(error);
@@ -157,7 +152,7 @@ export const ChatApp = () => {
     try {
       const response = await sessionApi.getById(sessionId);
       console.log('validSession', response);
-      setValidSession(response);
+      setActiveSession(response);
       return response;
     } catch (error) {
       console.error('Error fetching session data:', error);
@@ -166,18 +161,18 @@ export const ChatApp = () => {
   }, [sessionId]);
 
   useEffect(() => {
-    if (!validWorkspaceId) {
+    if (!workspaceId) {
       handleGetValidWorkspace();
-      setValidWorkspaceId(validWorkspace._id);
+      setWorkspaceId(activeWorkspace._id);
     }
-  }, [handleGetValidWorkspace, validWorkspace, validWorkspaceId]);
+  }, [handleGetValidWorkspace, activeWorkspace, workspaceId]);
 
   useEffect(() => {
-    if (!validSessionId) {
+    if (!sessionId) {
       handleGetValidSession();
-      setValidSessionId(validSession._id);
+      setSessionId(activeSession._id);
     }
-  }, [handleGetValidSession, validSession, validSessionId]);
+  }, [handleGetValidSession, activeSession, sessionId]);
 
   useEffect(() => {
     const handleScroll = debounce(() => {
@@ -230,15 +225,12 @@ export const ChatApp = () => {
       clientApiKey: apiKey,
       role: 'user',
       signal: controllerRef.current.signal,
-      // filePath: fileInput,
     };
     setMessages(prevMessages => [
       ...prevMessages,
       { role: 'user', content: userInput },
     ]);
-
-    setInputOnSubmit(userInput);
-    setUserInput('');
+    clearInput();
     const decoder = new TextDecoder('utf-8');
 
     try {
@@ -265,43 +257,6 @@ export const ChatApp = () => {
           return newMessages;
         });
         setMessageParts(prevParts => [...prevParts, decodedValue]);
-        // while (true) {
-        //   const { done, value } = await reader.read();
-        //   if (done) break;
-        //   assistantMessage.content += value;
-
-        //   setMessages(prevMessages => {
-        //     const newMessages = [...prevMessages];
-        //     const lastMessage = newMessages[newMessages.length - 1];
-
-        //     if (lastMessage && lastMessage.role === 'assistant') {
-        //       newMessages[newMessages.length - 1] = assistantMessage;
-        //     } else {
-        //       newMessages.push(assistantMessage);
-        //     }
-
-        //     if (
-        //       messageParts &&
-        //       typeof messageParts[messageParts.length - 1] === 'object' &&
-        //       messageParts[messageParts.length - 1].data
-        //     ) {
-        //       console.log('JSON PARTS:', messageParts[messageParts.length - 1]);
-        //       console.log(
-        //         'JSON PARTS DATA:',
-        //         messageParts[messageParts.length - 1]
-        //       );
-        //       newMessages.find(message => {
-        //         const lastMessageContent = lastMessage.content;
-        //         if (message.content === lastMessageContent) {
-        //           lastMessage.content =
-        //             messageParts[messageParts.length - 1].data;
-        //         }
-        //       }).active = false;
-        //     }
-
-        //     return newMessages;
-        //   });
-        //   setMessageParts(prevParts => [...prevParts, value]);
       }
       localStorage.setItem('chatMessages', JSON.stringify(messages));
 
@@ -320,28 +275,20 @@ export const ChatApp = () => {
         return newMessages;
       });
       setIsMessagesUpdated(false);
-      setUserInput('');
+      clearInput();
     } catch (error) {
       console.error('Error sending message:', error);
       setError('An error occurred while sending the message.');
     } finally {
-      editor.commands.clearContent();
+      clearInput();
       setLoading(false);
     }
-  }, [
-    userInput,
-    editor,
-    messages,
-    controllerRef,
-    sessionId,
-    workspaceId,
-    apiKey,
-  ]);
+  }, [userInput, messages, controllerRef, sessionId, workspaceId, apiKey]);
   // --- function for handling regen message stream ---
   const handleRegenerateResponse = useCallback(async () => {
     console.log('REGEN');
     setIsRegenerating(true);
-    setUserInput(messages[messages.length - 2].content);
+    handleContentChange(messages[messages.length - 2].content);
     await handleSendMessage();
   }, [messages, handleSendMessage]);
   // --- function for handling send abort ---
@@ -350,28 +297,6 @@ export const ChatApp = () => {
       controllerRef.current.abort();
     }
   };
-  // --- function to handle file input change to trigger file upload ---
-  const handleFileInputChange = useCallback(async () => {
-    for (const file of selectedFiles) {
-      if (!file) {
-        console.error('No file selected');
-        continue;
-      }
-      if (file) {
-        try {
-          const newFile = await chatFiles.uploadFile(
-            file,
-            progress => setUploadProgress(progress),
-            'chat'
-          );
-          alert('File uploaded successfully');
-          setUploadedFiles(prevFiles => [...prevFiles, newFile]);
-        } catch (err) {
-          setError(err.message);
-        }
-      }
-    }
-  }, [selectedFiles]);
   // --- functions for handling user input ---
   useEffect(() => {
     const filterMessagesWithContent = messages => {
@@ -398,7 +323,6 @@ export const ChatApp = () => {
     const organizedMessages = organizeMessages(combinedMessages);
     const uniqueMessages = filterMessagesWithContent(organizedMessages);
     localStorage.setItem('chatMessages', JSON.stringify(uniqueMessages));
-    // Only call saveSessionMessages if there are messages and a valid sessionId
     if (sessionId && messages.length > 0 && !isMessagesUpdated) {
       handleSaveMessagesToSession();
       setIsMessagesUpdated(true);
@@ -414,28 +338,13 @@ export const ChatApp = () => {
         item
         xs={12}
       >
-        <Header>
-          <Typography variant="h6">
-            Current Chat Session Name:
-            {validSession?.sessionName}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            Discuss your queries and get assistance
-          </Typography>
-          <Box>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => newSessionDialog.handleOpen}
-            >
-              Start New Session
-            </Button>
-          </Box>
-        </Header>
+        <ChatHeader
+          name={sessionHeader || 'Chat Session'}
+          handleOpen={newSessionDialog.handleOpen}
+        />
         <MessageContainer>
           <div ref={messagesStartRef} />
           <MessageBox messages={messages} />
-          {/* <MDXMessageBox streamedResponse={streamedResponse} /> */}
           <div ref={messagesEndRef} />
           {error && (
             <Typography color="error" variant="body2">
@@ -446,7 +355,6 @@ export const ChatApp = () => {
         </MessageContainer>
         <MessageInput
           theme={theme}
-          editor={editor}
           apiKey={apiKey}
           disabled={loading}
           handleRegenerateResponse={handleRegenerateResponse}
@@ -454,14 +362,26 @@ export const ChatApp = () => {
           handleSendMessage={handleSendMessage}
           setIsEditorActive={setIsEditorActive}
           editorRef={editorActiveRef}
-          setUserInput={setUserInput}
-          setFileInput={setFileInput}
+          initialContent={userInput}
+          onContentChange={handleContentChange}
           isFirstMessage={isFirstMessage}
+          setError={setError}
         />
         <NewSessionDialog
           open={newSessionDialog.open}
           onClose={newSessionDialog.handleClose}
           onCreate={handleNewSession}
+          apiKey={apiKey}
+          disabled={loading}
+          handleRegenerateResponse={handleRegenerateResponse}
+          handleStop={handleStop}
+          handleSendMessage={handleSendMessage}
+          setIsEditorActive={setIsEditorActive}
+          editorRef={editorActiveRef}
+          initialContent={userInput}
+          setUserInput={handleContentChange}
+          isFirstMessage={isFirstMessage}
+          setError={setError}
         />
       </StyledChatContainer>
     </ChatWindow>

@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 
-function useScroll() {
+export const useScroll = () => {
   const scrollRef = useRef(null);
 
   const scrollToBottom = async () => {
@@ -37,6 +37,6 @@ function useScroll() {
     scrollToTop,
     scrollToBottomIfAtBottom,
   };
-}
+};
 
 export default useScroll;

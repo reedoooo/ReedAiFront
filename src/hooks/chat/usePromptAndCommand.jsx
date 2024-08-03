@@ -50,6 +50,12 @@ export const usePromptAndCommand = () => {
     setChatFiles,
   } = actions;
 
+  /**
+   * Handles the input change event.
+   *
+   * @param {string} value - The new value of the input.
+   * @returns {void}
+   */
   const handleInputChange = value => {
     const atTextRegex = /@([^ ]*)$/;
     const slashTextRegex = /\/([^ ]*)$/;

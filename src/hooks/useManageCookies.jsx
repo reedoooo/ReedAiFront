@@ -1,6 +1,6 @@
 import { useCookies } from 'react-cookie';
 
-function useManageCookies() {
+export const useManageCookies = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
 
   const addCookie = (name, value, options = {}) => {
@@ -55,6 +55,6 @@ function useManageCookies() {
   };
 
   return { addCookie, addCookies, getCookie, deleteCookie, deleteCookies };
-}
+};
 
 export default useManageCookies;

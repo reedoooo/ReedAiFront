@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 import { getGeneralChatResponse } from 'api/index';
 import { APIModal } from 'components/chat/inputs/toolbar';
-import { MessageBox } from 'components/messages';
+import { MessageBox } from 'components/chat/messages';
 import constants from 'config/constants';
 import useMode from 'hooks/useMode';
 import { useEffect, useState } from 'react';

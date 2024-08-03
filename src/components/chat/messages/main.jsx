@@ -143,7 +143,6 @@ export const ChatBubble = ({ message, sender }) => {
       <ChatBubbleAvatarWrapper sx={avatarStyle} theme={theme} sender={sender}>
         {icon}
       </ChatBubbleAvatarWrapper>
-      {/* <ChatBubbleTypographyWrapper variant="body2"> */}
       <div className={`chat-message-${sender}`}>
         <div className={`message-content-${sender}`}>
           <MemoizedRenderContent
@@ -152,19 +151,17 @@ export const ChatBubble = ({ message, sender }) => {
             sender={sender}
           />
         </div>
+        {sender === 'assistant' && (
+          <MessageOptions
+            message={message}
+            onRegenerate={() => {
+              const messages = JSON.parse(localStorage.getItem('chatMessages'));
+              const mostRecentPrompt = messages[messages.length - 1].content;
+              console.log(`Regenerating message: ${mostRecentPrompt}`);
+            }}
+          />
+        )}
       </div>
-      {sender === 'assistant' && (
-        <MessageOptions
-          message={message}
-          onRegenerate={() => {
-            // Handle regeneration logic here
-            const messages = JSON.parse(localStorage.getItem('chatMessages'));
-            const mostRecentPrompt = messages[messages.length - 1].content;
-            console.log(`Regenerating message: ${mostRecentPrompt}`);
-          }}
-        />
-      )}
-      {/* </ChatBubbleTypographyWrapper> */}
     </ChatBubbleWrapper>
   );
 };

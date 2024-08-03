@@ -3,25 +3,27 @@ import { createSlice, combineSlices } from '@reduxjs/toolkit';
 export const baseChatSlice = createSlice({
   name: 'chat',
   initialState: {
-    baseChatRequest: {
-      status: 'idle',
-      error: null,
-      success: null,
-      message: '',
-    },
-    apiKey: localStorage.getItem('apiKey') || '',
-    workspaceId: localStorage.getItem('chatId') || '',
-    sessionId: localStorage.getItem('sessionId') || '',
+    apiKey: '',
+    workspaceId: '',
+    sessionId: '',
     activeSession: {
       id: '',
-      title: '',
+      name: '',
       summary: '',
       systemPrompt: '',
+      assisstantPrompt: '',
+      isFirstPromptName: true,
       messages: [],
       files: [],
       tools: [],
       stats: {},
       setting: {},
+    },
+    baseChatRequest: {
+      status: 'idle',
+      error: null,
+      success: null,
+      message: '',
     },
   },
   reducers: {
@@ -54,6 +56,7 @@ export const baseChatSlice = createSlice({
       localStorage.setItem('sessionId', action.payload);
     },
     setActiveSession: (state, action) => {
+      console.log('setActiveSession action payload', action.payload);
       const session = action.payload;
       const activeSessionObject = {
         id: session._id,

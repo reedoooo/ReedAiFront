@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import {
   IMAGE_MIME_TYPES,
   TEXT_MIME_TYPES,
-} from 'components/chat/inputs/toolbar';
+} from 'components/chat/files/constants.jsx';
 
 export const useFileUpload = handleFiles => {
   const fileInputRef = useRef(null);

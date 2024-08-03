@@ -33,6 +33,7 @@ import {
   AnimatedTab,
   StyledButton,
   StyledTextField,
+  StyledTextareaAutosize,
 } from 'components/chat/styled';
 import { useCopyToClipboard } from 'hooks/useCopyToClipboard';
 import useMode from 'hooks/useMode';
@@ -506,7 +507,8 @@ export const Prompts = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 width: '100%',
-                justifyContent: 'space-between',
+                p: '1rem',
+                // justifyContent: 'space-between',
               }}
             >
               <Box sx={{ mt: 2 }}>
@@ -521,39 +523,13 @@ export const Prompts = () => {
               </Box>
               <Box sx={{ mt: 2 }}>
                 <Typography variant="subtitle2">Content</Typography>
-                <TextareaAutosize
+                <StyledTextareaAutosize
                   name="content"
                   minRows={3}
                   placeholder="Enter your prompt here"
                   value={newPrompt.content}
                   onChange={handleInputChange}
-                  style={{
-                    width: '100%',
-                    resize: 'none',
-                    borderRadius: '4px',
-                    border: '1px solid #dcdcdc',
-                    padding: '8px',
-                    fontSize: '14px',
-                    color: '#fff',
-                    borderColor: 'grey',
-                    background: '#000',
-                    '& label': {
-                      color: '#fff',
-                      '&.Mui-focused': { color: 'grey' },
-                    },
-                    '& .MuiInputUnderline:after': {
-                      borderBottomColor: 'grey',
-                    },
-                    '& .MuiOutlinedInputRoot': {
-                      '& fieldset': { borderColor: 'grey' },
-                      '&:hover fieldset': { borderColor: 'grey' },
-                      '&.Mui-focused fieldset': { borderColor: 'grey' },
-                    },
-                    '& .MuiInputBaseInput': {
-                      color: '#fff',
-                      background: '#000',
-                    },
-                  }}
+                  theme={theme}
                 />
               </Box>
               <StyledButton onClick={handleAddPrompt} sx={{ mt: 2 }}>

@@ -1,13 +1,13 @@
 import ListIcon from '@mui/icons-material/List';
 import {
-  IconButton,
-  Menu,
-  Select,
-  MenuItem,
   FormControl,
+  IconButton,
   InputLabel,
+  Menu,
+  MenuItem,
+  Select,
 } from '@mui/material';
-import useTipTapEditor from 'hooks/useTipTapEditor';
+import useTipTapEditor from 'hooks/chat/useTipTapEditor';
 
 export const ContentTypeDropDown = ({
   anchorEl,
@@ -19,7 +19,7 @@ export const ContentTypeDropDown = ({
 }) => {
   const forms = ['Select input', 'Text input'];
   const { editorContent, contentType, handleContentTypeChange } =
-    useTipTapEditor(isFirstMessage, setUserInput, setFileInput);
+    useTipTapEditor();
 
   return (
     <>

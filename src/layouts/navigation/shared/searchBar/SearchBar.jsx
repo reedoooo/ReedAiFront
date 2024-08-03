@@ -46,6 +46,9 @@ export function SearchBar(props) {
         variant: 'searchbar',
       }}
       placeholder='"Search..."'
+      sx={{
+        bgColor: inputBg,
+      }}
       {...rest}
     />
   );

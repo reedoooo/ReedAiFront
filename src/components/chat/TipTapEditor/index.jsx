@@ -1,19 +1,25 @@
 import {
   Box,
   Button,
-  Select,
-  MenuItem,
   FormControl,
   InputLabel,
+  MenuItem,
+  Select,
 } from '@mui/material';
-import React from 'react';
-import useTipTapEditor from 'hooks/useTipTapEditor';
+import React, { useEffect } from 'react';
+import { useTipTapEditor } from 'hooks/chat';
 
-const TipTapEditor = ({ setUserInput, setFileInput }) => {
-  const initialContent =
-    '<p><strong>Prompt:</strong> Write the code for a dialog component using material ui </p>';
-  const { editor, editorContent, contentType, handleContentTypeChange } =
-    useTipTapEditor(initialContent, setUserInput, setFileInput);
+const TipTapEditor = ({ initialContent, onContentChange }) => {
+  // const initialContent =
+  //   '<p><strong>Prompt:</strong> Write the code for a dialog component using material ui </p>';
+  // const { editor, editorContent, contentType, handleContentTypeChange } =
+  //   useTipTapEditor(initialContent, setUserInput, setFileInput);
+  const { editor, content, handleContentTypeChange, contentType } =
+    useTipTapEditor(initialContent);
+
+  useEffect(() => {
+    onContentChange(content);
+  }, [content, onContentChange]);
   // return editor ? <div ref={editor.view.dom} /> : null;
   return (
     <Box>
@@ -39,7 +45,7 @@ const TipTapEditor = ({ setUserInput, setFileInput }) => {
       <Box mt={2}>
         <Button
           variant="contained"
-          onClick={() => console.log(editorContent)}
+          onClick={() => console.log(content)}
           color="primary"
         >
           Log Content

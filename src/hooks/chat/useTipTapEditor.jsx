@@ -3,31 +3,18 @@ import StarterKit from '@tiptap/starter-kit';
 import { FileHandler } from '@tiptap-pro/extension-file-handler';
 import { useEffect, useState } from 'react';
 import { Markdown } from 'tiptap-markdown';
-const useTipTapEditor = (isFirstMessage, setUserInput, setFileInput) => {
-  const initialContent = isFirstMessage
-    ? '<p><strong>Prompt:</strong> Write the code for a dialog component using material ui </p>'
-    : 'Message Reed GPT';
+import { useChatStore } from 'contexts/ChatProvider';
 
-  const [editorContent, setEditorContent] = useState(initialContent);
+export const useTipTapEditor = () => {
+  const { state: chatState, actions: chatActions } = useChatStore();
+  const { setFileInput, setUserInput } = chatActions;
+  const initData = `<p>Insert ReedAi Prompt</p>`;
+  const [content, setContent] = useState(initData);
   const [contentType, setContentType] = useState('markdown'); // Default content type
-
+  const [isTyping, setIsTyping] = useState(false);
   const editor = useEditor({
     extensions: [
       StarterKit,
-      // StarterKit.configure({
-      //   // bind Tiptap to `.element`
-      //   element: document.querySelector('.element'),
-      //   // register extensions
-      //   extensions: [Document, Paragraph, Text],
-      //   // set the initial content
-      //   content: '<p>Example Text</p>',
-      //   // place the cursor in the editor after initialization
-      //   autofocus: true,
-      //   // make the text editable (but that’s the default anyway)
-      //   editable: true,
-      //   // disable the loading of the default CSS (which is not much anyway)
-      //   injectCSS: false,
-      // }),
       Markdown,
       FileHandler.configure({
         onDrop: (editor, files, pos) => {
@@ -58,21 +45,8 @@ const useTipTapEditor = (isFirstMessage, setUserInput, setFileInput) => {
           'text/javascript',
         ],
       }),
-      // Autocomplete.configure({
-      //   suggestion: {
-      //     items: [
-      //       { label: 'JavaScript', value: 'javascript' },
-      //       { label: 'TypeScript', value: 'typescript' },
-      //       { label: 'React', value: 'react' },
-      //     ],
-      //   },
-      // }),
-      // Image.configure({
-      //   inline: true,
-      //   allowBase64: true,
-      // }),
     ],
-    content: initialContent,
+    content: initData,
     onUpdate: ({ editor }) => {
       let output = '';
 
@@ -90,18 +64,17 @@ const useTipTapEditor = (isFirstMessage, setUserInput, setFileInput) => {
           output = editor.getText();
       }
 
-      setEditorContent(output);
+      setContent(output);
       setUserInput(output);
     },
+    onTransaction: ({ transaction }) => {
+      if (transaction.steps.length > 0) {
+        setIsTyping(true);
+      } else {
+        setIsTyping(false);
+      }
+    },
   });
-
-  useEffect(() => {
-    if (editor) {
-      setUserInput(editor.getText());
-    }
-  }, [editor, setUserInput]);
-
-  // Handle content type change
   const handleContentTypeChange = event => {
     setContentType(event.target.value);
     if (editor) {
@@ -120,8 +93,59 @@ const useTipTapEditor = (isFirstMessage, setUserInput, setFileInput) => {
       }
     }
   };
-
-  return { editor, editorContent, contentType, handleContentTypeChange };
+  // useEffect(() => {
+  //   if (editor) {
+  //     editor.commands.setContent(content);
+  //   }
+  // }, [content, editor]);
+  useEffect(() => {
+    if (editor) {
+      setUserInput(editor.getText());
+    }
+  }, [editor, setUserInput]);
+  return {
+    editor,
+    content,
+    setContent,
+    contentType,
+    handleContentTypeChange,
+    isTyping,
+  };
 };
 
 export default useTipTapEditor;
+
+// StarterKit.configure({
+//   // bind Tiptap to `.element`
+//   element: document.querySelector('.element'),
+//   // register extensions
+//   extensions: [Document, Paragraph, Text],
+//   // set the initial content
+//   content: '<p>Example Text</p>',
+//   // place the cursor in the editor after initialization
+//   autofocus: true,
+//   // make the text editable (but that’s the default anyway)
+//   editable: true,
+//   // disable the loading of the default CSS (which is not much anyway)
+//   injectCSS: false,
+// }),
+// Autocomplete.configure({
+//   suggestion: {
+//     items: [
+//       { label: 'JavaScript', value: 'javascript' },
+//       { label: 'TypeScript', value: 'typescript' },
+//       { label: 'React', value: 'react' },
+//     ],
+//   },
+// }),
+// Image.configure({
+//   inline: true,
+//   allowBase64: true,
+// }),
+// useEffect(() => {
+//   if (editor) {
+//     setUserInput(editor.getText());
+//   }
+// }, [editor, setUserInput]);
+
+// Handle content type change

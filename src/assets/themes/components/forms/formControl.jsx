@@ -13,6 +13,8 @@ export default {
       borderRadius: borderRadius.md,
       padding: pxToRem(2),
       margin: pxToRem(4),
+      borderColor: '#808080',
+      borderWidth: '3px',
       '&.success .MuiOutlinedInput-notchedOutline': {
         borderColor: success.main,
         borderWidth: '3px',

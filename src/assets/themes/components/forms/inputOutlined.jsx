@@ -10,6 +10,8 @@ export default {
   styleOverrides: {
     root: {
       // borderRadius: borderRadius.md,
+      borderColor: '#808080',
+      borderWidth: '3px',
       '&:hover': {
         borderColor: action.dark.disabled,
         borderWidth: '3px',
@@ -20,14 +22,14 @@ export default {
         boxShadow: `${alpha(info.main, 0.25)} 0 0 0 0.2rem !important`,
       },
     },
-    input: {
-      backgroundColor: background.default,
-    },
-    // notchedOutline: {
-    //   borderColor: action.dark.disabled,
-    //   borderWidth: '2px',
-    //   boxShadow: `${alpha(action.dark.disabled, 0.25)} 0 0 0 0.2rem !important`,
+    // input: {
+    //   backgroundColor: background.default,
     // },
+    notchedOutline: {
+      borderColor: action.dark.disabled,
+      borderWidth: '2px',
+      boxShadow: `${alpha(action.dark.disabled, 0.25)} 0 0 0 0.2rem !important`,
+    },
     inputSizeSmall: {
       fontSize: size.xs,
       padding: pxToRem(10),

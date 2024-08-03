@@ -238,8 +238,9 @@ export const isFileTypeAllowed = (file, allowedTypes) => {
  * @param {string} fileName - The name of the file.
  * @returns {string} - The file extension.
  */
-export const getFileExtension = fileName => {
-  return fileName.split('.').pop().toLowerCase();
+export const getFileExtension = props => {
+  console.log('fileName:', fileName);
+  return fileName?.split('.').pop().toLowerCase();
 };
 
 /**
@@ -309,12 +310,9 @@ export const insertTextAtCursorPosition = (editor, text) => {
   }
 };
 
-export const processFile = async (
-  file,
-  editor,
-  fileDataRef,
-  setUploadedFiles
-) => {
+export const processFile = async file => {
+  const acceptedExt = flattenArrays(data.OPENAI_ACCEPTED_FILE_EXTENSIONS);
+  const acceptedType = flattenArrays(data.OPENAI_ACCEPTED_FILE_TYPES);
   try {
     if (file.type.startsWith('image/')) {
       await handleImageFile(file, fileDataRef, setUploadedFiles);
@@ -331,6 +329,23 @@ export const processFile = async (
   } catch (error) {
     console.error(`Error processing file ${file.name}:`, error);
   }
+};
+
+export const flattenArrays = obj => {
+  const flattened = {};
+
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      flattened[key] = [];
+      for (const innerKey in obj[key]) {
+        if (obj[key].hasOwnProperty(innerKey)) {
+          flattened[key] = flattened[key].concat(obj[key][innerKey]);
+        }
+      }
+    }
+  }
+
+  return flattened;
 };
 
 export const handleTextFile = async (file, editor) => {
@@ -387,21 +402,21 @@ export const handleDocxFile = async (file, editor) => {
   }
 };
 
-export const FileIcon = ({ type, size = 32 }) => {
+export const FileIcon = ({ type, size = 32, color = '#BDBDBD' }) => {
   if (type.includes('image')) {
-    return <FaFileImage size={size} />;
+    return <FaFileImage size={size} color={color} />;
   } else if (type.includes('pdf')) {
-    return <FaFilePdf size={size} />;
+    return <FaFilePdf size={size} color={color} />;
   } else if (type.includes('csv')) {
-    return <FaFileCsv size={size} />;
+    return <FaFileCsv size={size} color={color} />;
   } else if (type.includes('docx')) {
-    return <FaFileWord size={size} />;
+    return <FaFileWord size={size} color={color} />;
   } else if (type.includes('plain')) {
-    return <FaFileAlt size={size} />;
+    return <FaFileAlt size={size} color={color} />;
   } else if (type.includes('json')) {
-    return <FaFileCode size={size} />;
+    return <FaFileCode size={size} color={color} />;
   } else if (type.includes('markdown')) {
-    return <FaRegFile size={size} />;
+    return <FaRegFile size={size} color={color} />;
   } else {
     return <FaFile size={size} />;
   }

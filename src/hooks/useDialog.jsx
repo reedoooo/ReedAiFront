@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useDialog = () => {
+export const useDialog = () => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {

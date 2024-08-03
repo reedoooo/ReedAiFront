@@ -4,12 +4,34 @@ import { uniqueId } from 'lodash';
 import apiUtils from '@/lib/apiUtils';
 import { chatFiles } from 'api/chat';
 import { createAsyncAction, normalizeArray } from 'utils/redux/main';
+import { setPrompts } from './promptSlice';
 
 // Initial state for file slice
 const initialState = {
   byId: {},
   allIds: [],
-  files: [],
+  files: [
+    // {
+    //   id: uniqueId(),
+    //   fileType: 'file',
+    //   type: 'file',
+    //   name: 'example_json.json',
+    //   ext: 'json',
+    //   content: {
+    //     prompt: 'This is an example JSON file.',
+    //   },
+    //   url: null,
+    // },
+    // {
+    //   id: uniqueId(),
+    //   fileType: 'image',
+    //   type: 'image',
+    //   name: 'example_jpg.jpg',
+    //   ext: 'jpg',
+    //   content: null,
+    //   url: 'https://via.placeholder.com/100',
+    // },
+  ],
   chatFiles: [],
   chatImages: [],
   newMessageFiles: [],
@@ -31,6 +53,7 @@ export const fetchAllImages = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const data = await chatFiles.getAllImages();
+      console.log('[fetchAllImages]', data);
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -44,6 +67,7 @@ export const fetchAllFiles = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const data = await chatFiles.getAllFiles();
+      console.log('[fetchAllFiles]', data);
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -54,10 +78,64 @@ export const fetchAllFiles = createAsyncThunk(
 // Async thunk for fetching file data using apiUtils
 export const fetchFileData = createAsyncThunk(
   'files/fetchData',
-  async (_, { rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
     try {
-      const data = await chatFiles.fetchChatFileData();
-      return normalizeArray(data, 'id');
+      // Get the existing prompts from the prompt reducer state
+      const state = getState();
+      const existingPrompts = state.prompts;
+      const fileList = await chatFiles.fetchChatFileData();
+      console.log('[fetchFileData]', fileList);
+      // Step 2: Parse each JSON file
+      // Parse each JSON file
+      const parsedPrompts = await Promise.all(
+        fileList.map(async fileName => {
+          if (fileName.endsWith('.json')) {
+            const fileContent =
+              await chatFiles.fetchChatFileDataByType(fileName);
+            return fileContent;
+          }
+          return null;
+        })
+      );
+      console.log('parsedPrompts', parsedPrompts);
+      // Filter out any null values and flatten the array
+      const newPrompts = parsedPrompts.filter(Boolean).flat();
+
+      // Filter out any already existing prompts by name
+      const filteredPrompts = newPrompts.filter(
+        newPrompt =>
+          !existingPrompts.some(
+            existingPrompt => existingPrompt.title === newPrompt.title
+          )
+      );
+
+      // Map the filtered prompts to the desired format
+      const formattedPrompts = filteredPrompts
+        .filter(prompt => prompt.content)
+        .map(prompt => ({
+          id: getNewPromptId(prompt.title),
+          title: prompt.title,
+          content: prompt.content,
+          type: 'json',
+        }));
+
+      console.log('parsedPrompts', parsedPrompts);
+      setPrompts(prevState => ({
+        byId: {
+          ...prevState.byId,
+          ...formattedPrompts.reduce((acc, prompt) => {
+            acc[prompt.id] = prompt;
+            return acc;
+          }, {}),
+        },
+        allIds: [
+          ...prevState.allIds,
+          ...formattedPrompts.map(prompt => prompt.id),
+        ],
+      }));
+      return formattedPrompts;
+
+      // return normalizeArray(data, 'id');
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -99,12 +177,27 @@ export const fileSlice = createSlice({
   initialState,
   reducers: {
     setFiles: (state, action) => {
-      state.files = action.payload;
+      console.log('files:', action.payload);
+
+      if (Array.isArray(action.payload)) {
+        state.files = action.payload;
+        // action.payload.forEach(file => {
+        //   state.files[file.id] = file;
+        // });
+      } else if (
+        typeof action.payload === 'object' &&
+        action.payload !== null
+      ) {
+        const file = action.payload;
+        state.files[file.id] = file;
+      }
     },
     setPreviewFiles: (state, action) => {
+      console.log('previewFiles:', action.payload);
       state.previewFiles = action.payload;
     },
     setPreviewUrls: (state, action) => {
+      console.log('previewUrls:', action.payload);
       state.previewUrls = action.payload;
     },
     setSelectedFiles: (state, action) => {

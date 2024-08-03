@@ -18,3 +18,4 @@ export const useMutateData = endpoint => {
     updateData,
   };
 };
+export default useMutateData;

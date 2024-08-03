@@ -119,7 +119,7 @@ export default function HeaderLinks(props) {
         boxShadow: 'rgba(112, 144, 176, 0.18) 14px 17px 40px 4px',
         borderRadius: '30px',
         // zIndex: 100,
-        background: 'white',
+        // background: 'white',
         // padding: '10px',
         // width: { xs: '100%', md: 'auto' },
         // flexDirection: 'row',
@@ -134,11 +134,12 @@ export default function HeaderLinks(props) {
         variant=""
         background=""
         borderRadius="30px"
-        placeHolder="Search..."
+        placeholder="Search..."
         sx={{
           mb: secondary ? { xs: '10px', md: 'unset' } : 'unset',
           mr: '10px',
           borderRadius: '30px',
+          // bgColor: 'white',
         }}
       />
       <Sidebar routes={routes} />

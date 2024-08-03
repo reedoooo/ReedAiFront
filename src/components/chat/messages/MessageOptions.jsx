@@ -42,7 +42,14 @@ const MessageOptions = ({ message, onRegenerate }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '8px' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        marginTop: '8px',
+        flexDirection: 'row',
+      }}
+    >
       <IconButton onClick={handleSaveClick} color="primary">
         <SaveIcon />
       </IconButton>
