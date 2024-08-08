@@ -17,7 +17,7 @@ import {
 import React, { useEffect, useRef, useState } from 'react';
 import { useActionData } from 'react-router-dom';
 import { ChatApp } from 'components/chat';
-import ChatSidebar from 'components/chat/sidebar/ReusableSidebar';
+import { ChatSidebar } from 'components/chat/sidebar';
 import MessageProvider from 'contexts/MessageProvider';
 import useMenu from 'hooks/useMenu';
 import useMode from 'hooks/useMode';

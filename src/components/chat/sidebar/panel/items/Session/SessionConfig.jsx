@@ -9,10 +9,10 @@ import {
   Slider,
   Switch,
 } from '@mui/material';
+import { fetchChatModel } from 'api/chat/models';
+import { useChatStore } from 'contexts/ChatProvider';
 import { debounce } from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { fetchChatModel } from 'api/chat/chat_model';
-import { useChatStore } from 'contexts/ChatProvider';
 
 const optionFromModel = model => {
   return {

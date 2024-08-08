@@ -1,4 +1,3 @@
-
 export default Prompts;
 // import { TabPanel } from '@mui/lab';
 // import {
@@ -138,204 +137,204 @@ export default Prompts;
 //     setNewPrompt({ ...newPrompt, [e.target.name]: e.target.value });
 //   };
 
-  // const handleAddPrompt = () => {
-  //   if (newPrompt.title && newPrompt.content) {
-  //     setPromptList([...prompts, newPrompt]);
-  //     setNewPrompt({ title: '', content: '' });
-  //   }
-  // };
-  // const handleOpenDialog = () => {
-  //   setDialogOpen(true);
-  // };
+// const handleAddPrompt = () => {
+//   if (newPrompt.title && newPrompt.content) {
+//     setPromptList([...prompts, newPrompt]);
+//     setNewPrompt({ title: '', content: '' });
+//   }
+// };
+// const handleOpenDialog = () => {
+//   setDialogOpen(true);
+// };
 
-  // const handleCloseDialog = () => {
-  //   setDialogOpen(false);
-  // };
-  // const changeShowModal = (mode, selected = { key: '', value: '' }) => {
-  //   if (mode === 'add') {
-  //     setTempPromptKey('');
-  //     setTempPromptValue('');
-  //   } else if (mode === 'modify') {
-  //     setTempModifiedItem({ ...selected });
-  //     setTempPromptKey(selected.key);
-  //     setTempPromptValue(selected.value);
-  //   } else if (mode === 'local_import') {
-  //     setTempPromptKey('local_import');
-  //     setTempPromptValue('');
-  //   }
-  //   setShowModal(!showModal);
-  //   setModalMode(mode);
-  // };
-  // const addPromptTemplate = () => {
-  //   for (const i of promptList) {
-  //     if (i.key === tempPromptKey) {
-  //       alert('Duplicate title, please re-enter');
-  //       return;
-  //     }
-  //     if (i.value === tempPromptValue) {
-  //       alert(`Duplicate content: ${tempPromptKey}, please re-enter`);
-  //       return;
-  //     }
-  //   }
-  //   setPromptList([
-  //     { key: tempPromptKey, value: tempPromptValue },
-  //     ...promptList,
-  //   ]);
-  //   alert('Prompt added successfully');
-  //   changeShowModal('');
-  // };
-  // const modifyPromptTemplate = () => {
-  //   let index = 0;
+// const handleCloseDialog = () => {
+//   setDialogOpen(false);
+// };
+// const changeShowModal = (mode, selected = { key: '', value: '' }) => {
+//   if (mode === 'add') {
+//     setTempPromptKey('');
+//     setTempPromptValue('');
+//   } else if (mode === 'modify') {
+//     setTempModifiedItem({ ...selected });
+//     setTempPromptKey(selected.key);
+//     setTempPromptValue(selected.value);
+//   } else if (mode === 'local_import') {
+//     setTempPromptKey('local_import');
+//     setTempPromptValue('');
+//   }
+//   setShowModal(!showModal);
+//   setModalMode(mode);
+// };
+// const addPromptTemplate = () => {
+//   for (const i of promptList) {
+//     if (i.key === tempPromptKey) {
+//       alert('Duplicate title, please re-enter');
+//       return;
+//     }
+//     if (i.value === tempPromptValue) {
+//       alert(`Duplicate content: ${tempPromptKey}, please re-enter`);
+//       return;
+//     }
+//   }
+//   setPromptList([
+//     { key: tempPromptKey, value: tempPromptValue },
+//     ...promptList,
+//   ]);
+//   alert('Prompt added successfully');
+//   changeShowModal('');
+// };
+// const modifyPromptTemplate = () => {
+//   let index = 0;
 
-  //   for (const i of promptList) {
-  //     if (i.key === tempModifiedItem.key && i.value === tempModifiedItem.value)
-  //       break;
-  //     index += 1;
-  //   }
+//   for (const i of promptList) {
+//     if (i.key === tempModifiedItem.key && i.value === tempModifiedItem.value)
+//       break;
+//     index += 1;
+//   }
 
-  //   const tempList = promptList.filter((_, i) => i !== index);
+//   const tempList = promptList.filter((_, i) => i !== index);
 
-  //   for (const i of tempList) {
-  //     if (i.key === tempPromptKey) {
-  //       alert('Title conflict detected, please re-enter');
-  //       return;
-  //     }
-  //     if (i.value === tempPromptValue) {
-  //       alert(`Content conflict detected: ${i.key}, please re-enter`);
-  //       return;
-  //     }
-  //   }
+//   for (const i of tempList) {
+//     if (i.key === tempPromptKey) {
+//       alert('Title conflict detected, please re-enter');
+//       return;
+//     }
+//     if (i.value === tempPromptValue) {
+//       alert(`Content conflict detected: ${i.key}, please re-enter`);
+//       return;
+//     }
+//   }
 
-  //   setPromptList([
-  //     { key: tempPromptKey, value: tempPromptValue },
-  //     ...tempList,
-  //   ]);
-  //   alert('Prompt modified successfully');
-  //   changeShowModal('');
-  // };
-  // const deletePromptTemplate = row => {
-  //   setPromptList(promptList.filter(item => item.key !== row.key));
-  //   alert('Prompt deleted successfully');
-  // };
-  // const clearPromptTemplate = () => {
-  //   setPromptList([]);
-  //   alert('Prompt list cleared successfully');
-  // };
-  // const importPromptTemplate = () => {
-  //   try {
-  //     const jsonData = JSON.parse(tempPromptValue);
-  //     for (const i of jsonData) {
-  //       let safe = true;
-  //       for (const j of promptList) {
-  //         if (j.key === i.key) {
-  //           alert(`Skipped due to duplicate title: ${i.key}`);
-  //           safe = false;
-  //           break;
-  //         }
-  //         if (j.value === i.value) {
-  //           alert(`Skipped due to duplicate content: ${i.key}`);
-  //           safe = false;
-  //           break;
-  //         }
-  //       }
-  //       if (safe)
-  //         setPromptList([{ key: i.key, value: i.value }, ...promptList]);
-  //     }
-  //     alert('Import successful');
-  //     changeShowModal('');
-  //   } catch {
-  //     alert('Invalid JSON format, please check');
-  //     changeShowModal('');
-  //   }
-  // };
-  // const exportPromptTemplate = () => {
-  //   const jsonDataStr = JSON.stringify(promptList);
-  //   const blob = new Blob([jsonDataStr], { type: 'application/json' });
-  //   const url = URL.createObjectURL(blob);
-  //   const link = document.createElement('a');
-  //   link.href = url;
-  //   link.download = 'ChatGPTPromptTemplate.json';
-  //   link.click();
-  //   URL.revokeObjectURL(url);
-  // };
-  // const downloadPromptTemplate = async () => {
-  //   try {
-  //     // const response = await fetch(downloadURL);
-  //     const response = await fetch('/static/chatgpt-prompts-custom.json')
-  //       .then(response => response.blob())
-  //       .then(blob => {
-  //         const url = window.URL.createObjectURL(blob);
-  //         const a = document.createElement('a');
-  //         a.style.display = 'none';
-  //         a.href = url;
-  //         a.download = 'chatgpt-prompts-custom.json';
-  //         document.body.appendChild(a);
-  //         a.click();
-  //         window.URL.revokeObjectURL(url);
-  //       });
-  //     const jsonData = await response.json();
-  //     setTempPromptValue(JSON.stringify(jsonData));
-  //     importPromptTemplate();
-  //   } catch {
-  //     alert('Network error or invalid JSON file');
-  //   }
-  // };
-  // const [data, setData] = useState();
-  // const renderTemplate = () => {
-  //   const [keyLimit, valueLimit] = isMobile ? [6, 9] : [15, 50];
-  //   if (promptList.length > 0) {
-  //     setData(promptList);
-  //   } else {
-  //     const tempPromptData = JSON.parse(localStorage.getItem('promptStore'));
-  //     const dataArray = [];
-  //     tempPromptData.forEach(item => {
-  //       dataArray.push({ key: item.name, value: item.content });
-  //     });
-  //     setData(dataArray);
-  //   }
-  //   return data?.map((item, index) => {
-  //     let factor = isASCII(item.key) ? 10 : 1;
-  //     return {
-  //       id: index, // Required for DataGrid
-  //       renderKey: item?.key,
-  //       renderValue: item?.value,
-  //       key: item?.key,
-  //       value: item?.value,
-  //     };
-  //   });
-  // };
-  // const pagination = isMobile
-  //   ? { pageSize: 6, pageSlot: 5 }
-  //   : { pageSize: 7, pageSlot: 15 };
+//   setPromptList([
+//     { key: tempPromptKey, value: tempPromptValue },
+//     ...tempList,
+//   ]);
+//   alert('Prompt modified successfully');
+//   changeShowModal('');
+// };
+// const deletePromptTemplate = row => {
+//   setPromptList(promptList.filter(item => item.key !== row.key));
+//   alert('Prompt deleted successfully');
+// };
+// const clearPromptTemplate = () => {
+//   setPromptList([]);
+//   alert('Prompt list cleared successfully');
+// };
+// const importPromptTemplate = () => {
+//   try {
+//     const jsonData = JSON.parse(tempPromptValue);
+//     for (const i of jsonData) {
+//       let safe = true;
+//       for (const j of promptList) {
+//         if (j.key === i.key) {
+//           alert(`Skipped due to duplicate title: ${i.key}`);
+//           safe = false;
+//           break;
+//         }
+//         if (j.value === i.value) {
+//           alert(`Skipped due to duplicate content: ${i.key}`);
+//           safe = false;
+//           break;
+//         }
+//       }
+//       if (safe)
+//         setPromptList([{ key: i.key, value: i.value }, ...promptList]);
+//     }
+//     alert('Import successful');
+//     changeShowModal('');
+//   } catch {
+//     alert('Invalid JSON format, please check');
+//     changeShowModal('');
+//   }
+// };
+// const exportPromptTemplate = () => {
+//   const jsonDataStr = JSON.stringify(promptList);
+//   const blob = new Blob([jsonDataStr], { type: 'application/json' });
+//   const url = URL.createObjectURL(blob);
+//   const link = document.createElement('a');
+//   link.href = url;
+//   link.download = 'ChatGPTPromptTemplate.json';
+//   link.click();
+//   URL.revokeObjectURL(url);
+// };
+// const downloadPromptTemplate = async () => {
+//   try {
+//     // const response = await fetch(downloadURL);
+//     const response = await fetch('/static/chatgpt-prompts-custom.json')
+//       .then(response => response.blob())
+//       .then(blob => {
+//         const url = window.URL.createObjectURL(blob);
+//         const a = document.createElement('a');
+//         a.style.display = 'none';
+//         a.href = url;
+//         a.download = 'chatgpt-prompts-custom.json';
+//         document.body.appendChild(a);
+//         a.click();
+//         window.URL.revokeObjectURL(url);
+//       });
+//     const jsonData = await response.json();
+//     setTempPromptValue(JSON.stringify(jsonData));
+//     importPromptTemplate();
+//   } catch {
+//     alert('Network error or invalid JSON file');
+//   }
+// };
+// const [data, setData] = useState();
+// const renderTemplate = () => {
+//   const [keyLimit, valueLimit] = isMobile ? [6, 9] : [15, 50];
+//   if (promptList.length > 0) {
+//     setData(promptList);
+//   } else {
+//     const tempPromptData = JSON.parse(localStorage.getItem('promptStore'));
+//     const dataArray = [];
+//     tempPromptData.forEach(item => {
+//       dataArray.push({ key: item.name, value: item.content });
+//     });
+//     setData(dataArray);
+//   }
+//   return data?.map((item, index) => {
+//     let factor = isASCII(item.key) ? 10 : 1;
+//     return {
+//       id: index, // Required for DataGrid
+//       renderKey: item?.key,
+//       renderValue: item?.value,
+//       key: item?.key,
+//       value: item?.value,
+//     };
+//   });
+// };
+// const pagination = isMobile
+//   ? { pageSize: 6, pageSlot: 5 }
+//   : { pageSize: 7, pageSlot: 15 };
 
-  // const columns = [
-  //   { field: 'renderKey', headerName: 'Title', width: 150 },
-  //   { field: 'renderValue', headerName: 'Content', width: 450 },
-  //   {
-  //     field: 'actions',
-  //     headerName: 'Actions',
-  //     width: 150,
-  //     renderCell: params => (
-  //       <Box display="flex" justifyContent="center" gap={1}>
-  //         <Button
-  //           variant="text"
-  //           size="small"
-  //           onClick={() => changeShowModal('modify', params.row)}
-  //         >
-  //           Modify
-  //         </Button>
-  //         <Button
-  //           variant="text"
-  //           size="small"
-  //           color="error"
-  //           onClick={() => deletePromptTemplate(params.row)}
-  //         >
-  //           Delete
-  //         </Button>
-  //       </Box>
-  //     ),
-  //   },
-  // ];
+// const columns = [
+//   { field: 'renderKey', headerName: 'Title', width: 150 },
+//   { field: 'renderValue', headerName: 'Content', width: 450 },
+//   {
+//     field: 'actions',
+//     headerName: 'Actions',
+//     width: 150,
+//     renderCell: params => (
+//       <Box display="flex" justifyContent="center" gap={1}>
+//         <Button
+//           variant="text"
+//           size="small"
+//           onClick={() => changeShowModal('modify', params.row)}
+//         >
+//           Modify
+//         </Button>
+//         <Button
+//           variant="text"
+//           size="small"
+//           color="error"
+//           onClick={() => deletePromptTemplate(params.row)}
+//         >
+//           Delete
+//         </Button>
+//       </Box>
+//     ),
+//   },
+// ];
 
 // const handleKeyDown = e => {
 //   if (e.key === 'Enter') {
@@ -380,56 +379,56 @@ export default Prompts;
 //     Prompts
 //   </Typography>
 // </Box>
-      // <Box
-      //   sx={{
-      //     display: 'flex',
-      //     flexDirection: 'column',
-      //     alignItems: 'center',
-      //     padding: '1rem',
-      //     color: 'white',
-      //     borderRadius: '14px',
-      //     background: '#1c1c1c', // Slightly different background for the panel to distinguish it
-      //   }}
-      // >
+// <Box
+//   sx={{
+//     display: 'flex',
+//     flexDirection: 'column',
+//     alignItems: 'center',
+//     padding: '1rem',
+//     color: 'white',
+//     borderRadius: '14px',
+//     background: '#1c1c1c', // Slightly different background for the panel to distinguish it
+//   }}
+// >
 //         <LayoutGroup>
-          // <StyledTabs
-          //   value={value}
-          //   onChange={handleChange}
-          //   indicatorColor="#fff"
-          // >
-          //   <AnimatedTab
-          //     label="Create"
-          //     {...a11yProps(0)}
-          //     component={motion.div}
-          //     whileHover={{ scale: 1.05 }}
-          //     whileTap={{ scale: 0.95 }}
-          //     style={{ color: '#fff', borderRadius: '5px' }}
-          //   />
-          //   <AnimatedTab
-          //     label="Edit"
-          //     {...a11yProps(1)}
-          //     component={motion.div}
-          //     whileHover={{ scale: 1.05 }}
-          //     whileTap={{ scale: 0.95 }}
-          //     style={{ color: '#fff', borderRadius: '5px' }}
-          //   />
-          //   <AnimatedTab
-          //     label="Recommend"
-          //     {...a11yProps(2)}
-          //     component={motion.div}
-          //     whileHover={{ scale: 1.05 }}
-          //     whileTap={{ scale: 0.95 }}
-          //     style={{ color: '#fff', borderRadius: '5px' }}
-          //   />
-          //   <AnimatedTab
-          //     label="List"
-          //     {...a11yProps(3)}
-          //     component={motion.div}
-          //     whileHover={{ scale: 1.05 }}
-          //     whileTap={{ scale: 0.95 }}
-          //     style={{ color: '#fff', borderRadius: '5px' }}
-          //   />
-          // </StyledTabs>
+// <StyledTabs
+//   value={value}
+//   onChange={handleChange}
+//   indicatorColor="#fff"
+// >
+//   <AnimatedTab
+//     label="Create"
+//     {...a11yProps(0)}
+//     component={motion.div}
+//     whileHover={{ scale: 1.05 }}
+//     whileTap={{ scale: 0.95 }}
+//     style={{ color: '#fff', borderRadius: '5px' }}
+//   />
+//   <AnimatedTab
+//     label="Edit"
+//     {...a11yProps(1)}
+//     component={motion.div}
+//     whileHover={{ scale: 1.05 }}
+//     whileTap={{ scale: 0.95 }}
+//     style={{ color: '#fff', borderRadius: '5px' }}
+//   />
+//   <AnimatedTab
+//     label="Recommend"
+//     {...a11yProps(2)}
+//     component={motion.div}
+//     whileHover={{ scale: 1.05 }}
+//     whileTap={{ scale: 0.95 }}
+//     style={{ color: '#fff', borderRadius: '5px' }}
+//   />
+//   <AnimatedTab
+//     label="List"
+//     {...a11yProps(3)}
+//     component={motion.div}
+//     whileHover={{ scale: 1.05 }}
+//     whileTap={{ scale: 0.95 }}
+//     style={{ color: '#fff', borderRadius: '5px' }}
+//   />
+// </StyledTabs>
 //         </LayoutGroup>
 //         <AnimatePresence mode="wait">
 //           <motion.div

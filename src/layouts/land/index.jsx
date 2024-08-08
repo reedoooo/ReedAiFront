@@ -1,8 +1,8 @@
 import { Box, Container } from '@mui/material';
-import { MainWrapper, PageWrapper } from 'components/themed/styled';
-import useMode from 'hooks/useMode';
 import { useState } from 'react';
 import { Outlet, Route } from 'react-router-dom';
+import { MainWrapper, PageWrapper } from 'components/themed';
+import useMode from 'hooks/useMode';
 
 // Custom Material UI theme
 export default function Land() {

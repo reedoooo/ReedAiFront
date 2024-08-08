@@ -8,6 +8,7 @@ const MuiModeBasedStyles = {
       secondary: '#5CDB95',
       tertiary: '#5fe7bb',
       dark: '#2e7c67',
+      darker: '#129370',
       focus: rgba('#18b984' || '#dbf5ee', 0.15),
       contrastText: '#dbf5ee',
       gradient: 'linear-gradient(180deg, #18b984, #5CDB95)',
@@ -19,11 +20,13 @@ const MuiModeBasedStyles = {
       secondary: '#5CDB95',
       tertiary: '#5fe7bb',
       dark: '#2e7c67',
+      darker: '#129370',
       focus: rgba('#18b984' || '#dbf5ee', 0.15),
       contrastText: '#dbf5ee',
       gradient: 'linear-gradient(180deg, #18b984, #5CDB95)',
     },
   },
+
   secondary: {
     light: {
       lighter: '#70a1ff',
@@ -134,7 +137,7 @@ const MuiModeBasedStyles = {
   },
   divider: {
     light: '#eeeeee',
-    dark: '#eeeeee',
+    dark: '#2C2A32',
   },
   action: {
     light: {

@@ -19,6 +19,7 @@ import {
   IconButton,
   Drawer,
   Avatar,
+  Tabs,
 } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -68,6 +69,59 @@ export const TabContentContainer = styled(Box)({
   background: '#1c1c1c', // Slightly different background for the panel to distinguish it
 });
 
+export const PanelHeader = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  marginBottom: theme.spacing(2),
+  [theme.breakpoints.up('sm')]: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+}));
+
+export const PanelHeaderRow = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginBottom: theme.spacing(2),
+}));
+
+export const ActionRow = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginBottom: theme.spacing(2),
+}));
+
+export const FolderContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  padding: theme.spacing(1),
+  border: '1px solid #ddd',
+  borderRadius: theme.shape.borderRadius,
+  marginBottom: theme.spacing(1),
+}));
+
+export const FolderHeader = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: theme.spacing(1),
+}));
+
+export const FileContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: theme.spacing(1),
+  borderBottom: '1px solid #eee',
+}));
+
+export const StyledPanelHeaderButton = styled(Button)(({ theme }) => ({
+  textTransform: 'none',
+}));
+
 export const TabSectionContainer = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
@@ -90,11 +144,50 @@ export const StyledTextField = styled(TextField)({
   '& .MuiInputBase-input': { color: '#fff', background: '#000' },
 });
 
-export const StyledButton = styled(Button)({
+export const StyledTextareaAutosize = styled(TextareaAutosize)(({ theme }) => ({
+  width: '100%',
+  resize: 'none',
+  background: '#000',
+  color: '#fff',
+  border: '1px solid #dcdcdc',
+  padding: '8px',
+  flex: '1 1 auto',
+  borderRadius: '4px',
+  borderColor: 'grey',
+  fontSize: theme.typography.pxToRem(14),
+  '& .MuiInputUnderline:after': {
+    borderBottomColor: 'grey',
+  },
+  '& .MuiOutlinedInputRoot': {
+    '& fieldset': { borderColor: 'grey' },
+    '&:hover fieldset': { borderColor: 'grey' },
+    '&.Mui-focused fieldset': { borderColor: 'grey' },
+  },
+  '& .MuiInputBaseInput': {
+    color: '#fff',
+    background: '#000',
+  },
+  // '& label': {
+  //   color: '#fff',
+  //   '&.Mui-focused': { color: 'grey' },
+  // },
+  '&:focus-visible': {
+    outline: `2px solid ${theme.palette.primary.main}`,
+  },
+  '&::placeholder': {
+    color: theme.palette.text.disabled,
+  },
+  '&:disabled': {
+    cursor: 'not-allowed',
+    opacity: 0.5,
+  },
+}));
+
+export const StyledButton = styled(Button)(({ theme }) => ({
   color: '#fff',
   borderColor: '#fff',
   margin: '10px 0',
-});
+}));
 
 export const StyledTabs = styled(TabList)(({ theme }) => ({
   background: '#808080',
@@ -110,7 +203,15 @@ export const StyledTabs = styled(TabList)(({ theme }) => ({
     height: 'auto',
   },
 }));
-
+export const StyledMotionTabs = styled(motion(Tabs))({
+  background: '#808080',
+  borderRadius: '5px',
+  '& .Mui-selected': {
+    backgroundColor: '#000',
+    color: '#fff',
+    margin: '5px',
+  },
+});
 export const AnimatedTab = styled(motion(Tab))(({ theme }) => ({
   position: 'relative',
   listStyle: 'none',
@@ -187,9 +288,13 @@ export const ChatWindow = styled(Paper)(({ theme }) => ({
 }));
 
 export const Header = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(2),
-  backgroundColor: theme.palette.background.paper,
-  borderBottom: `1px solid ${theme.palette.divider}`,
+  // padding: theme.spacing(2),
+  backgroundColor: 'transparent',
+  borderBottom: `1px solid ${theme.palette.primary.main}`,
+  display: 'flex',
+  flexDirection: 'row',
+  width: '100%',
+  flexGrow: 1,
 }));
 
 /* --- CHAT - MESSAGE COMPONENTS --- */
@@ -207,11 +312,9 @@ export const ChatBubbleWrapper = styled(Box)(({ theme, sender }) => ({
   borderRadius: '12px',
   alignSelf: sender === 'user' ? 'flex-end' : 'flex-start',
   display: 'flex',
-  // alignItems: 'flex-start',
   ml: sender === 'user' ? 'auto' : 0,
   justifyContent: sender === 'user' ? 'flex-end' : 'flex-start',
   flexDirection: sender === 'user' ? 'row-reverse' : 'row',
-  maxWidth: '90%',
   flexGrow: 1,
 }));
 
@@ -232,3 +335,28 @@ export const ChatBubbleTypographyWrapper = styled(Typography)({
   flexGrow: 1,
   overflowWrap: 'break-word',
 });
+
+/* --- CHAT - MESSAGE CODEBLOCK --- */
+
+/*  --- CHAT - FILES --- */
+export const FileItemsPreviewContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  cursor: 'pointer',
+  alignItems: 'center',
+  borderRadius: theme.shape.borderRadius,
+  padding: theme.spacing(2),
+  '&:hover, &:focus': {
+    backgroundColor: theme.palette.action.hover,
+    outline: 'none',
+  },
+}));
+export const SelectedFileItemsContainer = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(1),
+  borderRadius: theme.shape.borderRadius,
+  border: `2px solid ${theme.palette.divider}`,
+  padding: theme.spacing(2),
+  fontSize: theme.typography.fontSize,
+}));

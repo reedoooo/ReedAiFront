@@ -35,6 +35,26 @@ export const workspaceSlice = createSlice({
     setWorkspaceImages: (state, action) => {
       state.workspaceImages = action.payload;
     },
+    setActiveWorkspace: (state, action) => {
+      const workspace = action.payload;
+      const activeWorkspaceObject = {
+        id: workspace._id,
+        title: workspace.name,
+        systemPrompt: workspace.systemPrompt || '',
+        chatSessions: workspace.chatSessions || [],
+        activeChatSession: workspace.activeChatSession || null,
+        description: workspace.description || '',
+        folders: workspace.folders || [],
+      };
+      state.activeWorkspace = activeWorkspaceObject;
+      localStorage.setItem(
+        'activeWorkspace',
+        JSON.stringify(activeWorkspaceObject)
+      );
+    },
+    setChatSessions: (state, action) => {
+      state.activeWorkspace.chatSessions = action.payload;
+    },
   },
 });
 
@@ -45,6 +65,8 @@ export const {
   setSelectedWorkspace,
   setWorkspaceImages,
   setHomeWorkSpace,
+  setActiveWorkspace,
+  setChatSessions,
 } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;

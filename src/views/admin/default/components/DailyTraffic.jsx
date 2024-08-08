@@ -8,7 +8,7 @@ import {
   useTheme,
 } from '@mui/material';
 import React from 'react';
-import BarChart from 'components/themed/charts/BarChart';
+import BarChart from 'components/themed/CommonUi/charts/BarChart';
 import {
   barChartDataDailyTraffic,
   barChartOptionsDailyTraffic,

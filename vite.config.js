@@ -36,6 +36,7 @@ export default defineConfig(({ mode }) => {
         '@/routes': path.resolve(__dirname, 'src/routes'),
         '@/config': path.resolve(__dirname, 'src/config'),
         '@/colors': path.resolve(__dirname, 'src/assets/themes/base'),
+        '@/lib': path.resolve(__dirname, 'src/lib'),
         app: path.resolve(__dirname, 'src/app'),
         api: path.resolve(__dirname, 'src/api'),
         assets: path.resolve(__dirname, 'src/assets'),

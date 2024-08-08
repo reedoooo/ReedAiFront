@@ -1,11 +1,13 @@
 // Chakra imports
 import { Box, Portal, useTheme } from '@mui/material';
 import { useAnimation } from 'framer-motion';
-import React, { useState } from 'react';
-import { Outlet, useLocation, useNavigation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Navigate, Outlet, useLocation, useNavigation } from 'react-router-dom';
+import { setupInterceptors } from '@/lib/api';
 import routes from '@/routes/index';
 import { useAuthStore } from 'contexts/AuthProvider';
 import { SidebarContext } from 'contexts/SidebarProvider';
+import { useUserStore } from 'contexts/UserProvider';
 import useDisclosure from 'hooks/useDisclosure';
 import useRouter from 'hooks/useRouter';
 import { FooterAdmin } from 'layouts/navigation/footer/FooterAdmin';
@@ -51,6 +53,7 @@ const AdminLayout = props => {
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const navigation = useNavigation();
   const authStore = useAuthStore();
+  const userStore = useAuthStore();
   const theme = useTheme();
   const location = useLocation();
   const controls = useAnimation();
@@ -151,10 +154,25 @@ const AdminLayout = props => {
     return menuItems;
   };
   const { onOpen } = useDisclosure();
-  // if (!authStore.state.token) {
-  //   return <Navigate to="/auth/sign-in" />;
-  // }
+  // const {
+  //   state: {
+  //     authSession: { accessToken, refreshToken, expiresIn },
+  //   },
+  // } = useUserStore();
+  // const {
+  //   actions: { handleRefreshAccessToken },
+  // } = useAuthStore();
+
+  // useEffect(() => {
+  //   setupInterceptors(
+  //     () => accessToken,
+  //     () => refreshToken,
+  //     () => expiresIn,
+  //     handleRefreshAccessToken
+  //   );
+  // }, [accessToken, refreshToken, expiresIn, handleRefreshAccessToken]);
   if (navigation.state === 'loading') {
+    console.log('navigation:', navigation);
     return <LoadingIndicator />;
   }
   return (

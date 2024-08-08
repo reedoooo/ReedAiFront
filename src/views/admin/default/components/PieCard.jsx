@@ -2,15 +2,15 @@ import {
   Box,
   Card,
   CardContent,
-  Typography,
-  Select,
-  MenuItem,
-  Grid,
-  useTheme,
   Divider,
+  Grid,
+  MenuItem,
+  Select,
+  Typography,
+  useTheme,
 } from '@mui/material';
 import React from 'react';
-import PieChart from 'components/themed/charts/PieChart';
+import PieChart from 'components/themed/CommonUi/charts/PieChart';
 import { pieChartData, pieChartOptions } from 'config/data-configs/charts';
 
 export default function PieCard(props) {

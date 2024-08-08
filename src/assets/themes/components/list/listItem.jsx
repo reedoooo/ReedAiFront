@@ -1,7 +1,7 @@
 const listItem = {
-  defaultProps: {
-    disableGutters: true,
-  },
+  // defaultProps: {
+  //   disableGutters: true,
+  // },
 
   styleOverrides: {
     root: {

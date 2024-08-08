@@ -20,9 +20,9 @@ import {
   useTable,
 } from 'react-table';
 import { Card } from 'components/index';
+import Menu from 'components/themed/CommonUi/menu/MainMenu.jsx';
 import configs from 'config/index';
 import useMode from 'hooks/useMode';
-import Menu from 'layouts/navigation/menu/MainMenu.jsx';
 
 // Custom components
 

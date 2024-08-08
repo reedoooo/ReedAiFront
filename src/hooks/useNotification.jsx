@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-const useNotification = () => {
+export const useNotification = () => {
   const [notifications, setNotifications] = useState([]);
 
   const addNotification = useCallback(notification => {

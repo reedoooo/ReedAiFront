@@ -1,72 +1,90 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { auth } from 'api/user';
 import constants from 'config/constants';
-import { setUser, setUserToken, setUserId } from './userSlice';
-
+import { getItem } from 'utils/storage';
+import {
+  setActiveSession,
+  setActiveWorkspace,
+  setChatSessions,
+  setWorkspaces,
+} from '../chat';
+import {
+  setUser,
+  setUserToken,
+  setUserId,
+  setAuthTokens,
+  setIsAuthenticated,
+} from './userSlice';
 const { API_URL } = constants;
 
-// Utility functions to handle localStorage
-const setLocalStorageItem = (key, value) => {
-  localStorage.setItem(key, JSON.stringify(value));
-};
-
-const getLocalStorageItem = (key, defaultValue = null) => {
-  const item = localStorage.getItem(key);
-  return item ? JSON.parse(item) : defaultValue;
-};
-
-const removeLocalStorageItem = key => {
-  localStorage.removeItem(key);
-};
 const initialState = {
-  authUserLoginData: {
-    username: '',
-    email: '',
-    firstName: '',
-    lastName: '',
-    isActive: false,
-    displayName: '',
-    lastLogin: '',
-  },
-  authUserRegisterData: {
-    hasOnboarded: false,
-    dateJoined: '',
-  },
-  authSession: {
-    token: '',
-    tokenType: '',
-    accessToken: '',
-    refreshToken: '',
-    expiresIn: '',
-    expiresAt: '',
-    createdAt: '',
-  },
-  status: 'idle',
-  error: null,
-  isAuthenticated: !!getLocalStorageItem('userToken'),
-  formDisabled: !!getLocalStorageItem('userToken'),
+  formDisabled: null,
   isRedirectToSignin: false,
-  user: getLocalStorageItem('userStorage')?.user || {},
-  token: getLocalStorageItem('userToken'),
+  authRequest: {
+    isFetching: false,
+    error: null,
+    message: '',
+    status: '',
+  },
+  user: {},
 };
-// Async thunks
+
 export const handleAuthSubmit = createAsyncThunk(
   'auth/handleAuthSubmit',
   async (values, { dispatch, rejectWithValue }) => {
     const { username, password, email, isSignup } = values;
-    const url = isSignup ? `${API_URL}/user/signup` : `${API_URL}/user/login`;
-    const usernameOrEmail = !email ? username : email;
-    const payload = isSignup
-      ? { username, password, email }
-      : { usernameOrEmail, password };
-
     try {
-      const { data } = await axios.post(url, payload);
-      if (data.token) {
-        dispatch(setUserToken(data.token));
-        dispatch(setUser(data.user));
+      const data = isSignup
+        ? await auth.signup(username, email, password)
+        : await auth.login(email || username, password);
+      console.log('data:', data);
+      if (data?.accessToken) {
+        const responseBody = {
+          authSession: {
+            token: data.accessToken,
+            tokenType: 'Bearer',
+            accessToken: data.accessToken,
+            refreshToken: data.refreshToken,
+            expiresIn: data.expiresIn,
+          },
+          isAuthenticated: true,
+        };
+
+        if (isSignup) {
+          responseBody.authUserRegisterData = {
+            hasOnboarded: true,
+            dateJoined: new Date().toISOString(),
+          };
+        }
+
+        const updatedUserData = { ...data.user, ...responseBody };
+
+        dispatch(setUser(updatedUserData));
+        dispatch(setWorkspaces(updatedUserData.workspaces));
+        dispatch(setActiveWorkspace(updatedUserData.workspaces[0]));
+        dispatch(setChatSessions(updatedUserData.chatSessions));
+        dispatch(setActiveSession(updatedUserData.chatSessions[0]));
         dispatch(setUserId(data.user._id));
-        return { user: data.user, token: data.token, userId: data.user._id };
+        dispatch(
+          setAuthTokens(
+            data.accessToken,
+            data.refreshToken,
+            data.expiresIn.toString()
+          )
+        );
+        dispatch(setIsAuthenticated(true));
+
+        return {
+          user: updatedUserData,
+          token: data.accessToken,
+          userId: data.user._id,
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+          expiresIn: data.expiresIn,
+          isAuthenticated: true,
+        };
       }
     } catch (error) {
       console.error(isSignup ? 'Signup failed:' : 'Login failed:', error);
@@ -79,17 +97,30 @@ export const validateToken = createAsyncThunk(
   'auth/validateToken',
   async (token, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/user/validate-token`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.status !== 200) {
-        throw new Error('Token validation failed');
-      }
+      await auth.validateToken(token);
       return true;
     } catch (error) {
       return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const refreshAccessToken = createAsyncThunk(
+  'auth/refresh-token',
+  async (token, { getState, rejectWithValue }) => {
+    const { navigate } = useNavigate();
+
+    try {
+      const data = await auth.refreshToken(token);
+      console.log('DATA', data);
+      setAuthTokens(data.accessToken, data.refreshToken, data.expiresIn);
+      return data.accessToken;
+    } catch (error) {
+      console.error('Failed to refresh token:', error);
+      setAuthTokens(null, null, null);
+      navigate('/auth/sign-in');
+      return rejectWithValue(error.response.data);
+      // window.location.href = '/auth/sign-in';
     }
   }
 );
@@ -99,15 +130,7 @@ export const logout = createAsyncThunk(
   async (_, { dispatch, getState, rejectWithValue }) => {
     const token = getState().auth.token;
     try {
-      await axios.post(
-        `${API_URL}/user/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await auth.logout(token);
       localStorage.clear();
       dispatch(setUser({}));
       dispatch(setUserToken(null));
@@ -133,8 +156,7 @@ export const authSlice = createSlice({
       state.formDisabled = false;
     },
     updateAuthStateFromLocalStorage: state => {
-      state.isAuthenticated = !!getLocalStorageItem('userToken');
-      state.formDisabled = !!getLocalStorageItem('userToken');
+      state.formDisabled = !!getItem('userToken');
     },
     setIsRedirectToSignin: state => {
       state.isRedirectToSignin = !state.isRedirectToSignin;
@@ -143,40 +165,50 @@ export const authSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(handleAuthSubmit.pending, state => {
-        state.status = 'loading';
+        state.authRequest.isFetching = true;
         state.formDisabled = true;
+        state.authRequest.status = 'pending';
       })
       .addCase(handleAuthSubmit.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.authRequest.isFetching = false;
+        state.authRequest.status = 'fulfilled';
         state.isAuthenticated = true;
         state.formDisabled = false;
+        state.user = action.payload;
       })
       .addCase(handleAuthSubmit.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload;
+        state.authRequest.isFetching = false;
+        state.authRequest.status = 'rejected';
+        state.authRequest.error = action.payload;
         state.formDisabled = false;
       })
-      .addCase(validateToken.pending, state => {
-        state.status = 'loading';
+      .addCase(refreshAccessToken.pending, state => {
+        state.authRequest.isFetching = true;
+        state.authRequest.status = 'pending';
       })
-      .addCase(validateToken.fulfilled, state => {
-        state.status = 'succeeded';
-        state.isAuthenticated = true;
+      .addCase(refreshAccessToken.fulfilled, (state, action) => {
+        state.authRequest.isFetching = false;
+        state.authRequest.status = 'fulfilled';
+        state.token = action.payload;
       })
-      .addCase(validateToken.rejected, state => {
-        state.status = 'failed';
+      .addCase(refreshAccessToken.rejected, state => {
+        state.authRequest.isFetching = false;
+        state.authRequest.status = 'rejected';
         localStorage.clear();
       })
       .addCase(logout.pending, state => {
-        state.status = 'loading';
+        state.authRequest.isFetching = true;
+        state.authRequest.status = 'pending';
       })
       .addCase(logout.fulfilled, state => {
-        state.status = 'succeeded';
+        state.authRequest.isFetching = false;
+        state.authRequest.status = 'fulfilled';
         state.isAuthenticated = false;
       })
       .addCase(logout.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload;
+        state.authRequest.isFetching = false;
+        state.authRequest.status = 'rejected';
+        state.authRequest.error = action.payload;
       });
   },
 });

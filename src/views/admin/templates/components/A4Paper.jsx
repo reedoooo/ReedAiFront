@@ -1,7 +1,7 @@
 import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { styled as styledDefault } from 'styled-components';
-import PaperCard from 'components/themed/basic/PaperCard';
+import { PaperCard } from 'components/styled';
 import useMode from 'hooks/useMode';
 
 const RatioBox = styledDefault(Box)(({ theme }) => ({

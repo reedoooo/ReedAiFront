@@ -1,5 +1,7 @@
 import {
   Box,
+  LinearProgress,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -7,23 +9,19 @@ import {
   TableHead,
   TableRow,
   Typography,
-  LinearProgress,
-  Icon,
-  Paper,
 } from '@mui/material';
 import React, { useMemo } from 'react';
-import { MdCheckCircle, MdCancel, MdOutlineError } from 'react-icons/md';
 import {
-  useTable,
   useGlobalFilter,
-  useSortBy,
   usePagination,
+  useSortBy,
+  useTable,
 } from 'react-table';
 import { AndroidLogo, AppleLogo, WindowsLogo } from 'assets/humanIcons/custom';
-import Card from 'components/themed/card/Card';
+import Menu from 'components/themed/CommonUi/menu/MainMenu.jsx';
+import Card from 'components/themed/UncommonUi/card/Card';
 import configs from 'config/index';
 import useMode from 'hooks/useMode';
-import Menu from 'layouts/navigation/menu/MainMenu.jsx';
 
 export default function DevelopmentTable(props) {
   const { columnsData, tableData } = props;

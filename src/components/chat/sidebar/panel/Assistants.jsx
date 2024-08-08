@@ -1,61 +1,31 @@
 import {
-  Box,
   Tabs,
   Tab,
   List,
   ListItem,
   ListItemText,
-  TextField,
-  Button,
   IconButton,
-  Typography,
   useMediaQuery,
+  Box,
+  TextField,
+  Typography,
+  Switch,
+  FormControlLabel,
+  MenuItem,
+  Select,
+  Slider,
+  Button,
 } from '@mui/material';
 import { styled } from '@mui/system';
 import React, { useState, useEffect, useRef } from 'react';
 import { FaSignOutAlt, FaTrashAlt } from 'react-icons/fa';
+import {
+  StyledButton,
+  StyledMotionTabs,
+  StyledTextField,
+  TabContentContainer,
+} from 'components/chat/styled';
 import useMode from 'hooks/useMode';
-
-const StyledTextField = styled(TextField)({
-  margin: '10px 0',
-  '& label': {
-    color: '#fff',
-    '&.Mui-focused': { color: 'grey' },
-  },
-  '& .MuiInput-underline:after': { borderBottomColor: 'grey' },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': { borderColor: 'grey' },
-    '&:hover fieldset': { borderColor: 'grey' },
-    '&.Mui-focused fieldset': { borderColor: 'grey' },
-  },
-  '& .MuiInputBase-input': { color: '#fff', background: '#000' },
-});
-
-const StyledButton = styled(Button)({
-  color: '#fff',
-  borderColor: '#fff',
-  margin: '10px 0',
-});
-
-const StyledTabs = styled(Tabs)({
-  background: '#808080',
-  borderRadius: '5px',
-  '& .Mui-selected': {
-    backgroundColor: '#000',
-    color: '#fff',
-    margin: '5px',
-  },
-});
-
-const TabContent = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  flexGrow: 1,
-  padding: '1rem',
-  backgroundColor: '#1c1c1c',
-  borderRadius: '5px',
-  color: 'white',
-});
 
 const Assistants = () => {
   const [tab, setTab] = useState(0);
@@ -197,7 +167,7 @@ const Assistants = () => {
           background: '#1c1c1c',
         }}
       >
-        <StyledTabs
+        <StyledMotionTabs
           value={tab}
           onChange={(e, newValue) => setTab(newValue)}
           indicatorColor="#fff"
@@ -210,11 +180,11 @@ const Assistants = () => {
             label="Assistant Templates"
             style={{ color: '#fff', borderRadius: '5px' }}
           />
-        </StyledTabs>
+        </StyledMotionTabs>
       </Box>
 
       {tab === 0 && (
-        <TabContent>
+        <TabContentContainer>
           <List>
             {assistantList.map((assistant, index) => (
               <ListItem key={index}>
@@ -244,6 +214,81 @@ const Assistants = () => {
               fullWidth
               sx={{ mt: 2 }}
             />
+            {/* Instructions Section */}
+            <Box>
+              <Typography variant="h6">Instructions</Typography>
+              <TextField
+                variant="outlined"
+                fullWidth
+                multiline
+                rows={4}
+                margin="dense"
+                InputProps={{ style: { color: 'white' } }}
+              />
+            </Box>
+
+            {/* Model Section */}
+            <Box>
+              <Typography variant="h6">Model</Typography>
+              <Select
+                fullWidth
+                variant="outlined"
+                margin="dense"
+                defaultValue="gpt-4.0"
+                sx={{ color: 'white', '.MuiSelect-icon': { color: 'white' } }}
+              >
+                <MenuItem value="gpt-4.0">gpt-4.0</MenuItem>
+              </Select>
+            </Box>
+
+            {/* Tools Section */}
+            <Box>
+              <Typography variant="h6">Tools</Typography>
+              <FormControlLabel
+                control={<Switch defaultChecked />}
+                label="File search"
+                sx={{ color: 'white' }}
+              />
+              <FormControlLabel
+                control={<Switch defaultChecked />}
+                label="Code interpreter"
+                sx={{ color: 'white' }}
+              />
+              <Button variant="contained">+ Files</Button>
+            </Box>
+
+            {/* Functions Section */}
+            <Box>
+              <Typography variant="h6">Functions</Typography>
+              <Button variant="contained">GenerateComponentCode</Button>
+            </Box>
+
+            {/* Model Configuration Section */}
+            <Box>
+              <Typography variant="h6">Model Configuration</Typography>
+              <FormControlLabel
+                control={<Switch />}
+                label="Response format"
+                sx={{ color: 'white' }}
+              />
+              <Typography gutterBottom>Temperature</Typography>
+              <Slider
+                defaultValue={1}
+                min={0}
+                max={1}
+                step={0.01}
+                sx={{ color: 'white' }}
+              />
+              <Typography gutterBottom>Top P</Typography>
+              <Slider
+                defaultValue={1}
+                min={0}
+                max={1}
+                step={0.01}
+                sx={{ color: 'white' }}
+              />
+              <Button variant="contained">Switch to v1</Button>
+            </Box>
             <StyledButton
               variant="contained"
               color="primary"
@@ -253,10 +298,10 @@ const Assistants = () => {
               Add Assistant
             </StyledButton>
           </Box>
-        </TabContent>
+        </TabContentContainer>
       )}
       {tab === 1 && (
-        <TabContent>
+        <TabContentContainer>
           <List>
             {templateList.map((template, index) => (
               <ListItem key={index}>
@@ -298,7 +343,7 @@ const Assistants = () => {
               Add Template
             </StyledButton>
           </Box>
-        </TabContent>
+        </TabContentContainer>
       )}
     </>
   );

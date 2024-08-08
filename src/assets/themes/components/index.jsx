@@ -1,6 +1,8 @@
 import { globals } from '..';
 import appBar from './appBar';
 import box from './box';
+import contained from './buttons/contained';
+import holo from './buttons/holo';
 import outlined from './buttons/outlined';
 import root from './buttons/root';
 import { baseCard, cardContent, cardMedia } from './card';
@@ -87,7 +89,7 @@ export default {
   MuiButton: {
     styleOverrides: {
       root: { ...root.base },
-      // contained: { ...contained.base },
+      contained: { ...contained.base },
       // containedSizeSmall: { ...contained.small },
       // containedSizeLarge: { ...contained.large },
       // containedPrimary: { ...contained.primary },
@@ -101,7 +103,7 @@ export default {
       // outlinedInfo: { ...outlined.info },
       // outlinedError: { ...outlined.error },
       // outlinedSuccess: { ...outlined.success },
-      // holo: { ...holo.base },
+      holo: { ...holo.base },
       // holoSizeSmall: { ...holo.small },
       // holoSizeMedium: { ...holo.medium },
       // holoSizeLarge: { ...holo.large },

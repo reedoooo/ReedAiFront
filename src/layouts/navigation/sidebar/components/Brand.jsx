@@ -1,14 +1,13 @@
 import { Box, SvgIcon, Typography } from '@mui/material';
 import React, { Suspense } from 'react';
 import { CustomLogoIcon } from 'assets/humanIcons/custom-logo';
-import { RCFlex } from 'components/index';
-import { StyledLogoIcon } from 'components/themed/styled';
+import { RCFlex, StyledLogoIcon } from 'components/index';
 import useMode from 'hooks/useMode';
 import { LoadingIndicator } from 'utils/app/LoadingIndicator';
 
 const NavbarLogo = () => (
   <Suspense fallback={<LoadingIndicator />}>
-    <StyledLogoIcon hVal={'55px'}>
+    <StyledLogoIcon hval="55px">
       <CustomLogoIcon />
     </StyledLogoIcon>
   </Suspense>

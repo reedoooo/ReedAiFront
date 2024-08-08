@@ -9,8 +9,6 @@ import {
 import {
   AdminPanelSettingsRoundedIcon,
   AiIcon,
-  BugReportIcon,
-  ChatIcon,
   DashboardIcon,
   DocumentScannerRoundedIcon,
   FolderRoundedIcon,
@@ -19,6 +17,7 @@ import {
   PersonAddIcon,
   PersonIcon,
 } from 'assets/humanIcons';
+import LoadingScreen from 'components/themed/UncommonUi/loadingScreen';
 import { Loadable } from 'layouts/navigation/shared/loadable';
 import { dispatch, setField } from 'store/index';
 
@@ -27,16 +26,13 @@ const RootErrorBoundary = Loadable(
   lazy(() => import('utils/app/RouterErrorBoundary.jsx'))
 );
 /* *** Layouts *** */
-const BlankLayout = Loadable(
-  lazy(() => import('layouts/generic-layouts/blank'))
-);
+const BlankLayout = Loadable(lazy(() => import('layouts/blank')));
 const AdminLayout = Loadable(lazy(() => import('layouts/admin')));
 const AuthLayout = Loadable(lazy(() => import('layouts/auth')));
 const ChatLayout = Loadable(lazy(() => import('layouts/chat')));
+const RouterLayout = Loadable(lazy(() => import('layouts/router')));
 /* *** Views *** */
 const HeroDocs = Loadable(lazy(() => import('views/land/heroDocs')));
-
-const Test = Loadable(lazy(() => import('views/test')));
 
 const SignInCentered = Loadable(lazy(() => import('views/auth/signIn')));
 const SignUpCentered = Loadable(lazy(() => import('views/auth/signUp')));
@@ -47,7 +43,6 @@ const UserProfile = Loadable(lazy(() => import('views/admin/profile')));
 const ChatBot = Loadable(lazy(() => import('views/admin/chat')));
 const Templates = Loadable(lazy(() => import('views/admin/templates')));
 
-// Create a custom history object
 export const customHistory = createBrowserHistory();
 
 customHistory.listen((location, action) => {
@@ -64,7 +59,7 @@ const baseRoutes = [
     path: '/land',
     breadcrumb: 'Docs',
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingScreen />}>
         <BlankLayout />
       </Suspense>
     ),
@@ -88,9 +83,6 @@ const baseRoutes = [
   },
 ];
 // =========================================================
-// Test Routes
-// =========================================================
-// =========================================================
 // Admin Routes
 // =========================================================
 const adminRoutes = [
@@ -100,7 +92,7 @@ const adminRoutes = [
     path: '/admin',
     breadcrumb: 'Admin',
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingScreen />}>
         <AdminLayout />
       </Suspense>
     ),
@@ -134,7 +126,7 @@ const adminRoutes = [
         path: 'chat',
         breadcrumb: 'Chat',
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<LoadingScreen />}>
             <ChatLayout />
           </Suspense>
         ),
@@ -161,7 +153,7 @@ const adminRoutes = [
         path: 'templates',
         breadcrumb: 'Templates',
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<LoadingScreen />}>
             <BlankLayout />
           </Suspense>
         ),
@@ -196,7 +188,7 @@ const authRoutes = [
     path: '/auth',
     breadcrumb: 'Auth',
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingScreen />}>
         <AuthLayout />
       </Suspense>
     ),
@@ -262,7 +254,7 @@ const rootRoutes = [
     name: 'Root',
     title: 'Root',
     path: '/',
-    element: <Outlet />,
+    element: <RouterLayout />,
     errorElement: <RootErrorBoundary />,
     children: [
       {

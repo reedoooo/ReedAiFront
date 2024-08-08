@@ -47,7 +47,7 @@ const ExportOptions = styled(Box)({
 
 const Chat = () => {
   const [tab, setTab] = useState(0);
-  const [conversations, setConversations] = useState([]);
+  const [conversations, setConversations] = useState(null);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [infoAnchorEl, setInfoAnchorEl] = useState(null);
@@ -112,7 +112,7 @@ const Chat = () => {
   };
 
   const handleDeleteConversation = id => {
-    setConversations(conversations.filter(conv => conv.id !== id));
+    setConversations(conversations?.filter(conv => conv.id !== id));
   };
 
   return (

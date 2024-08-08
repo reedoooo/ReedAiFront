@@ -19,6 +19,11 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { getGeneralChatResponse } from 'api/index';
+import { APIModal } from 'components/chat/inputs/toolbar';
+import { MessageBox } from 'components/chat/messages';
+import constants from 'config/constants';
+import useMode from 'hooks/useMode';
 import { useEffect, useState } from 'react';
 import {
   MdAutoAwesome,
@@ -31,11 +36,6 @@ import {
   MdTag,
   MdVpnKey,
 } from 'react-icons/md';
-import { getGeneralChatResponse } from 'api/index';
-import { APIModal } from 'components/chat/inputs/toolbar';
-import { MessageBox } from 'components/messages';
-import constants from 'config/constants';
-import useMode from 'hooks/useMode';
 const { API_URL, OPENAI_API_KEY } = constants;
 
 export default function Chat(props) {
@@ -68,10 +68,10 @@ export default function Chat(props) {
 
   const borderColor = '#e3e8ef';
   const inputColor = '#1B254B';
-  const iconColor = '#422AFB';
+  const iconColor = '#18b984';
   const bgIcon = 'linear-gradient(180deg, #FBFBFF 0%, #CACAFF 100%)';
 
-  const brandColor = '#422AFB';
+  const brandColor = '#18b984';
   const buttonBg = '#fff';
   const gray = '#697586';
   const buttonShadow = '14px 27px 45px rgba(112, 144, 176, 0.2)';

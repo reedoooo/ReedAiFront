@@ -1,7 +1,8 @@
-import request from '@/utils/request/axios';
+import apiUtils from '@/lib/apiUtils';
+
 export const GetUserData = async (page, size) => {
   try {
-    const response = await request.post('/admin/user_stats', {
+    const response = await apiUtils.post('/admin/user_stats', {
       page,
       size,
     });
@@ -13,7 +14,7 @@ export const GetUserData = async (page, size) => {
 };
 export const UpdateRateLimit = async (email, rateLimit) => {
   try {
-    const response = await request.post('/admin/rate_limit', {
+    const response = await apiUtils.post('/admin/rate_limit', {
       email,
       rateLimit,
     });
@@ -25,7 +26,7 @@ export const UpdateRateLimit = async (email, rateLimit) => {
 };
 export const updateUserFullName = async data => {
   try {
-    const response = await request.put('/admin/users', data);
+    const response = await apiUtils.put('/admin/users', data);
     return response.data;
   } catch (error) {
     console.error(error);

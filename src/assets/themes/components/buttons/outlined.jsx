@@ -8,7 +8,10 @@ const { borderWidth } = borders;
 export default {
   base: {
     minHeight: pxToRem(40),
-    borderColor: light.main,
+    borderColor: '#5CDB95',
+    color: '#5CDB95',
+    backgroundColor: transparent.main,
+    borderStyle: 'solid',
     borderWidth: borderWidth[2],
     padding: `${pxToRem(10)} ${pxToRem(24)}`,
     '&:hover': {

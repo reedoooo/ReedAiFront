@@ -1,18 +1,37 @@
-import { Box, CardContent, Typography, Avatar, Card } from '@mui/material';
-import styled from 'styled-components';
+import {
+  Box,
+  CardContent,
+  Typography,
+  Avatar,
+  Card,
+  styled,
+} from '@mui/material';
 import useMode from 'hooks/useMode';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   marginBottom: theme.spacing(2.5),
   textAlign: 'center',
+  p: 16,
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  position: 'relative',
+  borderRadius: '20px',
+  minWidth: '0px',
+  wordWrap: 'break-word',
+  bg: theme.palette.secondary.main,
+  backgroundClip: 'border-box',
+  minHeight: '100%',
 }));
 
 const BannerImage = styled(Box)(({ theme, src }) => ({
   background: `url(${src}) no-repeat center center`,
   backgroundSize: 'cover',
-  borderRadius: theme.shape.borderRadius,
-  height: 131,
+  borderRadius: '0.75rem',
+  height: '8rem',
   width: '100%',
+  justifyContent: 'center',
+  marginTop: '0.25rem',
 }));
 
 const AvatarWrapper = styled(Avatar)(({ theme }) => ({
@@ -31,22 +50,7 @@ export default function Banner(props) {
   const borderColor = theme.palette.background.paper;
 
   return (
-    <StyledCard
-      className="profile-banner"
-      theme={theme}
-      sx={{
-        p: '20px',
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        position: 'relative',
-        borderRadius: '20px',
-        minWidth: '0px',
-        wordWrap: 'break-word',
-        bg: theme.palette.secondary.main,
-        backgroundClip: 'border-box',
-      }}
-    >
+    <StyledCard className="profile-banner" theme={theme}>
       <BannerImage src={banner} theme={theme} />
       <AvatarWrapper src={avatar} theme={theme} />
       <CardContent theme={theme}>

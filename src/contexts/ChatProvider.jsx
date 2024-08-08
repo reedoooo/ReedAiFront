@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { createSelector } from 'reselect';
 import avatar5 from 'assets/img/avatars/avatar5.png'; // Fallback avatar
 import {
   setAbortController,
@@ -30,7 +31,6 @@ import {
   setNewMessageFiles,
   setShowFilesDisplay,
   setFolders,
-  setChats,
   setEnvKeyMap,
   setAvailableHostedModels,
   setAvailableLocalModels,
@@ -40,11 +40,10 @@ import {
   setChatMessages,
   setChatSettings,
   setPrompts,
-  // fetchStaticPrompts,
   setSourceCount,
   setUseRetrieval,
   setApiKey,
-  setChatId,
+  setWorkspaceId,
   setSessionId,
   setSelectedTools,
   setToolInUse,
@@ -57,34 +56,123 @@ import {
   setSelectedPrompt,
   fetchUserProfileImage,
   fetchFileData,
+  setPreviewFiles,
+  setUserInput,
+  setPreviewUrls,
+  setSelectedFiles,
+  setPayload,
+  setUploadedFiles,
+  setActiveWorkspace,
+  setActiveSession,
+  setChatSessions,
 } from 'store/Slices'; // Assuming you can import all slices from a single entry point
+
+export const selectActiveChat = createSelector(
+  [state => state.activeChat],
+  activeChat => activeChat
+);
+
+export const selectAssistant = createSelector(
+  [state => state.assistant],
+  assistant => assistant
+);
+
+export const selectChatInputCommand = createSelector(
+  [state => state.chatInputCommand],
+  chatInputCommand => chatInputCommand
+);
+
+export const selectCollection = createSelector(
+  [state => state.collection],
+  collection => collection
+);
+
+export const selectFile = createSelector([state => state.file], file => file);
+
+export const selectFolders = createSelector(
+  [state => state.folders],
+  folders => folders
+);
+
+export const selectGeneralChat = createSelector(
+  [state => state.generalChat],
+  generalChat => generalChat
+);
+
+export const selectModel = createSelector(
+  [state => state.model],
+  model => model
+);
+
+export const selectPassiveChat = createSelector(
+  [state => state.passiveChat],
+  passiveChat => passiveChat
+);
+
+export const selectBaseChat = createSelector(
+  [state => state.baseChat],
+  baseChat => baseChat
+);
+
+export const selectPreset = createSelector(
+  [state => state.preset],
+  preset => preset
+);
+
+export const selectPrompt = createSelector(
+  [state => state.prompt],
+  prompt => prompt
+);
+
+export const selectRetrieval = createSelector(
+  [state => state.retrieval],
+  retrieval => retrieval
+);
+
+export const selectSession = createSelector(
+  [state => state.session],
+  session => session
+);
+
+export const selectWorkspace = createSelector(
+  [state => state.workspace],
+  workspace => workspace
+);
 
 export const ChatContext = createContext(null);
 export const ChatProvider = ({ children }) => {
-  const state = useSelector(state => {
-    return {
-      ...state.activeChat,
-      ...state.assistant,
-      ...state.chatInputCommand,
-      ...state.collection,
-      ...state.file,
-      ...state.folders,
-      ...state.generalChat,
-      ...state.model,
-      ...state.passiveChat,
-      ...state.baseChat,
-      ...state.preset,
-      ...state.profile,
-      ...state.prompt,
-      ...state.retrieval,
-      // ...state.session,
-      ...state.tool,
-      ...state.workspace,
-    };
-  });
-  const { prompts } = state;
-  // const dispatch = useDispatch();
-  const [filedata, setFiledata] = useState(null);
+  const activeChat = useSelector(selectActiveChat);
+  const assistant = useSelector(selectAssistant);
+  const chatInputCommand = useSelector(selectChatInputCommand);
+  const collection = useSelector(selectCollection);
+  const file = useSelector(selectFile);
+  const folders = useSelector(selectFolders);
+  const generalChat = useSelector(selectGeneralChat);
+  const model = useSelector(selectModel);
+  const passiveChat = useSelector(selectPassiveChat);
+  const baseChat = useSelector(selectBaseChat);
+  const preset = useSelector(selectPreset);
+  const prompt = useSelector(selectPrompt);
+  const retrieval = useSelector(selectRetrieval);
+  const workspace = useSelector(selectWorkspace);
+
+  const state = {
+    ...activeChat,
+    ...assistant,
+    ...chatInputCommand,
+    ...collection,
+    ...file,
+    ...folders,
+    ...generalChat,
+    ...model,
+    ...passiveChat,
+    ...baseChat,
+    ...preset,
+    ...prompt,
+    ...retrieval,
+    ...workspace,
+    chatThing: '',
+  };
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -121,9 +209,8 @@ export const ChatProvider = ({ children }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    const localPngFiles = JSON.parse(localStorage.getItem('pngFiles'));
     const localJsonFiles = JSON.parse(localStorage.getItem('customPrompts'));
-    if (localJsonFiles.length > 0) {
+    if (localJsonFiles?.length > 0) {
       return;
     }
     dispatch(
@@ -132,32 +219,31 @@ export const ChatProvider = ({ children }) => {
         fileType: 'png',
       })
     );
-    dispatch(
-      fetchFileData({
-        url: 'http://localhost:3001/api/files/static/chatgpt-prompts-custom.json',
-        fileType: 'json',
-      })
-    );
+    // dispatch(
+    //   fetchFileData({
+    //     url: 'http://localhost:3001/api/files/static/chatgpt-prompts-custom.json',
+    //     fileType: 'json',
+    //   })
+    // );
   }, [dispatch]);
   const initializeIds = async () => {
-    let chatId = localStorage.getItem('chatId');
+    let workspaceId = localStorage.getItem('workspaceId');
     let sessionId = localStorage.getItem('sessionId');
-    if (!chatId) {
-      chatId = new mongoose.Types.ObjectId();
-      localStorage.setItem('chatId', chatId);
+    if (!workspaceId) {
+      console.log('No workspaceId');
+      return;
     }
     if (!sessionId) {
-      sessionId = new mongoose.Types.ObjectId();
-      localStorage.setItem('sessionId', sessionId);
+      console.log('No sessionId');
+      return;
     }
-    dispatch(setChatId(chatId));
+    dispatch(setWorkspaceId(workspaceId));
     dispatch(setSessionId(sessionId));
   };
   useEffect(() => {
     const userStorage = JSON.parse(localStorage.getItem('userStorage'));
     setUser(userStorage?.user);
     initializeIds();
-    // dispatch(initializeIds());
   }, []);
   const reloadRoute = id => {
     console.log(`Dummy reloadRoute called with id: ${id}`);
@@ -226,12 +312,14 @@ export const ChatProvider = ({ children }) => {
     // ===========================================
     // [PROMPT STORE]
     // ===========================================
-    // PROMPTS
     setSelectedPrompt: prompt => dispatch(setSelectedPrompt(prompt)),
+    // ===========================================
+    // [COLLECTION STORE]
+    // ===========================================
+    setCollections: collections => dispatch(setCollections(collections)),
     // ===========================================
     // [ADDED CHAT STORE]
     // ===========================================
-    // SESSIONS
     reloadRoute: id => reloadRoute(id),
     syncChatSessions: () => syncChatSessions(),
     addChatSession: (historyData, chatData) =>
@@ -250,21 +338,19 @@ export const ChatProvider = ({ children }) => {
     deleteChatById: (id, index) => deleteChatById(id, index),
     clearChatById: id => clearChatById(id),
     // ===========================================
-    // [MAIN CHAT STORE]
+    // [PROFILE STORE]
     // ===========================================
-    // PROFILE STORE
     setProfile: profile => dispatch(setProfile(profile)),
-    // --- ITEMS STORE ---
-    setAssistants: assistants => dispatch(setAssistants(assistants)),
-    setCollections: collections => dispatch(setCollections(collections)),
-    setChats: chats => dispatch(setChats(chats)),
-    setFiles: files => dispatch(setFiles(files)),
+    // ===========================================
+    // [ITEMS STORE]
+    // ===========================================
     setFolders: folders => dispatch(setFolders(folders)),
     setModels: models => dispatch(setModels(models)),
     setPrompts: prompts => dispatch(setPrompts(prompts)),
     setTools: tools => dispatch(setTools(tools)),
-    setWorkspaces: workspaces => dispatch(setWorkspaces(workspaces)),
-    // --- MODELS STORE ---
+    // ===========================================
+    // [MODEL STORE]
+    // ===========================================
     setEnvKeyMap: envKeyMap => dispatch(setEnvKeyMap(envKeyMap)),
     setAvailableHostedModels: models =>
       dispatch(setAvailableHostedModels(models)),
@@ -272,33 +358,50 @@ export const ChatProvider = ({ children }) => {
       dispatch(setAvailableLocalModels(models)),
     setAvailableOpenRouterModels: models =>
       dispatch(setAvailableOpenRouterModels(models)),
-    // --- WORKSPACE STORE / SESSION STORE ---
+    // ===========================================
+    // [WORKSPACE STORE]
+    // ===========================================
+    setWorkspaces: workspaces => dispatch(setWorkspaces(workspaces)),
     setSelectedWorkspace: workspace =>
       dispatch(setSelectedWorkspace(workspace)),
     setHomeWorkSpace: workspace => dispatch(setHomeWorkSpace(workspace)),
+    setActiveWorkspace: session => dispatch(setActiveWorkspace(session)),
     setWorkspaceImages: images => dispatch(setWorkspaceImages(images)),
-    // ASSISTANT STORE
+    setWorkspaceId: workspaceId => dispatch(setWorkspaceId(workspaceId)),
+    // ===========================================
+    // [CHAT SESSION STORE]
+    // ===========================================
+    setChatSessions: chats => dispatch(setChatSessions(chats)),
+    setActiveSession: session => dispatch(setActiveSession(session)),
+    setSessionId: sessionId => dispatch(setSessionId(sessionId)),
+    // ===========================================
+    // [ASSISTANT STORE]
+    // ===========================================
+    setAssistants: assistants => dispatch(setAssistants(assistants)),
     setSelectedAssistant: assistant =>
       dispatch(setSelectedAssistant(assistant)),
     setAssistantImages: images => dispatch(setAssistantImages(images)),
     setOpenaiAssistants: assistants =>
       dispatch(setOpenaiAssistants(assistants)),
-    // PASSIVE CHAT STORE
+    // ===========================================
+    // [PASSIVE CHAT STORE]
+    // ===========================================
+    setPayload: payload => dispatch(setPayload(payload)),
     setApiKey: apiKey => dispatch(setApiKey(apiKey)),
-    setChatId: chatId => dispatch(setChatId(chatId)),
-    setSessionId: sessionId => dispatch(setSessionId(sessionId)),
-    // setUserInput: setUserInput
-    // setUserInput: input => setUserInput(input),
-    setSelectedChat: () => {},
+    setUserInput: userInput => dispatch(setUserInput(userInput)),
     setChatMessages: messages => dispatch(setChatMessages(messages)),
     setChatSettings: settings => dispatch(setChatSettings(settings)),
     setChatFileItems: items => dispatch(setChatFileItems(items)),
-    // ACTIVE CHAT STORE
+    // ===========================================
+    // [ACTIVE CHAT STORE]
+    // ===========================================
     setAbortController: controller => dispatch(setAbortController(controller)),
     setFirstTokenReceived: received =>
       dispatch(setFirstTokenReceived(received)),
     setIsGenerating: generating => dispatch(setIsGenerating(generating)),
-    // CHAT INPUT COMMAND STORE
+    // ===========================================
+    // [CHAT INPUT COMMAND STORE]
+    // ===========================================
     setIsPromptPickerOpen: isOpen => dispatch(setIsPromptPickerOpen(isOpen)),
     setSlashCommand: command => dispatch(setSlashCommand(command)),
     setIsFilePickerOpen: isOpen => dispatch(setIsFilePickerOpen(isOpen)),
@@ -312,29 +415,29 @@ export const ChatProvider = ({ children }) => {
     setAtCommand: command => dispatch(setAtCommand(command)),
     setIsAssistantPickerOpen: isOpen =>
       dispatch(setIsAssistantPickerOpen(isOpen)),
-    // clearState: () => dispatch(clearState()),
-    // ATTACHMENTS STORE
+    // ===========================================
+    // [ATTACHMENTS STORE]
+    // ===========================================
+    setFiles: files => dispatch(setFiles(files)),
+    setSelectedFiles: files => dispatch(setSelectedFiles(files)),
+    setUploadedFiles: files => dispatch(setUploadedFiles(files)),
+    setPreviewFiles: files => dispatch(setPreviewFiles(files)),
+    setPreviewUrls: urls => dispatch(setPreviewUrls(urls)),
     setChatFiles: files => dispatch(setChatFiles(files)),
     setChatImages: images => dispatch(setChatImages(images)),
     setNewMessageFiles: files => dispatch(setNewMessageFiles(files)),
     setNewMessageImages: images => dispatch(setNewMessageImages(images)),
     setShowFilesDisplay: show => dispatch(setShowFilesDisplay(show)),
-    // RETRIEVAL STORE
+    // ===========================================
+    // [RETRIEVAL STORE]
+    // ===========================================
     setUseRetrieval: use => dispatch(setUseRetrieval(use)),
     setSourceCount: count => dispatch(setSourceCount(count)),
-    // TOOL STORE
+    // ===========================================
+    // [TOOL STORE]
+    // ===========================================
     setSelectedTools: tools => dispatch(setSelectedTools(tools)),
     setToolInUse: tool => dispatch(setToolInUse(tool)),
-    // RESPONSE STORE
-    // setResponse: response => dispatch(setResponse(response)),
-    // setIsChatLoading: loading => dispatch(setIsChatLoading(loading)),
-    // setChatError: error => dispatch(setChatError(error)),
-    // setIsChatDisabled: disabled => dispatch(setIsChatDisabled(disabled)),
-    // setIsStreamingDone: done => dispatch(setIsStreamingDone(done)),
-    // setStreamedMessageContent: content =>
-    //   dispatch(setStreamedMessageContent(content)),
-    // // setNewMessageContent: content => dispatch(setNewMessageContent(content)),
-    // setCurrentMessage: message => dispatch(setCurrentMessage(message)),
   };
 
   return (
@@ -346,62 +449,3 @@ export const ChatProvider = ({ children }) => {
 
 export const useChatStore = () => useContext(ChatContext);
 export default ChatProvider;
-// const handleAddPrompt = (key, value, prompts) => {
-//   const duplicateKey = prompts.some(item => item.key === key);
-//   const duplicateValue = prompts.some(item => item.value === value);
-//   if (duplicateKey) {
-//     enqueueSnackbar('Duplicate title, please re-enter', { variant: 'error' });
-//     return;
-//   }
-//   if (duplicateValue) {
-//     enqueueSnackbar(`Duplicate content: ${key}, please re-enter`, {
-//       variant: 'error',
-//     });
-//     return;
-//   }
-//   dispatch(addPrompt({ key, value }));
-//   enqueueSnackbar('Prompt added successfully', { variant: 'success' });
-// };
-
-// const handleModifyPrompt = (key, value, newKey, newValue, prompts) => {
-//   const duplicateKey = prompts.some(item => item.key === newKey);
-//   const duplicateValue = prompts.some(item => item.value === newValue);
-
-//   if (duplicateKey) {
-//     enqueueSnackbar('Title conflict detected, please modify again', {
-//       variant: 'error',
-//     });
-//     return;
-//   }
-//   if (duplicateValue) {
-//     enqueueSnackbar(`Content conflict detected: ${key}, please modify again`, {
-//       variant: 'error',
-//     });
-//     return;
-//   }
-//   dispatch(modifyPrompt({ key, value, newKey, newValue }));
-//   enqueueSnackbar('Prompt information modified successfully', {
-//     variant: 'success',
-//   });
-// };
-
-// const handleDeletePrompt = key => {
-//   dispatch(deletePrompt({ key }));
-//   enqueueSnackbar('Prompt deleted successfully', { variant: 'success' });
-// };
-
-// const handleImportPrompts = jsonData => {
-//   try {
-//     const parsedData = JSON.parse(jsonData);
-//     dispatch(importPrompts(parsedData));
-//     enqueueSnackbar('Imported successfully', { variant: 'success' });
-//   } catch {
-//     enqueueSnackbar('JSON format error, please check the JSON format', {
-//       variant: 'error',
-//     });
-//   }
-// };
-
-// const handleExportPrompts = () => {
-//   dispatch(exportPrompts());
-// };

@@ -11,27 +11,14 @@ import {
 import { styled } from '@mui/system';
 import React, { useState } from 'react';
 import { FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
+import {
+  StyledButton,
+  StyledTextareaAutosize,
+  StyledTextField,
+} from 'components/chat/styled';
 import { RCInput } from 'components/themed';
+import useMode from 'hooks/useMode';
 
-const StyledTextField = styled(TextField)({
-  margin: '10px 0',
-  '& label': {
-    color: '#fff',
-    '&.Mui-focused': { color: 'grey' },
-  },
-  '& .MuiInput-underline:after': { borderBottomColor: 'grey' },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': { borderColor: 'grey' },
-    '&:hover fieldset': { borderColor: 'grey' },
-    '&.Mui-focused fieldset': { borderColor: 'grey' },
-  },
-  '& .MuiInputBase-input': { color: '#fff', background: '#000' },
-});
-const StyledButton = styled(Button)({
-  color: '#fff',
-  borderColor: '#fff',
-  margin: '10px 0',
-});
 const StyledTabs = styled(Tabs)({
   background: '#808080',
   borderRadius: '5px',
@@ -44,6 +31,7 @@ const StyledTabs = styled(Tabs)({
 });
 
 const User = () => {
+  const { theme } = useMode();
   const [tab, setTab] = useState(0);
   const [username, setUsername] = useState('user6edad39745ba');
   const [chatDisplayName, setChatDisplayName] = useState('thaHuman');
@@ -106,28 +94,20 @@ const User = () => {
             fullWidth
             margin="normal"
           />
-          <RCInput
+          {/* <RCInput
             variant="base"
             label="Chat Display Name"
             value={chatDisplayName}
             onChange={e => setChatDisplayName(e.target.value)}
             fullWidth
             margin="normal"
-          />
-          <TextareaAutosize
+          /> */}
+          <StyledTextareaAutosize
             minRows={3}
             placeholder="Profile context... (optional)"
             value={profileContext}
             onChange={e => setProfileContext(e.target.value)}
-            style={{
-              width: '100%',
-              margin: '10px 0',
-              p: 2,
-              color: '#fff',
-              borderColor: 'grey',
-              background: '#000',
-              borderRadius: '5px',
-            }}
+            theme={theme}
           />
           <Box>
             <StyledButton variant="outlined" style={{ marginRight: '10px' }}>

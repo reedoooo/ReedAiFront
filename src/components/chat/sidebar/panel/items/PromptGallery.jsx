@@ -10,8 +10,8 @@ import {
   useMediaQuery,
   TablePagination,
 } from '@mui/material';
-import React, { useState, useEffect, useMemo } from 'react';
 import { usePromptStore } from 'contexts/PromptProvider';
+import React, { useState, useEffect, useMemo } from 'react';
 import useMode from 'hooks/useMode';
 import { isASCII } from 'utils/is';
 

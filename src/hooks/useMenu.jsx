@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-const useMenu = () => {
+export const useMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleOpen = useCallback(event => {

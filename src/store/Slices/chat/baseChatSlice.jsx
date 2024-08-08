@@ -3,53 +3,82 @@ import { createSlice, combineSlices } from '@reduxjs/toolkit';
 export const baseChatSlice = createSlice({
   name: 'chat',
   initialState: {
-    // chatRequests: {
-    //   pending: [],
-    //   resolved: [],
-    //   rejected: [],
-    // },
-    chatRequest: {
+    apiKey: '',
+    workspaceId: '',
+    sessionId: '',
+    activeSession: {
+      id: '',
+      name: '',
+      summary: '',
+      systemPrompt: '',
+      assisstantPrompt: '',
+      isFirstPromptName: true,
+      messages: [],
+      files: [],
+      tools: [],
+      stats: {},
+      setting: {},
+    },
+    baseChatRequest: {
       status: 'idle',
       error: null,
       success: null,
       message: '',
     },
-    apiKey: localStorage.getItem('apiKey') || '',
-    chatId: localStorage.getItem('chatId') || '',
-    sessionId: localStorage.getItem('sessionId') || '',
-    activeSession: JSON.parse(localStorage.getItem('activeSession')) || null,
   },
   reducers: {
     setLoading: (state, action) => {
-      state.chatRequest.status = 'loading';
-      state.chatRequest.error = null;
+      state.baseChatRequest.status = 'loading';
+      state.baseChatRequest.error = null;
     },
     setError: (state, action) => {
-      state.chatRequest.status = 'failed';
-      state.chatRequest.error = action.payload;
-      state.chatRequest.message = action.payload.message || 'An error occurred';
+      state.baseChatRequest.status = 'failed';
+      state.baseChatRequest.error = action.payload;
+      state.baseChatRequest.message =
+        action.payload.message || 'An error occurred';
     },
     setChatRequestData: (state, action) => {
-      state.chatRequest.status = 'succeeded';
-      state.chatRequest.success = action.payload;
-      state.chatRequest.message =
+      state.baseChatRequest.status = 'succeeded';
+      state.baseChatRequest.success = action.payload;
+      state.baseChatRequest.message =
         action.payload.message || 'Chat request successful';
     },
     setApiKey: (state, action) => {
       state.apiKey = action.payload;
       localStorage.setItem('apiKey', action.payload);
     },
-    setChatId: (state, action) => {
-      state.chatId = action.payload;
-      localStorage.setItem('chatId', action.payload);
+    setWorkspaceId: (state, action) => {
+      state.workspaceId = action.payload;
+      localStorage.setItem('workspaceId', action.payload);
     },
     setSessionId: (state, action) => {
       state.sessionId = action.payload;
       localStorage.setItem('sessionId', action.payload);
     },
     setActiveSession: (state, action) => {
-      state.activeSession = action.payload;
-      localStorage.setItem('activeSession', JSON.stringify(action.payload));
+      console.log('setActiveSession action payload', action.payload);
+      const session = action.payload;
+      const activeSessionObject = {
+        id: session._id,
+        title: session.name,
+        summary: session.summary,
+        systemPrompt: session.systemPrompt || '',
+        messages: session.messages || [],
+        files: session.files || [],
+        tools: session.tools || [],
+        stats: {
+          tokenUsage: 0,
+          messageCount: session.messages.length,
+        },
+        setting: session.setting || {},
+      };
+      state.activeSession = activeSessionObject;
+      state.sessionId = session._id;
+      localStorage.setItem(
+        'activeSession',
+        JSON.stringify(activeSessionObject)
+      ),
+        localStorage.setItem('sessionId', session._id);
     },
     //     addChatSessionReducer: (state, action) => {
     //       state.history = [action.payload.history, ...state.history];
@@ -161,7 +190,7 @@ export const {
   setError,
   setChatRequestData,
   setApiKey,
-  setChatId,
+  setWorkspaceId,
   setSessionId,
   setActiveSession,
 } = baseChatSlice.actions;

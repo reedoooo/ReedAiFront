@@ -20,10 +20,10 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import React, { useContext, useRef, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { deleteFolder, updateFolder } from 'api/index';
 import { EditIcon } from 'assets/humanIcons';
 import { TrashCanIcon } from 'assets/humanIcons/custom';
 import { useChatStore } from 'contexts/ChatProvider';
+import { deleteFolder, updateFolder } from './Folders';
 
 export const UpdateFolder = ({ folder }) => {
   const { setFolders } = useChatStore();
@@ -142,7 +142,12 @@ export const DeleteFolder = ({ folder, contentType }) => {
   return (
     <>
       <IconButton onClick={() => setShowFolderDialog(true)} size="small">
-        <TrashCanIcon fontSize="small" />
+        <TrashCanIcon
+          fontSize="small"
+          sx={{
+            color: '#fff',
+          }}
+        />
       </IconButton>
 
       <Dialog
@@ -174,6 +179,7 @@ export const DeleteFolder = ({ folder, contentType }) => {
     </>
   );
 };
+
 const folderdata = {
   id: 'folder-1',
   name: 'Folder 1',
@@ -182,6 +188,72 @@ const folderdata = {
     { id: 'file-2', name: 'File 2', type: 'file' },
   ],
   type: 'folder',
+};
+const sessiondata = {
+  id: 'folder-1',
+  name: 'Folder 1',
+  items: [
+    { id: 'file-1', name: 'File 1', type: 'file' },
+    { id: 'file-2', name: 'File 2', type: 'file' },
+  ],
+  type: 'folder',
+};
+const filedata = {
+  id: 'folder-1',
+  name: 'Folder 1',
+  items: [
+    { id: 'file-1', name: 'File 1', type: 'file' },
+    { id: 'file-2', name: 'File 2', type: 'file' },
+  ],
+  type: 'folder',
+};
+const tooldata = {
+  id: 'folder-1',
+  name: 'Folder 1',
+  items: [
+    { id: 'file-1', name: 'File 1', type: 'file' },
+    { id: 'file-2', name: 'File 2', type: 'file' },
+  ],
+  type: 'folder',
+};
+
+export const getBlankSessionData = () => {
+  return {
+    stats: {
+      tokenUsage: 0,
+      messageCount: 0,
+    },
+    _id: null,
+    name: '',
+    topic: '',
+    userId: null,
+    workspaceId: null,
+    assistantId: null,
+    model: 'gpt-4-turbo-preview',
+    prompt: '',
+    active: false,
+    activeSessionId: null,
+    settings: {
+      maxTokens: 500,
+      temperature: 0.7,
+      model: 'gpt-4-turbo-preview',
+      topP: 1,
+      n: 1,
+      debug: false,
+      summarizeMode: false,
+    },
+    messages: [],
+    tuning: {
+      debug: false,
+      summary: '',
+      summarizeMode: false,
+    },
+    createdAt: null,
+    updatedAt: null,
+    __v: 0,
+    files: [],
+    tools: [],
+  };
 };
 export const ChatFolders = props => {
   const itemRef = useRef(null);
@@ -284,7 +356,19 @@ export const ChatFolders = props => {
       >
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <IconButton size="small">
-            {isExpanded ? <ExpandMoreRounded /> : <ChevronRightRounded />}
+            {isExpanded ? (
+              <ExpandMoreRounded
+                sx={{
+                  color: '#fff',
+                }}
+              />
+            ) : (
+              <ChevronRightRounded
+                sx={{
+                  color: '#fff',
+                }}
+              />
+            )}
           </IconButton>
           <Typography variant="body1">{folder.name}</Typography>
         </Box>

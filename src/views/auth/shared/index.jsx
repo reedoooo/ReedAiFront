@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useFormik } from 'formik';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import {
   FacebookIcon,
@@ -20,12 +20,11 @@ import {
   GoogleIcon,
   PeopleAltRoundedIcon,
 } from 'assets/humanIcons';
+import { StyledIconContainer } from 'components/styled';
 import { RCBox, RCButton, RCTypography } from 'components/themed';
-import { StyledIconContainer } from 'components/themed/styled';
 import { authConfigs } from 'config/form-configs';
 import { useAuthStore } from 'contexts/AuthProvider';
 import useMode from 'hooks/useMode';
-import useRouter from 'hooks/useRouter';
 import { dispatch } from 'store/index';
 import { toggleDialogState } from 'store/Slices/appSlice';
 import LoadingIndicator from 'utils/app/LoadingIndicator';
@@ -76,12 +75,12 @@ export const AuthPages = () => {
   const { state, actions } = useAuthStore();
   const { handleAuthSubmit } = actions;
   const { formDisabled, isAuthenticated } = state;
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { theme } = useMode();
   const pageRef = React.createRef();
   const formRef = React.createRef();
   const searchParams = {};
-  const { navigate } = useRouter();
+  // const { navigate } = useRouter();
 
   const formik = useFormik({
     initialValues: {
@@ -139,13 +138,17 @@ export const AuthPages = () => {
     onClose();
   };
   const storedUserData = JSON.parse(localStorage.getItem('userStorage'));
-  if (storedUserData) {
-    return navigate('/admin/dashboard');
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      return navigate('/admin/dashboard');
+    }
+  }, [isAuthenticated]); // Add dependencies as needed
 
-  if (state.status === 'loading') {
-    return <LoadingIndicator />;
-  }
+  useEffect(() => {
+    if (state.status === 'pending') {
+      return <LoadingIndicator />;
+    }
+  }, [state.status]); // Add dependencies as needed
   return (
     <div>
       <GuestInfoPanel />
@@ -365,10 +368,10 @@ export const AuthPages = () => {
                 </RCBox>
                 <RCBox p={2} justifyContent="space-around">
                   <RCButton
-                    type="submit"
                     variant="outlined"
+                    type="submit"
                     color="success"
-                    sx={{ mx: theme.spacing(1), color: '#fff' }}
+                    sx={{ mx: theme.spacing(1), color: '#5CDB95' }}
                   >
                     {formik.values.isSignup ? 'Sign Up' : 'Login'}
                   </RCButton>

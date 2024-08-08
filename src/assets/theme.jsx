@@ -45,6 +45,10 @@ const baseThemeData = {
     subtitle1: typography.subtitle1,
     subtitle2: typography.subtitle2,
     body1: typography.body1,
+    body2: typography.body2,
+    caption: typography.caption,
+    overline: typography.overline,
+    button: typography.button,
     // --- Developing Styles --
     // icons: {
     // common: #3F4453,

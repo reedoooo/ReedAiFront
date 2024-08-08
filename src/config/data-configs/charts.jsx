@@ -71,7 +71,7 @@ export const barChartOptionsDailyTraffic = {
       colorStops: [
         {
           offset: 0,
-          color: '#4318FF',
+          color: '#129370',
           opacity: 1,
         },
         {
@@ -137,7 +137,7 @@ export const barChartOptionsConsumption = {
 
 export const pieChartOptions = {
   labels: ['Your files', 'System', 'Empty'],
-  colors: ['#4318FF', '#6AD2FF', '#EFF4FB'],
+  colors: ['#129370', '#6AD2FF', '#EFF4FB'],
   states: {
     hover: {
       filter: {
@@ -183,14 +183,14 @@ export const lineChartOptionsTotalSpent = {
       left: 0,
       blur: 10,
       opacity: 0.1,
-      color: '#4318FF',
+      color: '#129370',
     },
   },
-  colors: ['#4318FF', '#39B8FF'],
+  colors: ['#129370', '#39B8FF'],
   markers: {
     size: 0,
     colors: ['white'],
-    strokeColors: '#7551FF',
+    strokeColors: '#94e2cd',
     strokeWidth: 3,
     strokeOpacity: 0.9,
     strokeDashArray: 0,
@@ -211,7 +211,7 @@ export const lineChartOptionsTotalSpent = {
   },
   plotOptions: {
     column: {
-      color: ['#7551FF', '#39B8FF'],
+      color: ['#94e2cd', '#39B8FF'],
     },
   },
 };

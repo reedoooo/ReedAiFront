@@ -52,7 +52,7 @@ const CustomSuperscript = Superscript.extend({
   excludes: 'subscript',
 });
 
-export default function useExtensions({ placeholder, mentionSuggestions }) {
+export const useExtensions = ({ placeholder, mentionSuggestions }) => {
   return useMemo(() => {
     return [
       TableImproved.configure({
@@ -118,4 +118,4 @@ export default function useExtensions({ placeholder, mentionSuggestions }) {
       History,
     ];
   }, [placeholder]);
-}
+};

@@ -4,7 +4,7 @@ import {
   getChatSessionsByUser as getChatSessionsByUserApi,
   renameChatSession as renameChatSessionApi,
   updateChatSession as updateChatSessionApi,
-} from './chat/chat_session';
+} from './chat/sessions';
 
 export const GET_SESSIONS = 'GET_SESSIONS';
 export const CREATE_SESSION = 'CREATE_SESSION';

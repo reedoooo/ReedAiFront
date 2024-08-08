@@ -8,7 +8,6 @@ import {
   APIModal,
   CodeInsert,
   EmojiDropDown,
-  FileUpload,
   FormTemplatesDropDown,
   SettingsDialog,
   SnippetsDropDown,
@@ -37,6 +36,7 @@ export const InputActions = ({
   const apiModalDialog = useDialog();
   const chatStore = useChatStore();
   const contentMenu = useMenu();
+
   return (
     <Box>
       <CodeInsert editor={editor} theme={theme} />
@@ -49,18 +49,6 @@ export const InputActions = ({
           editor.chain().focus().insertContent(snippet).run();
           snippetsMenu.handleMenuClose();
         }}
-      />
-      <FileUpload
-        showUploaderButton={true}
-        sessionId={chatStore.state.sessionId}
-        onFileChange={event => {
-          const file = event.target.files[0];
-          if (file) {
-            console.log('File selected:', file.name);
-          }
-        }}
-        setFileInput={setFileInput}
-        iconStyle={{ color: theme.palette.primary.main, fontSize: 20 }}
       />
       <FormTemplatesDropDown
         anchorEl={formMenu.anchorEl}

@@ -1,60 +1,142 @@
-function createLocalStorage(options) {
-  const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 7; // Default cache time is one week
+// src/utils/localStorage.js
 
-  const { expire, crypto } = Object.assign(
-    {
-      expire: DEFAULT_CACHE_TIME,
-      crypto: true,
-    },
-    options
-  );
+import React from 'react';
 
-  function set(key, data) {
-    const storageData = {
-      data,
-      expire: expire !== null ? new Date().getTime() + expire * 1000 : null,
+/**
+ * Checks if localStorage is available in the current environment.
+ * @returns {boolean} True if localStorage is available, false otherwise.
+ */
+const isLocalStorageAvailable = () => {
+  try {
+    const testKey = '__test__';
+    localStorage.setItem(testKey, testKey);
+    localStorage.removeItem(testKey);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+/**
+ * Sets an item in localStorage with optional expiration.
+ * @param {string} key - The key to set.
+ * @param {*} value - The value to store.
+ * @param {number} [expirationInMinutes] - Optional expiration time in minutes.
+ */
+export const setItem = (key, value, expirationInMinutes) => {
+  if (!isLocalStorageAvailable()) {
+    console.warn('localStorage is not available');
+    return;
+  }
+
+  try {
+    const item = {
+      value: value,
+      expiration: expirationInMinutes
+        ? new Date().getTime() + expirationInMinutes * 60000
+        : null,
     };
+    localStorage.setItem(key, JSON.stringify(item));
+  } catch (error) {
+    console.error('Error setting localStorage item:', error);
+  }
+};
 
-    const json = JSON.stringify(storageData);
-    window.localStorage.setItem(key, json);
+/**
+ * Gets an item from localStorage.
+ * @param {string} key - The key to retrieve.
+ * @param {*} defaultValue - The default value if the key doesn't exist.
+ * @returns {*} The stored value or the default value.
+ */
+export const getItem = (key, defaultValue = null) => {
+  if (!isLocalStorageAvailable()) {
+    console.warn('localStorage is not available');
+    return defaultValue;
   }
 
-  function get(key) {
-    const json = window.localStorage.getItem(key);
-    if (json) {
-      let storageData = null;
+  try {
+    const itemStr = localStorage.getItem(key);
+    if (!itemStr) return defaultValue;
 
-      try {
-        storageData = JSON.parse(json);
-      } catch {
-        // Prevent failure
-      }
-
-      if (storageData) {
-        const { data, expire } = storageData;
-        if (expire === null || expire >= Date.now()) return data;
-      }
-
-      remove(key);
-      return null;
+    const item = JSON.parse(itemStr);
+    if (item.expiration && new Date().getTime() > item.expiration) {
+      localStorage.removeItem(key);
+      return defaultValue;
     }
+    return item.value;
+  } catch (error) {
+    console.error('Error getting localStorage item:', error);
+    return defaultValue;
+  }
+};
+
+/**
+ * Removes an item from localStorage.
+ * @param {string} key - The key to remove.
+ */
+export const removeItem = key => {
+  if (!isLocalStorageAvailable()) {
+    console.warn('localStorage is not available');
+    return;
   }
 
-  function remove(key) {
-    window.localStorage.removeItem(key);
+  try {
+    localStorage.removeItem(key);
+  } catch (error) {
+    console.error('Error removing localStorage item:', error);
+  }
+};
+
+/**
+ * Clears all items from localStorage.
+ */
+export const clearAll = () => {
+  if (!isLocalStorageAvailable()) {
+    console.warn('localStorage is not available');
+    return;
   }
 
-  function clear() {
-    window.localStorage.clear();
+  try {
+    localStorage.clear();
+  } catch (error) {
+    console.error('Error clearing localStorage:', error);
+  }
+};
+
+/**
+ * Gets all keys from localStorage.
+ * @returns {string[]} An array of all keys in localStorage.
+ */
+export const getAllKeys = () => {
+  if (!isLocalStorageAvailable()) {
+    console.warn('localStorage is not available');
+    return [];
   }
 
-  return {
-    set,
-    get,
-    remove,
-    clear,
+  try {
+    return Object.keys(localStorage);
+  } catch (error) {
+    console.error('Error getting localStorage keys:', error);
+    return [];
+  }
+};
+
+/**
+ * Custom React Hook for using localStorage.
+ * @param {string} key - The key to use in localStorage.
+ * @param {*} initialValue - The initial value if the key doesn't exist.
+ * @returns {[*, Function]} An array with the current value and a setter function.
+ */
+export const useLocalStorage = (key, initialValue) => {
+  const [storedValue, setStoredValue] = React.useState(() => {
+    return getItem(key, initialValue);
+  });
+
+  const setValue = value => {
+    const valueToStore = value instanceof Function ? value(storedValue) : value;
+    setStoredValue(valueToStore);
+    setItem(key, valueToStore);
   };
-}
 
-export const ls = createLocalStorage();
-export const ss = createLocalStorage({ expire: null, crypto: false });
+  return [storedValue, setValue];
+};

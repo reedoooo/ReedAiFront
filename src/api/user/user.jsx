@@ -1,34 +1,29 @@
-import request from '@/utils/request/axios';
-export async function fetchLogin(email, password) {
+import apiUtils from '@/lib/apiUtils';
+
+export const getUserActiveChatSession = async () => {
   try {
-    const response = await request.post('/login', {
-      email,
-      password,
-    });
+    const response = await apiUtils.get(
+      '/chat/chat_session/user_active_sessions'
+    );
     return response.data;
   } catch (error) {
     console.error(error);
     throw error;
   }
-}
-export async function fetchSignUp(email, password) {
+};
+
+// createOrUpdateUserActiveChatSession
+export const createOrUpdateUserActiveChatSession = async chatSessionId => {
   try {
-    const response = await request.post('/signup', {
-      email,
-      password,
-    });
+    const response = await apiUtils.put(
+      '/chat/chat_session/user_active_sessions',
+      {
+        chatSessionId,
+      }
+    );
     return response.data;
   } catch (error) {
     console.error(error);
     throw error;
   }
-}
-export async function updateUserProfile(data) {
-  try {
-    const response = await request.post(`/${data.userId}/profile/update`, data);
-    return response.data; // returns user
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
+};

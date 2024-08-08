@@ -1,6 +1,5 @@
 export * from './ApiModal';
 export * from './CodeInsert';
-export * from './FileUpload';
 export * from './EmojiDropDown';
 export * from './FormTemplatesDropDown';
 export * from './SettingsDialog';

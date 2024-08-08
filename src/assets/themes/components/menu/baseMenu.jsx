@@ -7,9 +7,9 @@ const { text, white } = colors;
 const { borderRadius } = borders;
 
 export default {
-  defaultProps: {
-    disableAutoFocusItem: true,
-  },
+  // defaultProps: {
+  //   disableAutoFocusItem: true,
+  // },
   styleOverrides: {
     paper: {
       minWidth: pxToRem(160),

@@ -1,11 +1,12 @@
-import { Box, Grid, Icon, Paper, styled, alpha } from '@mui/material';
+import { alpha, Box, Grid, Icon, Paper, styled } from '@mui/material';
 
 import { RichTreeView } from '@mui/x-tree-view';
 import { TreeItem, treeItemClasses } from '@mui/x-tree-view/TreeItem';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdAddChart, MdBarChart, MdFileCopy, MdMoney } from 'react-icons/md';
 import { MdAddTask } from 'assets/humanIcons';
-import { IconBox, MiniStatistics } from 'components/index';
+import IconBox from 'assets/humanIcons/utils/IconBox';
+import { MiniStatistics } from 'components/index';
 import { careerTrackerTable } from 'config/data';
 import useMode from 'hooks/useMode';
 import useRouter from 'hooks/useRouter';
@@ -21,7 +22,7 @@ import { Conversion } from './components/Tasks';
 const MainDashboard = () => {
   const { theme } = useMode();
   const boxRef = React.useRef(null);
-  const brandColor = '#422AFB';
+  const brandColor = '#18b984';
   const boxBg = '#cdd5df';
   const [user, setUser] = useState({});
   const { navigate } = useRouter();
@@ -79,12 +80,12 @@ const MainDashboard = () => {
     { id: 'package.json', label: 'package.json' },
     { id: 'README.md', label: 'README.md' },
   ];
-  const storedUserData = JSON.parse(localStorage.getItem('userStorage'));
-  if (!storedUserData) {
-    return navigate('/auth/sign-in');
-  }
+  // const storedUserData = JSON.parse(localStorage.getItem('userStorage'));
+  // if (!storedUserData) {
+  //   return navigate('/auth/sign-in');
+  // }
   return (
-    <Box paddingTop={{ xs: '130px', md: '80px', xl: '80px' }}>
+    <Box paddingTop={{ xs: '130px', sm: '80px' }}>
       {/* <----- Mini Statistics Section -----> */}
       <Grid container spacing={3} mb={3}>
         <Grid item xs={6} md={4} lg={2}>

@@ -56,45 +56,87 @@ export default function Overview() {
     following: '274',
   };
   return (
-    <PageLayout>
-      <Box pt={{ xs: '130px', md: '80px', xl: '80px' }}>
+    <Box pt={{ xs: '130px', sm: '80px' }}>
+      <Grid
+        id="profile-layout-container"
+        container
+        spacing={2}
+        sx={{
+          // pr: '0.5rem',
+          m: 'auto',
+        }}
+      >
         <Grid
-          container
-          spacing={{ xs: 2, xl: 2 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
+          item
+          xs={12}
+          id="col-1"
+          // direction="column"
+          // sx={{
+          //   display: 'flex',
+          //   flexDirection: 'column',
+          //   // width: '100%',
+          // }}
         >
-          <Grid item xs={12} lg={5}>
-            <Banner
-              banner={banner}
-              avatar={userData.image}
-              name={userData.name}
-              job={userData.job}
-              posts={userData.posts}
-              followers={userData.followers}
-              following={userData.following}
-            />
+          <Grid
+            container
+            id="row-1"
+            xs={12}
+            spacing={2}
+            // md={12}
+            // direction="row"
+            // sx={{
+            //   display: 'flex',
+            //   flexDirection: 'column',
+            //   // gap: '1.25rem',
+            //   width: '100%',
+            //   height: 'fit-content',
+            //   mt: '0.75rem',
+            // }}
+          >
+            <Grid id="row-1-col-1" direction="column" item xs={12} md={4}>
+              <Banner
+                banner={banner}
+                avatar={userData.image}
+                name={userData.name}
+                job={userData.job}
+                posts={userData.posts}
+                followers={userData.followers}
+                following={userData.following}
+              />
+            </Grid>
+            <Grid id="row-1-col-2" direction="column" item xs={12} md={3}>
+              <Storage used={25.6} total={50} />
+            </Grid>
+            <Grid id="row-1-col-3" direction="column" item xs={12} md={5}>
+              <Upload
+              // minHeight={{ xs: 'auto', lg: '420px', xl: '365px' }}
+              // paddingRight="20px"
+              // paddingBottom={{ xs: '100px', lg: '20px' }}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={12} lg={4}>
-            <Storage used={25.6} total={50} />
+          <Grid xs={12} id="row-2" direction="row" container>
+            <Grid
+              item
+              id="row-2-col-1"
+              direction="column"
+              xs={12}
+              md={6}
+              sx={{ marginBottom: '20px' }}
+            >
+              <Projects />
+            </Grid>
+            <Grid item id="row-2-col-2" direction="column" xs={12} md={6}>
+              <General minHeight="365px" paddingRight="20px" />
+            </Grid>
           </Grid>
-          <Grid item xs={12} lg={3}>
-            <Upload
-            // minHeight={{ xs: 'auto', lg: '420px', xl: '365px' }}
-            // paddingRight="20px"
-            // paddingBottom={{ xs: '100px', lg: '20px' }}
-            />
-          </Grid>
-          <Grid item xs={12} lg={6} sx={{ marginBottom: '20px' }}>
-            <Projects />
-          </Grid>
-          <Grid item xs={12} lg={6}>
-            <General minHeight="365px" paddingRight="20px" />
-          </Grid>
-          <Grid item xs={12} lg={6}>
-            <Notifications />
+          <Grid xs={12} id="row-3" direction="row" container>
+            <Grid item id="row-3-col-1" direction="column" xs={12}>
+              <Notifications />
+            </Grid>
           </Grid>
         </Grid>
-      </Box>
-    </PageLayout>
+      </Grid>
+    </Box>
   );
 }

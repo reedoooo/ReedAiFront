@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const useRouter = () => {
+export const useRouter = () => {
   const navigate = useNavigate();
   const handleNavigate = useCallback(
     dest => {
