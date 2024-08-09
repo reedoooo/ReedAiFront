@@ -13,11 +13,6 @@ import {
   Typography,
 } from '@mui/material';
 
-import { CancelIcon, CheckCircleIcon } from 'assets/humanIcons';
-import { Card } from 'components/index';
-import MainMenu from 'components/themed/CommonUi/menu/MainMenu';
-import configs from 'config/index';
-import useMode from 'hooks/useMode';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import {
@@ -26,6 +21,11 @@ import {
   useSortBy,
   useTable,
 } from 'react-table';
+import { CancelIcon, CheckCircleIcon } from 'assets/humanIcons';
+import { Card } from 'components/index';
+import MainMenu from 'components/themed/CommonUi/menu/MainMenu';
+import configs from 'config/index';
+import useMode from 'hooks/useMode';
 
 // ==============================|| DASHBOARD JOB TRACKER ||============================== //
 

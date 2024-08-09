@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import React from 'react';
 import { useChatStore } from 'contexts/ChatProvider';
 import useDialog from 'hooks/useDialog';
 import useMenu from 'hooks/useMenu';

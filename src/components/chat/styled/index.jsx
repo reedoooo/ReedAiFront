@@ -1,25 +1,22 @@
 /* eslint-disable no-empty */
 /* eslint-disable no-constant-condition */
-import { Tab, TabList } from '@headlessui/react';
 import {
-  CircularProgress,
-  Grid,
+  Tab as RadixUiTab,
+  TabList as RadixUiTabList,
+} from '@headlessui/react';
+import {
   Paper,
   Typography,
   Box,
   Button,
-  Card,
-  Divider,
-  Popover,
-  styled,
   TextareaAutosize,
   TextField,
-  useMediaQuery,
-  Container,
-  IconButton,
-  Drawer,
   Avatar,
   Tabs,
+  styled,
+  Slider,
+  FormControlLabel,
+  IconButton,
 } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -122,55 +119,86 @@ export const StyledPanelHeaderButton = styled(Button)(({ theme }) => ({
   textTransform: 'none',
 }));
 
+export const WorkspaceCreatorContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  padding: '20px',
+  borderRadius: '8px',
+  border: '1px solid rgba(255, 255, 255, 0.12)',
+}));
+
 export const TabSectionContainer = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
   justifyContent: 'space-between',
 });
-
+export const StyledSlider = styled(Slider)({
+  color: '#ffffff',
+  '& .MuiSlider-thumb': {
+    color: '#18b984', // Slider button color
+  },
+  '& .MuiSlider-track': {
+    color: 'white', // Slider track color
+  },
+  '& .MuiSlider-rail': {
+    color: 'white', // Slider rail color
+  },
+});
+export const StyledSwitchFormControlLabel = styled(FormControlLabel)({
+  color: '#ffffff',
+  fontSize: '0.875rem', // Directly targeting the label font size
+  '& .MuiFormControlLabel-label': {
+    fontSize: '0.875rem', // Directly targeting the label font size
+  },
+  '& .MuiSwitch-root .Mui-checked': {
+    color: '#ffffff',
+  },
+  // '&.MuiIconButton-root': {
+  //   color: '#ffffff',
+  // },
+});
 export const StyledTextField = styled(TextField)({
   margin: '10px 0',
-  '& label': {
-    color: '#fff',
-    '&.Mui-focused': { color: 'grey' },
-  },
-  '& .MuiInputUnderline:after': { borderBottomColor: 'grey' },
+  color: '#ffffff',
+  '& label': 'none',
   '& .MuiOutlinedInput-root': {
-    '& fieldset': { borderColor: 'grey' },
-    '&:hover fieldset': { borderColor: 'grey' },
-    '&.Mui-focused fieldset': { borderColor: 'grey' },
+    '& fieldset': {
+      color: '#fff',
+      borderColor: 'grey',
+      transition: 'border-color 0.2s',
+    },
+    '&:hover fieldset': { borderColor: '#fff' },
+    '&.Mui-focused fieldset': { borderColor: '#18b984' },
   },
   '& .MuiInputBase-input': { color: '#fff', background: '#000' },
+  '& .MuiInputUnderline:after': { borderBottomColor: 'grey' },
 });
 
 export const StyledTextareaAutosize = styled(TextareaAutosize)(({ theme }) => ({
   width: '100%',
+  margin: '10px 0',
   resize: 'none',
   background: '#000',
   color: '#fff',
-  border: '1px solid #dcdcdc',
-  padding: '8px',
+  // border: '1px solid #dcdcdc',
+  // padding: '10px',
   flex: '1 1 auto',
+  padding: '16.5px 14px', // Matches TextField padding
   borderRadius: '4px',
   borderColor: 'grey',
+  border: '1px solid transparent', // Start with transparent border
+  outline: '1px solid grey', // Add outline to mimic TextField
   fontSize: theme.typography.pxToRem(14),
   '& .MuiInputUnderline:after': {
     borderBottomColor: 'grey',
   },
-  '& .MuiOutlinedInputRoot': {
-    '& fieldset': { borderColor: 'grey' },
-    '&:hover fieldset': { borderColor: 'grey' },
-    '&.Mui-focused fieldset': { borderColor: 'grey' },
-  },
+
   '& .MuiInputBaseInput': {
     color: '#fff',
     background: '#000',
   },
-  // '& label': {
-  //   color: '#fff',
-  //   '&.Mui-focused': { color: 'grey' },
-  // },
   '&:focus-visible': {
     outline: `2px solid ${theme.palette.primary.main}`,
   },
@@ -189,7 +217,7 @@ export const StyledButton = styled(Button)(({ theme }) => ({
   margin: '10px 0',
 }));
 
-export const StyledTabs = styled(TabList)(({ theme }) => ({
+export const StyledTabs = styled(RadixUiTabList)(({ theme }) => ({
   background: '#808080',
   borderRadius: '14px',
   width: '100%',
@@ -203,6 +231,7 @@ export const StyledTabs = styled(TabList)(({ theme }) => ({
     height: 'auto',
   },
 }));
+
 export const StyledMotionTabs = styled(motion(Tabs))({
   background: '#808080',
   borderRadius: '5px',
@@ -212,7 +241,8 @@ export const StyledMotionTabs = styled(motion(Tabs))({
     margin: '5px',
   },
 });
-export const AnimatedTab = styled(motion(Tab))(({ theme }) => ({
+
+export const AnimatedTab = styled(motion(RadixUiTab))(({ theme }) => ({
   position: 'relative',
   listStyle: 'none',
   cursor: 'pointer',
@@ -264,7 +294,6 @@ export const AnimatedTab = styled(motion(Tab))(({ theme }) => ({
 }));
 
 /* --- CHAT - MAIN CHAT COMPONENT --- */
-
 export const StyledChatContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -288,12 +317,12 @@ export const ChatWindow = styled(Paper)(({ theme }) => ({
 }));
 
 export const Header = styled(Box)(({ theme }) => ({
-  // padding: theme.spacing(2),
   backgroundColor: 'transparent',
   borderBottom: `1px solid ${theme.palette.primary.main}`,
   display: 'flex',
   flexDirection: 'row',
   width: '100%',
+  maxHeight: '70px',
   flexGrow: 1,
 }));
 
@@ -336,8 +365,34 @@ export const ChatBubbleTypographyWrapper = styled(Typography)({
   overflowWrap: 'break-word',
 });
 
-/* --- CHAT - MESSAGE CODEBLOCK --- */
-
+export const ChatMessageActionsContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center', // Align items vertically
+  width: '100%', // Make sure it takes the full width
+}));
+export const ChatMessageIconContainer = styled(IconButton)(({ theme }) => ({
+  color: theme.palette.primary.main,
+  fontSize: 20,
+  border: `1px solid ${theme.palette.tertiary.light}`,
+  borderRadius: '5px',
+  transition:
+    'background-color 0.3s, border-color 0.3s, box-shadow 0.3s, color 0.3s', // Smooth transition
+  '&:hover': {
+    backgroundColor: theme.palette.primary.main, // Change background color on hover
+    color: theme.palette.primary.contrastText, // Change icon color on hover for contrast
+    borderColor: theme.palette.primary.main, // Keep border consistent
+    boxShadow: '0 3px 15px 5px rgba(49, 97, 255, 0.2)', // Slightly stronger shadow on hover
+  },
+}));
+export const ChatMessageEditorContentsContainer = styled(Box)(({ theme }) => ({
+  backgroundColor: '#333',
+  borderRadius: 1,
+  p: 2,
+  color: 'white',
+  width: '100%',
+}));
 /*  --- CHAT - FILES --- */
 export const FileItemsPreviewContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -350,6 +405,7 @@ export const FileItemsPreviewContainer = styled(Box)(({ theme }) => ({
     outline: 'none',
   },
 }));
+
 export const SelectedFileItemsContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   display: 'flex',

@@ -26,7 +26,6 @@ const MuiModeBasedStyles = {
       gradient: 'linear-gradient(180deg, #18b984, #5CDB95)',
     },
   },
-
   secondary: {
     light: {
       lighter: '#70a1ff',
@@ -49,6 +48,34 @@ const MuiModeBasedStyles = {
       focus: rgba('#3a539b' || '#eef2f6', 0.15),
       contrastText: '#eef2f6',
       gradient: 'linear-gradient(180deg, #3a539b, #3C40C6)',
+    },
+  },
+  tertiary: {
+    light: {
+      lightest: '#f8f9fa', // Lightest shade in the palette
+      lighter: '#F3F6F9', // Slightly darker than the lightest
+      light: '#E5EAF2', // A light shade
+      main: '#DAE2ED', // Main light color
+      secondary: '#C7D0DD', // Secondary light shade
+      tertiary: '#B0B8C4', // Tertiary light shade
+      dark: '#9DA8B7', // A darker variant of the light colors
+      darker: '#6B7A90', // Darker still, approaching mid-tones
+      darkest: '#434D5B', // The darkest of the light gradient
+      gradientStart: '#303740', // Start of the gradient, transitioning to darker shades
+      gradientEnd: '#1C2025', // End of the gradient, the darkest point
+    },
+    dark: {
+      lightest: '#f8f9fa', // Lightest shade in the palette
+      lighter: '#F3F6F9', // Slightly darker than the lightest
+      light: '#E5EAF2', // A light shade
+      main: '#DAE2ED', // Main light color
+      secondary: '#C7D0DD', // Secondary light shade
+      tertiary: '#B0B8C4', // Tertiary light shade
+      dark: '#9DA8B7', // A darker variant of the light colors
+      darker: '#6B7A90', // Darker still, approaching mid-tones
+      darkest: '#434D5B', // The darkest of the light gradient
+      gradientStart: '#303740', // Start of the gradient, transitioning to darker shades
+      gradientEnd: '#1C2025', // End of the gradient, the darkest point
     },
   },
   text: {
@@ -270,6 +297,7 @@ export const colors = {
   // ||==========================================||
   primary: MuiModeBasedStyles.primary,
   secondary: MuiModeBasedStyles.secondary,
+  tertiary: MuiModeBasedStyles.tertiary,
   text: MuiModeBasedStyles.text,
   icon: MuiModeBasedStyles.icon,
   background: MuiModeBasedStyles.background,

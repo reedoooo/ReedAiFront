@@ -8,9 +8,9 @@ import {
   IconButton,
   TextField,
 } from '@mui/material';
-import React, { useContext, useRef, useState } from 'react';
 import { useChatStore } from 'contexts/ChatProvider';
-import { updateFolder } from '../../Folders';
+import React, { useRef, useState } from 'react';
+import { updateFolder } from '../folder-items/Folders';
 
 const UpdateFolder = ({ folder }) => {
   const {

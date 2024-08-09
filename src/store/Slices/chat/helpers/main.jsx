@@ -1,5 +1,5 @@
 import { uniqueId } from 'lodash';
-import { defaultUserSessionData } from './defaultData';
+import { DEFAULTS, defaultUserSessionData } from './defaultData';
 // Utility function to process files based on file type
 export const processFilesUtility = (files, fileType) => {
   if (fileType === 'png') {
@@ -65,4 +65,20 @@ export const getLocalUserSessionData = () => {
 
 export const setLocalUserSessionData = data => {
   localStorage.setItem('userSession', JSON.stringify(data));
+};
+
+export const getLocalData = (LOCAL_NAME, REDUX_NAME) => {
+  console.log(
+    `LOCAL_NAME: ${LOCAL_NAME}`,
+    'stringify' + JSON.stringify(LOCAL_NAME),
+    'regular' + LOCAL_NAME
+  );
+  const localData = JSON.parse(localStorage.getItem(LOCAL_NAME) || '{}');
+  const defaultData = DEFAULTS[REDUX_NAME];
+  console.log('LocalData:', localData);
+  return { ...defaultData, ...localData };
+};
+
+export const setLocalData = (LOCAL_NAME, data) => {
+  localStorage.setItem(LOCAL_NAME, JSON.stringify(data));
 };

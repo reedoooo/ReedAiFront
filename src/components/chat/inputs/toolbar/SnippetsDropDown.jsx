@@ -1,22 +1,4 @@
-import {
-  Box,
-  Button,
-  Typography,
-  Switch,
-  FormControlLabel,
-  IconButton,
-  Card,
-  CardContent,
-  CardActions,
-  Dialog,
-  Tabs,
-  Tab,
-  Menu,
-  MenuItem,
-  DialogTitle,
-  DialogContent,
-  Grid,
-} from '@mui/material';
+import { IconButton, Menu, MenuItem } from '@mui/material';
 import { AddIcon } from 'assets/humanIcons';
 export const SnippetsDropDown = ({
   anchorEl,

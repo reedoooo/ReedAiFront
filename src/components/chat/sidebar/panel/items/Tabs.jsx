@@ -18,7 +18,7 @@ import {
   CurrentPromptRenderer,
   StyledButton,
   StyledTextField,
-} from './AnimatedTabComponents';
+} from './cleanup/AnimatedTabComponents';
 
 const CreateTab = ({
   newPrompt,

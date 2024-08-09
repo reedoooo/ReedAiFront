@@ -1,7 +1,6 @@
-import { Description } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';
 import { FiX } from 'react-icons/fi';
-import { FileIcon, getFileExtension } from '@/lib/fileUtils';
+import { FileIcon } from '@/lib/fileUtils';
 import { useFileProcesser } from 'hooks/chat';
 
 export const File = ({ file }) => {

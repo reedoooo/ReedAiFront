@@ -98,11 +98,11 @@ export const useTipTapEditor = () => {
   //     editor.commands.setContent(content);
   //   }
   // }, [content, editor]);
-  useEffect(() => {
-    if (editor) {
-      setUserInput(editor.getText());
-    }
-  }, [editor, setUserInput]);
+  // useEffect(() => {
+  //   if (editor) {
+  //     setUserInput(editor.getText());
+  //   }
+  // }, [editor, setUserInput]);
   return {
     editor,
     content,

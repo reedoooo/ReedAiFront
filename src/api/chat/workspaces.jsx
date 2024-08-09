@@ -1,4 +1,4 @@
-import apiUtils from '@/lib/apiUtils';
+import { apiUtils } from '@/lib/apiUtils';
 
 export const workspaces = {
   getAll: async () => {
@@ -28,7 +28,10 @@ export const workspaces = {
    */
   create: async workspaceData => {
     try {
-      const data = await apiUtils.post('/chat/workspaces', workspaceData);
+      const data = await apiUtils.post(
+        '/chat/workspaces/create',
+        workspaceData
+      );
       return data;
     } catch (error) {
       console.error('Error creating workspace:', error);

@@ -1,5 +1,4 @@
 /* eslint-disable react/no-children-prop */
-import { css } from '@emotion/react';
 import { Box, Typography, IconButton } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';

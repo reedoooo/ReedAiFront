@@ -11,9 +11,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useFormik } from 'formik';
-import React, { useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
 import {
   FacebookIcon,
   GitHubIcon,
@@ -24,7 +21,10 @@ import { StyledIconContainer } from 'components/styled';
 import { RCBox, RCButton, RCTypography } from 'components/themed';
 import { authConfigs } from 'config/form-configs';
 import { useAuthStore } from 'contexts/AuthProvider';
+import { useFormik } from 'formik';
 import useMode from 'hooks/useMode';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { dispatch } from 'store/index';
 import { toggleDialogState } from 'store/Slices/appSlice';
 import LoadingIndicator from 'utils/app/LoadingIndicator';
@@ -137,7 +137,7 @@ export const AuthPages = () => {
     initDialogToggle();
     onClose();
   };
-  const storedUserData = JSON.parse(localStorage.getItem('userStorage'));
+  const storedUserData = JSON.parse(localStorage.getItem('userStore'));
   useEffect(() => {
     if (isAuthenticated) {
       return navigate('/admin/dashboard');

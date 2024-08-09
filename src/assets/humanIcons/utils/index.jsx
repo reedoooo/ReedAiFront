@@ -1,3 +1,4 @@
-export const Icon = ({ icon }) => (
-  <span className="material-symbols-outlined">{icon}</span>
-);
+export * from './DarkIconBox';
+export * from './LightIconBox';
+export * from './IconBox';
+export * from './Icon';

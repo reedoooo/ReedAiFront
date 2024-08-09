@@ -1,51 +1,17 @@
 // src/redux/fileSlice.js
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { uniqueId } from 'lodash';
-import apiUtils from '@/lib/apiUtils';
 import { chatFiles } from 'api/chat';
-import { createAsyncAction, normalizeArray } from 'utils/redux/main';
+import { getLocalData, setLocalData, getNewPromptId } from './helpers';
 import { setPrompts } from './promptSlice';
 
-// Initial state for file slice
-const initialState = {
-  byId: {},
-  allIds: [],
-  files: [
-    // {
-    //   id: uniqueId(),
-    //   fileType: 'file',
-    //   type: 'file',
-    //   name: 'example_json.json',
-    //   ext: 'json',
-    //   content: {
-    //     prompt: 'This is an example JSON file.',
-    //   },
-    //   url: null,
-    // },
-    // {
-    //   id: uniqueId(),
-    //   fileType: 'image',
-    //   type: 'image',
-    //   name: 'example_jpg.jpg',
-    //   ext: 'jpg',
-    //   content: null,
-    //   url: 'https://via.placeholder.com/100',
-    // },
-  ],
-  chatFiles: [],
-  chatImages: [],
-  newMessageFiles: [],
-  newMessageImages: [],
-  previewFiles: [],
-  previewUrls: [],
-  selectedFiles: [],
-  uploadedFiles: [],
-  showFilesDisplay: false,
-  fileRequest: {
-    status: 'idle',
-    error: null,
-  },
-};
+const LOCAL_NAME = 'fileStore';
+const REDUX_NAME = 'files';
+
+const initialState = getLocalData(LOCAL_NAME, REDUX_NAME);
+
+function setLocalFileData(data) {
+  setLocalData(LOCAL_NAME, data);
+}
 
 // Thunk to fetch all images
 export const fetchAllImages = createAsyncThunk(
@@ -142,48 +108,16 @@ export const fetchFileData = createAsyncThunk(
   }
 );
 
-// Async thunk for processing files
-// export const processFiles = createAsyncAction(
-//   'files/processFiles',
-//   async ({ files, fileType }) => {
-//     console.log('newFiles:', files);
-//     if (fileType === 'png') {
-//       const pngFiles = files?.filter(file => file.type === 'png') || [];
-//       localStorage.setItem('pngFiles', JSON.stringify(pngFiles));
-//       return normalizeArray(pngFiles);
-//     } else if (fileType === 'json') {
-//       const organizedFiles = files.map(file => ({
-//         id: getNewPromptId(file.name),
-//         title: file.name,
-//         content: file.content,
-//         type: 'json',
-//       }));
-//       localStorage.setItem('customPrompts', JSON.stringify(organizedFiles));
-//       return normalizeArray(organizedFiles);
-//     }
-//     throw new Error('Unsupported file type');
-//   }
-// );
-
-const getNewPromptId = file => {
-  const id = file.split('/').pop().split('.')[0];
-  const idParts = id.split('-');
-  return uniqueId(idParts[idParts.length - 1]);
-};
-
 // File slice with reducers
 export const fileSlice = createSlice({
-  name: 'files',
+  name: REDUX_NAME,
   initialState,
   reducers: {
     setFiles: (state, action) => {
-      console.log('files:', action.payload);
-
+      console.log('Setting files:', action.payload);
       if (Array.isArray(action.payload)) {
         state.files = action.payload;
-        // action.payload.forEach(file => {
-        //   state.files[file.id] = file;
-        // });
+        setLocalFileData({ ...state, files: action.payload });
       } else if (
         typeof action.payload === 'object' &&
         action.payload !== null
@@ -236,7 +170,6 @@ export const fileSlice = createSlice({
         state.fileRequest.status = 'failed';
         state.fileRequest.error = action.error.message;
       })
-      // Handle fetchAllImages
       .addCase(fetchAllImages.pending, state => {
         state.status = 'loading';
       })
@@ -248,7 +181,6 @@ export const fileSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-      // Handle fetchAllFiles
       .addCase(fetchAllFiles.pending, state => {
         state.status = 'loading';
       })
@@ -260,43 +192,7 @@ export const fileSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       });
-    // .addCase(processFiles.fulfilled, (state, action) => {
-    //   const newFiles = action.payload;
-    //   console.log('newFiles:', newFiles);
-    //   state.byId = { ...state.byId, ...newFiles.byId };
-    //   state.allIds = [...state.allIds, ...newFiles.allIds];
-    //   state.fileRequest.status = 'succeeded';
-    // })
-    // .addCase(processFiles.rejected, (state, action) => {
-    //   state.fileRequest.status = 'failed';
-    //   state.fileRequest.error = action.error.message;
-    // });
   },
-  // extraReducers: builder => {
-  //   builder
-  //     .addCase(fetchFileData.pending, state => {
-  //       state.fileRequest.status = 'loading';
-  //     })
-  //     .addCase(fetchFileData.fulfilled, (state, action) => {
-  //       state.byId = action.payload.byId;
-  //       state.allIds = action.payload.allIds;
-  //       state.fileRequest.status = 'succeeded';
-  //     })
-  //     .addCase(fetchFileData.rejected, (state, action) => {
-  //       state.fileRequest.status = 'failed';
-  //       state.fileRequest.error = action.error.message;
-  //     })
-  //     .addCase(processFiles.fulfilled, (state, action) => {
-  //       const newFiles = action.payload;
-  //       state.byId = { ...state.byId, ...newFiles.byId };
-  //       state.allIds = [...state.allIds, ...newFiles.allIds];
-  //       state.fileRequest.status = 'succeeded';
-  //     })
-  //     .addCase(processFiles.rejected, (state, action) => {
-  //       state.fileRequest.status = 'failed';
-  //       state.fileRequest.error = action.error.message;
-  //     });
-  // },
 });
 
 export const {
@@ -313,3 +209,80 @@ export const {
 } = fileSlice.actions;
 
 export default fileSlice.reducer;
+// Initial state for file slice
+// const initialState = {
+//   byId: {},
+//   allIds: [],
+//   files: [],
+//   chatFiles: [],
+//   chatImages: [],
+//   newMessageFiles: [],
+//   newMessageImages: [],
+//   previewFiles: [],
+//   previewUrls: [],
+//   selectedFiles: [],
+//   uploadedFiles: [],
+//   showFilesDisplay: false,
+//   fileRequest: {
+//     status: 'idle',
+//     error: null,
+//   },
+// };
+// Async thunk for processing files
+// export const processFiles = createAsyncAction(
+//   'files/processFiles',
+//   async ({ files, fileType }) => {
+//     console.log('newFiles:', files);
+//     if (fileType === 'png') {
+//       const pngFiles = files?.filter(file => file.type === 'png') || [];
+//       localStorage.setItem('pngFiles', JSON.stringify(pngFiles));
+//       return normalizeArray(pngFiles);
+//     } else if (fileType === 'json') {
+//       const organizedFiles = files.map(file => ({
+//         id: getNewPromptId(file.name),
+//         title: file.name,
+//         content: file.content,
+//         type: 'json',
+//       }));
+//       localStorage.setItem('customPrompts', JSON.stringify(organizedFiles));
+//       return normalizeArray(organizedFiles);
+//     }
+//     throw new Error('Unsupported file type');
+//   }
+// );
+// .addCase(processFiles.fulfilled, (state, action) => {
+//   const newFiles = action.payload;
+//   console.log('newFiles:', newFiles);
+//   state.byId = { ...state.byId, ...newFiles.byId };
+//   state.allIds = [...state.allIds, ...newFiles.allIds];
+//   state.fileRequest.status = 'succeeded';
+// })
+// .addCase(processFiles.rejected, (state, action) => {
+//   state.fileRequest.status = 'failed';
+//   state.fileRequest.error = action.error.message;
+// });
+// extraReducers: builder => {
+//   builder
+//     .addCase(fetchFileData.pending, state => {
+//       state.fileRequest.status = 'loading';
+//     })
+//     .addCase(fetchFileData.fulfilled, (state, action) => {
+//       state.byId = action.payload.byId;
+//       state.allIds = action.payload.allIds;
+//       state.fileRequest.status = 'succeeded';
+//     })
+//     .addCase(fetchFileData.rejected, (state, action) => {
+//       state.fileRequest.status = 'failed';
+//       state.fileRequest.error = action.error.message;
+//     })
+//     .addCase(processFiles.fulfilled, (state, action) => {
+//       const newFiles = action.payload;
+//       state.byId = { ...state.byId, ...newFiles.byId };
+//       state.allIds = [...state.allIds, ...newFiles.allIds];
+//       state.fileRequest.status = 'succeeded';
+//     })
+//     .addCase(processFiles.rejected, (state, action) => {
+//       state.fileRequest.status = 'failed';
+//       state.fileRequest.error = action.error.message;
+//     });
+// },

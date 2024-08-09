@@ -1,50 +1,61 @@
-import { Dropdown } from '@mui/base/Dropdown';
+import { InformationCircleIcon } from '@heroicons/react/24/outline';
+import { Dropdown as BaseDropdown } from '@mui/base/Dropdown';
+import { Menu as BaseMenu } from '@mui/base/Menu';
 import { MenuButton as BaseMenuButton } from '@mui/base/MenuButton';
 import { MenuItem as BaseMenuItem, menuItemClasses } from '@mui/base/MenuItem';
-
 import { CssTransition } from '@mui/base/Transitions';
 import { PopupContext } from '@mui/base/Unstable_Popup';
-import HomeIcon from '@mui/icons-material/Home';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { Tabs, Tab, Box, IconButton, Typography, Menu } from '@mui/material';
+import { Box, createSvgIcon, IconButton, Tab, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
-import { FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
-import { FiChevronDown, FiSettings } from 'react-icons/fi';
-import { EditIcon, UploadFileIcon } from 'assets/humanIcons';
+import { FiSettings } from 'react-icons/fi';
+import { workspaces as workspacesApi } from 'api/chat';
+import { SettingsIcon } from 'assets/humanIcons';
 import {
   PanelHeaderRow,
   StyledButton,
   StyledMotionTabs,
   StyledPanelHeaderButton,
+  StyledSlider,
+  StyledSwitchFormControlLabel,
   StyledTextareaAutosize,
   StyledTextField,
+  WorkspaceCreatorContainer,
 } from 'components/chat/styled';
+import { RCOption, RCSelect } from 'components/themed';
+import { DEFAULT_APP_DATA } from 'config/app-data-configs';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useUserStore } from 'contexts/UserProvider';
+import { useDialog } from 'hooks/useDialog';
 import { useMode } from 'hooks/useMode';
-import { ChatFolders } from './ChatFolder';
-import { WorkspacesHeader } from './components/WorkspacesHeader';
+import {
+  WorkspaceCreatorForm,
+  WorkspaceFolders,
+  WorkspaceItemValues,
+} from './items';
+
 export const Workspace = () => {
   const [tab, setTab] = useState(0);
   const { theme } = useMode();
   const { state: chatState, actions: chatActions } = useChatStore();
   const { state: userState, actions: userActions } = useUserStore();
-  const { workspaceId } = chatState;
+  const { user, userId } = userState;
   const {
-    user: { workspaces, folders },
-    userId,
-  } = userState;
-  const { setWorkspaceId, setFolders, setActiveWorkspace } = chatActions;
+    workspaces,
+    chatSessions,
+    modelNames,
+    presets,
+    prompts,
+    models,
+    collections,
+    files,
+    assistants,
+    tools,
+  } = chatState;
+  const { setActiveWorkspace } = chatActions;
   const [selectedTab, setSelectedTab] = useState('main');
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [instructions, setInstructions] = useState('');
   const itemRef = useRef(null);
-  const [isHovering, setIsHovering] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const createHandleMenuClick = menuItem => {
     return () => {
@@ -74,100 +85,6 @@ export const Workspace = () => {
   };
   return (
     <>
-      {/* <Box
-        ref={itemRef}
-        sx={{
-          '&:hover': {
-            backgroundColor: 'accent.main',
-            opacity: 0.5,
-          },
-          display: 'flex',
-          width: '100%',
-          cursor: 'pointer',
-          alignItems: 'center',
-          borderRadius: '4px',
-          padding: '8px',
-          outline: 'none',
-        }}
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      >
-        <EditIcon sx={{ fontSize: 30 }} />{' '}
-        <Typography
-          sx={{
-            marginLeft: '12px',
-            flex: 1,
-            textOverflow: 'ellipsis',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            fontSize: '14px',
-            fontWeight: '600',
-          }}
-        >
-          Workspaces
-        </Typography>
-      </Box> */}
-
-      {/* <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          marginBottom: '20px',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <select
-            onChange={e => setWorkspaceId(e.target.value)}
-            value={workspaceId}
-          >
-            {workspaces.map(workspace => (
-              <option key={workspace._id} value={workspace._id}>
-                {workspace.name}
-              </option>
-            ))}
-          </select>
-          <button
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#ffffff',
-              cursor: 'pointer',
-            }}
-          >
-            ⚙️
-          </button>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginTop: '10px',
-          }}
-        >
-          <button onClick={() => console.log('New Session')}>New Chat</button>
-          <button
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#ffffff',
-              cursor: 'pointer',
-            }}
-            onClick={() => console.log('Open Folder')}
-          >
-            📁
-          </button>
-        </div>
-      </div> */}
-      {/* <WorkspacesHeader /> */}
       <PanelHeaderRow theme={theme}>
         <Box display="flex" alignItems="center">
           <Typography
@@ -179,36 +96,46 @@ export const Workspace = () => {
           >
             Workspace:
           </Typography>
-          <StyledPanelHeaderButton theme={theme}>
-            <Dropdown>
-              <MenuButton>My account</MenuButton>
-              <Menu slots={{ listbox: AnimatedListbox }}>
-                <MenuItem onClick={createHandleMenuClick('Profile')}>
-                  Profile
-                </MenuItem>
-                <MenuItem onClick={createHandleMenuClick('Language settings')}>
-                  Language settings
-                </MenuItem>
-                <MenuItem onClick={createHandleMenuClick('Log out')}>
-                  Log out
-                </MenuItem>
-              </Menu>
-            </Dropdown>
-          </StyledPanelHeaderButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={() => handleWorkspaceClose()}
-          >
-            {workspaces?.map(workspace => (
-              <MenuItem
-                key={workspace}
-                onClick={() => handleWorkspaceClose(workspace)}
+          {/* <StyledPanelHeaderButton theme={theme}> */}
+          {/* <Dropdown>
+            <MenuButton>My account</MenuButton>
+            <Menu slots={{ listbox: AnimatedListbox }}>
+              <BaseMenuItem onClick={createHandleMenuClick('Profile')}>
+                Profile
+              </BaseMenuItem>
+              <BaseMenuItem
+                onClick={createHandleMenuClick('Language settings')}
               >
-                {workspace}
-              </MenuItem>
-            ))}
-          </Menu>
+                Language settings
+              </BaseMenuItem>
+              <BaseMenuItem onClick={createHandleMenuClick('Log out')}>
+                Log out
+              </BaseMenuItem>
+            </Menu>
+          </Dropdown> */}
+          {/* </StyledPanelHeaderButton> */}
+          <BaseDropdown>
+            <MenuButton>Workspaces</MenuButton>
+            <BaseMenu
+              // anchorEl={anchorEl}
+              // open={Boolean(anchorEl)}
+              // onClose={() => handleWorkspaceClose()}
+              slots={{
+                listbox: AnimatedListbox,
+              }}
+            >
+              {workspaces?.map(workspace => (
+                <MenuItem
+                  key={workspace.name}
+                  // onClick={() => handleWorkspaceClose(workspace.name)}
+                  onClick={createHandleMenuClick(workspace.name)}
+                >
+                  {console.log('WPRKSPACE', workspace)}
+                  {workspace.name}
+                </MenuItem>
+              ))}
+            </BaseMenu>
+          </BaseDropdown>
         </Box>
         <IconButton>
           <FiSettings />
@@ -219,7 +146,7 @@ export const Workspace = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          padding: '1rem',
+          padding: '0.5rem',
           color: 'white',
           borderRadius: '14px',
           background: '#1c1c1c', // Slightly different background for the panel to distinguish it
@@ -238,99 +165,22 @@ export const Workspace = () => {
           <Tab label="Folders" style={{ color: '#fff', borderRadius: '5px' }} />
         </StyledMotionTabs>
       </Box>
-      {tab === 0 && (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="subtitle2">Name</Typography>
-            <StyledTextField
-              theme={theme}
-              label="Workspace Name"
-              variant="outlined"
-              fullWidth
-              value={name}
-              onChange={e => setName(e.target.value)}
-            />
-          </Box>
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="subtitle2">Instructions</Typography>
-
-            <StyledTextareaAutosize
-              theme={theme}
-              minRows={3}
-              placeholder="Instructions..."
-              value={instructions}
-              onChange={e => setInstructions(e.target.value)}
-              // style={{
-              //   width: '100%',
-              //   padding: 8,
-              //   borderRadius: '5px',
-              //   borderColor: '#fff',
-              // }}
-            />
-          </Box>
-        </Box>
-      )}
+      {tab === 0 && <WorkspaceCreatorForm />}
       {tab === 1 && (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            // alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="subtitle2">Name</Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
-              <StyledButton
-                variant="outlined"
-                onClick={() => setSelectedTab('main')}
-              >
-                Cancel
-              </StyledButton>
-              <StyledButton variant="contained" onClick={handleSave}>
-                Save
-              </StyledButton>
-            </Box>
-          </Box>
-        </Box>
+        <WorkspaceItemValues
+          workspaces={workspaces}
+          chatSessions={chatSessions}
+          modelNames={modelNames}
+          presets={presets}
+          prompts={prompts}
+          models={models}
+          collections={collections}
+          files={files}
+          assistants={assistants}
+          tools={tools}
+        />
       )}
-      {tab === 2 && (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            // alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Box sx={{ mt: 2 }}>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: '100%',
-                // alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Box sx={{ mt: 2 }}>
-                <Typography variant="subtitle2">Folder</Typography>
-                <ChatFolders />
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-      )}
+      {tab === 2 && <WorkspaceFolders />}
     </>
   );
 };
@@ -401,6 +251,7 @@ const Listbox = styled('ul')(
   }
   `
 );
+
 const AnimatedListbox = React.forwardRef(function AnimatedListbox(props, ref) {
   const { ownerState, ...other } = props;
   const popupContext = React.useContext(PopupContext);
@@ -423,11 +274,9 @@ const AnimatedListbox = React.forwardRef(function AnimatedListbox(props, ref) {
     </CssTransition>
   );
 });
-
 AnimatedListbox.propTypes = {
   ownerState: PropTypes.object.isRequired,
 };
-
 const MenuItem = styled(BaseMenuItem)(
   ({ theme }) => `
   list-style: none;
@@ -451,7 +300,6 @@ const MenuItem = styled(BaseMenuItem)(
   }
   `
 );
-
 const MenuButton = styled(BaseMenuButton)(
   ({ theme }) => `
   font-family: 'IBM Plex Sans', sans-serif;

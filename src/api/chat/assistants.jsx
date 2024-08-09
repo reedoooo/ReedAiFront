@@ -1,4 +1,4 @@
-import apiUtils from '@/lib/apiUtils';
+import { apiUtils } from '@/lib/apiUtils';
 
 export const chatAssistants = {
   getAll: async () => {

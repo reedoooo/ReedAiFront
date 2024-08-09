@@ -1,4 +1,4 @@
-import apiUtils from '@/lib/apiUtils';
+import { apiUtils } from '@/lib/apiUtils';
 import constants from 'config/constants';
 const { API_URL } = constants;
 export const auth = {

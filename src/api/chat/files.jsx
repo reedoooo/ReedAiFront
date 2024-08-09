@@ -1,4 +1,4 @@
-import apiUtils from '@/lib/apiUtils';
+import { apiUtils } from '@/lib/apiUtils';
 
 const baseURL = import.meta.env.VITE_GLOB_API_URL;
 

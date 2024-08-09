@@ -1,8 +1,7 @@
 import { Box, Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
 import { banner } from 'assets/img/auth';
 import { avatar5 } from 'assets/img/avatars';
-import { PageLayout } from 'components/index';
+import React, { useEffect, useState } from 'react';
 import Banner from 'views/admin/profile/components/Banner';
 import General from 'views/admin/profile/components/General';
 import Notifications from 'views/admin/profile/components/Notifications';
@@ -15,10 +14,10 @@ import Upload from 'views/admin/profile/components/Upload';
 // =========================================================
 
 export default function Overview() {
-  const userStorage = JSON.parse(localStorage.getItem('userStorage'));
-  const user = userStorage.user || {};
+  const userStore = JSON.parse(localStorage.getItem('userStore'));
+  const user = userStore.user || {};
   const [profileImage, setProfileImage] = useState(
-    userStorage.userInfo.profileImage || ''
+    userStore.userInfo.profileImage || ''
   );
 
   const getUserProfileImage = async () => {

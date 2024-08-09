@@ -1,26 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { defaultWorkspaceData } from './helpers';
+import { getLocalData, setLocalData } from './helpers';
 
-const LOCAL_NAME = 'workspaces';
+const LOCAL_NAME = 'workspaceStore';
+const REDUX_NAME = 'workspaces';
 
-function getLocalWorkspaceData() {
-  const localWorkSpaceData = JSON.parse(
-    localStorage.getItem(LOCAL_NAME) || '{}'
-  );
-  return { ...defaultWorkspaceData(), ...localWorkSpaceData };
-}
-
-const initialState = getLocalWorkspaceData();
+const initialState = getLocalData(LOCAL_NAME, REDUX_NAME);
 
 function setLocalWorkspaceData(data) {
-  localStorage.setItem(LOCAL_NAME, JSON.stringify(data));
+  setLocalData(LOCAL_NAME, data);
 }
 
 export const workspaceSlice = createSlice({
-  name: 'workspaces',
+  name: REDUX_NAME,
   initialState,
   reducers: {
+    setWorkspaceId: (state, action) => {
+      state.workspaceId = action.payload;
+      setLocalWorkspaceData({ ...state, workspaceId: action.payload });
+    },
     setWorkspaces: (state, action) => {
+      console.log('Setting workspaces:', action.payload);
       setLocalWorkspaceData({ ...state, workspaces: action.payload });
       state.workspaces = action.payload;
     },
@@ -47,13 +46,10 @@ export const workspaceSlice = createSlice({
         folders: workspace.folders || [],
       };
       state.activeWorkspace = activeWorkspaceObject;
-      localStorage.setItem(
-        'activeWorkspace',
-        JSON.stringify(activeWorkspaceObject)
-      );
-    },
-    setChatSessions: (state, action) => {
-      state.activeWorkspace.chatSessions = action.payload;
+      setLocalWorkspaceData({
+        ...state,
+        activeWorkspace: activeWorkspaceObject,
+      });
     },
   },
 });
@@ -66,7 +62,25 @@ export const {
   setWorkspaceImages,
   setHomeWorkSpace,
   setActiveWorkspace,
-  setChatSessions,
+  setWorkspaceId,
 } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;
+// setChatSessions,
+// setSelectedChatSession,
+// function getLocalWorkspaceData() {
+//   console.log(
+//     `LOCAL_NAME: ${LOCAL_NAME}`,
+//     'stringify' + JSON.stringify(LOCAL_NAME),
+//     'regular' + LOCAL_NAME
+//   );
+
+//   const localWorkSpaceData = JSON.parse(
+//     localStorage.getItem(LOCAL_NAME) || '{}'
+//   );
+//   return { ...defaultWorkspaceStoreData(), ...localWorkSpaceData };
+// }
+
+// const initialState = getLocalWorkspaceData();
+
+// localStorage.setItem(LOCAL_NAME, JSON.stringify(data));

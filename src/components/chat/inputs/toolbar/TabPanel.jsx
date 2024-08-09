@@ -1,22 +1,4 @@
-import {
-  Box,
-  Button,
-  Typography,
-  Switch,
-  FormControlLabel,
-  IconButton,
-  Card,
-  CardContent,
-  CardActions,
-  Dialog,
-  Tabs,
-  Tab,
-  Menu,
-  MenuItem,
-  DialogTitle,
-  DialogContent,
-  Grid,
-} from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 function TabPanel(props) {

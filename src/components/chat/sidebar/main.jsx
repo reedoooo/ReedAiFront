@@ -14,14 +14,13 @@ import {
 
 import { ChatBotIcon } from 'assets/humanIcons/custom';
 import ValidationIcon from 'components/styled/ValidationIcon';
-import { useAuthStore } from 'contexts/AuthProvider';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useUserStore } from 'contexts/UserProvider';
-import useMode from 'hooks/useMode';
-import useRouter from 'hooks/useRouter';
+import { useMode } from 'hooks/useMode';
+import { useRouter } from 'hooks/useRouter';
 import { SidebarContainer, SidebarPanel } from '../styled';
 import Assistants from './panel/Assistants';
-import Chat from './panel/Chat';
+import ChatSession from './panel/ChatSession';
 import Files from './panel/Files';
 import Prompts from './panel/Prompts';
 import User from './panel/User';
@@ -67,7 +66,7 @@ export const ChatSidebar = () => {
       case 1:
         return <Workspace />;
       case 2:
-        return <Chat />;
+        return <ChatSession />;
       case 3:
         return <Prompts />;
       case 4:
@@ -78,15 +77,6 @@ export const ChatSidebar = () => {
         return <DefaultTab />;
     }
   };
-  // const renderSidebarDataContainer = (contentType, data, folders?) => {
-  //   return (
-  //     <DummySidebarContent
-  //       contentType={contentType}
-  //       data={data}
-  //       folders?={folders?}
-  //     />
-  //   );
-  // };
 
   return (
     <SidebarContainer>
@@ -196,95 +186,5 @@ export const ChatSidebar = () => {
 };
 
 const DefaultTab = () => <div style={{ color: 'white' }}></div>;
-// const DummySidebarContent = ({ contentType, data, folders? }) => {
-//   const propTypes = {
-//     contentType,
-//     data,
-//     folders?,
-//   };
-//   const dataListTypes = {
-//     collections: [],
-//     chats: [],
-//     presets: [],
-//     prompts: [],
-//     files: [],
-//     assistants: [],
-//     tools: [],
-//     models: [],
-//   };
-//   const dataListMap = {};
-//   // --- Test Func/UI Props ---
-//   const [searchTerm, setSearchTerm] = useState('');
-//   const defaultData = dataListTypes['prompts'];
-//   const defaultfolders? = [];
-//   const filteredData = data.filter(item =>
-//     item.name.toLowerCase().includes(searchTerm.toLowerCase())
-//   );
-//   const hasData = false;
-//   const isCreatingPrompt = false;
-//   const createFolder = propts => defaultfolders?.push(propts);
-//   const handleCreateFolder = async () => {
-//     const createdFolder = await createFolder({
-//       user_id: 'profile.user_id',
-//       workspace_id: 'selectedWorkspace.id',
-//       name: 'New Folder',
-//       description: '',
-//       type: 'prompts',
-//     });
-//     return createdFolder;
-//     // setfolders?([...folders?, createdFolder]);
-//   };
-//   return (
-//     <Box
-//       sx={{
-//         display: 'flex',
-//         maxHeight: 'calc(100% - 50px)',
-//         flexGrow: 1,
-//         flexDirection: 'column',
-//       }}
-//     >
-//       <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
-//         <Box sx={{ display: 'flex', width: '100%', gap: 2 }}>
-//           <Button
-//             variant="contained"
-//             sx={{ flexGrow: 1, height: 36 }}
-//             onClick={() => console.log('defaultData', defaultData)}
-//             startIcon={<FaPlus />}
-//           >
-//             New{' '}
-//             {contentType.charAt(0).toUpperCase() +
-//               contentType.slice(1, contentType.length - 1)}
-//           </Button>
 
-//           {hasData && (
-//             <Button
-//               variant="contained"
-//               sx={{ minWidth: 36, width: 36, height: 36, padding: 1 }}
-//               onClick={handleCreateFolder}
-//             >
-//               <FaFolderPlus />
-//             </Button>
-//           )}
-//           {isCreatingPrompt && (
-//             <CreatePrompt isOpen={isCreatingPrompt} onOpenChange={() => {}} />
-//           )}
-//         </Box>
-//       </Box>
-
-//       <Box sx={{ mt: 2 }}>
-//         {/* <SidebarSearch
-//           contentType={contentType}
-//           searchTerm={searchTerm}
-//           setSearchTerm={setSearchTerm}
-//         /> */}
-//       </Box>
-
-//       {/* <SidebarDataList
-//         contentType={'prompts'}
-//         data={filteredData}
-//         folders?={defaultfolders?}
-//       /> */}
-//     </Box>
-//   );
-// };
 export default ChatSidebar;
