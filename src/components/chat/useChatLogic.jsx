@@ -168,9 +168,7 @@ export const useChatLogic = ({
       setSessionId(activeSession?._id);
     }
   }, [sessionId, activeSession, handleGetValidSession, setSessionId]);
-  // useEffect(() => {
-  //   handleGetValidSession();
-  // }, [sessionId, activeSession, handleGetValidSession, setSessionId]);
+
   useEffect(() => {
     const handleScroll = debounce(() => {
       if (chatContainerRef.current) {
