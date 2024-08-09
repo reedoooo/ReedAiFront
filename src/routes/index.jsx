@@ -210,7 +210,7 @@ const authRoutes = [
         collapse: false,
         onLoginSuccess: (token, userData) => {
           console.log('AUTH_DATA', token, userData);
-          localStorage.setItem('userToken', token);
+          // localStorage.setItem('userToken', token);
           localStorage.setItem('user', JSON.stringify(userData));
           dispatch(setField({ field: 'isAuthenticated', value: true }));
         },
@@ -225,7 +225,7 @@ const authRoutes = [
         collapse: false,
         onSignupSuccess: (token, userData) => {
           console.log('AUTH_DATA', token, userData);
-          localStorage.setItem('userToken', token);
+          // localStorage.setItem('userToken', token);
           localStorage.setItem('user', JSON.stringify(userData));
           dispatch(setField({ field: 'isAuthenticated', value: true }));
         },

@@ -4,7 +4,7 @@ import { pdfjs } from 'react-pdf';
 export const constants = {
   // APP CONFIG
   API_URL: 'http://localhost:3001/api',
-  OPENAI_API_KEY: import.meta.env.VITE_OPENAI_API_KEY,
+  OPENAI_API_KEY: import.meta.env.VITE_OPENAI_API_PROJECT_KEY,
   PUBLIC_URL: import.meta.env.VITE_PUBLIC_URL,
   PDF_WORKER_SRC: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`,
   DEFAULT_LINKEDIN_URL: encodeURI(
@@ -51,6 +51,21 @@ export const constants = {
     ],
     audio: ['audio/wav', 'audio/mp3', 'audio/flac', 'audio/ogg', 'audio/m4a'],
     video: ['video/mp4', 'video/avi', 'video/mov', 'video/x-matroska'],
+  },
+  LOCAL_STORAGE_KEYS: {
+    USER_SESSION: 'userSession',
+    CUSTOMS_PROMPTS: 'customPrompts',
+  },
+  LOCAL_STORAGE_CHAT_KEYS: {
+    WORKSPACES_SLICE: 'workspaceStore',
+    CHAT_SESSIONS_SLICE: 'chatSessionStore',
+    ASSISTANTS_SLICE: 'assistantStore',
+    PROMPTS_SLICE: 'promptStore',
+    MODELS_SLICE: 'modelStore',
+    TOOLS_SLICE: 'toolStore',
+    FOLDERS_SLICE: 'folderStore',
+    PRESETS_SLICE: 'presetStore',
+    FILES_SLICE: 'fileStore',
   },
 };
 export default constants;

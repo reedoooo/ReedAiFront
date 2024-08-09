@@ -18,8 +18,8 @@ const AnimatedIconWrapper = styled('div')(({ theme, isLoggedIn }) => ({
   height: '32px',
   color: theme.palette.common.white,
   backgroundColor: isLoggedIn
-    ? theme.palette.success.main
-    : theme.palette.error.main,
+    ? theme.palette.primary.main
+    : theme.palette.error.dark,
   borderRadius: '50%',
   borderColor: theme.palette.common.white,
   borderWidth: '1px',

@@ -83,6 +83,45 @@ export function defaultPromptList() {
     },
   ];
 }
+export function defaultAuthStoreData() {
+  return {
+    isFormDisabled: false,
+    isRedirectToSignin: false,
+    authRequest: {
+      isFetching: false,
+      error: null,
+      message: '',
+      status: '',
+    },
+  };
+}
+export function defaultProfileData() {
+  return {
+    profile: {
+      img: '',
+      profileImage: '',
+      bio: '',
+      displayName: '',
+      email: '',
+      username: '',
+      social: {},
+      stats: {},
+      dashboard: {},
+      openai: {
+        apiKey: '',
+        organizationId: '',
+        apiVersion: '',
+        projects: [],
+      },
+      settings: {
+        user: {},
+        chat: {},
+      },
+      // other profile properties and reducers...
+    },
+    selectedProfileImage: '',
+  };
+}
 export function defaultUserSessionData() {
   return {
     user: {
@@ -104,6 +143,9 @@ export function defaultUserSessionData() {
         tokenType: '',
         accessToken: '',
         refreshToken: '',
+        expiresIn: null,
+        expiresAt: null,
+        createdAt: null,
       },
       profile: {
         stats: {
@@ -348,21 +390,24 @@ export function defaultUserSessionData() {
       __v: 1,
     },
     userId: null,
-    token: '',
-    profileImage: 'http://localhost:3001/static/files/avatar1.png',
+    token: null,
+    accessToken: null,
+    refreshToken: null,
+    expiresIn: null,
+    expiresAt: null,
+    createdAt: null,
+    isAuthenticated: false,
     userInfo: {
       name: '',
       email: '',
       profileImage: 'http://localhost:3001/static/files/avatar1.png',
+      isImageRetrieved: false,
     },
   };
 }
-export function defaultWorkspaceData() {
+export function defaultWorkspaceStoreData() {
   return {
-    workspaces: [],
-    selectedWorkspace: null,
-    homeWorkSpace: null,
-    workspaceImages: [],
+    workspaceId: '',
     activeWorkspace: {
       _id: null,
       userId: null,
@@ -372,19 +417,259 @@ export function defaultWorkspaceData() {
       chatSessions: [],
       folders: [],
       activeChatSession: null,
+      selectedChatSession: null,
       systemPrompt: '',
     },
+    workspaces: [],
+    selectedWorkspace: null,
+    homeWorkSpace: null,
+    workspaceImages: [],
   };
 }
-export function defaultChatSessionData() {
+export function defaultChatSessionStoreData() {
   return {
-    apiKey: '',
-    chatId: '',
+    // apiKey: '',
     sessionId: '',
     activeSession: {
       sessionId: '',
       topic: '',
+      id: '',
+      name: '',
+      summary: '',
+      systemPrompt: '',
+      assisstantPrompt: '',
+      isFirstPromptName: true,
       messages: [],
+      files: [],
+      tools: [],
+      stats: {},
+      setting: {},
+    },
+    chatSessions: [],
+    selectedChatSession: {},
+    chatSession: {},
+    envKeyMap: {
+      openai: 'OPENAI_API_KEY',
+      openai_organization_id: 'OPENAI_ORGANIZATION_ID',
     },
   };
 }
+export function defaultAssistantStoreData() {
+  return {
+    assistants: [
+      {
+        name: 'ChatBot Assistant',
+        instructions: 'Provide helpful responses to user queries.',
+        description: 'An assistant designed to help with general questions.',
+        model: 'gpt-3.5-turbo',
+        tools: [
+          {
+            type: 'text-generator',
+          },
+        ],
+        tool_resources: {
+          code_interpreter: {
+            file_ids: [],
+          },
+        },
+      },
+    ],
+    selectedAssistant: null,
+    assistantImages: [],
+    openaiAssistants: [],
+    assistantRequest: {
+      status: 'idle',
+      error: null,
+      success: null,
+      message: '',
+    },
+  };
+}
+export function defaultModelStoreData() {
+  return {
+    models: [],
+    modelNames: [
+      'gpt-3.5-turbo',
+      'gpt-3.5-turbo-16k',
+      'gpt-4',
+      'gpt-4-1106-preview',
+      'gpt-4-32k',
+      'gpt-4-8k',
+      'gpt-4-vision-preview',
+      'gpt-4o',
+      'gpt-4o-0301',
+      'gpt-4o-0314',
+      'gpt-4o-0315',
+      'gpt-4o-0316',
+      'llama-3.1-sonar-small-128k-online',
+      'llama-3.1-sonar-small-128k-chat',
+      'llama-3.1-sonar-large-128k-online',
+      'llama-3.1-sonar-large-128k-chat',
+      'llama-3.1-8b-instruct',
+      'llama-3.1-70b-instruct',
+      'mixtral-8x7b-instruct',
+    ],
+    selectedModel: null,
+    availableHostedModels: [],
+    availableLocalModels: [],
+    availableOpenRouterModels: [],
+  };
+}
+export function defaultPresetStoreData() {
+  return {
+    presets: [],
+    selectedPreset: null,
+    presetRequest: {
+      status: 'idle',
+      error: null,
+      success: null,
+      message: '',
+    },
+  };
+}
+export function defaultCollectionStoreData() {
+  return {
+    collections: [],
+    chatInputCommandRequest: {
+      status: 'idle',
+      error: null,
+      success: null,
+      message: '',
+    },
+  };
+}
+export function defaultFileStoreData() {
+  return {
+    byId: {},
+    allIds: [],
+    files: [],
+    chatFiles: [],
+    chatImages: [],
+    newMessageFiles: [],
+    newMessageImages: [],
+    previewFiles: [],
+    previewUrls: [],
+    selectedFiles: [],
+    uploadedFiles: [],
+    showFilesDisplay: false,
+    fileRequest: {
+      status: 'idle',
+      error: null,
+      success: null,
+      message: '',
+    },
+  };
+}
+export function defaultFolderStoreData() {
+  return {
+    folders: [],
+    selectedFolder: null,
+  };
+}
+export function defaultToolStoreData() {
+  return {
+    tools: [],
+    selectedTools: [],
+    toolInUse: '',
+  };
+}
+export function defaultPromptStoreData() {
+  return {
+    prompts: defaultPromptList(),
+    selectedPrompt: null,
+    promptRequest: {
+      status: 'idle',
+      error: null,
+      success: null,
+      message: '',
+    },
+    newPrompt: {
+      // folderId: new mongoose.Types.ObjectId(), // A new ObjectId for the folder
+      // userId: new mongoose.Types.ObjectId(), // A new ObjectId for the user
+      content: 'This is a sample prompt content.',
+      name: 'Sample Prompt',
+      sharing: 'private', // Could be 'private', 'public', etc.
+      key: 'sampleKey', // A unique key for identifying the prompt
+      value: 'sampleValue', // The corresponding value for the key
+      metadata: {
+        label: 'default prompt',
+        text: 'A default prompt.',
+        createdBy: 'default',
+        description: 'This is a sample description for the default prompt.',
+        type: 'defaultType', // Specify the type of prompt, e.g., 'question', 'instruction'
+        style: 'defaultStyle', // Specify the style, e.g., 'formal', 'casual'
+        props: {
+          // Additional properties or attributes
+          exampleProp: 'exampleValue',
+        },
+        tags: ['sample', 'default'], // Tags for categorization
+      },
+    },
+  };
+}
+export function defaultBaseChatStoreData() {
+  return {
+    apiKey: '',
+    isApiKeySet: false,
+    envKeyMap: {
+      openai: 'OPENAI_API_KEY',
+      openai_organization_id: 'OPENAI_ORGANIZATION_ID',
+    },
+    isGenerating: false,
+    firstTokenReceived: false,
+    isMessagesUpdated: false,
+    isDisabled: false,
+    isFirstMessageReceived: false,
+    abortController: null,
+    active: null,
+    userInput: '',
+    chatMessages: [],
+    chatSettings: {
+      model: 'gpt-4-turbo-preview',
+      prompt: 'You are a helpful AI assistant.',
+      temperature: 0.5,
+      contextLength: 4000,
+      includeProfileContext: true,
+      includeWorkspaceInstructions: true,
+      embeddingsProvider: 'openai',
+    },
+    selectedChat: null,
+    chatFileItems: [],
+    payload: {},
+    isPromptPickerOpen: false,
+    slashCommand: '',
+    isFilePickerOpen: false,
+    hashtagCommand: '',
+    isToolPickerOpen: false,
+    toolCommand: '',
+    focusPrompt: false,
+    focusFile: false,
+    focusTool: false,
+    focusAssistant: false,
+    atCommand: '',
+    isAssistantPickerOpen: false,
+    useRetrieval: true,
+    sourceCount: 0,
+    baseChatRequest: {
+      status: 'idle',
+      error: null,
+      success: null,
+      message: '',
+    },
+  };
+}
+export const DEFAULTS = {
+  auth: defaultAuthStoreData(),
+  user: defaultUserSessionData(),
+  profile: defaultProfileData(),
+  workspaces: defaultWorkspaceStoreData(),
+  baseChat: defaultBaseChatStoreData(),
+  chatSessions: defaultChatSessionStoreData(),
+  prompts: defaultPromptStoreData(),
+  models: defaultModelStoreData(),
+  collections: defaultCollectionStoreData(),
+  files: defaultFileStoreData(),
+  presets: defaultPresetStoreData(),
+  tools: defaultToolStoreData(),
+  assistants: defaultAssistantStoreData(),
+};

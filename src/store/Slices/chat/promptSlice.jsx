@@ -1,38 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import mongoose from 'mongoose';
 import { useSnackbar } from 'notistack';
-import { defaultPromptList } from './helpers';
+import { getLocalData, setLocalData } from './helpers';
 
-// Async thunk for fetching and parsing static files
-// export const fetchStaticPrompts = createAsyncThunk(
-//   '/api/static-files',
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       // Step 1: Fetch the list of static files
-//       const fileListResponse = await axios.get('/static');
-// const fileList = fileListResponse.data;
-// console.log('fileList', fileList);
-// // Step 2: Parse each JSON file
-// const parsedPrompts = await Promise.all(
-//   fileList.map(async fileName => {
-//     if (fileName.endsWith('.json')) {
-//       const fileContent = await axios.get(
-//         `/api/static-files/${fileName}`
-//       );
-//       return fileContent.data;
-//     }
-//     return null;
-//   })
-// );
+const LOCAL_NAME = 'promptStore';
+const REDUX_NAME = 'prompts';
 
-// // Filter out any null values and flatten the array
-// return parsedPrompts.filter(Boolean).flat();
-//     } catch (error) {
-//       return rejectWithValue(error.response.data);
-//     }
-//   }
-// );
-// Define the async thunk for adding a static prompt
 export const addStaticPrompt = createAsyncThunk(
   'files/addPrompt',
   async (payload, { rejectWithValue }) => {
@@ -62,81 +34,36 @@ export const addStaticPrompt = createAsyncThunk(
     }
   }
 );
-// The corresponding value for the key
-const LOCAL_NAME = 'promptStore';
 
-function getLocalPromptList() {
-  const promptStore = JSON.parse(localStorage.getItem(LOCAL_NAME) || '{}');
-  if (promptStore && promptStore.promptList?.length > 0) {
-    return promptStore;
-  } else {
-    setLocalPromptList({ promptList: defaultPromptList() });
-    return { promptList: defaultPromptList() };
-  }
-}
+const initialState = getLocalData(LOCAL_NAME, REDUX_NAME);
 
-function setLocalPromptList(promptStore) {
-  localStorage.setItem(LOCAL_NAME, JSON.stringify(promptStore));
+function setLocalPromptData(data) {
+  setLocalData(LOCAL_NAME, data);
 }
-const initialState = {
-  prompts: getLocalPromptList().promptList,
-  selectedPrompt: null,
-  promptRequest: {
-    status: 'idle',
-    error: null,
-  },
-  newPrompt: {
-    // folderId: new mongoose.Types.ObjectId(), // A new ObjectId for the folder
-    // userId: new mongoose.Types.ObjectId(), // A new ObjectId for the user
-    content: 'This is a sample prompt content.',
-    name: 'Sample Prompt',
-    sharing: 'private', // Could be 'private', 'public', etc.
-    key: 'sampleKey', // A unique key for identifying the prompt
-    value: 'sampleValue', // The corresponding value for the key
-    metadata: {
-      label: 'default prompt',
-      text: 'A default prompt.',
-      createdBy: 'default',
-      description: 'This is a sample description for the default prompt.',
-      type: 'defaultType', // Specify the type of prompt, e.g., 'question', 'instruction'
-      style: 'defaultStyle', // Specify the style, e.g., 'formal', 'casual'
-      props: {
-        // Additional properties or attributes
-        exampleProp: 'exampleValue',
-      },
-      tags: ['sample', 'default'], // Tags for categorization
-    },
-  },
-};
 
 export const promptSlice = createSlice({
-  name: 'prompts',
+  name: LOCAL_NAME,
   initialState,
   reducers: {
     setPrompts: (state, action) => {
+      console.log('Setting prompts:', action.payload);
       state.prompts = action.payload;
-      setLocalPromptList(action.payload);
+      setLocalPromptData({ ...state, prompts: action.payload });
     },
     setSelectedPrompt: (state, action) => {
       state.selectedPrompt = action.payload;
+      setLocalPromptData({ ...state, selectedPrompt: action.payload });
     },
   },
   extraReducers: builder => {
     builder
-      // .addCase(fetchStaticPrompts.pending, state => {
-      //   state.status = 'loading';
-      // })
-      // .addCase(fetchStaticPrompts.fulfilled, (state, action) => {
-      //   state.status = 'succeeded';
-      //   state.prompts = action.payload;
-      // })
-      // .addCase(fetchStaticPrompts.rejected, (state, action) => {
-      //   state.status = 'failed';
-      //   state.error = action.payload;
-      // })
       .addCase(addStaticPrompt.fulfilled, (state, action) => {
         state.prompts.unshift(action.payload);
-        setLocalPromptList(state);
+        setLocalPromptData({
+          ...state,
+          prompts: state.prompts,
+          promptRequest: { status: 'succeeded' },
+        });
       })
       .addCase(addStaticPrompt.pending, (state, action) => {
         state.promptRequest.status = 'loading';
@@ -148,95 +75,88 @@ export const promptSlice = createSlice({
           variant: 'error',
         });
       });
-    // .addCase(addPrompt.fulfilled, (state, action) => {
-    //   state.prompts.unshift(action.payload);
-    //   setLocalPromptList(state);
-    // })
-    // .addCase(addPrompt.rejected, (state, action) => {
-    //   useSnackbar().enqueueSnackbar('Failed to add prompt', {
-    //     variant: 'error',
-    //   });
-    // })
-    // .addCase(modifyPrompt.fulfilled, (state, action) => {
-    //   const { key, value, newKey, newValue } = action.payload;
-    //   const index = state.prompts.findIndex(
-    //     item => item.key === key && item.value === value
-    //   );
-    //   if (index !== -1) {
-    //     state.prompts[index] = { key: newKey, value: newValue };
-    //     setLocalPromptList(state);
-    //   }
-    // })
-    // .addCase(modifyPrompt.rejected, (state, action) => {
-    //   useSnackbar().enqueueSnackbar('Failed to modify prompt', {
-    //     variant: 'error',
-    //   });
-    // })
-    // .addCase(deletePrompt.fulfilled, (state, action) => {
-    //   state.prompts = state.prompts.filter(
-    //     item => item.key !== action.payload.key
-    //   );
-    //   setLocalPromptList(state);
-    // })
-    // .addCase(deletePrompt.rejected, (state, action) => {
-    //   useSnackbar().enqueueSnackbar('Failed to delete prompt', {
-    //     variant: 'error',
-    //   });
-    // })
-    // .addCase(clearPrompts.fulfilled, state => {
-    //   state.prompts = [];
-    //   setLocalPromptList(state);
-    // })
-    // .addCase(importPrompts.fulfilled, (state, action) => {
-    //   const newPrompts = JSON.parse(action.payload);
-    //   for (const i of newPrompts) {
-    //     let safe = true;
-    //     for (const j of state.prompts) {
-    //       if (j.key === i.key || j.value === i.value) {
-    //         safe = false;
-    //         break;
-    //       }
-    //     }
-    //     if (safe) state.prompts.unshift(i);
-    //   }
-    //   setLocalPromptList(state);
-    // })
-    // .addCase(exportPrompts.fulfilled, state => {
-    //   // File export logic (simulated)
-    // })
-    // .addCase(exportPrompts.rejected, (state, action) => {
-    //   useSnackbar().enqueueSnackbar('Failed to export prompts', {
-    //     variant: 'error',
-    //   });
-    // })
-    // .addCase(downloadPrompts.fulfilled, state => {
-    //   // File download logic (simulated)
-    // })
-    // .addCase(downloadPrompts.rejected, (state, action) => {
-    //   useSnackbar().enqueueSnackbar('Failed to download prompts', {
-    //     variant: 'error',
-    //   });
-    // });
-    // additional status case handlers
   },
 });
 
 export { initialState as promptInitialState };
 
-export const {
-  setPrompts,
-  setSelectedPrompt,
-  // addPrompt,
-  // modifyPrompt,
-  // deletePrompt,
-  // clearPrompts,
-  // importPrompts,
-  // exportPrompts,
-  // downloadPrompts,
-} = promptSlice.actions;
+export const { setPrompts, setSelectedPrompt } = promptSlice.actions;
 
 export default promptSlice.reducer;
+// The corresponding value for the key
 
+// function getLocalPromptList() {
+//   const promptStore = JSON.parse(localStorage.getItem(LOCAL_NAME) || '{}');
+//   if (promptStore && promptStore.promptList?.length > 0) {
+//     return promptStore;
+//   } else {
+//     setLocalPromptList({ promptList: defaultPromptList() });
+//     return { promptList: defaultPromptList() };
+//   }
+// }
+
+// function setLocalPromptList(promptStore) {
+//   localStorage.setItem(LOCAL_NAME, JSON.stringify(promptStore));
+// }
+// const initialState = {
+//   prompts: getLocalPromptList().promptList,
+//   selectedPrompt: null,
+//   promptRequest: {
+//     status: 'idle',
+//     error: null,
+//   },
+//   newPrompt: {
+//     // folderId: new mongoose.Types.ObjectId(), // A new ObjectId for the folder
+//     // userId: new mongoose.Types.ObjectId(), // A new ObjectId for the user
+//     content: 'This is a sample prompt content.',
+//     name: 'Sample Prompt',
+//     sharing: 'private', // Could be 'private', 'public', etc.
+//     key: 'sampleKey', // A unique key for identifying the prompt
+//     value: 'sampleValue', // The corresponding value for the key
+//     metadata: {
+//       label: 'default prompt',
+//       text: 'A default prompt.',
+//       createdBy: 'default',
+//       description: 'This is a sample description for the default prompt.',
+//       type: 'defaultType', // Specify the type of prompt, e.g., 'question', 'instruction'
+//       style: 'defaultStyle', // Specify the style, e.g., 'formal', 'casual'
+//       props: {
+//         // Additional properties or attributes
+//         exampleProp: 'exampleValue',
+//       },
+//       tags: ['sample', 'default'], // Tags for categorization
+//     },
+//   },
+// };
+// Async thunk for fetching and parsing static files
+// export const fetchStaticPrompts = createAsyncThunk(
+//   '/api/static-files',
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       // Step 1: Fetch the list of static files
+//       const fileListResponse = await axios.get('/static');
+// const fileList = fileListResponse.data;
+// console.log('fileList', fileList);
+// // Step 2: Parse each JSON file
+// const parsedPrompts = await Promise.all(
+//   fileList.map(async fileName => {
+//     if (fileName.endsWith('.json')) {
+//       const fileContent = await axios.get(
+//         `/api/static-files/${fileName}`
+//       );
+//       return fileContent.data;
+//     }
+//     return null;
+//   })
+// );
+
+// // Filter out any null values and flatten the array
+// return parsedPrompts.filter(Boolean).flat();
+//     } catch (error) {
+//       return rejectWithValue(error.response.data);
+//     }
+//   }
+// );
 // // Thunk for adding a prompt
 // export const addPrompt = createAsyncThunk(
 //   'prompts/addPrompt',

@@ -10,6 +10,7 @@ import {
   setChatSessions,
   setWorkspaces,
 } from '../chat';
+import { getLocalData, setLocalData } from '../chat/helpers';
 import {
   setUser,
   setUserToken,
@@ -19,18 +20,14 @@ import {
 } from './userSlice';
 const { API_URL } = constants;
 
-const initialState = {
-  formDisabled: null,
-  isRedirectToSignin: false,
-  authRequest: {
-    isFetching: false,
-    error: null,
-    message: '',
-    status: '',
-  },
-  user: {},
-};
+const LOCAL_NAME = 'authStore';
+const REDUX_NAME = 'auth';
 
+const initialState = getLocalData(LOCAL_NAME, REDUX_NAME);
+
+function setLocalAuthData(data) {
+  setLocalData(LOCAL_NAME, data);
+}
 export const handleAuthSubmit = createAsyncThunk(
   'auth/handleAuthSubmit',
   async (values, { dispatch, rejectWithValue }) => {
@@ -150,13 +147,13 @@ export const authSlice = createSlice({
       state.error = null;
     },
     disableForm: state => {
-      state.formDisabled = true;
+      state.isFormDisabled = true;
     },
     enableForm: state => {
-      state.formDisabled = false;
+      state.isFormDisabled = false;
     },
     updateAuthStateFromLocalStorage: state => {
-      state.formDisabled = !!getItem('userToken');
+      state.isFormDisabled = !!getItem('userStore')?.accessToken;
     },
     setIsRedirectToSignin: state => {
       state.isRedirectToSignin = !state.isRedirectToSignin;
@@ -225,6 +222,17 @@ export default authSlice.reducer;
 
 // Listener to sync state with localStorage changes
 window.addEventListener('storage', () => {
-  const store = require('./store').default;
+  const store = require('../store').default;
   store.dispatch(updateAuthStateFromLocalStorage());
 });
+// const initialState = {
+//   formDisabled: null,
+//   isRedirectToSignin: false,
+//   authRequest: {
+//     isFetching: false,
+//     error: null,
+//     message: '',
+//     status: '',
+//   },
+//   user: {},
+// };

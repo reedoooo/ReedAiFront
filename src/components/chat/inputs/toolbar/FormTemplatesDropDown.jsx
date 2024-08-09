@@ -1,23 +1,5 @@
 import { InsertDriveFileOutlined } from '@mui/icons-material';
-import {
-  Box,
-  Button,
-  Typography,
-  Switch,
-  FormControlLabel,
-  IconButton,
-  Card,
-  CardContent,
-  CardActions,
-  Dialog,
-  Tabs,
-  Tab,
-  Menu,
-  MenuItem,
-  DialogTitle,
-  DialogContent,
-  Grid,
-} from '@mui/material';
+import { IconButton, Menu, MenuItem } from '@mui/material';
 
 export const FormTemplatesDropDown = ({
   anchorEl,

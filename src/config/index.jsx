@@ -1,3 +1,4 @@
+import { DEFAULT_APP_DATA } from './app-data-configs';
 import constants from './constants';
 import {
   chartConfigs,
@@ -18,6 +19,7 @@ import {
 // src/variables/index.js
 const constant = {
   ...constants,
+  DEFAULT_APP_DATA: DEFAULT_APP_DATA,
 };
 const data = {
   stats: statsConfig,

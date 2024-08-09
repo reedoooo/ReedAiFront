@@ -71,6 +71,7 @@ const getPalette = mode => ({
   secondaryGray: colors.secondaryGray[mode],
   primary: colors.primary[mode],
   secondary: colors.secondary[mode],
+  tertiary: colors.tertiary[mode],
   background: colors.background[mode],
   text: colors.text[mode],
   icon: colors.icon[mode],

@@ -26,5 +26,5 @@
     },
   },
   "exclude": ["node_modules", "build"],
-  "include": ["src", "cleanup/editor-configs", "cleanup/hosted"],
+  "include": ["src", "cleanup/editor-configs", "cleanup/hosted", "cleanup/old", "cleanup/message-markdown-memoized.jsx", "cleanup/main.jsx"],
 }

@@ -19,10 +19,6 @@ export default {
     root: {
       width: '34px',
       height: '34px',
-      // fontSize: '18px',
-      // backgroundColor: '#fff',
-      // borderRadius: '50%',
-      // boxShadow: boxShadows.colored.light,
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',

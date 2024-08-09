@@ -1,250 +1,181 @@
-import mongoose from 'mongoose';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
-import avatar5 from 'assets/img/avatars/avatar5.png'; // Fallback avatar
 import {
+  fetchAndSetUserData,
   setAbortController,
-  setFirstTokenReceived,
-  setIsGenerating,
+  setActiveLocal,
+  setActiveSession,
+  setActiveWorkspace,
+  setApiKey,
   setAssistantImages,
   setAssistants,
-  setOpenaiAssistants,
-  setSelectedAssistant,
-  setIsPromptPickerOpen,
-  setSlashCommand,
-  setFocusPrompt,
-  setFocusFile,
-  setFocusTool,
-  setFocusAssistant,
   setAtCommand,
-  setIsAssistantPickerOpen,
-  setIsFilePickerOpen,
-  setIsToolPickerOpen,
-  setToolCommand,
-  setHashtagCommand,
-  setCollections,
-  setChatFiles,
-  setFiles,
-  setChatImages,
-  setNewMessageImages,
-  setNewMessageFiles,
-  setShowFilesDisplay,
-  setFolders,
-  setEnvKeyMap,
   setAvailableHostedModels,
   setAvailableLocalModels,
   setAvailableOpenRouterModels,
-  setModels,
   setChatFileItems,
+  setChatFiles,
+  setChatImages,
   setChatMessages,
+  setChatSessions,
   setChatSettings,
+  setCollections,
+  setEnvKeyMap,
+  setFiles,
+  setFirstMessageReceived,
+  setFirstTokenReceived,
+  setFocusAssistant,
+  setFocusFile,
+  setFocusPrompt,
+  setFocusTool,
+  setFolders,
+  setHashtagCommand,
+  setHomeWorkSpace,
+  setIsAssistantPickerOpen,
+  setIsFilePickerOpen,
+  setIsGenerating,
+  setIsMessagesUpdated,
+  setIsPromptPickerOpen,
+  setIsToolPickerOpen,
+  setModels,
+  setNewMessageFiles,
+  setNewMessageImages,
+  setOpenaiAssistants,
+  setPayload,
+  setPresets,
+  setPreviewFiles,
+  setPreviewUrls,
+  setProfile,
   setPrompts,
-  setSourceCount,
-  setUseRetrieval,
-  setApiKey,
-  setWorkspaceId,
-  setSessionId,
+  setSelectedAssistant,
+  setSelectedFiles,
+  setSelectedPreset,
+  setSelectedPrompt,
   setSelectedTools,
+  setSelectedWorkspace,
+  setSessionId,
+  setShowFilesDisplay,
+  setSlashCommand,
+  setSourceCount,
+  setToolCommand,
   setToolInUse,
   setTools,
-  setSelectedWorkspace,
-  setHomeWorkSpace,
+  setUploadedFiles,
+  setUseRetrieval,
+  setUserInput,
+  setUserOpenAiSettings,
+  setWorkspaceId,
   setWorkspaceImages,
   setWorkspaces,
-  setProfile,
-  setSelectedPrompt,
-  fetchUserProfileImage,
-  fetchFileData,
-  setPreviewFiles,
-  setUserInput,
-  setPreviewUrls,
-  setSelectedFiles,
-  setPayload,
-  setUploadedFiles,
-  setActiveWorkspace,
-  setActiveSession,
-  setChatSessions,
 } from 'store/Slices'; // Assuming you can import all slices from a single entry point
-
-export const selectActiveChat = createSelector(
-  [state => state.activeChat],
-  activeChat => activeChat
-);
-
-export const selectAssistant = createSelector(
-  [state => state.assistant],
-  assistant => assistant
-);
-
-export const selectChatInputCommand = createSelector(
-  [state => state.chatInputCommand],
-  chatInputCommand => chatInputCommand
-);
-
-export const selectCollection = createSelector(
-  [state => state.collection],
-  collection => collection
-);
-
-export const selectFile = createSelector([state => state.file], file => file);
-
-export const selectFolders = createSelector(
-  [state => state.folders],
-  folders => folders
-);
-
-export const selectGeneralChat = createSelector(
-  [state => state.generalChat],
-  generalChat => generalChat
-);
-
-export const selectModel = createSelector(
-  [state => state.model],
-  model => model
-);
-
-export const selectPassiveChat = createSelector(
-  [state => state.passiveChat],
-  passiveChat => passiveChat
-);
-
-export const selectBaseChat = createSelector(
-  [state => state.baseChat],
-  baseChat => baseChat
-);
-
-export const selectPreset = createSelector(
-  [state => state.preset],
-  preset => preset
-);
-
-export const selectPrompt = createSelector(
-  [state => state.prompt],
-  prompt => prompt
-);
-
-export const selectRetrieval = createSelector(
-  [state => state.retrieval],
-  retrieval => retrieval
-);
-
-export const selectSession = createSelector(
-  [state => state.session],
-  session => session
-);
 
 export const selectWorkspace = createSelector(
   [state => state.workspace],
   workspace => workspace
 );
+export const selectBaseChat = createSelector(
+  [state => state.baseChat],
+  baseChat => baseChat
+);
+export const selectChatSession = createSelector(
+  [state => state.chatSession],
+  session => session
+);
+export const selectAssistant = createSelector(
+  [state => state.assistant],
+  assistant => assistant
+);
+export const selectCollection = createSelector(
+  [state => state.collection],
+  collection => collection
+);
+export const selectFile = createSelector([state => state.file], file => file);
+export const selectFolders = createSelector(
+  [state => state.folder],
+  folders => folders
+);
+export const selectModel = createSelector(
+  [state => state.model],
+  model => model
+);
+export const selectPreset = createSelector(
+  [state => state.preset],
+  preset => preset
+);
+export const selectPrompt = createSelector(
+  [state => state.prompt],
+  prompt => prompt
+);
 
+// export const selectActiveChat = createSelector(
+//   [state => state.activeChat],
+//   activeChat => activeChat
+// );
+// export const selectChatInputCommand = createSelector(
+//   [state => state.chatInputCommand],
+//   chatInputCommand => chatInputCommand
+// );
+// export const selectGeneralChat = createSelector(
+//   [state => state.generalChat],
+//   generalChat => generalChat
+// );
+// export const selectPassiveChat = createSelector(
+//   [state => state.passiveChat],
+//   passiveChat => passiveChat
+// );
+// export const selectRetrieval = createSelector(
+//   [state => state.retrieval],
+//   retrieval => retrieval
+// );
 export const ChatContext = createContext(null);
 export const ChatProvider = ({ children }) => {
-  const activeChat = useSelector(selectActiveChat);
+  // const activeChat = useSelector(selectActiveChat);
+  // const chatInputCommand = useSelector(selectChatInputCommand);
+  // const generalChat = useSelector(selectGeneralChat);
+  // const passiveChat = useSelector(selectPassiveChat);
+  // const retrieval = useSelector(selectRetrieval);
+  const workspace = useSelector(selectWorkspace);
+  const baseChat = useSelector(selectBaseChat);
+  const chatSession = useSelector(selectChatSession);
   const assistant = useSelector(selectAssistant);
-  const chatInputCommand = useSelector(selectChatInputCommand);
   const collection = useSelector(selectCollection);
   const file = useSelector(selectFile);
-  const folders = useSelector(selectFolders);
-  const generalChat = useSelector(selectGeneralChat);
+  const folder = useSelector(selectFolders);
   const model = useSelector(selectModel);
-  const passiveChat = useSelector(selectPassiveChat);
-  const baseChat = useSelector(selectBaseChat);
   const preset = useSelector(selectPreset);
   const prompt = useSelector(selectPrompt);
-  const retrieval = useSelector(selectRetrieval);
-  const workspace = useSelector(selectWorkspace);
 
   const state = {
-    ...activeChat,
+    ...workspace,
+    ...baseChat,
+    ...chatSession,
     ...assistant,
-    ...chatInputCommand,
     ...collection,
     ...file,
-    ...folders,
-    ...generalChat,
+    ...folder,
     ...model,
-    ...passiveChat,
-    ...baseChat,
     ...preset,
     ...prompt,
-    ...retrieval,
-    ...workspace,
-    chatThing: '',
   };
-  const [user, setUser] = useState(null);
+  const userStore = JSON.parse(localStorage.getItem('userStore'));
+  const user = userStore?.user;
+  const userInfo = userStore?.userInfo;
+  const userProfile = user?.profile;
+
   const dispatch = useDispatch();
   useEffect(() => {
-    const userStorage = JSON.parse(localStorage.getItem('userStorage'));
-    const user = userStorage?.user;
-    const userInfo = userStorage?.userInfo;
-    const initializeProfileImage = async () => {
+    const initializeUserData = async () => {
       try {
-        const userProfile = user?.profile;
-        const imagename = 'avatar1';
-        const imgWithExt = imagename.includes('.')
-          ? imagename
-          : `${imagename}.png`;
-        if (user?.username) {
-          const action = await dispatch(fetchUserProfileImage(imgWithExt));
-          const imageUrl = action.payload || '';
-          dispatch(setProfile({ ...userProfile, profileImage: imageUrl }));
-        } else {
-          dispatch(
-            setProfile({
-              ...userProfile,
-              profileImage: 'assets/img/avatars/avatar5.png',
-            })
-          );
-        }
+        await dispatch(fetchAndSetUserData());
       } catch (error) {
-        console.error('Error initializing profile image:', error);
-        dispatch(setProfile({ profileImage: avatar5 }));
+        console.error('Error fetching and setting user data:', error);
       }
     };
-    if (!userInfo?.isImageRetrieved) {
-      initializeProfileImage();
-    }
+
+    initializeUserData();
   }, [dispatch]);
 
-  useEffect(() => {
-    const localJsonFiles = JSON.parse(localStorage.getItem('customPrompts'));
-    if (localJsonFiles?.length > 0) {
-      return;
-    }
-    dispatch(
-      fetchFileData({
-        url: 'http://localhost:3001/api/files/list-files',
-        fileType: 'png',
-      })
-    );
-    // dispatch(
-    //   fetchFileData({
-    //     url: 'http://localhost:3001/api/files/static/chatgpt-prompts-custom.json',
-    //     fileType: 'json',
-    //   })
-    // );
-  }, [dispatch]);
-  const initializeIds = async () => {
-    let workspaceId = localStorage.getItem('workspaceId');
-    let sessionId = localStorage.getItem('sessionId');
-    if (!workspaceId) {
-      console.log('No workspaceId');
-      return;
-    }
-    if (!sessionId) {
-      console.log('No sessionId');
-      return;
-    }
-    dispatch(setWorkspaceId(workspaceId));
-    dispatch(setSessionId(sessionId));
-  };
-  useEffect(() => {
-    const userStorage = JSON.parse(localStorage.getItem('userStorage'));
-    setUser(userStorage?.user);
-    initializeIds();
-  }, []);
   const reloadRoute = id => {
     console.log(`Dummy reloadRoute called with id: ${id}`);
   };
@@ -277,14 +208,6 @@ export const ChatProvider = ({ children }) => {
     console.log(`Dummy syncChatMessages called with id: ${id}`);
   };
 
-  const setActive = id => {
-    console.log(`Dummy setActive called with id: ${id}`);
-  };
-
-  const setActiveLocal = id => {
-    console.log(`Dummy setActiveLocal called with id: ${id}`);
-  };
-
   const addChatById = (id, chat) => {
     console.log(`Dummy addChatById called with id: ${id}, chat: ${chat}`);
   };
@@ -310,6 +233,11 @@ export const ChatProvider = ({ children }) => {
   };
   const actions = {
     // ===========================================
+    // [PRESET STORE]
+    // ===========================================
+    setPresets: presets => dispatch(setPresets(presets)),
+    setSelectedPreset: preset => dispatch(setSelectedPreset(preset)),
+    // ===========================================
     // [PROMPT STORE]
     // ===========================================
     setSelectedPrompt: prompt => dispatch(setSelectedPrompt(prompt)),
@@ -329,8 +257,8 @@ export const ChatProvider = ({ children }) => {
       updateChatSessionIfEdited(id, edit),
     deleteChatSession: index => deleteChatSession(index),
     syncChatMessages: id => syncChatMessages(id),
-    setActive: id => setActive(id),
-    setActiveLocal: id => setActiveLocal(id),
+    setActive: id => dispatch(setActiveSession(id)),
+    setActiveLocal: id => dispatch(setActiveLocal(id)),
     addChatById: (id, chat) => addChatById(id, chat),
     updateChatById: (id, index, chat) => updateChatById(id, index, chat),
     updateChatPartialById: (id, index, chat) =>
@@ -341,6 +269,8 @@ export const ChatProvider = ({ children }) => {
     // [PROFILE STORE]
     // ===========================================
     setProfile: profile => dispatch(setProfile(profile)),
+    setUserOpenAiSettings: settings =>
+      dispatch(setUserOpenAiSettings(settings)),
     // ===========================================
     // [ITEMS STORE]
     // ===========================================
@@ -399,6 +329,9 @@ export const ChatProvider = ({ children }) => {
     setFirstTokenReceived: received =>
       dispatch(setFirstTokenReceived(received)),
     setIsGenerating: generating => dispatch(setIsGenerating(generating)),
+    setIsMessagesUpdated: updated => dispatch(setIsMessagesUpdated(updated)),
+    setFirstMessageReceived: received =>
+      dispatch(setFirstMessageReceived(received)),
     // ===========================================
     // [CHAT INPUT COMMAND STORE]
     // ===========================================

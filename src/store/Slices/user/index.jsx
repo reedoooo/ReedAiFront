@@ -28,6 +28,8 @@ import userReducer, {
   setUserId,
   setAuthTokens,
   setIsAuthenticated,
+  setUserOpenAiSettings,
+  fetchAndSetUserData,
 } from './userSlice';
 
 // Exporting all actions and thunks
@@ -53,6 +55,8 @@ export {
   setUserId,
   setAuthTokens,
   setIsAuthenticated,
+  setUserOpenAiSettings,
+  fetchAndSetUserData,
 };
 
 // Exporting reducers

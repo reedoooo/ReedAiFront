@@ -1,26 +1,31 @@
-import activeChatReducer, {
-  setIsGenerating,
-  setFirstTokenReceived,
-  setAbortController,
-  setIsDisabled,
-  setActiveLocal,
-} from './activeChatSlice';
-import assistantReducer, {
-  setAssistantImages,
-  setAssistants,
-  setOpenaiAssistants,
-  setSelectedAssistant,
-} from './assistantSlice';
+/* eslint-disable import/order */
+import workspaceReducer, {
+  setWorkspaces,
+  setSelectedWorkspace,
+  setWorkspaceImages,
+  setHomeWorkSpace,
+  setActiveWorkspace,
+  setWorkspaceId,
+} from './workspaceSlice';
 import baseChatReducer, {
   setLoading,
   setError,
   setChatRequestData,
   setApiKey,
-  setWorkspaceId,
-  setSessionId,
-  setActiveSession,
-} from './baseChatSlice';
-import chatInputCommandReducer, {
+  setIsGenerating,
+  setFirstTokenReceived,
+  setAbortController,
+  setIsDisabled,
+  setActiveLocal,
+  setIsMessagesUpdated,
+  setFirstMessageReceived,
+  setUserInput,
+  setChatMessages,
+  setChatSettings,
+  setSelectedChat,
+  setChatFileItems,
+  setPayload,
+  setEnvKeyMap,
   setIsPromptPickerOpen,
   setSlashCommand,
   setFocusPrompt,
@@ -33,7 +38,23 @@ import chatInputCommandReducer, {
   setIsToolPickerOpen,
   setToolCommand,
   setHashtagCommand,
-} from './chatInputCommandSlice';
+  setSourceCount,
+  setUseRetrieval,
+  // setSessionId,
+  // setActiveSession,
+} from './baseChatSlice';
+import chatSessionReducer, {
+  setChatSessions,
+  setSelectedChatSession,
+  setSessionId,
+  setActiveSession,
+} from './chatSessionSlice';
+import assistantReducer, {
+  setAssistantImages,
+  setAssistants,
+  setOpenaiAssistants,
+  setSelectedAssistant,
+} from './assistantSlice';
 import collectionReducer, { setCollections } from './collectionSlice';
 import fileReducer, {
   setChatFiles,
@@ -48,45 +69,21 @@ import fileReducer, {
   setPreviewUrls,
   setUploadedFiles,
 } from './fileSlice';
-import foldersReducer, { setFolders, setSelectedFolder } from './foldersSlice';
-import generalChatReducer, {
-  setEnvKeyMap,
-  setChats,
-  setChat,
-} from './generalChatSlice';
-import modelsReducer, {
+import folderReducer, { setFolders, setSelectedFolder } from './foldersSlice';
+import modelReducer, {
   setAvailableHostedModels,
   setAvailableLocalModels,
   setAvailableOpenRouterModels,
   setModels,
+  setSelectedModel,
 } from './modelsSlice';
-import passiveChatReducer, {
-  setUserInput,
-  setChatMessages,
-  setChatSettings,
-  setSelectedChat,
-  setChatFileItems,
-  setPayload,
-} from './passiveChatSlice';
 import presetReducer, { setPresets, setSelectedPreset } from './presetSlice';
 import promptReducer, { setPrompts, setSelectedPrompt } from './promptSlice';
-import retrievalReducer, {
-  setSourceCount,
-  setUseRetrieval,
-} from './retrievalSlice';
 import toolReducer, {
   setSelectedTools,
   setToolInUse,
   setTools,
 } from './toolSlice';
-import workspaceReducer, {
-  setWorkspaces,
-  setSelectedWorkspace,
-  setWorkspaceImages,
-  setHomeWorkSpace,
-  setActiveWorkspace,
-  setChatSessions,
-} from './workspaceSlice';
 
 export {
   setPayload,
@@ -132,8 +129,8 @@ export {
   setFolders,
   setSelectedFolder,
   setEnvKeyMap,
-  setChats,
-  setChat,
+  // setChats,
+  // setChat,
   setAvailableHostedModels,
   setAvailableLocalModels,
   setAvailableOpenRouterModels,
@@ -159,22 +156,62 @@ export {
   setUploadedFiles,
   setActiveWorkspace,
   setChatSessions,
+  setIsMessagesUpdated,
+  setFirstMessageReceived,
+  setSelectedChatSession,
+  setSelectedModel,
 };
 
 export {
-  activeChatReducer,
-  assistantReducer,
+  workspaceReducer,
   baseChatReducer,
-  chatInputCommandReducer,
-  collectionReducer,
+  chatSessionReducer,
   fileReducer,
-  foldersReducer,
-  generalChatReducer,
-  modelsReducer,
-  passiveChatReducer,
+  folderReducer,
+  assistantReducer,
+  collectionReducer,
+  modelReducer,
   presetReducer,
   promptReducer,
-  retrievalReducer,
   toolReducer,
-  workspaceReducer,
 };
+// import generalChatReducer, {
+//   setEnvKeyMap,
+//   setChats,
+//   setChat,
+// } from './generalChatSlice';
+// import retrievalReducer, {
+//   setSourceCount,
+//   setUseRetrieval,
+// } from './retrievalSlice';
+// import chatInputCommandReducer, {
+//   setIsPromptPickerOpen,
+//   setSlashCommand,
+//   setFocusPrompt,
+//   setFocusFile,
+//   setFocusTool,
+//   setFocusAssistant,
+//   setAtCommand,
+//   setIsAssistantPickerOpen,
+//   setIsFilePickerOpen,
+//   setIsToolPickerOpen,
+//   setToolCommand,
+//   setHashtagCommand,
+// } from './chatInputCommandSlice';
+// import activeChatReducer, {
+//   setIsGenerating,
+//   setFirstTokenReceived,
+//   setAbortController,
+//   setIsDisabled,
+//   setActiveLocal,
+//   setIsMessagesUpdated,
+//   setFirstMessageReceived,
+// } from './activeChatSlice';
+// import passiveChatReducer, {
+//   setUserInput,
+//   setChatMessages,
+//   setChatSettings,
+//   setSelectedChat,
+//   setChatFileItems,
+//   setPayload,
+// } from './passiveChatSlice';

@@ -1,34 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getLocalData } from './helpers';
 
-const initialState = {
-  assistants: [
-    {
-      name: 'ChatBot Assistant',
-      instructions: 'Provide helpful responses to user queries.',
-      description: 'An assistant designed to help with general questions.',
-      model: 'gpt-3.5-turbo',
-      tools: [
-        {
-          type: 'text-generator',
-        },
-      ],
-      tool_resources: {
-        code_interpreter: {
-          file_ids: [],
-        },
-      },
-    },
-  ],
-  selectedAssistant: null,
-  assistantImages: [],
-  openaiAssistants: [],
-};
+const LOCAL_NAME = 'assistantStore';
+const REDUX_NAME = 'assistants';
+
+const initialState = getLocalData(LOCAL_NAME, REDUX_NAME);
 
 export const assistantSlice = createSlice({
-  name: 'assistants',
+  name: REDUX_NAME,
   initialState,
   reducers: {
     setAssistants: (state, action) => {
+      console.log('Setting assistants:', action.payload);
       state.assistants = action.payload;
     },
     setSelectedAssistant: (state, action) => {
@@ -53,3 +36,32 @@ export const {
 } = assistantSlice.actions;
 
 export default assistantSlice.reducer;
+// const initialState = {
+//   assistants: [
+//     {
+//       name: 'ChatBot Assistant',
+//       instructions: 'Provide helpful responses to user queries.',
+//       description: 'An assistant designed to help with general questions.',
+//       model: 'gpt-3.5-turbo',
+//       tools: [
+//         {
+//           type: 'text-generator',
+//         },
+//       ],
+//       tool_resources: {
+//         code_interpreter: {
+//           file_ids: [],
+//         },
+//       },
+//     },
+//   ],
+//   selectedAssistant: null,
+//   assistantImages: [],
+//   openaiAssistants: [],
+//   assistantRequest: {
+//     status: 'idle',
+//     error: null,
+//     success: null,
+//     message: '',
+//   },
+// };

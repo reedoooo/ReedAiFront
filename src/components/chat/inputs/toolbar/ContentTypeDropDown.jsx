@@ -7,19 +7,14 @@ import {
   MenuItem,
   Select,
 } from '@mui/material';
-import useTipTapEditor from 'hooks/chat/useTipTapEditor';
+import { useTipTapEditor } from 'hooks/chat';
 
 export const ContentTypeDropDown = ({
   anchorEl,
   handleClose,
   handleMenuOpen,
-  isFirstMessage,
-  setUserInput,
-  setFileInput,
 }) => {
-  const forms = ['Select input', 'Text input'];
-  const { editorContent, contentType, handleContentTypeChange } =
-    useTipTapEditor();
+  const { content, contentType, handleContentTypeChange } = useTipTapEditor();
 
   return (
     <>

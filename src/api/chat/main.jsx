@@ -1,6 +1,6 @@
-import { createParser } from 'eventsource-parser';
 import api from '@/lib/api';
-import apiUtils from '@/lib/apiUtils';
+import { apiUtils } from '@/lib/apiUtils';
+import { createParser } from 'eventsource-parser';
 
 export async function fetchMessageStream({
   sessionId,

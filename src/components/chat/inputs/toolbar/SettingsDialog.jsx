@@ -4,7 +4,6 @@ import {
   Button,
   Typography,
   Switch,
-  FormControlLabel,
   IconButton,
   Card,
   CardContent,
@@ -12,8 +11,6 @@ import {
   Dialog,
   Tabs,
   Tab,
-  Menu,
-  MenuItem,
   DialogTitle,
   DialogContent,
   Grid,
@@ -57,7 +54,6 @@ export const SettingsDialog = () => {
                 <CardActions>{/* Add actions if needed */}</CardActions>
               </Card>
             </Grid>
-            {/* Add more settings as needed */}
           </Grid>
         </DialogContent>
       </Dialog>

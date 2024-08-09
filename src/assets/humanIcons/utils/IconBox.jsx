@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import React from 'react';
 
-export default function IconBox(props) {
+export const IconBox = function (props) {
   const { icon, ...rest } = props;
   return (
     <Box
@@ -24,4 +24,6 @@ export default function IconBox(props) {
       {icon}
     </Box>
   );
-}
+};
+
+export default IconBox;

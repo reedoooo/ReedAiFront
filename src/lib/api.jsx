@@ -11,54 +11,79 @@ const api = axios.create({
 });
 
 export const setupInterceptors = () => {
+  // const navigate = useNavigate();
   api.interceptors.request.use(
     config => {
-      const accessToken = localStorage.getItem('accessToken');
+      const accessToken = sessionStorage.getItem('accessToken');
       if (accessToken) {
+        console.log('[VALID TOKEN BEING PASSED]', accessToken);
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
-      console.log('Request:', config.method, config.url, config.data, config.headers);
+      if (!accessToken) {
+        console.error('[NO TOKEN FOUND FOR REQUEST]', config);
+      }
+      console.log(
+        'Request:',
+        config.method,
+        config.url,
+        config.data,
+        config.headers
+      );
       return config;
     },
-    error => Promise.reject(error)
+    error => {
+      console.error('Request Error:', error);
+      return Promise.reject(error);
+    }
   );
   api.interceptors.response.use(
     response => {
       console.log('Response:', response.status, response.data);
       return response;
     },
-    function (error) {
-      const originalRequest = error.config;
-
-      if (
-        error.response.status === 401 &&
-        originalRequest.url === `${API}refresh`
-      ) {
-        // clear Auth Credentials in localstorage and then return
-        return Promise.reject(error);
+    error => {
+      console.error('Response Error:', error.response.data);
+      if (error.response.data.message === 'jwt expired') {
+        // navigate('/auth/sign-in', { replace: true });
+        window.location.href = 'auth/sign-in';
       }
-
-      // The above code is just to make sure we don't go on an infinite loop and reject if the refreshToken is invalid or expired.
-      if (error.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
-        const refreshToken = localStorage.getItem('refreshToken');
-        const user = localStorage.getItem('userStorage')?.user;
-        return axios
-          .post(`${API}refresh`, {
-            email: user.email,
-            refreshToken: refreshToken,
-          })
-          .then(res => {
-            if (res.status === 201) {
-              localStorageService.setToken(res.data.accessToken);
-              axios.defaults.headers.common['Authorization'] =
-                'Bearer ' + localStorageService.getAccessToken();
-              return axios(originalRequest);
-            }
-          });
-      }
+      // if (error.response && error.response.status === 401) {
+      //   toast.error('Your session has expired. Please log in again.');
+      // }
       return Promise.reject(error);
     }
+    // function (error) {
+    //   const originalRequest = error.config;
+
+    //   if (
+    //     error.response.status === 401 &&
+    //     originalRequest.url === `${API}refresh`
+    //   ) {
+    //     // clear Auth Credentials in localstorage and then return
+    //     return Promise.reject(error);
+    //   }
+
+    //   // The above code is just to make sure we don't go on an infinite loop and reject if the refreshToken is invalid or expired.
+    //   if (error.response.status === 401 && !originalRequest._retry) {
+    //     originalRequest._retry = true;
+    //     const refreshToken = localStorage.getItem('refreshToken');
+    //     const user = localStorage.getItem('userStore')?.user;
+    //     return axios
+    //       .post(`${API}refresh`, {
+    //         email: user.email,
+    //         refreshToken: refreshToken,
+    //       })
+    //       .then(res => {
+    //         if (res.status === 201) {
+    //           localStorageService.setToken(res.data.accessToken);
+    //           axios.defaults.headers.common['Authorization'] =
+    //             'Bearer ' + localStorageService.getAccessToken();
+    //           return axios(originalRequest);
+    //         }
+    //       });
+    //   }
+    //   return Promise.reject(error);
+    // }
   );
 };
 export default api;
@@ -114,7 +139,7 @@ export default api;
 //         return axiosInstance(originalRequest);
 //       } catch (refreshError) {
 //         useAuthStore.getState().logout();
-//         window.location.href = '/login';
+// window.location.href = '/login';
 //         return Promise.reject(refreshError);
 //       }
 //     }
