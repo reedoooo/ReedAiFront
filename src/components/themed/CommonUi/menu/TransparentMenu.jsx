@@ -1,19 +1,18 @@
 import { Logout, PersonAdd, Settings } from '@mui/icons-material';
 import {
-  Menu,
-  MenuItem,
-  IconButton as MenuButton,
-  Typography,
-  Box,
   Avatar,
+  Box,
   Divider,
   ListItemIcon,
-  Tooltip,
+  Menu,
+  IconButton as MenuButton,
+  MenuItem,
   MenuList,
+  Tooltip,
+  Typography,
 } from '@mui/material';
 import React from 'react';
-import useDisclosure from 'hooks/useDisclosure';
-import useMode from 'hooks/useMode';
+import { useDisclosure } from 'hooks';
 
 export const TransparentMenu = props => {
   const { icon, ...rest } = props;

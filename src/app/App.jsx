@@ -1,7 +1,7 @@
 // App.jsx
 import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { RouterProvider, useLocation } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
 import { Providers } from 'contexts/Providers';
 import { NotFoundPage } from 'views/error';
 import { Router } from '../routes';

@@ -1,6 +1,4 @@
-import SettingsIcon from '@mui/icons-material/Settings';
 import {
-  Box,
   Button,
   Typography,
   Switch,
@@ -15,16 +13,12 @@ import {
   DialogContent,
   Grid,
 } from '@mui/material';
-import { useState } from 'react';
+import { SettingsIcon } from 'assets/humanIcons';
+import { useTabs } from 'hooks/ui';
 
-export const SettingsDialog = () => {
-  const [open, setOpen] = useState(false);
-  const [tabValue, setTabValue] = useState(0);
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const handleTabChange = (event, newValue) => setTabValue(newValue);
-
+export const SettingsDialog = props => {
+  const { open, handleClose, handleOpen } = props;
+  const { activeTab, handleTabChange } = useTabs(0);
   return (
     <>
       <IconButton color="primary" onClick={handleOpen}>
@@ -34,7 +28,7 @@ export const SettingsDialog = () => {
         <DialogTitle>Settings</DialogTitle>
         <DialogContent>
           <Tabs
-            value={tabValue}
+            value={activeTab}
             onChange={handleTabChange}
             orientation="vertical"
           >

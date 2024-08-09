@@ -1,31 +1,19 @@
 'use client';
-import { Box, Button, CircularProgress } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { useActionData } from 'react-router-dom';
 import { ChatApp } from 'components/chat';
-import MessageProvider from 'contexts/MessageProvider';
-import useMenu from 'hooks/useMenu';
-import useMode from 'hooks/useMode';
+import { useMenu, useMode } from 'hooks';
 
 // =========================================================
 // [CHAT BOT] | ...
 // =========================================================
 export const ChatInterface = () => {
-  const { theme } = useMode();
   const actionData = useActionData();
   const [open, setOpen] = useState(!actionData);
   const promptsMenu = useMenu();
-  const dialogVariants = {
-    hidden: { width: 0 },
-    visible: { width: '60vw', transition: { duration: 1 } },
-  };
-
   const dialogRef = useRef(null);
   const sidebarItemRef = useRef(null);
-  const chatContainerRef = useRef(null);
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   useEffect(() => {
     if (promptsMenu.isOpen && sidebarItemRef.current) {
@@ -64,9 +52,7 @@ export const ChatInterface = () => {
           width: '100%',
         }}
       >
-        <MessageProvider>
-          <ChatApp />
-        </MessageProvider>
+        <ChatApp />
       </Box>
     </Box>
   );

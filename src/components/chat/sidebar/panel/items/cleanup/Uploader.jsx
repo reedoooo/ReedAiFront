@@ -1,9 +1,9 @@
-import { apiUtils } from '@/lib/apiUtils';
 import { Button, CircularProgress, Container } from '@mui/material';
-import { useAuthStore } from 'contexts/AuthProvider';
-import { useChatStore } from 'contexts/ChatProvider';
 import { debounce } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
+import { apiUtils } from '@/lib/apiUtils';
+import { useAuthStore } from 'contexts/AuthProvider';
+import { useChatStore } from 'contexts/ChatProvider';
 
 const UploadComponent = ({ sessionId, showUploaderButton }) => {
   const chatStore = useChatStore();

@@ -1,7 +1,7 @@
 import { useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
+import { StarterKit } from '@tiptap/starter-kit';
 import { FileHandler } from '@tiptap-pro/extension-file-handler';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Markdown } from 'tiptap-markdown';
 import { useChatStore } from 'contexts/ChatProvider';
 
@@ -93,16 +93,7 @@ export const useTipTapEditor = () => {
       }
     }
   };
-  // useEffect(() => {
-  //   if (editor) {
-  //     editor.commands.setContent(content);
-  //   }
-  // }, [content, editor]);
-  // useEffect(() => {
-  //   if (editor) {
-  //     setUserInput(editor.getText());
-  //   }
-  // }, [editor, setUserInput]);
+
   return {
     editor,
     content,

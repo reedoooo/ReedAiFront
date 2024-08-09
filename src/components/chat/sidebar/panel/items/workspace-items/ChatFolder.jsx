@@ -79,15 +79,17 @@ export const UpdateFolder = ({ folder }) => {
 
 export const DeleteFolder = ({ folder, contentType }) => {
   const {
-    setChats,
-    setFolders,
-    setPresets,
-    setPrompts,
-    setFiles,
-    setCollections,
-    setAssistants,
-    setTools,
-    setModels,
+    actions: {
+      setFolders,
+      setChats,
+      setPresets,
+      setPrompts,
+      setFiles,
+      setCollections,
+      setAssistants,
+      setTools,
+      setModels,
+    },
   } = useChatStore();
 
   const buttonRef = useRef(null);

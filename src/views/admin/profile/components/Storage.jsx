@@ -1,9 +1,9 @@
-import { Box, Card, LinearProgress, Typography, useTheme } from '@mui/material';
+import { Box, Card, LinearProgress, Typography } from '@mui/material';
 import { MdOutlineCloudDone } from 'react-icons/md';
 import IconBox from 'assets/humanIcons/utils/IconBox';
 import { MainMenu } from 'components/index';
 import configs from 'config/index';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 export default function Banner(props) {
   const { used, total, ...rest } = props;

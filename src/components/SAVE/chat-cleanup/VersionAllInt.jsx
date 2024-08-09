@@ -27,7 +27,7 @@
 // import TipTapEditor from 'components/TipTapEditor';
 // import { programmingLanguages } from 'config/data-configs';
 // import { useCopyToClipboard } from 'hooks/useCopyToClipboard';
-// import useMode from 'hooks/useMode';
+// import { useMode } from 'hooks';
 // import { extractJSXFromMarkdown, validateProps } from './helpers';
 // import MessageInput from './MessageInput';
 // import 'highlight.js/styles/github.css'; // Import a highlight.js theme

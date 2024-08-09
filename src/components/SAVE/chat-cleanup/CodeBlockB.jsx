@@ -1,8 +1,8 @@
 import { Button } from '@mui/material';
+import { useCopyToClipboard } from 'hooks/useCopyToClipboard';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { CheckCircleIcon, DownloadIcon, FileCopyIcon } from 'assets/humanIcons';
-import { useCopyToClipboard } from 'hooks/useCopyToClipboard';
 
 const programmingLanguages = {
   javascript: '.js',

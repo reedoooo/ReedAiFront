@@ -1,16 +1,8 @@
 /* eslint-disable jsx-a11y/no-autofocus */
-import { ShareIcon } from '@heroicons/react/24/outline';
-import AddIcon from '@mui/icons-material/Add';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
   Typography,
   Box,
   IconButton,
-  Fade,
-  AppBar,
   Toolbar,
   Menu,
   MenuItem,
@@ -21,20 +13,22 @@ import {
   DialogActions,
   Select,
   FormControl,
-  InputLabel,
   TextField,
   CssBaseline,
-  Container,
   InputAdornment,
 } from '@mui/material';
-import React, { useCallback, useState } from 'react';
-import { EditIcon, MoreVertIcon, SaveIcon } from 'assets/humanIcons';
-import { CodeIcon } from 'assets/humanIcons/custom';
-import IconBox from 'assets/humanIcons/utils/IconBox';
-import { useChatStore } from 'contexts/ChatProvider';
-import useDialog from 'hooks/useDialog';
-import { useMode } from 'hooks/useMode';
-import { Header } from './styled';
+import React, { useState } from 'react';
+import {
+  EditIcon,
+  MoreVertIcon,
+  SaveIcon,
+  CodeIcon,
+  ShareIcon,
+} from 'assets/humanIcons';
+// import { CodeIcon } from 'assets/humanIcons/custom';
+import { useChatStore } from 'contexts';
+import { useMode, useDialog } from 'hooks';
+
 const PresetSelect = ({ presets, selectedPreset, handlePresetChange }) => (
   <FormControl
     variant="outlined"
@@ -44,12 +38,12 @@ const PresetSelect = ({ presets, selectedPreset, handlePresetChange }) => (
       color: '#ffffff',
     }}
   >
-    {/* <InputLabel sx={{ color: '#ffffff' }}>Load a preset...</InputLabel> */}
     <Select
       value={selectedPreset.name || ''}
       onChange={handlePresetChange}
       label="Load a preset..."
       sx={{
+        backgroundColor: 'transparent',
         color: '#ffffff',
         '& .MuiOutlinedInput-notchedOutline': {
           borderColor: '#ffffff',
@@ -64,8 +58,8 @@ const PresetSelect = ({ presets, selectedPreset, handlePresetChange }) => (
       MenuProps={{
         PaperProps: {
           sx: {
-            bgcolor: '#333333',
-            color: '#ffffff',
+            backgroundColor: '#333333',
+            color: '#212121',
             '& .MuiMenuItem-root': {
               justifyContent: 'center',
             },
@@ -76,7 +70,7 @@ const PresetSelect = ({ presets, selectedPreset, handlePresetChange }) => (
       <MenuItem value="" disabled>
         Select a preset...
       </MenuItem>
-      {presets.map(preset => (
+      {presets?.map(preset => (
         <MenuItem key={preset.name} value={preset.name}>
           {preset.name}
         </MenuItem>
@@ -113,28 +107,22 @@ export const ChatHeader = props => {
   const chatStore = useChatStore();
   const { selectedPreset, presets } = chatStore.state;
   const { setSelectedPreset } = chatStore.actions;
-  const [expanded, setExpanded] = React.useState(false);
   const { name, handleOpen } = props;
-  const handleExpansion = () => {
-    setExpanded(prevExpanded => !prevExpanded);
-  };
-  const [anchorEl, setAnchorEl] = useState(null);
   const codeDialog = useDialog();
   const saveDialog = useDialog();
   const shareDialog = useDialog();
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleMenuOpen = event => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
+  const handleMenuOpen = event => setAnchorEl(event.currentTarget);
+  const handleMenuClose = () => setAnchorEl(null);
 
   const handlePresetChange = event => {
     const selectedPresetName = event.target.value;
     const preset = presets.find(p => p.name === selectedPresetName);
     setSelectedPreset(preset);
+  };
+  const handleDialogAction = dialog => {
+    dialog.handleClose();
   };
   return (
     <>
@@ -151,7 +139,7 @@ export const ChatHeader = props => {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton aria-label="edit" sx={{ color: '#ffffff' }}>
+          <IconButton aria-label="edit">
             <EditIcon />
           </IconButton>
           <Typography variant="h6" sx={{ color: '#ffffff', marginLeft: '8px' }}>
@@ -217,22 +205,74 @@ export const ChatHeader = props => {
         </Box>
       </Toolbar>
 
-      <Dialog
-        open={codeDialog.open}
-        onClose={codeDialog.handleClose}
-        sx={{
-          '& .MuiPaper-root': {
-            bgcolor: '#333333',
-          },
-        }}
-      >
-        <DialogTitle sx={{ color: '#ffffff' }}>View code</DialogTitle>
-        <DialogContent>
+      <DialogBox dialog={codeDialog} title="View code">
+        <TextField
+          multiline
+          fullWidth
+          rows={10}
+          defaultValue={`import os\nimport openai\n\nopenai.api_key = os.getenv("OPENAI_API_KEY")\n\nresponse = openai.Completion.create(\n  model="davinci",\n  prompt="",\n  temperature=0.9,\n  max_tokens=5,\n  top_p=1,\n  frequency_penalty=0,\n  presence_penalty=0,\n)`}
+          sx={{
+            color: '#ffffff',
+            '& .MuiInputBase-root': {
+              color: '#ffffff',
+            },
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ffffff',
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ffffff',
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ffffff',
+            },
+          }}
+        />
+      </DialogBox>
+      <DialogBox dialog={saveDialog} title="Save Preset">
+        <TextField
+          autoFocus
+          margin="dense"
+          label="Preset Name"
+          fullWidth
+          sx={{
+            color: '#ffffff',
+            '& .MuiInputBase-root': {
+              color: '#ffffff',
+            },
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ffffff',
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ffffff',
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ffffff',
+            },
+          }}
+        />
+      </DialogBox>
+      <DialogBox dialog={shareDialog} title="Share Preset">
+        <Box display="flex" alignItems="center">
           <TextField
-            multiline
+            value="https://platform.openai.com/playground/p/7bbKYQvsVkNmVb8"
             fullWidth
-            rows={10}
-            defaultValue={`import os\nimport openai\n\nopenai.api_key = os.getenv("OPENAI_API_KEY")\n\nresponse = openai.Completion.create(\n  model="davinci",\n  prompt="",\n  temperature=0.9,\n  max_tokens=5,\n  top_p=1,\n  frequency_penalty=0,\n  presence_penalty=0,\n)`}
+            InputProps={{
+              readOnly: true,
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Button
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        'https://platform.openai.com/playground/p/7bbKYQvsVkNmVb8'
+                      )
+                    }
+                    sx={{ color: '#ffffff' }}
+                  >
+                    Copy
+                  </Button>
+                </InputAdornment>
+              ),
+            }}
             sx={{
               color: '#ffffff',
               '& .MuiInputBase-root': {
@@ -249,113 +289,8 @@ export const ChatHeader = props => {
               },
             }}
           />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={codeDialog.handleClose} sx={{ color: '#ffffff' }}>
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog
-        open={saveDialog.open}
-        onClose={saveDialog.handleClose}
-        sx={{
-          '& .MuiPaper-root': {
-            bgcolor: '#333333',
-          },
-        }}
-      >
-        <DialogTitle sx={{ color: '#ffffff' }}>Save Preset</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Preset Name"
-            fullWidth
-            sx={{
-              color: '#ffffff',
-              '& .MuiInputBase-root': {
-                color: '#ffffff',
-              },
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: '#ffffff',
-              },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: '#ffffff',
-              },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: '#ffffff',
-              },
-            }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={saveDialog.handleClose} sx={{ color: '#ffffff' }}>
-            Cancel
-          </Button>
-          <Button onClick={saveDialog.handleClose} sx={{ color: '#ffffff' }}>
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog
-        open={shareDialog.open}
-        onClose={shareDialog.handleClose}
-        sx={{
-          '& .MuiPaper-root': {
-            bgcolor: '#333333',
-          },
-        }}
-      >
-        <DialogTitle sx={{ color: '#ffffff' }}>Share Preset</DialogTitle>
-        <DialogContent>
-          <Box display="flex" alignItems="center">
-            <TextField
-              value="https://platform.openai.com/playground/p/7bbKYQvsVkNmVb8"
-              fullWidth
-              InputProps={{
-                readOnly: true,
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Button
-                      onClick={() =>
-                        navigator.clipboard.writeText(
-                          'https://platform.openai.com/playground/p/7bbKYQvsVkNmVb8'
-                        )
-                      }
-                      sx={{ color: '#ffffff' }}
-                    >
-                      Copy
-                    </Button>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                color: '#ffffff',
-                '& .MuiInputBase-root': {
-                  color: '#ffffff',
-                },
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#ffffff',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#ffffff',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#ffffff',
-                },
-              }}
-            />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={shareDialog.handleClose} sx={{ color: '#ffffff' }}>
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+        </Box>
+      </DialogBox>
     </>
   );
 };

@@ -135,7 +135,7 @@ export const baseChatSlice = createSlice({
     setApiKey: (state, action) => {
       state.apiKey = action.payload;
       state.isApiKeySet = action.payload.length > 0 ? true : false;
-      localStorage.setItem('apiKey', action.payload);
+      sessionStorage.setItem('apiKey', action.payload);
       setUserOpenAiSettings({ apiKey: action.payload });
       setLocalBaseChatData({ ...state, apiKey: action.payload });
     },
@@ -168,6 +168,7 @@ export const baseChatSlice = createSlice({
     },
     setChatMessages: (state, action) => {
       state.chatMessages = action.payload;
+      setLocalBaseChatData({ ...state, chatMessages: action.payload });
     },
     setChatSettings: (state, action) => {
       state.chatSettings = action.payload;

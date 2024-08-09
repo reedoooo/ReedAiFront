@@ -12,6 +12,7 @@ export default {
   styleOverrides: {
     switchBase: {
       color: gradients.dark.main,
+      // color: '#18b984 !important',
       '&:hover': {
         backgroundColor: transparent.main,
       },
@@ -22,6 +23,7 @@ export default {
         },
       },
       '& .MuiSwitch-thumb': {
+        // color: '#18b984 !important',
         borderColor: `${gradients.dark.main} !important`,
       },
       '& + .MuiSwitch-track': {

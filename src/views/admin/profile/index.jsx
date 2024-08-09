@@ -1,7 +1,7 @@
 import { Box, Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { banner } from 'assets/img/auth';
 import { avatar5 } from 'assets/img/avatars';
-import React, { useEffect, useState } from 'react';
 import Banner from 'views/admin/profile/components/Banner';
 import General from 'views/admin/profile/components/General';
 import Notifications from 'views/admin/profile/components/Notifications';

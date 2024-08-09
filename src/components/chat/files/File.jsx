@@ -1,11 +1,12 @@
 import { Box, IconButton, Typography } from '@mui/material';
 import { FiX } from 'react-icons/fi';
 import { FileIcon } from '@/lib/fileUtils';
-import { useFileProcesser } from 'hooks/chat';
+import { useFileProcesser } from 'hooks';
 
-export const File = ({ file }) => {
-  const { handleRemoveFile } = useFileProcesser();
+export const File = props => {
+  const { file, hidden } = props;
   console.log('File:', file);
+  const { handleRemoveFile } = useFileProcesser();
   const isImage =
     file.type === 'image' ||
     file.type === 'image/jpeg' ||
@@ -34,7 +35,7 @@ export const File = ({ file }) => {
       {isImage ? (
         <Box
           component="img"
-          src={file.data}
+          src={file?.data}
           alt={file.name}
           sx={{ width: 50, height: 50, objectFit: 'cover', borderRadius: 1 }}
         />

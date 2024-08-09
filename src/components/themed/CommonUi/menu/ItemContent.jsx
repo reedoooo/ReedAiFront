@@ -1,6 +1,6 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { UpgradeIcon } from 'assets/humanIcons';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 export const ItemContent = props => {
   const { theme } = useMode();

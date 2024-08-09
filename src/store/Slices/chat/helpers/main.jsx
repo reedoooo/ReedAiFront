@@ -58,24 +58,22 @@ export const getNewPromptId = file => {
 
 export const getLocalUserSessionData = () => {
   const localWorkSpaceData = JSON.parse(
-    localStorage.getItem('userSession') || '{}'
+    localStorage.getItem('userStore') || '{}'
   );
   return { ...defaultUserSessionData(), ...localWorkSpaceData };
 };
 
 export const setLocalUserSessionData = data => {
-  localStorage.setItem('userSession', JSON.stringify(data));
+  localStorage.setItem('userStore', JSON.stringify(data));
 };
 
 export const getLocalData = (LOCAL_NAME, REDUX_NAME) => {
-  console.log(
-    `LOCAL_NAME: ${LOCAL_NAME}`,
-    'stringify' + JSON.stringify(LOCAL_NAME),
-    'regular' + LOCAL_NAME
-  );
   const localData = JSON.parse(localStorage.getItem(LOCAL_NAME) || '{}');
   const defaultData = DEFAULTS[REDUX_NAME];
-  console.log('LocalData:', localData);
+  console.log(
+    `[${LOCAL_NAME.toUpperCase()}][LOCAL DATA FOR ${REDUX_NAME}]:`,
+    localData
+  );
   return { ...defaultData, ...localData };
 };
 

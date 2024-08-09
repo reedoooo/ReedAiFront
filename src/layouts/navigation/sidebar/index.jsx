@@ -15,9 +15,8 @@ import React from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { IoMenuOutline } from 'react-icons/io5';
 import { NavLink } from 'react-router-dom';
-import { PaperCard, RCBox, RCFlex } from 'components/index';
-import useDisclosure from 'hooks/useDisclosure';
-import useMode from 'hooks/useMode';
+import { RCBox, RCFlex } from 'components/index';
+import { useDisclosure, useMode } from 'hooks';
 import { extractPaths } from 'utils/navigation';
 import {
   renderThumb,

@@ -430,6 +430,7 @@ export function defaultChatSessionStoreData() {
   return {
     // apiKey: '',
     sessionId: '',
+    sessionHeader: '',
     activeSession: {
       sessionId: '',
       topic: '',
@@ -445,6 +446,7 @@ export function defaultChatSessionStoreData() {
       stats: {},
       setting: {},
     },
+
     chatSessions: [],
     selectedChatSession: {},
     chatSession: {},

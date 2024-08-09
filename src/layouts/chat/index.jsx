@@ -2,6 +2,9 @@ import { Box, Portal } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import { ChatSidebar } from 'components/chat/sidebar';
 
+// =========================================================
+// [ChatLayout] | This code provides the chat layout for the app
+// =========================================================
 const ChatLayout = () => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>

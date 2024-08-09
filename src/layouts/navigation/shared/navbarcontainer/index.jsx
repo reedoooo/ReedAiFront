@@ -1,7 +1,6 @@
 // NavbarContainer.js
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { CustomLogoIcon } from 'assets/humanIcons/custom-logo';
 import { StyledLogoIcon } from 'components/styled';
 import { BreadcrumbsComponent } from '../breadcrumbs'; // Adjust the path as needed
@@ -16,15 +15,12 @@ export const NavbarContainer = ({
   navbarProps,
 }) => {
   const {
-    mainText,
-    secondaryText,
     navbarPosition,
     navbarFilter,
     navbarBackdrop,
     navbarShadow,
     navbarBg,
     navbarBorder,
-    secondaryMargin,
     navbarMinHeight,
     gap,
     paddingStyles,
@@ -58,15 +54,6 @@ export const NavbarContainer = ({
         display: secondary ? 'block' : 'flex',
         minHeight: navbarMinHeight,
         lineHeight: '25.6px',
-        // pb: '8px',
-        // px: {
-        //   xs: paddingX,
-        //   md: '10px',
-        // },
-        // pl: {
-        //   xl: '12px',
-        // },
-        // pt: '8px',
         width: {
           xs: 'calc(100vw - 6%)',
           md: 'calc(100vw - 8%)',

@@ -3,7 +3,7 @@ import Picker from '@emoji-mart/react';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import { IconButton } from '@mui/material';
 import React, { useState } from 'react';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 export const EmojiDropDown = ({ editor }) => {
   const { theme } = useMode();

@@ -1,6 +1,6 @@
 import { Dialog } from '@mui/material';
 import styledDefault from 'styled-components';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 const validGradients = [
   'primary',

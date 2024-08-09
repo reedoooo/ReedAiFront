@@ -1,15 +1,12 @@
 // Chakra imports
 import { Box, Portal, useTheme } from '@mui/material';
 import { useAnimation } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
-import { Navigate, Outlet, useLocation, useNavigation } from 'react-router-dom';
-import { setupInterceptors } from '@/lib/api';
+import React, { useState } from 'react';
+import { Outlet, useLocation, useNavigation } from 'react-router-dom';
 import routes from '@/routes/index';
 import { useAuthStore } from 'contexts/AuthProvider';
 import { SidebarContext } from 'contexts/SidebarProvider';
-import { useUserStore } from 'contexts/UserProvider';
-import useDisclosure from 'hooks/useDisclosure';
-import useRouter from 'hooks/useRouter';
+import { useDisclosure, useRouter } from 'hooks';
 import { FooterAdmin } from 'layouts/navigation/footer/FooterAdmin';
 import AdminNavbar from 'layouts/navigation/navbar/NavbarAdmin';
 import { LoadingIndicator } from 'utils/app/LoadingIndicator';

@@ -14,10 +14,8 @@ import {
 
 import { ChatBotIcon } from 'assets/humanIcons/custom';
 import ValidationIcon from 'components/styled/ValidationIcon';
-import { useChatStore } from 'contexts/ChatProvider';
-import { useUserStore } from 'contexts/UserProvider';
-import { useMode } from 'hooks/useMode';
-import { useRouter } from 'hooks/useRouter';
+import { useChatStore, useUserStore } from 'contexts';
+import { useMode, useRouter } from 'hooks';
 import { SidebarContainer, SidebarPanel } from '../styled';
 import Assistants from './panel/Assistants';
 import ChatSession from './panel/ChatSession';

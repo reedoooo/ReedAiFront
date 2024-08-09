@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import useContentTypeCheck from '../useContentTypeCheck';
+import useContentTypeCheck from '../util/useContentTypeCheck';
+
 function parseCode(response) {
   const textCode = response.match(/```([\s\S]+?)```/g);
   if (!textCode) return response;

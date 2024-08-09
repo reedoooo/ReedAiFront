@@ -2,7 +2,7 @@ import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import React, { createContext, useEffect, useMemo, useState } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { getTheme } from 'assets/theme';
-import useManageCookies from 'hooks/useManageCookies';
+import useManageCookies from 'hooks/util/useManageCookies';
 
 export const ColorModeContext = createContext({
   mode: 'dark',

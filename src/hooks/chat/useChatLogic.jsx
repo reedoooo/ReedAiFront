@@ -1,61 +1,60 @@
 /* eslint-disable no-constant-condition */
 import { debounce } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { apiUtils } from '@/lib/apiUtils';
 import {
   completions as completionsApi,
   sessions as sessionApi,
   workspaces as workspaceApi,
 } from 'api/chat';
-import { useChatStore } from 'contexts/ChatProvider';
-import { useDialog } from 'hooks/useDialog';
+import { useChatStore, useAuthStore, useUserStore } from 'contexts';
+import { useDialog, useMode } from 'hooks';
 import { organizeMessages, safeParse } from 'utils/format';
 import 'styles/ChatStyles.css';
 
-export async function createNewSession({ sessionName, instructions, topic }) {
-  try {
-    const newSessionData = await apiUtils.post('/chat/chatSessions/session', {
-      sessionName,
-      instructions,
-      topic,
-    });
-    return newSessionData;
-  } catch (error) {
-    console.error('Error creating new session:', error);
-  }
-}
-
-export const useChatLogic = ({
-  authActions,
-  chatState,
-  chatActions,
-  userState,
-}) => {
+/**
+ * Custom hook for chat logic.
+ *
+ * @param {Object} options - The options object.
+ * @param {Object} options.authActions - The authentication actions.
+ * @param {Object} options.chatState - The chat state.
+ * @param {Object} options.chatActions - The chat actions.
+ * @param {Object} options.userState - The user state.
+ * @returns {Object} - The chat logic object.
+ */
+export const useChatLogic = () => {
+  const { theme } = useMode();
   const {
-    apiKey,
-    workspaceId,
-    sessionId,
-    activeSession,
-    activeWorkspace,
-    userInput,
-    isMessagesUpdated,
-    isFirstMessageReceived,
-  } = chatState;
-  const { userId } = userState;
-  const { setIsRedirectToSignin } = authActions;
+    state: authState,
+    actions: { setIsRedirectToSignin },
+  } = useAuthStore();
   const {
-    setWorkspaceId,
-    setSessionId,
-    setActiveWorkspace,
-    setActiveSession,
-    setUserInput,
-    setIsMessagesUpdated,
-    setFirstMessageReceived,
-  } = chatActions;
-  const chatStore = useChatStore();
-
-  const [messageParts, setMessageParts] = useState([]);
-  const [sessionHeader, setSessionHeader] = useState('');
+    state: {
+      apiKey,
+      workspaceId,
+      sessionId,
+      sessionHeader,
+      activeSession,
+      activeWorkspace,
+      userInput,
+      isMessagesUpdated,
+      isFirstMessageReceived,
+      chatMessages,
+    },
+    actions: {
+      setWorkspaceId,
+      setSessionId,
+      setSessionHeader,
+      setActiveWorkspace,
+      setActiveSession,
+      setUserInput,
+      setIsMessagesUpdated,
+      setFirstMessageReceived,
+      setChatMessages,
+    },
+  } = useChatStore();
+  const {
+    state: { userId },
+  } = useUserStore();
   const [messages, setMessages] = useState(() => {
     const savedMessages = localStorage.getItem('chatMessages');
     return savedMessages ? JSON.parse(savedMessages) : [];
@@ -71,13 +70,12 @@ export const useChatLogic = ({
   const chatContainerRef = useRef(null);
   const editorActiveRef = useRef(false);
 
-  const handleContentChange = content => {
-    setUserInput(content);
-  };
+  const handleContentChange = useCallback(
+    content => setUserInput(content),
+    [setUserInput]
+  );
+  const clearInput = useCallback(() => setUserInput(''), [setUserInput]);
 
-  const clearInput = () => {
-    setUserInput('');
-  };
   const handleNewSession = useCallback(
     async props => {
       const { sessionName, instructions, topic } = props;
@@ -86,20 +84,36 @@ export const useChatLogic = ({
         instructions,
         topic,
       });
+      clearInput('');
+      setChatMessages([]);
+      // setSelectedChat(null);
+      // setChatFileItems([]);
+
+      // setIsGenerating(false);
+      // setFirstTokenReceived(false);
+
+      // setChatFiles([]);
+      // setChatImages([]);
+      // setNewMessageFiles([]);
+      // setNewMessageImages([]);
+      // setShowFilesDisplay(false);
+      // setIsPromptPickerOpen(false);
+      // setIsFilePickerOpen(false);
+
+      // setSelectedTools([]);
+      // setToolInUse('none');
       console.log('New session created:', data);
-      chatStore.actions.setActiveSession(data.session);
-      chatStore.actions.setSessionId(data.session._id);
+      setActiveSession(data.session);
+      setSessionId(data.session._id);
       localStorage.setItem('activeChatSession', JSON.stringify(data.session));
     },
-    [chatStore.actions]
+    [setChatMessages, setActiveSession, setSessionId, clearInput]
   );
-
   const handleSaveMessagesToSession = useCallback(async () => {
     try {
-      const currentSession = await sessionApi.getById(sessionId);
-      console.log('CURRENT SESSION:', currentSession);
+      // const currentSession = await sessionApi.getById(sessionId);
+      // console.log('CURRENT SESSION:', currentSession);
       const response = await sessionApi.saveMessage(sessionId, messages);
-      console.log('Saved messages to session:', response);
       setActiveWorkspace(response);
     } catch (error) {
       console.error(error);
@@ -109,7 +123,6 @@ export const useChatLogic = ({
   const handleUpdateSessionMessages = useCallback(
     async newMessages => {
       try {
-        // Ensure we only send new messages that haven't been sent before
         const uniqueMessages = newMessages.filter(
           newMessage =>
             !messages.some(
@@ -154,20 +167,42 @@ export const useChatLogic = ({
       throw error;
     }
   }, [sessionId, setActiveSession]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (!workspaceId) {
+  //       await handleGetValidWorkspace();
+  //       setWorkspaceId(activeWorkspace?._id);
+  //     }
 
-  useEffect(() => {
-    if (!workspaceId) {
-      handleGetValidWorkspace();
-      setWorkspaceId(activeWorkspace?._id);
-    }
-  }, [workspaceId, activeWorkspace, handleGetValidWorkspace, setWorkspaceId]);
+  //     if (!sessionId) {
+  //       const validSession = await handleGetValidSession();
+  //       setSessionId(validSession?._id);
+  //     }
+  //   };
 
-  useEffect(() => {
-    if (!sessionId) {
-      handleGetValidSession();
-      setSessionId(activeSession?._id);
-    }
-  }, [sessionId, activeSession, handleGetValidSession, setSessionId]);
+  //   fetchData();
+  // }, [
+  //   workspaceId,
+  //   sessionId,
+  //   handleGetValidWorkspace,
+  //   handleGetValidSession,
+  //   activeWorkspace,
+  //   activeSession,
+  // ]);
+
+  // useEffect(() => {
+  //   if (!workspaceId) {
+  //     handleGetValidWorkspace();
+  //     setWorkspaceId(activeWorkspace?._id);
+  //   }
+  // }, [workspaceId, activeWorkspace, handleGetValidWorkspace, setWorkspaceId]);
+
+  // useEffect(() => {
+  //   if (!sessionId) {
+  //     handleGetValidSession();
+  //     setSessionId(activeSession?._id);
+  //   }
+  // }, [sessionId, activeSession, handleGetValidSession, setSessionId]);
 
   useEffect(() => {
     const handleScroll = debounce(() => {
@@ -194,7 +229,7 @@ export const useChatLogic = ({
   }, []);
 
   const handleSendMessage = useCallback(async () => {
-    if (!localStorage.getItem('userId')) {
+    if (!sessionStorage.getItem('userId')) {
       setError('Please login to continue');
       setIsRedirectToSignin(true);
       return;
@@ -217,7 +252,7 @@ export const useChatLogic = ({
       regenerate: isRegenerating,
       prompt: userInput,
       userId: userId,
-      clientApiKey: localStorage.getItem('apiKey'),
+      clientApiKey: sessionStorage.getItem('apiKey'),
       role: 'user',
       signal: controllerRef.current.signal,
     };
@@ -249,10 +284,10 @@ export const useChatLogic = ({
           }
           return newMessages;
         });
-        setMessageParts(prevParts => [...prevParts, decodedValue]);
+        // setMessageParts(prevParts => [...prevParts, decodedValue]);
       }
       localStorage.setItem('chatMessages', JSON.stringify(messages));
-
+      // setChatMessages(messages);
       const data = safeParse(
         assistantMessage.content,
         assistantMessage.content
@@ -279,12 +314,14 @@ export const useChatLogic = ({
     controllerRef,
     sessionId,
     workspaceId,
-    apiKey,
+    isRegenerating,
+    userId,
     setIsRedirectToSignin,
-    setError,
-    setLoading,
     clearInput,
+    handleUpdateSessionMessages,
     setIsMessagesUpdated,
+    // setChatMessages,
+    safeParse,
   ]);
 
   const handleRegenerateResponse = useCallback(async () => {
@@ -324,6 +361,7 @@ export const useChatLogic = ({
     const organizedMessages = organizeMessages(combinedMessages);
     const uniqueMessages = filterMessagesWithContent(organizedMessages);
     localStorage.setItem('chatMessages', JSON.stringify(uniqueMessages));
+    // setChatMessages(uniqueMessages);
     if (workspaceId && sessionId && messages.length > 0 && !isMessagesUpdated) {
       handleSaveMessagesToSession();
       setIsMessagesUpdated(true);

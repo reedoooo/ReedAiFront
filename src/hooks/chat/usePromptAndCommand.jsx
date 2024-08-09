@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { useChatStore } from 'contexts/ChatProvider';
+import { useChatStore } from 'contexts';
+
 const getCollectionFilesByCollectionId = async collectionId => {
   const response = await fetch(`/api/files/collection/${collectionId}`);
   const files = await response.json();

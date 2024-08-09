@@ -51,7 +51,7 @@ const ChatSession = () => {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [infoAnchorEl, setInfoAnchorEl] = useState(null);
-  const userSession = JSON.parse(localStorage.getItem('userSession'));
+  const userSession = JSON.parse(localStorage.getItem('userStore'));
   const chatSessions = userSession?.user?.chatSessions;
   useEffect(() => {
     // Fetch conversations from an API or local storage

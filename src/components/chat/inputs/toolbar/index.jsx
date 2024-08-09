@@ -6,3 +6,4 @@ export * from './SettingsDialog';
 export * from './SnippetsDropDown';
 export * from './TabPanel';
 export * from './ContentTypeDropDown';
+export * from './InputActions';

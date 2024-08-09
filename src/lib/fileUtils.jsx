@@ -402,21 +402,21 @@ export const handleDocxFile = async (file, editor) => {
   }
 };
 
-export const FileIcon = ({ type, size = 32, color = '#BDBDBD' }) => {
+export const FileIcon = ({ type, size = 32, iconColor = '#BDBDBD' }) => {
   if (type.includes('image')) {
-    return <FaFileImage size={size} color={color} />;
+    return <FaFileImage size={size} color={iconColor} />;
   } else if (type.includes('pdf')) {
-    return <FaFilePdf size={size} color={color} />;
+    return <FaFilePdf size={size} color={iconColor} />;
   } else if (type.includes('csv')) {
-    return <FaFileCsv size={size} color={color} />;
+    return <FaFileCsv size={size} color={iconColor} />;
   } else if (type.includes('docx')) {
-    return <FaFileWord size={size} color={color} />;
+    return <FaFileWord size={size} color={iconColor} />;
   } else if (type.includes('plain')) {
-    return <FaFileAlt size={size} color={color} />;
+    return <FaFileAlt size={size} color={iconColor} />;
   } else if (type.includes('json')) {
-    return <FaFileCode size={size} color={color} />;
+    return <FaFileCode size={size} color={iconColor} />;
   } else if (type.includes('markdown')) {
-    return <FaRegFile size={size} color={color} />;
+    return <FaRegFile size={size} color={iconColor} />;
   } else {
     return <FaFile size={size} />;
   }

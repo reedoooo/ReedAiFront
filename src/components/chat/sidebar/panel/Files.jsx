@@ -12,17 +12,11 @@ import { styled } from '@mui/system';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { FaSave } from 'react-icons/fa';
-import { StyledButton, StyledTextField } from 'components/chat/styled';
-const StyledTabs = styled(Tabs)({
-  background: '#808080',
-  borderRadius: '5px',
-  '& .Mui-selected': {
-    backgroundColor: '#000',
-    color: '#fff',
-    // padding: '10px',
-    margin: '5px',
-  },
-});
+import {
+  StyledButton,
+  StyledTextField,
+  StyledMuiTabs,
+} from 'components/chat/styled';
 
 export function UpsertDocsForm() {
   const [url, setUrl] = useState('');
@@ -95,7 +89,7 @@ const Files = () => {
           background: '#1c1c1c', // Slightly different background for the panel to distinguish it
         }}
       >
-        <StyledTabs
+        <StyledMuiTabs
           value={tab}
           onChange={(e, newValue) => setTab(newValue)}
           indicatorColor="#fff"
@@ -113,7 +107,7 @@ const Files = () => {
             style={{ color: '#fff', borderRadius: '5px' }}
           />
           <Tab label="List" style={{ color: '#fff', borderRadius: '5px' }} />
-        </StyledTabs>
+        </StyledMuiTabs>
       </Box>
       {tab === 0 && (
         <Box

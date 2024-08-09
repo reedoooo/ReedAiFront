@@ -3,7 +3,6 @@ import { Outlet, useNavigation } from 'react-router-dom';
 import { setupInterceptors } from '@/lib/api';
 import { useAuthStore } from 'contexts/AuthProvider';
 import { useUserStore } from 'contexts/UserProvider';
-import { LoadingIndicator } from 'utils/app';
 
 export const RouterLayout = props => {
   const { ...rest } = props;
@@ -27,13 +26,9 @@ export const RouterLayout = props => {
       handleRefreshAccessToken
     );
   }, [accessToken, refreshToken, expiresIn, handleRefreshAccessToken]);
-  // const navigation = useNavigation();
-  // console.log('navigation:', navigation);
-  // console.log('accessToken:', accessToken);
 
   return (
     <>
-      {/* {navigation.state === 'loading' && <LoadingIndicator />} */}
       <Outlet {...rest} />
     </>
   );

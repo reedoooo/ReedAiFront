@@ -195,6 +195,7 @@ export const userSlice = createSlice({
     },
     setUserId: (state, action) => {
       state.userId = action.payload;
+      sessionStorage.setItem('userId', action.payload);
       setLocalUserData({ ...state, userId: action.payload });
     },
     setIsAuthenticated: (state, action) => {

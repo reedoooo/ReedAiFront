@@ -1,27 +1,11 @@
 'use client';
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  Tab,
-  Tabs,
-  TextField,
-} from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { useActionData } from 'react-router-dom';
 import { ChatApp } from 'components/chat';
+import { ChatHeader } from 'components/chat/ChatHeader';
 import { ChatSidebar } from 'components/chat/sidebar';
-import MessageProvider from 'contexts/MessageProvider';
-import useMenu from 'hooks/useMenu';
-import useMode from 'hooks/useMode';
-import ChatHeader from '../../../../components/chat/ChatHeader';
+import { useMenu, useMode } from 'hooks';
 
 const dialogVariants = {
   hidden: { width: 0 },
@@ -29,22 +13,21 @@ const dialogVariants = {
 };
 
 export const TemplateGenerator = () => {
-  const { theme } = useMode();
   const actionData = useActionData();
   const [open, setOpen] = useState(!actionData);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isApiKeyValid, setIsApiKeyValid] = useState(false);
   const promptsMenu = useMenu();
-  const promptsTemplateMenu = useMenu();
-  const assistantsMenu = useMenu();
-  const workspaceMenu = useMenu();
-  const fileMenu = useMenu();
-  const foldersMenu = useMenu();
-  const collectionsMenu = useMenu();
-  const settingsMenu = useMenu();
-  const [selectedTab, setSelectedTab] = useState(0);
-  const [newPrompt, setNewPrompt] = useState({ name: '', content: '' });
-  const [newTemplate, setNewTemplate] = useState({ name: '', content: '' });
+  // const promptsTemplateMenu = useMenu();
+  // const assistantsMenu = useMenu();
+  // const workspaceMenu = useMenu();
+  // const fileMenu = useMenu();
+  // const foldersMenu = useMenu();
+  // const collectionsMenu = useMenu();
+  // const settingsMenu = useMenu();
+  // const [selectedTab, setSelectedTab] = useState(0);
+  // const [newPrompt, setNewPrompt] = useState({ name: '', content: '' });
+  // const [newTemplate, setNewTemplate] = useState({ name: '', content: '' });
   const [newWorkspace, setNewWorkspace] = useState({
     name: '',
     description: '',
@@ -64,11 +47,11 @@ export const TemplateGenerator = () => {
     setOpen(false);
   };
   const checkUser = () => {
-    return !!localStorage.getItem('userId');
+    return !!sessionStorage.getItem('userId');
   };
 
   const checkApiKey = () => {
-    return !!localStorage.getItem('apiKey');
+    return !!sessionStorage.getItem('apiKey');
   };
 
   const checkStatusUpdates = () => {
@@ -153,17 +136,7 @@ export const TemplateGenerator = () => {
               px: 2,
             }}
           >
-            <MessageProvider>
-              <ChatApp />
-            </MessageProvider>
-            {/* <Dialog open={open} onClose={handleClose}>
-              <form method="post">
-                <TextField name="name" label="Workspace Name" required />
-                <TextField name="description" label="Description" />
-                {/* Include other fields as required by your schema */}
-            {/* <Button type="submit">Submit</Button>
-              </form>
-            </Dialog> */}
+            <ChatApp />
           </Box>
         </Box>
       </Box>

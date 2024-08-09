@@ -19,11 +19,9 @@ import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { SequentialAnimations } from 'assets/animation';
-import { PageLayout } from 'components/index';
-import RCTypography from 'components/themed/HumanUi/RCTypography';
+import { PageLayout, RCTypography } from 'components/index';
 import { templateData } from 'config/data';
-import useMode from 'hooks/useMode';
-import useRouter from 'hooks/useRouter';
+import { useRouter, useMode } from 'hooks';
 
 const StyledMenuList = styled(props => (
   <MenuList

@@ -1,5 +1,4 @@
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
-
 import {
   Box,
   Button,
@@ -15,23 +14,16 @@ import {
   MenuItem,
   Select,
   Switch,
-  Tab,
   TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
-import { styled } from '@mui/system';
-import PropTypes from 'prop-types';
-import React, { useRef, useState } from 'react';
-import { FiSettings } from 'react-icons/fi';
+import React, { useState } from 'react';
 import { workspaces as workspacesApi } from 'api/chat';
-import { SettingsIcon } from 'assets/humanIcons';
+import { InfoOutlinedIcon, SettingsIcon } from 'assets/humanIcons';
 import {
-  PanelHeaderRow,
-  StyledButton,
-  StyledMotionTabs,
-  StyledPanelHeaderButton,
   StyledSlider,
+  StyledSwitch,
   StyledSwitchFormControlLabel,
   StyledTextareaAutosize,
   StyledTextField,
@@ -40,8 +32,7 @@ import {
 import { RCOption, RCSelect } from 'components/themed';
 import { DEFAULT_APP_DATA } from 'config/app-data-configs';
 import { useChatStore } from 'contexts/ChatProvider';
-import { useDialog } from 'hooks/useDialog';
-import { useMode } from 'hooks/useMode';
+import { useDialog, useMode } from 'hooks';
 
 const marks = [
   { value: 0, label: '0' },
@@ -81,13 +72,8 @@ export const WorkspaceCreatorForm = () => {
   );
   const [fileSearchEnabled, setFileSearchEnabled] = useState(true);
   const [codeInterpreterEnabled, setCodeInterpreterEnabled] = useState(true);
-  const [openDialog, setOpenDialog] = useState(false);
   const [codeInput, setCodeInput] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
-
-  // const handlePresetChange = event => {
-  //   setPreset(event.target.value);
-  // };
   const handlePresetChange = event => {
     const selectedPresetName = event.target.value;
     const preset = presets.find(p => p.name === selectedPresetName);
@@ -97,7 +83,6 @@ export const WorkspaceCreatorForm = () => {
 
   const handleSaveCode = () => {
     console.log('Code input:', codeInput);
-    // Handle code saving logic here
     functionsDialog.handleClose();
   };
   const defaultAppData = DEFAULT_APP_DATA;
@@ -109,7 +94,7 @@ export const WorkspaceCreatorForm = () => {
   const handleSave = async () => {
     const workspaceData = {
       name,
-      userId: localStorage.getItem('userId'),
+      userId: sessionStorage.getItem('userId'),
       customPreset: {
         name: selectedPreset?.name || '',
         temperature,
@@ -175,13 +160,13 @@ export const WorkspaceCreatorForm = () => {
       <Typography variant="caption" sx={{ color: '#ffffff' }}>
         Example
       </Typography>
-      <RCSelect defaultValue={10}>
+      {/* <RCSelect defaultValue={10}>
         {[10, 20, 30].map((value, index) => (
           <RCOption key={index} value={value}>
             Option {value}
           </RCOption>
         ))}
-      </RCSelect>{' '}
+      </RCSelect>{' '} */}
       <Divider sx={{ color: '#ffffff', marginBottom: '5px' }} />
       <Typography variant="caption" sx={{ color: '#ffffff' }}>
         Preset Name
@@ -200,16 +185,6 @@ export const WorkspaceCreatorForm = () => {
           label="Load a preset..."
           sx={{
             color: '#ffffff',
-            // color: '#ffffff',
-            // '& .MuiOutlinedInput-notchedOutline': {
-            //   borderColor: '#ffffff',
-            // },
-            // '&:hover .MuiOutlinedInput-notchedOutline': {
-            //   borderColor: '#ffffff',
-            // },
-            // '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            //   borderColor: '#ffffff',
-            // },
           }}
           MenuProps={{
             PaperProps: {
@@ -263,20 +238,14 @@ export const WorkspaceCreatorForm = () => {
             e.target.value === '' ? '' : parseInt(e.target.value)
           )
         }
-        sx={{
-          color: '#ffffff',
-        }}
       />
       <Typography variant="caption" sx={{ color: '#ffffff' }}>
         Embeddings Provider
       </Typography>
-      <TextField
+      <StyledTextField
         fullWidth
         value={embeddingsProvider}
         onChange={e => setEmbeddingsProvider(e.target.value)}
-        sx={{
-          color: '#ffffff',
-        }}
       />
       <Typography variant="caption" sx={{ color: '#ffffff' }}>
         System Prompt
@@ -379,7 +348,7 @@ export const WorkspaceCreatorForm = () => {
         >
           <StyledSwitchFormControlLabel
             control={
-              <Switch
+              <StyledSwitch
                 checked={fileSearchEnabled}
                 onChange={() => setFileSearchEnabled(!fileSearchEnabled)}
               />
@@ -387,24 +356,13 @@ export const WorkspaceCreatorForm = () => {
             label="File search"
           />
           <Tooltip title="Information about Code interpreter">
-            <InformationCircleIcon
-              sx={{
-                color: '#ffffff',
-                marginLeft: '5px',
-                fontSize: '18px',
-                height: '18px',
-                width: '18px',
-              }}
-            />
+            <IconButton sx={{ marginLeft: 'auto', color: '#ffffff' }}>
+              <InfoOutlinedIcon />
+            </IconButton>
           </Tooltip>
+
           <IconButton sx={{ marginLeft: 'auto' }}>
-            <SettingsIcon
-              sx={{
-                color: '#ffffff',
-                height: '18px',
-                width: '18px',
-              }}
-            />
+            <SettingsIcon />
           </IconButton>
           <label htmlFor="file-input" style={{ marginLeft: '10px' }}>
             <input
@@ -423,6 +381,7 @@ export const WorkspaceCreatorForm = () => {
                 color: '#ffffff',
                 borderColor: '#ffffff',
                 height: '50%', // Reducing height by 50%
+                width: '100%', // Adjusting width to fit the reduced height
                 padding: '4px 10px', // Adjust padding to fit the reduced height
               }}
             >
@@ -434,7 +393,7 @@ export const WorkspaceCreatorForm = () => {
         <Box display="flex" alignItems="center" sx={{ marginBottom: '10px' }}>
           <StyledSwitchFormControlLabel
             control={
-              <Switch
+              <StyledSwitch
                 checked={codeInterpreterEnabled}
                 onChange={() =>
                   setCodeInterpreterEnabled(!codeInterpreterEnabled)
@@ -444,23 +403,12 @@ export const WorkspaceCreatorForm = () => {
             label="Code interpreter"
           />
           <Tooltip title="Information about Code interpreter">
-            <InformationCircleIcon
-              sx={{
-                color: '#ffffff',
-                marginLeft: '5px',
-                height: '18px',
-                width: '18px',
-              }}
-            />
+            <IconButton sx={{ marginLeft: 'auto', color: '#ffffff' }}>
+              <InfoOutlinedIcon />
+            </IconButton>
           </Tooltip>
           <IconButton sx={{ marginLeft: 'auto' }}>
-            <SettingsIcon
-              sx={{
-                color: '#ffffff',
-                height: '18px',
-                width: '18px',
-              }}
-            />
+            <SettingsIcon />
           </IconButton>
           <label htmlFor="file-input" style={{ marginLeft: '10px' }}>
             <input
@@ -479,6 +427,7 @@ export const WorkspaceCreatorForm = () => {
                 color: '#ffffff',
                 borderColor: '#ffffff',
                 height: '50%', // Reducing height by 50%
+                width: '100%', // Adjusting width to fit the reduced height
                 padding: '4px 10px', // Adjust padding to fit the reduced height
               }}
             >

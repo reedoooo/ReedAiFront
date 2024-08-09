@@ -1,14 +1,7 @@
 import { Search as SearchIcon } from '@mui/icons-material';
-import {
-  Box,
-  IconButton,
-  Input,
-  InputAdornment,
-  TextField,
-} from '@mui/material';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
 import React from 'react';
-import { RCInput } from 'components/themed';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 export function SearchBar(props) {
   const { variant, background, children, placeholder, borderRadius, ...rest } =
@@ -16,12 +9,11 @@ export function SearchBar(props) {
   const { theme } = useMode();
   // Material-UI Color Mode
   const searchIconColor = '#212121';
-  const searchColor = '#212121';
   const inputBg = 'transparent';
 
   return (
     <TextField
-      variant="outlined"
+      // variant="outlined"
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
@@ -38,16 +30,41 @@ export function SearchBar(props) {
               }}
             >
               <SearchIcon
-                sx={{ color: searchIconColor, width: '15px', height: '15px' }}
+                sx={{ color: searchIconColor, width: '20px', height: '20px' }}
               />
             </IconButton>
           </InputAdornment>
         ),
         variant: 'searchbar',
+        sx: {
+          borderRadius: '30px',
+          border: 'none',
+          '&:hover': {
+            border: 'none',
+          },
+          '&:focus': {
+            border: 'none',
+            boxShadow: 'none',
+          },
+          // add styles to color background white when filled
+          '&.Mui-focused': {
+            backgroundColor: '#fff',
+            border: 'none',
+            boxShadow: 'none',
+          },
+          '& .MuiInputBase-input': {
+            color: '#fff',
+          },
+          '&.MuiOutlinedInput-notchedOutline': {
+            borderColor: 'grey',
+            borderRadius: '30px',
+          },
+        },
       }}
       placeholder='"Search..."'
       sx={{
-        bgColor: inputBg,
+        bgColor: '#fff',
+        border: 'none',
       }}
       {...rest}
     />

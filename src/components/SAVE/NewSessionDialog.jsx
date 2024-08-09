@@ -1,7 +1,7 @@
-import { Dialog, DialogTitle, DialogContent } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import React, { useState } from 'react';
-import useMode from 'hooks/useMode';
-import { MessageInput } from './inputs';
+import { useMode } from 'hooks';
+import { MessageInput } from '../chat/inputs';
 
 export const NewSessionDialog = props => {
   const { theme } = useMode();

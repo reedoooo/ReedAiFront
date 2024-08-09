@@ -1,6 +1,5 @@
 import { Help, Info } from '@mui/icons-material';
 import {
-  AppBar,
   Avatar,
   Box,
   Button,
@@ -11,9 +10,7 @@ import {
   MenuItem,
   useMediaQuery,
 } from '@mui/material';
-// MUI Icons
 import PropTypes from 'prop-types';
-
 import React, { useState } from 'react';
 import { MdInfoOutline, MdNotificationsNone } from 'react-icons/md';
 import { Link } from 'react-router-dom';
@@ -28,10 +25,8 @@ import {
   SettingsIcon,
 } from 'assets/humanIcons';
 import { ReusableDropdownMenu } from 'components/themed';
-import { useAuthStore } from 'contexts/AuthProvider';
-import { useChatStore } from 'contexts/ChatProvider';
-import { useUserStore } from 'contexts/UserProvider';
-import { useMode } from 'hooks/useMode';
+import { useAuthStore, useChatStore, useUserStore } from 'contexts';
+import { useMode } from 'hooks';
 import { SearchBar } from '../shared/searchBar/SearchBar';
 import Sidebar from '../sidebar';
 
@@ -99,14 +94,8 @@ export default function HeaderLinks(props) {
   const handleClose2 = () => {
     setAnchorEl2(null);
   };
-  // const textColor = theme.palette.text.primary;
-  // const textColorBrand = theme.palette.primary.main;
   const shadow = '14px 17px 40px 4px rgba(112, 144, 176, 0.18)';
-  // // const borderButton = theme.palette.divider;
-  // const navbarIcon = theme.palette.grey[400];
   const menuBg = theme.palette.common.white;
-  // // const textColor = theme.palette.secondaryGray?.[900] || theme.palette.text.primary;
-  // const borderColor = theme.palette.divider;
   // const borderButton = '#8F9BBA';
 
   return (
@@ -118,16 +107,6 @@ export default function HeaderLinks(props) {
         flexWrap: 'nowrap', // 'unset' is equivalent to 'nowrap' in this context
         boxShadow: 'rgba(112, 144, 176, 0.18) 14px 17px 40px 4px',
         borderRadius: '30px',
-        // zIndex: 100,
-        // background: 'white',
-        // padding: '10px',
-        // width: { xs: '100%', md: 'auto' },
-        // flexDirection: 'row',
-        // bgcolor: menuBg,
-        // flexWrap: secondary ? { xs: 'wrap', md: 'nowrap' } : 'unset',
-        // p: '10px',
-        // borderRadius: '30px',
-        // boxShadow: shadow,
       }}
     >
       <SearchBar

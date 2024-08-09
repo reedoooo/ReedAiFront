@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Grid } from '@mui/material';
 import { templateData } from 'config/data';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 import TemplatesDisplay from './components/TemplatesDisplay';
 
 // ==============================|| TEMPLATES ||============================== //

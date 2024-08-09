@@ -1,17 +1,22 @@
-import StopCircleIcon from '@mui/icons-material/StopCircle';
-import { Box, Card, CardActions, CardContent, IconButton } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  IconButton,
+} from '@mui/material';
 import { EditorContent } from '@tiptap/react';
 import React, { useEffect } from 'react';
-import { SendIcon } from 'assets/humanIcons';
-import { useChatStore } from 'contexts/ChatProvider';
+import { SendIcon, StopCircleIcon } from 'assets/humanIcons';
+import { useChatStore } from 'contexts';
 import { useDialog, useTipTapEditor } from 'hooks';
-import { File } from '../files/File';
-import { FileUploadButton } from '../files/FileUploadButton';
+import { File, FileDisplay, FileUploadButton } from '../files';
 import {
   ChatMessageActionsContainer,
   ChatMessageEditorContentsContainer,
 } from '../styled';
-import { InputActions } from './toolbar/InputActions';
+import { InputActions } from './toolbar';
 
 export const MessageInput = ({
   theme,
@@ -21,16 +26,14 @@ export const MessageInput = ({
   editorRef,
   setFileInput,
   isFirstMessage,
-  setError,
   onContentChange,
-  initialContent,
 }) => {
   const apiKeyDialog = useDialog();
   const chatStore = useChatStore();
   const { editor } = useTipTapEditor();
   const {
-    state: { files },
-    actions: { setFiles },
+    state: { files, showFilesDisplay },
+    actions: { setShowFilesDisplay },
   } = chatStore;
 
   const handleSendMessageWrapper = async () => {
@@ -75,25 +78,33 @@ export const MessageInput = ({
           p: 1,
         }}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-          {files.map((file, index) => (
-            <Box
-              key={index}
-              display="flex"
-              alignItems="center"
-              // mb={2}
-              color={'#BDBDBD'}
-            >
-              <File file={file} />
-            </Box>
-          ))}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            p: 1,
+          }}
+        >
+          <Button
+            onClick={() => setShowFilesDisplay(!showFilesDisplay)}
+            sx={{
+              mr: 'auto',
+            }}
+          >
+            {!showFilesDisplay || files.length === 0
+              ? 'Show Files'
+              : 'Hide Files'}
+          </Button>
+          <FileDisplay
+            files={files}
+            hidden={!showFilesDisplay || files.length === 0}
+          />
         </Box>
         <ChatMessageActionsContainer>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <InputActions
               editor={editor}
-              theme={theme}
-              setApiKey={chatStore.setApiKey}
               handleOpenApiModal={apiKeyDialog.handleOpen}
               setUserInput={onContentChange}
               setFileInput={setFileInput}
@@ -102,7 +113,7 @@ export const MessageInput = ({
           </Box>
           <IconButton
             onClick={() => {
-              if (!localStorage.getItem('apiKey')) {
+              if (!sessionStorage.getItem('apiKey')) {
                 console.log('No API Key');
                 apiKeyDialog.handleOpen();
               } else if (disabled) {
@@ -133,7 +144,7 @@ export const MessageInput = ({
               alignItems: 'center',
             }}
           >
-            <FileUploadButton setFiles={setFiles} files={files} />
+            <FileUploadButton />
           </Box>
           <ChatMessageEditorContentsContainer>
             <EditorContent editor={editor} />

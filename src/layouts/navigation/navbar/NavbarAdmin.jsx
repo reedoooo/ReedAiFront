@@ -1,11 +1,10 @@
 // AdminNavbar.js
-import { Box, useMediaQuery, useScrollTrigger } from '@mui/material';
-import { motion, useAnimation } from 'framer-motion';
+import { Box, useMediaQuery } from '@mui/material';
+import { useAnimation } from 'framer-motion';
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import routes from '@/routes/index';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 import { NavbarContainer } from '../shared/navbarcontainer'; // Import the new NavbarContainer
 import AdminNavbarLinks from './NavbarLinksAdmin';
 

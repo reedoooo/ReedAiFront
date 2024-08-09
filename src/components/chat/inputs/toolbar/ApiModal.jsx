@@ -1,17 +1,17 @@
 import {
-  Modal,
   Box,
-  Card,
-  Typography,
-  IconButton,
-  TextField,
   Button,
+  Card,
+  IconButton,
   Link,
+  Modal,
+  TextField,
+  Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
 import { MdLock } from 'react-icons/md';
 import { ApiIcon } from 'assets/humanIcons';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 export const APIModal = ({ open, onClose, setApiKey, onOpen }) => {
   const [inputCode, setInputCode] = useState('');

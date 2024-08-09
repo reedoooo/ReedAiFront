@@ -1,15 +1,15 @@
 import {
-  Menu,
-  MenuItem,
+  Box,
   IconButton,
   ListItemIcon,
   ListItemText,
-  Box,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { MdOutlineMoreHoriz } from 'react-icons/md';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 export const MainMenu = ({ items, ...rest }) => {
   const { theme } = useMode();

@@ -1,17 +1,17 @@
 import {
-  TableContainer,
   Button,
+  Paper,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
-  TableRow,
-  Paper,
-  useMediaQuery,
   TablePagination,
+  TableRow,
+  useMediaQuery,
 } from '@mui/material';
-import React, { useState, useEffect, useMemo } from 'react';
-import useMode from 'hooks/useMode';
+import React, { useMemo, useState } from 'react';
+import { useMode } from 'hooks';
 import { isASCII } from 'utils/is';
 
 const useBasicLayout = () => {
@@ -25,7 +25,7 @@ const PromptTable = ({ onUsePrompt }) => {
   // const promptStore = usePromptStore();
   const [promptList, setPromptList] = useState(
     // promptStore.getPrompts()
-    JSON.parse(localStorage.getItem('customPrompts')) || [
+    JSON.parse(localStorage.getItem('promptStore')?.prompts) || [
       {
         id: 1,
         key: 'Prompt 1',

@@ -1,5 +1,6 @@
+import apiUtils from '@/lib/apiUtils';
 import { useAuthStore } from 'contexts/AuthProvider';
-import { apiUtils, setAuthTokens } from '../lib';
+import { setAuthTokens } from 'store/Slices';
 
 export const useHttp = () => {
   const { state: authState, actions: authActions } = useAuthStore();
@@ -43,8 +44,8 @@ export const useHttp = () => {
     updateAuthToken();
 
     // Append userId and apiKey from localStorage to the data object
-    const userId = localStorage.getItem('userId');
-    const apiKey = localStorage.getItem('apiKey');
+    const userId = sessionStorage.getItem('userId');
+    const apiKey = sessionStorage.getItem('apiKey');
 
     const params = {
       ...((typeof data === 'function' ? data() : data) ?? {}),

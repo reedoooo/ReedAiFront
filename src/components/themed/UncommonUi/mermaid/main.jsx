@@ -1,5 +1,5 @@
 import React from 'react';
-import useMermaidDiagram from 'hooks/useMermaidDiagram';
+import useMermaidDiagram from 'hooks/ui/useMermaidDiagram';
 
 export const Mermaid = ({ content }) => {
   const diagram = useMermaidDiagram(content);

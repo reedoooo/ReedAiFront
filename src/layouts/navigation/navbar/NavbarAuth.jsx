@@ -16,7 +16,8 @@ import { NavLink } from 'react-router-dom';
 import routes from '@/routes/index';
 import { LogoIcon } from 'components/index';
 import { SidebarContext } from 'contexts/SidebarProvider';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
+
 export default function AuthNavbar(props) {
   const { logoText, secondary } = props;
   const { theme } = useMode();

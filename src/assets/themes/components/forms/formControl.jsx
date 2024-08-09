@@ -26,17 +26,17 @@ export default {
         boxShadow: `${alpha(error.main, 0.25)} 0 0 0 0.25rem !important`,
       },
     },
-    '& .MuiInputLabel-outlined': {
-      color: grey[400],
-      fontSize: size.sm,
-      '&.Mui-focused': {
-        color: grey[500],
-        fontWeight: 'bold',
-      },
-      '&.MuiInputLabel-shrink': {
-        transform: 'translate(14px, -6px) scale(0.75)',
-      },
-    },
+    // '& .MuiInputLabel-outlined': {
+    //   color: grey[400],
+    //   fontSize: size.sm,
+    //   '&.Mui-focused': {
+    //     color: grey[500],
+    //     fontWeight: 'bold',
+    //   },
+    //   '&.MuiInputLabel-shrink': {
+    //     transform: 'translate(14px, -6px) scale(0.75)',
+    //   },
+    // },
     input: {
       '&::placeholder': {
         color: grey[600],

@@ -35,7 +35,7 @@ import { getGeneralChatResponse } from 'api/index';
 import { APIModal } from 'components/chat/inputs/toolbar';
 import { MessageBox } from 'components/chat/messages';
 import constants from 'config/constants';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 const { API_URL, OPENAI_API_KEY } = constants;
 
 export default function Chat(props) {
@@ -45,7 +45,7 @@ export default function Chat(props) {
   const [response, setResponse] = useState('');
   const [model, setModel] = useState('gpt-3.5-turbo');
   const [apiKey, setApiKey] = useState(
-    localStorage.getItem('apiKey') || OPENAI_API_KEY
+    sessionStorage.getItem('apiKey') || OPENAI_API_KEY
   );
   const [modelData, setModelData] = useState({
     apiKey: apiKey,

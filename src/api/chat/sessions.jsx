@@ -26,7 +26,7 @@ export const sessions = {
   create: async name => {
     try {
       const data = await apiUtils.post('/chat/sessions/create', {
-        userId: localStorage.getItem('userId'),
+        userId: sessionStorage.getItem('userId'),
         workspaceId: localStorage.getItem('workspaceStore')?.workspaceId,
         name: name,
         topic: name,
