@@ -1,9 +1,9 @@
 /* eslint-disable max-len */
 import { PhotoCamera } from '@mui/icons-material';
-import { Typography, CircularProgress, Box } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { AspectRatioBox, StyledPaper } from 'components/index';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 export function ImagePromptAnimation() {
   const { theme } = useMode();

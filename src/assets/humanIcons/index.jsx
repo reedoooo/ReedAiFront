@@ -6,9 +6,12 @@ import {
   ActivityIcon,
   UpArrowIcon,
   DownArrowIcon,
+  // CodeIcon,
 } from './custom/index';
 // import { LogoIcon } from './custom/logo';
 // GENERAL
+import { ShareIcon } from '@heroicons/react/24/outline';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import InsertDriveFileOutlined from '@mui/icons-material/InsertDriveFileOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
@@ -77,6 +80,8 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 // CONTENT
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import StopCircleIcon from '@mui/icons-material/StopCircle';
 import ArticleIcon from '@mui/icons-material/Article';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import BarChartIcon from '@mui/icons-material/BarChart';
@@ -127,6 +132,7 @@ export {
   UpArrowIcon,
   DownArrowIcon,
   // GENERAL
+  StopCircleIcon,
   CancelOutlinedIcon,
   AccountCircleRoundedIcon,
   AccountCircleIcon,
@@ -174,6 +180,7 @@ export {
   MenuIcon,
   UpgradeIcon,
   MoreVertIcon,
+  InfoOutlinedIcon,
   NoteAddIcon,
   NotificationsActiveIcon,
   NotificationsNoneIcon,
@@ -221,7 +228,8 @@ export {
   SendIcon,
   KeyIcon,
   FingerprintIcon,
-
+  KeyboardArrowUpIcon,
+  ShareIcon,
   // Font Awesome
   // Font Awesome
   FaCameraRetro,
@@ -251,6 +259,9 @@ const reedThaHumansIconLibrary = {
   CloudIcon,
   ExitToAppIcon,
   CancelOutlinedIcon,
+  ShareIcon,
+  StopCircleIcon,
+  InfoOutlinedIcon,
   // General
   AssistantIcon,
   CollectionsIcon,
@@ -339,7 +350,7 @@ const reedThaHumansIconLibrary = {
   ColorLensIcon,
   CodeOutlinedIcon,
   ColorLensOutlinedIcon,
-
+  KeyboardArrowUpIcon,
   // Font Awesome
   FaCameraRetro,
   FaCopy,

@@ -4,7 +4,7 @@ import Project1 from 'assets/img/profile/Project1.png';
 // import Project2 from 'assets/img/profile/Project2.png';
 // import Project3 from 'assets/img/profile/Project3.png';
 import { Card } from 'components/index';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 import Project from './Project';
 
 export default function Projects(props) {

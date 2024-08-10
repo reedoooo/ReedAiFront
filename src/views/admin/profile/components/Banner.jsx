@@ -1,12 +1,12 @@
 import {
-  Box,
-  CardContent,
-  Typography,
   Avatar,
+  Box,
   Card,
+  CardContent,
   styled,
+  Typography,
 } from '@mui/material';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   marginBottom: theme.spacing(2.5),

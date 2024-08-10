@@ -1,73 +1,79 @@
 import {
-  Tabs,
   Tab,
-  TextField,
   Button,
   Typography,
   Box,
-  Card,
   IconButton,
   Menu,
   MenuItem,
-  Divider,
 } from '@mui/material';
-import { styled } from '@mui/system';
-import React, { useState, useEffect } from 'react';
-import { FaSignOutAlt, FaTrashAlt } from 'react-icons/fa';
+import React, { useState, useEffect, useCallback } from 'react';
+import { FaSignOutAlt } from 'react-icons/fa';
 import { MdInfoOutline } from 'react-icons/md';
-import { StyledButton, StyledTextField } from 'components/chat/styled';
-
-const StyledTabs = styled(Tabs)({
-  background: '#808080',
-  borderRadius: '5px',
-  '& .Mui-selected': {
-    backgroundColor: '#000',
-    color: '#fff',
-    margin: '5px',
-  },
-});
-
-const ConversationCard = styled(Card)({
-  background: '#1c1c1c',
-  color: '#fff',
-  margin: '10px 0',
-  padding: '10px',
-  borderRadius: '5px',
-});
-
-const ExportOptions = styled(Box)({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: '10px',
-  background: '#333',
-  borderRadius: '5px',
-  margin: '10px 0',
-});
-
+import { sessions } from 'api/chat';
+import {
+  ConversationCard,
+  ExportOptions,
+  StyledButton,
+  StyledMuiTabs,
+  StyledTextField,
+} from 'components/chat/styled';
+const ConversationMenu = ({
+  anchorEl,
+  handleMenuClose,
+  handleExportJSON,
+  handleDeleteConversation,
+}) => (
+  <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+    <MenuItem onClick={handleMenuClose}>View Info</MenuItem>
+    <MenuItem onClick={handleExportJSON}>Export as JSON</MenuItem>
+    <MenuItem onClick={handleDeleteConversation}>Delete</MenuItem>
+  </Menu>
+);
 const ChatSession = () => {
   const [tab, setTab] = useState(0);
   const [conversations, setConversations] = useState(null);
+  const [conversationMessages, setConversationMessages] = useState(null);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [infoAnchorEl, setInfoAnchorEl] = useState(null);
-  const userSession = JSON.parse(localStorage.getItem('userSession'));
+  const userSession = JSON.parse(localStorage.getItem('userStore'));
+  const baseChat = JSON.parse(localStorage.getItem('baseChatStore'));
+  const chatSessionStore = JSON.parse(localStorage.getItem('chatSessionStore'));
+  const activeSessionId = chatSessionStore?.sessionId;
   const chatSessions = userSession?.user?.chatSessions;
+
+  const handleGetSessionMessages = useCallback(async () => {
+    try {
+      // const currentSession = await sessionApi.getById(sessionId);
+      // console.log('CURRENT SESSION:', currentSession);
+      const response = await sessions.getMessages(activeSessionId);
+      console.log('RESPONSE:', response);
+      setConversationMessages([...response]);
+      setConversations(
+        chatSessions.map(session => ({
+          ...session,
+          messages: [...response],
+        }))
+      );
+      console.log('conversationMessages', conversationMessages);
+      console.log('conversations', conversations);
+      // setConversationMessages(response);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [activeSessionId]);
+
   useEffect(() => {
-    // Fetch conversations from an API or local storage
-    console.log('chatSessions', chatSessions);
-    setConversations(chatSessions);
-  }, [chatSessions]);
+    handleGetSessionMessages();
+  }, [handleGetSessionMessages]);
 
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
   };
 
-  const handleConversationClick = conversation => {
+  const handleMenuClick = (event, conversation) => {
     setSelectedConversation(conversation);
-  };
-
-  const handleMenuClick = event => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -75,31 +81,24 @@ const ChatSession = () => {
     setAnchorEl(null);
   };
 
-  const handleInfoMenuClick = event => {
-    setInfoAnchorEl(event.currentTarget);
+  const handleExportCSV = () => {
+    const options = {
+      filename: 'conversation_history',
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: false,
+      title: 'Conversation History',
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true,
+    };
+
+    // const csvExporter = new Export(options);
+    const csvExporter = new ExportOptions(options);
+    csvExporter.generateCsv(conversations);
   };
-
-  const handleInfoMenuClose = () => {
-    setInfoAnchorEl(null);
-  };
-
-  // const handleExportCSV = () => {
-  //   const options = {
-  //     filename: 'conversation_history',
-  //     fieldSeparator: ',',
-  //     quoteStrings: '"',
-  //     decimalSeparator: '.',
-  //     showLabels: true,
-  //     showTitle: false,
-  //     title: 'Conversation History',
-  //     useTextFile: false,
-  //     useBom: true,
-  //     useKeysAsHeaders: true,
-  //   };
-
-  //   const csvExporter = new ExportToCsv(options);
-  //   csvExporter.generateCsv(conversations);
-  // };
 
   const handleExportJSON = () => {
     const jsonStr = JSON.stringify(conversations, null, 2);
@@ -132,7 +131,7 @@ const ChatSession = () => {
           background: '#1c1c1c',
         }}
       >
-        <StyledTabs
+        <StyledMuiTabs
           value={tab}
           onChange={handleTabChange}
           indicatorColor="#fff"
@@ -145,45 +144,34 @@ const ChatSession = () => {
             label="Settings"
             style={{ color: '#fff', borderRadius: '5px' }}
           />
-        </StyledTabs>
+        </StyledMuiTabs>
       </Box>
       {tab === 0 && (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            padding: '1rem',
-          }}
-        >
-          {conversations?.map(conversation => (
+        <Box sx={{ padding: '1rem', flexGrow: 1, overflowY: 'auto' }}>
+          {conversations.map(conversation => (
             <ConversationCard
               key={conversation._id}
-              onClick={() => handleConversationClick(conversation)}
+              onClick={() => setSelectedConversation(conversation)}
             >
               <Typography variant="h6">{conversation.name}</Typography>
-              <IconButton onClick={handleMenuClick}>
+              <IconButton
+                onClick={event => handleMenuClick(event, conversation)}
+              >
                 <MdInfoOutline style={{ color: '#fff' }} />
               </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
-              >
-                <MenuItem onClick={handleMenuClose}>View Info</MenuItem>
-                {/* <MenuItem onClick={handleExportCSV}>Export as CSV</MenuItem> */}
-                <MenuItem onClick={handleExportJSON}>Export as JSON</MenuItem>
-                <MenuItem
-                  onClick={() => handleDeleteConversation(conversation._id)}
-                >
-                  Delete
-                </MenuItem>
-              </Menu>
             </ConversationCard>
           ))}
+          <ConversationMenu
+            anchorEl={anchorEl}
+            handleMenuClose={handleMenuClose}
+            handleExportJSON={handleExportJSON}
+            handleDeleteConversation={() =>
+              handleDeleteConversation(selectedConversation?._id)
+            }
+          />
           {selectedConversation && (
             <Box>
-              <Typography variant="h6" style={{ color: '#fff' }}>
+              <Typography variant="h6" sx={{ color: '#fff' }}>
                 {selectedConversation.name}
               </Typography>
               <Box
@@ -193,18 +181,15 @@ const ChatSession = () => {
                   borderRadius: '5px',
                 }}
               >
-                {selectedConversation.messages.map((message, index) => (
-                  <Typography key={index} style={{ color: '#fff' }}>
-                    {message}
+                {selectedConversation.messages?.map((message, index) => (
+                  <Typography key={index} sx={{ color: '#fff' }}>
+                    {message.content}
                   </Typography>
                 ))}
               </Box>
             </Box>
           )}
           <ExportOptions>
-            {/* <Button variant="contained" onClick={handleExportCSV}>
-              Export All as CSV
-            </Button> */}
             <Button variant="contained" onClick={handleExportJSON}>
               Export All as JSON
             </Button>

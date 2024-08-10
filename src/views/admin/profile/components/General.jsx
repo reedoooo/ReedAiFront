@@ -1,6 +1,6 @@
 import { CardContent, Grid, Typography } from '@mui/material';
 import { Card } from 'components/index';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 import Information from './Information';
 
 export default function GeneralInformation(props) {

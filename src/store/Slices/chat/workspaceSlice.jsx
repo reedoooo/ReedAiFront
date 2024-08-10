@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getLocalData, setLocalData } from './helpers';
+import { getLocalData, setLocalData } from '../helpers';
 
 const LOCAL_NAME = 'workspaceStore';
 const REDUX_NAME = 'workspaces';

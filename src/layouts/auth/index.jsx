@@ -3,10 +3,12 @@ import { Box, CssBaseline } from '@mui/material';
 import { useState } from 'react';
 import { Outlet, useNavigation } from 'react-router-dom';
 import { SidebarContext } from 'contexts/SidebarProvider';
-import useDisclosure from 'hooks/useDisclosure';
+import { useDisclosure } from 'hooks';
 import LoadingIndicator from 'utils/app/LoadingIndicator';
 
-// Custom Material UI theme
+// =========================================================
+// [AuthLayout] | This code provides the auth layout for the app
+// =========================================================
 export const AuthLayout = () => {
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const navigation = useNavigation();

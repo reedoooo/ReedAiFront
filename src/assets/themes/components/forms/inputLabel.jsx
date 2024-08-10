@@ -1,6 +1,6 @@
 import { colors, typography } from 'assets/themes/base';
 
-const { text, info } = colors;
+const { text, info, primary } = colors;
 const { size } = typography;
 
 export default {
@@ -8,10 +8,10 @@ export default {
     root: {
       fontSize: size.sm,
       color: text.main,
-      lineHeight: 0.9,
-      '&.Mui-focused': {
-        color: info.main,
-      },
+      // lineHeight: 0.9,
+      // '&.Mui-focused': {
+      //   color: '#3d3d3d',
+      // },
       '&.MuiInputLabel-shrink': {
         lineHeight: 1.5,
         fontSize: size.md,

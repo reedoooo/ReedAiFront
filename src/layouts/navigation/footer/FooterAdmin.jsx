@@ -1,6 +1,6 @@
 import { Box, Link, List, ListItem, Typography } from '@mui/material';
 import React from 'react';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 export const FooterAdmin = props => {
   const { theme } = useMode();

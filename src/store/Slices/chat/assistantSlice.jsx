@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getLocalData } from './helpers';
+import { getLocalData } from '../helpers';
 
 const LOCAL_NAME = 'assistantStore';
 const REDUX_NAME = 'assistants';

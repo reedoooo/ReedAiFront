@@ -2,7 +2,7 @@
 export default {
   styleOverrides: {
     root: {
-      backgroundColor: 'transparent',
+      backgroundColor: '#fff',
       // '&::before, &::after': {
       //   borderBottom: '2px solid var(--TextField-brandBorderColor)',
       // },

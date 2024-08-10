@@ -9,17 +9,20 @@ const { size } = typography;
 export default {
   styleOverrides: {
     root: {
-      borderColor: '#808080',
-      borderWidth: '1px',
+      border: '1px solid #808080',
       '&:hover': {
-        borderColor: action.dark.disabled,
-        borderWidth: '3px',
-        boxShadow: `${alpha(action.dark.hover, 0.25)} 0 0 0 0.2rem !important`,
+        // borderColor: action.dark.disabled,
+        // borderWidth: '3px',
+        border: '1px solid #3d3d3d',
+        // boxShadow: `${alpha(action.dark.hover, 0.25)} 0 0 0 0.2rem !important`,
       },
       '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-        borderColor: '#3d3d3d',
+        // borderColor: '#3d3d3d',
         // boxShadow: `${alpha(info.main, 0.25)} 0 0 0 0.2rem !important`,
       },
+    },
+    input: {
+      bg: '#ffffff',
     },
     inputSizeSmall: {
       fontSize: size.xs,

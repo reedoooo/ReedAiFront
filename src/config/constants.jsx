@@ -52,6 +52,14 @@ export const constants = {
     audio: ['audio/wav', 'audio/mp3', 'audio/flac', 'audio/ogg', 'audio/m4a'],
     video: ['video/mp4', 'video/avi', 'video/mov', 'video/x-matroska'],
   },
+  ACCEPTED_FILE_TYPES: [
+    'text/csv',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/json',
+    'text/markdown',
+    'application/pdf',
+    'text/plain',
+  ].join(','),
   LOCAL_STORAGE_KEYS: {
     USER_SESSION: 'userSession',
     CUSTOMS_PROMPTS: 'customPrompts',

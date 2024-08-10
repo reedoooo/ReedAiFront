@@ -25,7 +25,7 @@ export const WorkspaceItemValues = (
     >
       <Box sx={{ mt: 2 }}>
         <Typography variant="subtitle2">Name</Typography>
-        <DisplayDropdownMenus
+        {/* <DisplayDropdownMenus
           workspaces={workspaces}
           chatSessions={chatSessions}
           modelNames={modelNames}
@@ -39,7 +39,7 @@ export const WorkspaceItemValues = (
           handleSelectChange={() =>
             console.log('Handle select change', workspaces)
           }
-        />
+        /> */}
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
           <StyledButton
             variant="outlined"

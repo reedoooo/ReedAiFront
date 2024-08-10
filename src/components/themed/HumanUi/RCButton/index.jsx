@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 import RCButtonRoot from './RCButtonRoot';
 
 // Wrapper component for when you need a container around the button

@@ -1,26 +1,23 @@
 import {
+  Box,
   Button,
   Card,
   Divider,
   Grid,
-  TextField,
   Modal,
   Popover,
-  Box,
-  Tabs,
   Tab,
+  Tabs,
+  TextField,
   Typography,
   useMediaQuery,
-  TextareaAutosize,
 } from '@mui/material';
 import { styled } from '@mui/system';
-import React, { useState, useEffect, useRef } from 'react';
-import { FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
-import { EditIcon } from 'assets/humanIcons';
+import React, { useEffect, useRef, useState } from 'react';
 import PromptRecommend from 'assets/recommend.json';
 import { useChatStore } from 'contexts/ChatProvider';
 // import { usePromptStore } from 'contexts/PromptProvider';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 import { isASCII } from 'utils/is';
 
 const StyledTextField = styled(TextField)({

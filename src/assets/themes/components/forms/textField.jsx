@@ -7,10 +7,10 @@ export default {
     root: {
       p: 2,
     },
-    input: {
-      '&::placeholder': {
-        color: transparent.main,
-      },
-    },
+    // input: {
+    //   '&::placeholder': {
+    //     color: transparent.main,
+    //   },
+    // },
   },
 };

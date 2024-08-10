@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FaUser } from 'react-icons/fa';
 import { AiIcon } from 'assets/humanIcons';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 import { ChatBubbleAvatarWrapper, ChatBubbleWrapper } from '../styled';
 import MessageOptions from './MessageOptions';
 import RenderContent from './RenderContent';
@@ -52,7 +52,10 @@ export const ChatBubble = ({ message, sender }) => {
           <MessageOptions
             message={message}
             onRegenerate={() => {
-              const messages = JSON.parse(localStorage.getItem('chatMessages'));
+              const messages = JSON.parse(
+                localStorage.getItem('chatMessages')
+                // localStorage.getItem('baseChatStore')?.chatMessages
+              );
               const mostRecentPrompt = messages[messages.length - 1].content;
               console.log(`Regenerating message: ${mostRecentPrompt}`);
             }}

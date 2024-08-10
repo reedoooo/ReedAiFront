@@ -18,7 +18,7 @@ import {
   PersonIcon,
 } from 'assets/humanIcons';
 import LoadingScreen from 'components/themed/UncommonUi/loadingScreen';
-import { Loadable } from 'layouts/navigation/shared/loadable';
+import { Loadable } from 'layouts/navigation/navbar/components/loadable';
 import { dispatch, setField } from 'store/index';
 
 /* *** Error Utils *** */
@@ -253,6 +253,7 @@ const rootRoutes = [
     type: 'root',
     name: 'Root',
     title: 'Root',
+    hide: true,
     path: '/',
     element: <RouterLayout />,
     errorElement: <RootErrorBoundary />,

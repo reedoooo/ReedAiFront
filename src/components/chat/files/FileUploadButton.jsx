@@ -2,21 +2,27 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { Input } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { DarkIconBox } from 'assets/humanIcons/utils';
-import { useFileProcesser } from 'hooks/chat';
+import { useChatStore } from 'contexts';
+import { useFileProcesser } from 'hooks';
 import { ChatMessageIconContainer } from '../styled';
 
 export const FileUploadButton = () => {
-  const { handleSelectDeviceFile, fileInputRef } = useFileProcesser();
   const theme = useTheme();
+  const chatStore = useChatStore();
+  const { files, showFilesDisplay } = chatStore.state;
+  const { setFiles, setShowFilesDisplay } = chatStore.actions;
+  const { handleSelectDeviceFile, fileInputRef } = useFileProcesser();
 
   const handleOpenFileSelector = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = event => {
+  const handleFileChange = async event => {
     if (!event.target.files) return;
     const file = event.target.files[0];
-    handleSelectDeviceFile(file);
+    if (file && !files.find(f => f.name === file.name)) {
+      await handleSelectDeviceFile(file);
+    }
   };
 
   return (

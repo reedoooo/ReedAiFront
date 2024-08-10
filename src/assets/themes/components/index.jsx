@@ -133,7 +133,7 @@ export default {
   },
   // === FORMS / INPUTS ===
   MuiInputBase: { ...inputBase },
-  MuiInput: { ...input },
+  // MuiInput: { ...input },
   MuiInputLabel: {
     ...inputLabel,
   },
@@ -145,7 +145,7 @@ export default {
   MuiOutlinedInput: {
     ...inputOutlined,
   },
-  MuiFilledInput: {
-    ...inputFilled,
-  },
+  // MuiFilledInput: {
+  //   ...inputFilled,
+  // },
 };

@@ -4,7 +4,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import App from 'app/App';
 import { store } from 'store'; // Assuming you have configured your store here
 import { ColorModeProvider } from './contexts';
-
+import 'styles/index.css'; // Assuming you have a global.css file
 // ========================================================
 // [index] | This is the entry point for the application
 // =========================================================

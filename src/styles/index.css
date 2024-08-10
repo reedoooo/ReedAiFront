@@ -1,28 +1,34 @@
 /* index.css or App.css */
 @import 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf_viewer.css';
 /* Add this to your global CSS file */
-@import '~highlight.js/styles/github.css';
+/* @import '~highlight.js/styles/github.css'; */
 
 option {
   color: black;
+}
+.custom-editor {
+  padding: 12px; /* Add padding inside the editor */
+  border-radius: 4px; /* Optional: Add border-radius */
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
+input:-webkit-autofill:active .MuiInputBase-root:has(> input:-webkit-autofill) {
   -webkit-background-clip: text;
   -webkit-text-fill-color: inherit !important;
   -webkit-box-shadow: inherit !important;
   transition: background-color 5000s ease-in-out 0s;
   box-shadow: inherit !important;
+  /* background-color: #ffffff; */
+  /* box-shadow: 0 0 0 1000px #ffffff inset; */
 }
 
 .material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;  /* Preferred icon size */
+  font-size: 24px; /* Preferred icon size */
   display: inline-block;
   line-height: 1;
   text-transform: none;

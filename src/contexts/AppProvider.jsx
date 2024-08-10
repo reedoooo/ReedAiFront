@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSiderCollapsed, setTheme } from 'store/Slices/appSlice';
+import { setSidebarOpen, setTheme } from 'store/Slices';
 
 export const AppContext = createContext(null);
 
@@ -9,7 +9,7 @@ export const AppProvider = ({ children }) => {
   const dispatch = useDispatch();
 
   const actions = {
-    setSiderCollapsed: collapsed => dispatch(setSiderCollapsed(collapsed)),
+    setSidebarOpen: collapsed => dispatch(setSidebarOpen(collapsed)),
     setTheme: theme => dispatch(setTheme(theme)),
   };
 

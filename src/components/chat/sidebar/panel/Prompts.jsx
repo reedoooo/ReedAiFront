@@ -1,43 +1,32 @@
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
-import { PlusIcon } from '@heroicons/react/24/outline';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { TabGroup, TabPanel, TabPanels } from '@headlessui/react';
 import {
   Box,
   Button,
   Card,
   Divider,
   Grid,
-  Popover,
-  styled,
-  TextareaAutosize,
+  IconButton,
   TextField,
   Typography,
   useMediaQuery,
-  Container,
-  IconButton,
 } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
-import classNames from 'classnames';
-import { motion, AnimatePresence } from 'framer-motion';
-import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  DownArrowIcon,
   EditIcon,
   FileCopyIcon,
-  UpArrowIcon,
+  KeyboardArrowUpIcon,
+  KeyboardArrowDownIcon,
 } from 'assets/humanIcons';
 import PromptRecommend from 'assets/recommend.json';
 import {
-  StyledTabs,
   AnimatedTab,
   StyledButton,
-  StyledTextField,
+  StyledTabs,
   StyledTextareaAutosize,
+  StyledTextField,
 } from 'components/chat/styled';
-import { useCopyToClipboard } from 'hooks/useCopyToClipboard';
-import useMode from 'hooks/useMode';
-import { isASCII } from 'utils/is';
+import { useCopyToClipboard, useMode } from 'hooks';
 
 const addCustomPrompt = async (name, content) => {
   const url = 'http://localhost:3001/api/files/add/prompt'; // Replace with your actual endpoint
@@ -142,7 +131,7 @@ export const Prompts = () => {
   const { theme } = useMode();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [promptList, setPromptList] = useState(
-    JSON.parse(localStorage.getItem('customPrompts')) || [
+    JSON.parse(localStorage.getItem('promptStore')?.prompts) || [
       {
         id: 1,
         title: 'Prompt 1',
@@ -186,7 +175,8 @@ export const Prompts = () => {
   useEffect(() => {
     const fetchData = () => {
       try {
-        const files = JSON.parse(localStorage.getItem('customPrompts')) || [];
+        const files =
+          JSON.parse(localStorage.getItem('promptStore').prompts) || [];
         console.log('FILES', files);
         setRows(files);
         setPromptList(removeDuplicateTitles(files));

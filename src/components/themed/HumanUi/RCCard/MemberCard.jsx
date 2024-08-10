@@ -6,7 +6,7 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 export default function MemberCard(props) {
   const { avatar, name, job, ...rest } = props;

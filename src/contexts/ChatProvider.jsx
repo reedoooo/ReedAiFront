@@ -7,6 +7,7 @@ import {
   setActiveLocal,
   setActiveSession,
   setActiveWorkspace,
+  setSelectedChatSession,
   setApiKey,
   setAssistantImages,
   setAssistants,
@@ -68,6 +69,8 @@ import {
   setWorkspaceId,
   setWorkspaceImages,
   setWorkspaces,
+  setSessionHeader,
+  createChatSession,
 } from 'store/Slices'; // Assuming you can import all slices from a single entry point
 
 export const selectWorkspace = createSelector(
@@ -108,33 +111,8 @@ export const selectPrompt = createSelector(
   prompt => prompt
 );
 
-// export const selectActiveChat = createSelector(
-//   [state => state.activeChat],
-//   activeChat => activeChat
-// );
-// export const selectChatInputCommand = createSelector(
-//   [state => state.chatInputCommand],
-//   chatInputCommand => chatInputCommand
-// );
-// export const selectGeneralChat = createSelector(
-//   [state => state.generalChat],
-//   generalChat => generalChat
-// );
-// export const selectPassiveChat = createSelector(
-//   [state => state.passiveChat],
-//   passiveChat => passiveChat
-// );
-// export const selectRetrieval = createSelector(
-//   [state => state.retrieval],
-//   retrieval => retrieval
-// );
 export const ChatContext = createContext(null);
 export const ChatProvider = ({ children }) => {
-  // const activeChat = useSelector(selectActiveChat);
-  // const chatInputCommand = useSelector(selectChatInputCommand);
-  // const generalChat = useSelector(selectGeneralChat);
-  // const passiveChat = useSelector(selectPassiveChat);
-  // const retrieval = useSelector(selectRetrieval);
   const workspace = useSelector(selectWorkspace);
   const baseChat = useSelector(selectBaseChat);
   const chatSession = useSelector(selectChatSession);
@@ -303,7 +281,12 @@ export const ChatProvider = ({ children }) => {
     // ===========================================
     setChatSessions: chats => dispatch(setChatSessions(chats)),
     setActiveSession: session => dispatch(setActiveSession(session)),
+    setSelectedChatSession: session =>
+      dispatch(setSelectedChatSession(session)),
     setSessionId: sessionId => dispatch(setSessionId(sessionId)),
+    setSessionHeader: header => dispatch(setSessionHeader(header)),
+    createNewChatSession: sessionData =>
+      dispatch(createChatSession(sessionData)),
     // ===========================================
     // [ASSISTANT STORE]
     // ===========================================

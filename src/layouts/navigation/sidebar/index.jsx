@@ -15,15 +15,14 @@ import React from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { IoMenuOutline } from 'react-icons/io5';
 import { NavLink } from 'react-router-dom';
-import { PaperCard, RCBox, RCFlex } from 'components/index';
-import useDisclosure from 'hooks/useDisclosure';
-import useMode from 'hooks/useMode';
+import { RCBox, RCFlex } from 'components/index';
+import { useDisclosure, useMode } from 'hooks';
 import { extractPaths } from 'utils/navigation';
 import {
   renderThumb,
   renderTrack,
   renderView,
-} from '../shared/scrollbar/Scrollbar';
+} from '../../../components/themed/UncommonUi/scrollbar/Scrollbar';
 import Brand from './components/Brand';
 
 export const Sidebar = props => {
@@ -57,6 +56,7 @@ export const Sidebar = props => {
         boxSizing: 'border-box',
         maxWidth: '100%',
         paddingLeft: `${paddingLeft}px`,
+        visibility: route.hide ? 'hidden' : 'visible',
       }}
       key={uniqueId(route.path)}
     >

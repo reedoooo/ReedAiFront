@@ -21,7 +21,7 @@ import { AndroidLogo, AppleLogo, WindowsLogo } from 'assets/humanIcons/custom';
 import Menu from 'components/themed/CommonUi/menu/MainMenu.jsx';
 import Card from 'components/themed/UncommonUi/card/Card';
 import configs from 'config/index';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 export default function DevelopmentTable(props) {
   const { columnsData, tableData } = props;

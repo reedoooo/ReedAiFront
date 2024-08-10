@@ -1,34 +1,14 @@
-import {
-  Tabs,
-  Tab,
-  TextField,
-  Button,
-  TextareaAutosize,
-  Typography,
-  Box,
-  Card,
-} from '@mui/material';
+import { Box, Tab, Tabs, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import React, { useState } from 'react';
-import { FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
+import { FaSignOutAlt } from 'react-icons/fa';
 import {
   StyledButton,
   StyledTextareaAutosize,
   StyledTextField,
+  StyledMuiTabs,
 } from 'components/chat/styled';
-import { RCInput } from 'components/themed';
-import useMode from 'hooks/useMode';
-
-const StyledTabs = styled(Tabs)({
-  background: '#808080',
-  borderRadius: '5px',
-  '& .Mui-selected': {
-    backgroundColor: '#000',
-    color: '#fff',
-    // padding: '10px',
-    margin: '5px',
-  },
-});
+import { useMode } from 'hooks';
 
 const User = () => {
   const { theme } = useMode();
@@ -54,7 +34,7 @@ const User = () => {
           background: '#1c1c1c', // Slightly different background for the panel to distinguish it
         }}
       >
-        <StyledTabs
+        <StyledMuiTabs
           value={tab}
           onChange={(e, newValue) => setTab(newValue)}
           indicatorColor="#fff"
@@ -65,7 +45,7 @@ const User = () => {
             style={{ color: '#fff', borderRadius: '5px' }}
           />
           <Tab label="Account" style={{ color: '#fff', borderRadius: '5px' }} />
-        </StyledTabs>
+        </StyledMuiTabs>
       </Box>
       {tab === 0 && (
         <Box

@@ -1,89 +1,38 @@
 /* eslint-disable jsx-a11y/no-autofocus */
-import { ShareIcon } from '@heroicons/react/24/outline';
-import AddIcon from '@mui/icons-material/Add';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
   Box,
+  Button,
+  CssBaseline,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Drawer,
   IconButton,
-  Fade,
-  AppBar,
-  Toolbar,
+  InputAdornment,
   Menu,
   MenuItem,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Select,
-  FormControl,
-  InputLabel,
+  MenuList,
+  Popover,
   TextField,
-  CssBaseline,
-  Container,
-  InputAdornment,
+  Toolbar,
+  Typography,
+  useMediaQuery,
 } from '@mui/material';
-import React, { useCallback, useState } from 'react';
-import { EditIcon, MoreVertIcon, SaveIcon } from 'assets/humanIcons';
-import { CodeIcon } from 'assets/humanIcons/custom';
-import IconBox from 'assets/humanIcons/utils/IconBox';
-import { useChatStore } from 'contexts/ChatProvider';
-import useDialog from 'hooks/useDialog';
-import { useMode } from 'hooks/useMode';
-import { Header } from './styled';
-const PresetSelect = ({ presets, selectedPreset, handlePresetChange }) => (
-  <FormControl
-    variant="outlined"
-    sx={{
-      minWidth: 200,
-      marginRight: 2,
-      color: '#ffffff',
-    }}
-  >
-    {/* <InputLabel sx={{ color: '#ffffff' }}>Load a preset...</InputLabel> */}
-    <Select
-      value={selectedPreset.name || ''}
-      onChange={handlePresetChange}
-      label="Load a preset..."
-      sx={{
-        color: '#ffffff',
-        '& .MuiOutlinedInput-notchedOutline': {
-          borderColor: '#ffffff',
-        },
-        '&:hover .MuiOutlinedInput-notchedOutline': {
-          borderColor: '#ffffff',
-        },
-        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-          borderColor: '#ffffff',
-        },
-      }}
-      MenuProps={{
-        PaperProps: {
-          sx: {
-            bgcolor: '#333333',
-            color: '#ffffff',
-            '& .MuiMenuItem-root': {
-              justifyContent: 'center',
-            },
-          },
-        },
-      }}
-    >
-      <MenuItem value="" disabled>
-        Select a preset...
-      </MenuItem>
-      {presets.map(preset => (
-        <MenuItem key={preset.name} value={preset.name}>
-          {preset.name}
-        </MenuItem>
-      ))}
-    </Select>
-  </FormControl>
-);
+import React, { useState } from 'react';
+import {
+  CodeIcon,
+  EditIcon,
+  MenuIcon,
+  MoreVertIcon,
+  SaveIcon,
+  ShareIcon,
+} from 'assets/humanIcons';
+// import { CodeIcon } from 'assets/humanIcons/custom';
+import { useChatStore } from 'contexts';
+import { useDialog, useMenu, useMode } from 'hooks';
+import { defaultChatSessionStoreData } from 'store/Slices/helpers';
+import { PresetSelect } from './sidebar/panel';
 
 const DialogBox = ({ dialog, title, children, handleAction }) => (
   <Dialog
@@ -111,31 +60,106 @@ const DialogBox = ({ dialog, title, children, handleAction }) => (
 export const ChatHeader = props => {
   const { theme } = useMode();
   const chatStore = useChatStore();
-  const { selectedPreset, presets } = chatStore.state;
-  const { setSelectedPreset } = chatStore.actions;
-  const [expanded, setExpanded] = React.useState(false);
-  const { name, handleOpen } = props;
-  const handleExpansion = () => {
-    setExpanded(prevExpanded => !prevExpanded);
-  };
-  const [anchorEl, setAnchorEl] = useState(null);
+  const { selectedPreset, presets, sessionHeader } = chatStore.state;
+  const {
+    setSelectedPreset,
+    createNewChatSession,
+    setSessionHeader,
+    setSessionId,
+    setActiveSession,
+    setSelectedChatSession,
+    setIsGenerating,
+    setChatFileItems,
+    setFirstTokenReceived,
+    setChatFiles,
+    setChatImages,
+    setNewMessageFiles,
+    setNewMessageImages,
+    setShowFilesDisplay,
+    setIsPromptPickerOpen,
+    setIsFilePickerOpen,
+    setSelectedTools,
+    setToolInUse,
+    setChatMessages,
+  } = chatStore.actions;
+  const { name } = props;
   const codeDialog = useDialog();
   const saveDialog = useDialog();
   const shareDialog = useDialog();
+  const sessionNameDialog = useDialog();
 
-  const handleMenuOpen = event => {
-    setAnchorEl(event.currentTarget);
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is mobile
+  const mobileMenu = useMenu();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const handleMenuOpen = event => setAnchorEl(event.currentTarget);
+  const handleMenuClose = () => setAnchorEl(null);
+  const handleCreateNewSession = () => {
+    sessionNameDialog.handleOpen();
   };
+  const handleConfirmCreateSession = () => {
+    // --- Clear the current session data ---
+    setSelectedChatSession({
+      _id: null,
+    });
+    setActiveSession({
+      _id: null,
+      messages: [],
+    });
+    setChatFileItems([]);
+    setSessionId(null);
+    setIsGenerating(false);
+    setFirstTokenReceived(false);
+    setChatFiles([]);
+    setChatMessages([]);
+    setChatImages([]);
+    setNewMessageFiles([]);
+    setNewMessageImages([]);
+    setShowFilesDisplay(false);
+    setIsPromptPickerOpen(false);
+    setIsFilePickerOpen(false);
+    setSelectedTools([]);
+    setToolInUse('none');
+    window.location.reload();
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
+    // --- Create a new session with the entered name ---
+    const newSessionData = {
+      ...defaultChatSessionStoreData(),
+      name: sessionHeader || 'New Chat Session',
+      topic: sessionHeader || 'New Chat Session',
+      prompt: `Starting a new chat session with topic: ${sessionHeader || 'New Chat Session'}.`,
+      userId: chatStore.state.userId,
+      workspaceId: chatStore.state.workspaceId,
+      summary: '',
+      messages: [],
+      model: 'gpt-4o-mini',
+      active: true,
+      settings: {
+        contextCount: 15,
+        maxTokens: 500,
+        temperature: 0.7,
+        model: 'gpt-4o-mini',
+        topP: 1,
+        n: 4,
+        debug: false,
+        summarizeMode: false,
+      },
+      apiKey: chatStore.state.apiKey,
+    };
+    createNewChatSession(newSessionData);
+    sessionNameDialog.handleClose();
   };
-
   const handlePresetChange = event => {
     const selectedPresetName = event.target.value;
     const preset = presets.find(p => p.name === selectedPresetName);
     setSelectedPreset(preset);
   };
+  const handleDialogAction = dialog => {
+    dialog.handleClose();
+  };
+
   return (
     <>
       <CssBaseline />
@@ -145,14 +169,22 @@ export const ChatHeader = props => {
           alignItems: 'center',
           justifyContent: 'space-between',
           bgcolor: '#1C1C1C',
-          padding: '10px',
+          // padding: '10px',
           borderRadius: '8px',
           border: '1px solid rgba(255, 255, 255, 0.12)',
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton aria-label="edit" sx={{ color: '#ffffff' }}>
-            <EditIcon />
+          <IconButton
+            aria-label="menu"
+            onClick={
+              isMobile
+                ? mobileMenu.handleMenuOpen
+                : sessionNameDialog.handleOpen
+            }
+            sx={{ color: '#ffffff' }}
+          >
+            {isMobile ? <MenuIcon /> : <EditIcon />}
           </IconButton>
           <Typography variant="h6" sx={{ color: '#ffffff', marginLeft: '8px' }}>
             Playground
@@ -160,7 +192,7 @@ export const ChatHeader = props => {
         </Box>
         <Box
           sx={{
-            display: 'flex',
+            display: { xs: 'none', sm: 'flex' },
             alignItems: 'center',
           }}
         >
@@ -216,23 +248,133 @@ export const ChatHeader = props => {
           </Menu>
         </Box>
       </Toolbar>
-
-      <Dialog
-        open={codeDialog.open}
-        onClose={codeDialog.handleClose}
-        sx={{
-          '& .MuiPaper-root': {
-            bgcolor: '#333333',
-          },
+      <Popover
+        open={mobileMenu.isOpen}
+        anchorEl={mobileMenu.anchorEl}
+        onClose={mobileMenu.handleMenuClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
+        sx={{ display: { xs: 'block', sm: 'none' }, p: 1 }}
       >
-        <DialogTitle sx={{ color: '#ffffff' }}>View code</DialogTitle>
-        <DialogContent>
+        <MenuList>
+          <MenuItem onClick={handleCreateNewSession}>
+            <EditIcon sx={{ mr: 1 }} /> New Session
+          </MenuItem>
+          {/* <PresetSelect
+            presets={presets}
+            selectedPreset={selectedPreset}
+            handlePresetChange={handlePresetChange}
+          />
+          <MenuItem onClick={saveDialog.handleOpen}>
+            <SaveIcon sx={{ mr: 1 }} /> Save
+          </MenuItem>
+          <MenuItem onClick={codeDialog.handleOpen}>
+            <CodeIcon sx={{ mr: 1 }} /> View Code
+          </MenuItem>
+          <MenuItem onClick={shareDialog.handleOpen}>
+            <ShareIcon sx={{ mr: 1 }} /> Share
+          </MenuItem> */}
+        </MenuList>
+      </Popover>
+      <DialogBox
+        dialog={sessionNameDialog}
+        title="New Session Name"
+        handleAction={handleConfirmCreateSession}
+      >
+        <TextField
+          autoFocus
+          margin="dense"
+          label="Session Name"
+          fullWidth
+          value={sessionHeader}
+          onChange={e => setSessionHeader(e.target.value)}
+          sx={{
+            color: '#ffffff',
+            '& .MuiInputBase-root': {
+              color: '#ffffff',
+            },
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ffffff',
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ffffff',
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ffffff',
+            },
+          }}
+        />
+      </DialogBox>
+      <DialogBox dialog={codeDialog} title="View code">
+        <TextField
+          multiline
+          fullWidth
+          rows={10}
+          defaultValue={`import os\nimport openai\n\nopenai.api_key = os.getenv("OPENAI_API_KEY")\n\nresponse = openai.Completion.create(\n  model="davinci",\n  prompt="",\n  temperature=0.9,\n  max_tokens=5,\n  top_p=1,\n  frequency_penalty=0,\n  presence_penalty=0,\n)`}
+          sx={{
+            color: '#ffffff',
+            '& .MuiInputBase-root': {
+              color: '#ffffff',
+            },
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ffffff',
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ffffff',
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ffffff',
+            },
+          }}
+        />
+      </DialogBox>
+      <DialogBox dialog={saveDialog} title="Save Preset">
+        <TextField
+          autoFocus
+          margin="dense"
+          label="Preset Name"
+          fullWidth
+          sx={{
+            color: '#ffffff',
+            '& .MuiInputBase-root': {
+              color: '#ffffff',
+            },
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ffffff',
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ffffff',
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#ffffff',
+            },
+          }}
+        />
+      </DialogBox>
+      <DialogBox dialog={shareDialog} title="Share Preset">
+        <Box display="flex" alignItems="center">
           <TextField
-            multiline
+            value="https://platform.openai.com/playground/p/7bbKYQvsVkNmVb8"
             fullWidth
-            rows={10}
-            defaultValue={`import os\nimport openai\n\nopenai.api_key = os.getenv("OPENAI_API_KEY")\n\nresponse = openai.Completion.create(\n  model="davinci",\n  prompt="",\n  temperature=0.9,\n  max_tokens=5,\n  top_p=1,\n  frequency_penalty=0,\n  presence_penalty=0,\n)`}
+            InputProps={{
+              readOnly: true,
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Button
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        'https://platform.openai.com/playground/p/7bbKYQvsVkNmVb8'
+                      )
+                    }
+                    sx={{ color: '#ffffff' }}
+                  >
+                    Copy
+                  </Button>
+                </InputAdornment>
+              ),
+            }}
             sx={{
               color: '#ffffff',
               '& .MuiInputBase-root': {
@@ -249,113 +391,8 @@ export const ChatHeader = props => {
               },
             }}
           />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={codeDialog.handleClose} sx={{ color: '#ffffff' }}>
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog
-        open={saveDialog.open}
-        onClose={saveDialog.handleClose}
-        sx={{
-          '& .MuiPaper-root': {
-            bgcolor: '#333333',
-          },
-        }}
-      >
-        <DialogTitle sx={{ color: '#ffffff' }}>Save Preset</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Preset Name"
-            fullWidth
-            sx={{
-              color: '#ffffff',
-              '& .MuiInputBase-root': {
-                color: '#ffffff',
-              },
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: '#ffffff',
-              },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: '#ffffff',
-              },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: '#ffffff',
-              },
-            }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={saveDialog.handleClose} sx={{ color: '#ffffff' }}>
-            Cancel
-          </Button>
-          <Button onClick={saveDialog.handleClose} sx={{ color: '#ffffff' }}>
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog
-        open={shareDialog.open}
-        onClose={shareDialog.handleClose}
-        sx={{
-          '& .MuiPaper-root': {
-            bgcolor: '#333333',
-          },
-        }}
-      >
-        <DialogTitle sx={{ color: '#ffffff' }}>Share Preset</DialogTitle>
-        <DialogContent>
-          <Box display="flex" alignItems="center">
-            <TextField
-              value="https://platform.openai.com/playground/p/7bbKYQvsVkNmVb8"
-              fullWidth
-              InputProps={{
-                readOnly: true,
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Button
-                      onClick={() =>
-                        navigator.clipboard.writeText(
-                          'https://platform.openai.com/playground/p/7bbKYQvsVkNmVb8'
-                        )
-                      }
-                      sx={{ color: '#ffffff' }}
-                    >
-                      Copy
-                    </Button>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                color: '#ffffff',
-                '& .MuiInputBase-root': {
-                  color: '#ffffff',
-                },
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#ffffff',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#ffffff',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#ffffff',
-                },
-              }}
-            />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={shareDialog.handleClose} sx={{ color: '#ffffff' }}>
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+        </Box>
+      </DialogBox>
     </>
   );
 };

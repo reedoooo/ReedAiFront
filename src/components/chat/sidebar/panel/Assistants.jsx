@@ -1,23 +1,21 @@
 import {
-  Tabs,
-  Tab,
+  Box,
+  Button,
+  FormControlLabel,
+  IconButton,
   List,
   ListItem,
   ListItemText,
-  IconButton,
-  useMediaQuery,
-  Box,
-  TextField,
-  Typography,
-  Switch,
-  FormControlLabel,
   MenuItem,
   Select,
   Slider,
-  Button,
+  Switch,
+  Tab,
+  TextField,
+  Typography,
+  useMediaQuery,
 } from '@mui/material';
-import { styled } from '@mui/system';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaSignOutAlt, FaTrashAlt } from 'react-icons/fa';
 import {
   StyledButton,
@@ -25,7 +23,7 @@ import {
   StyledTextField,
   TabContentContainer,
 } from 'components/chat/styled';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 const Assistants = () => {
   const [tab, setTab] = useState(0);

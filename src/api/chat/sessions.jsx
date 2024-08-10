@@ -23,16 +23,9 @@ export const sessions = {
     }
   },
 
-  create: async name => {
+  create: async sessionData => {
     try {
-      const data = await apiUtils.post('/chat/sessions/create', {
-        userId: localStorage.getItem('userId'),
-        workspaceId: localStorage.getItem('workspaceStore')?.workspaceId,
-        name: name,
-        topic: name,
-        model: 'gpt-4o-mini',
-        active: true,
-      });
+      const data = await apiUtils.post('/chat/sessions/create', sessionData);
       return data;
     } catch (error) {
       console.error('Error creating chat session:', error);

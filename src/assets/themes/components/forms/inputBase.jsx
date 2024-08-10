@@ -44,6 +44,10 @@ export default {
         //   fontWeight: '500',
         // },
       },
+      // ' &.MuiOutlinedInput-notchedOutline': {
+      //   borderColor: black.main,
+      //   borderRadius: borderRadius,
+      // },
     },
     searchbar: {
       width: '100%',
@@ -83,5 +87,14 @@ export default {
         },
       },
     },
+    // outlined: {
+    //   borderRadius: '30px',
+    // },
+    // input: {
+    //   '&::placeholder': {
+    //     opacity: 1,
+    //     color: '#A0AEC0', // Equivalent to chakra-colors-gray-500
+    //   },
+    // },
   },
 };

@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Grid,
   IconButton,
   Paper,
@@ -11,7 +10,7 @@ import {
 } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { FilterListIcon, UploadFileIcon } from 'assets/humanIcons';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 import A4Paper from './A4Paper';
 
 const TemplatesDisplay = ({ templates }) => {

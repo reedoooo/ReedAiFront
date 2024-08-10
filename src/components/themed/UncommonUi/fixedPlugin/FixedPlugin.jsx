@@ -1,7 +1,7 @@
 import { Button, CssBaseline, IconButton, ThemeProvider } from '@mui/material';
 import React from 'react';
 import { IoMdMoon, IoMdSunny } from 'react-icons/io';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 // FixedPlugin: This component is used to change the color mode of the application
 export const FixedPlugin = props => {
   const { ...rest } = props;

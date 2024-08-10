@@ -1,6 +1,6 @@
-import { Box, Button, Card, CardContent, Typography } from '@mui/material';
+import { Box, Button, Card, Typography } from '@mui/material';
 import { MdUpload } from 'react-icons/md';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 import Dropzone from './Dropzone';
 
 export default function Upload(props) {

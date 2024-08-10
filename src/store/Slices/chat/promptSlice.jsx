@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { useSnackbar } from 'notistack';
-import { getLocalData, setLocalData } from './helpers';
+import { getLocalData, setLocalData } from '../helpers';
 
 const LOCAL_NAME = 'promptStore';
 const REDUX_NAME = 'prompts';

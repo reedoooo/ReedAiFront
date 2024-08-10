@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
 import styledDefault from 'styled-components';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 const RCTypographyRoot = styledDefault(Typography)(({ ownerState }) => {
   const { theme } = useMode();

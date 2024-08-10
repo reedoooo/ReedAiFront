@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import { Button, Box, Input, useTheme } from '@mui/material';
+import { Box, Button, Input } from '@mui/material';
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { styled as styledDefault } from 'styled-components';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 const DropzoneContainer = styledDefault(Box)(({ theme }) => ({
   alignItems: 'center',

@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import styledDefault from 'styled-components';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 const RCIconWrapperRoot = styledDefault(Box)(({ ownerState }) => {
   const { theme } = useMode();

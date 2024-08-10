@@ -1,11 +1,11 @@
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 // import { FlexBetween } from 'components/index';
 // import { RCButton } from 'components/themed';
 import { FlexBetween } from 'components/index';
-import { errorProps, buttonsData } from 'config/data';
-import useMode from 'hooks/useMode';
+import { buttonsData, errorProps } from 'config/data';
+import { useMode } from 'hooks';
 
 const returnErrText = ({
   variant,

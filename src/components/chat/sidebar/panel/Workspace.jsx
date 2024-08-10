@@ -1,4 +1,3 @@
-import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import { Dropdown as BaseDropdown } from '@mui/base/Dropdown';
 import { Menu as BaseMenu } from '@mui/base/Menu';
 import { MenuButton as BaseMenuButton } from '@mui/base/MenuButton';
@@ -10,25 +9,9 @@ import { styled } from '@mui/system';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
-import { workspaces as workspacesApi } from 'api/chat';
-import { SettingsIcon } from 'assets/humanIcons';
-import {
-  PanelHeaderRow,
-  StyledButton,
-  StyledMotionTabs,
-  StyledPanelHeaderButton,
-  StyledSlider,
-  StyledSwitchFormControlLabel,
-  StyledTextareaAutosize,
-  StyledTextField,
-  WorkspaceCreatorContainer,
-} from 'components/chat/styled';
-import { RCOption, RCSelect } from 'components/themed';
-import { DEFAULT_APP_DATA } from 'config/app-data-configs';
-import { useChatStore } from 'contexts/ChatProvider';
-import { useUserStore } from 'contexts/UserProvider';
-import { useDialog } from 'hooks/useDialog';
-import { useMode } from 'hooks/useMode';
+import { PanelHeaderRow, StyledMotionTabs } from 'components/chat/styled';
+import { useChatStore } from 'contexts';
+import { useMode } from 'hooks';
 import {
   WorkspaceCreatorForm,
   WorkspaceFolders,
@@ -39,8 +22,6 @@ export const Workspace = () => {
   const [tab, setTab] = useState(0);
   const { theme } = useMode();
   const { state: chatState, actions: chatActions } = useChatStore();
-  const { state: userState, actions: userActions } = useUserStore();
-  const { user, userId } = userState;
   const {
     workspaces,
     chatSessions,
@@ -54,7 +35,6 @@ export const Workspace = () => {
     tools,
   } = chatState;
   const { setActiveWorkspace } = chatActions;
-  const [selectedTab, setSelectedTab] = useState('main');
   const itemRef = useRef(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const createHandleMenuClick = menuItem => {
@@ -175,7 +155,7 @@ export const Workspace = () => {
           prompts={prompts}
           models={models}
           collections={collections}
-          files={files}
+          files={[]}
           assistants={assistants}
           tools={tools}
         />

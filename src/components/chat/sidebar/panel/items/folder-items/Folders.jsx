@@ -141,20 +141,22 @@ const Folders = ({ folder, contentType, children, onUpdateFolder }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [tab, setTab] = useState(0);
   const {
-    setFolders,
-    setChats,
-    setPresets,
-    setPrompts,
-    setFiles,
-    setCollections,
-    setAssistants,
-    setTools,
-    setModels,
+    actions: {
+      setFolders,
+      setChats,
+      setPresets,
+      setPrompts,
+      setFiles,
+      setCollections,
+      setAssistants,
+      setTools,
+      setModels,
+    },
   } = useChatStore();
   const [showFolderDialog, setShowFolderDialog] = useState(false);
   const [name, setName] = useState(folder.name);
   const buttonRef = useRef(null);
-  const API_KEY = localStorage.getItem('apiKey');
+  const API_KEY = sessionStorage.getItem('apiKey');
 
   const stateUpdateFunctions = {
     chats: setChats,

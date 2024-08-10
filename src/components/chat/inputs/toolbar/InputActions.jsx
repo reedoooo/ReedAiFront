@@ -1,8 +1,6 @@
 import { Box } from '@mui/material';
-import { useChatStore } from 'contexts/ChatProvider';
-import useDialog from 'hooks/useDialog';
-import useMenu from 'hooks/useMenu';
-import ContentTypeDropDown from './ContentTypeDropDown.jsx';
+import { useChatStore } from 'contexts';
+import { useDialog, useMenu, useMode } from 'hooks';
 import {
   APIModal,
   CodeInsert,
@@ -10,6 +8,7 @@ import {
   FormTemplatesDropDown,
   SettingsDialog,
   SnippetsDropDown,
+  ContentTypeDropDown,
 } from './index.jsx';
 
 const handleFormContentInsert = (editor, form) => {
@@ -27,14 +26,14 @@ export const InputActions = ({
   setUserInput,
   setFileInput,
   editor,
-  theme,
 }) => {
+  const chatStore = useChatStore();
+  const { theme } = useMode();
   const snippetsMenu = useMenu();
   const formMenu = useMenu();
+  const contentMenu = useMenu();
   const settingsDialog = useDialog();
   const apiModalDialog = useDialog();
-  const chatStore = useChatStore();
-  const contentMenu = useMenu();
 
   return (
     <Box>
@@ -57,11 +56,8 @@ export const InputActions = ({
       />
       <SettingsDialog
         open={settingsDialog.open}
-        onClose={settingsDialog.handleClose}
-        tabValue={settingsDialog.value}
-        handleTabChange={(event, newValue) =>
-          settingsDialog.handleChange(event, newValue)
-        }
+        handleClose={settingsDialog.handleClose}
+        handleOpen={settingsDialog.handleOpen}
       />
       <APIModal
         open={apiModalDialog.open}

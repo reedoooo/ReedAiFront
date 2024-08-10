@@ -8,8 +8,8 @@ import {
   IconButton,
   TextField,
 } from '@mui/material';
-import { useChatStore } from 'contexts/ChatProvider';
 import React, { useRef, useState } from 'react';
+import { useChatStore } from 'contexts/ChatProvider';
 import { updateFolder } from '../folder-items/Folders';
 
 const UpdateFolder = ({ folder }) => {

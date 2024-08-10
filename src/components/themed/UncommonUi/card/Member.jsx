@@ -6,7 +6,7 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import useMode from 'hooks/useMode';
+import { useMode } from 'hooks';
 
 export const Member = props => {
   const { avatar, name, job, ...rest } = props;

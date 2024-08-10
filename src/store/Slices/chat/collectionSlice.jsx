@@ -1,15 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getLocalData } from './helpers';
-
-// const initialState = {
-//   collections: [],
-//   chatInputCommandRequest: {
-//     status: 'idle',
-//     error: null,
-//     success: null,
-//     message: '',
-//   },
-// };
+import { getLocalData } from '../helpers';
 
 const LOCAL_NAME = 'collectionStore';
 const REDUX_NAME = 'collections';
