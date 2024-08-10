@@ -32,7 +32,6 @@
 // export const fetchConversationSnapshot = async uuid => {
 //   try {
 //     const chatData = await getChatMessagesBySessionId(uuid);
-//     /*
 //           uuid: string,
 //           dateTime: string
 //           text: string
@@ -40,7 +39,6 @@
 //           error?: boolean
 //           loading?: boolean
 //           isPrompt?: boolean
-//           */
 //     return chatData;
 //   } catch (error) {
 //     console.error(error);
