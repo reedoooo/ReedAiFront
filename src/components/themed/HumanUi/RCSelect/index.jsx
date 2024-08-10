@@ -5,6 +5,18 @@ import RCListBox from './RCListBox';
 import RCPopup from './RCPopup';
 import RCSelectRoot from './RCSelectRoot';
 
+/**
+ * React component for a custom select input.
+ * @component
+ * @param {Object} props - The component props.
+ * @param {any} props.value - The current value of the select input.
+ * @param {any} props.defaultValue - The default value of the select input.
+ * @param {function} props.onChange - The callback function to handle value changes.
+ * @param {ReactNode} props.children - The child elements of the select input.
+ * @param {Object} props.slots - The custom slots for different parts of the select input.
+ * @param {React.Ref} ref - The ref object for the select input.
+ * @returns {ReactNode} The rendered select input component.
+ */
 export const RCSelect = React.forwardRef(
   ({ value, defaultValue, onChange, children, slots, ...rest }, ref) => {
     const mergedSlots = {

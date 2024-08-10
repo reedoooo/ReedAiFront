@@ -2,7 +2,21 @@ import { SvgIcon } from '@mui/material';
 
 export function CustomLogoIcon(props) {
   return (
-    <SvgIcon {...props} viewBox="0 0 798 800">
+    <SvgIcon
+      {...props}
+      viewBox="0 0 798 800"
+      sx={{
+        height: '2rem',
+        width: '2rem',
+        borderRadius: '50%',
+        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+        overflow: 'hidden',
+        my: 'auto',
+        // '& .MuiSvgIcon-root': {
+        //   fill: '#F8312F',
+        // },
+      }}
+    >
       <path
         fill="#151223"
         opacity="1.000000"

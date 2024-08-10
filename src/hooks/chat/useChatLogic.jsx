@@ -56,8 +56,8 @@ export const useChatLogic = () => {
     state: { userId },
   } = useUserStore();
   const [messages, setMessages] = useState(() => {
-    const savedMessages = localStorage.getItem('chatMessages');
-    return savedMessages ? JSON.parse(savedMessages) : [];
+    // const savedMessages = localStorage.getItem('chatMessages');
+    return chatMessages ? chatMessages : [];
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -286,8 +286,8 @@ export const useChatLogic = () => {
         });
         // setMessageParts(prevParts => [...prevParts, decodedValue]);
       }
-      localStorage.setItem('chatMessages', JSON.stringify(messages));
-      // setChatMessages(messages);
+      // localStorage.setItem('chatMessages', JSON.stringify(messages));
+      setChatMessages(messages);
       const data = safeParse(
         assistantMessage.content,
         assistantMessage.content
@@ -320,7 +320,7 @@ export const useChatLogic = () => {
     clearInput,
     handleUpdateSessionMessages,
     setIsMessagesUpdated,
-    // setChatMessages,
+    setChatMessages,
     safeParse,
   ]);
 

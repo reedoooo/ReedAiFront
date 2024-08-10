@@ -49,6 +49,7 @@ import chatSessionReducer, {
   setSessionId,
   setSessionHeader,
   setActiveSession,
+  createChatSession,
 } from './chatSessionSlice';
 import assistantReducer, {
   setAssistantImages,
@@ -131,6 +132,7 @@ export {
   setSelectedFolder,
   setSessionHeader,
   setEnvKeyMap,
+  createChatSession,
   // setChats,
   // setChat,
   setAvailableHostedModels,

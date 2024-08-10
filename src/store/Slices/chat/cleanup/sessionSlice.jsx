@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // import { combineReducers } from 'redux';
-import { defaultChatSessionData } from '../helpers';
+import { defaultChatSessionData } from '../../helpers';
 
 // export const reloadRoute = createAsyncThunk(
 //   'chat/reloadRoute',

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
 
-const SimpleBarStyle = styled(SimpleBar)(() => ({
+export const SimpleBarStyle = styled(SimpleBar)(() => ({
   maxHeight: '100%',
   '.simplebar-scrollbar:before': { backgroundColor: '#2e2d348f' },
 }));
-function Scrollbar(props) {
+export function Scrollbar(props) {
   const { children, sx, ...other } = props;
   const isMobile =
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(

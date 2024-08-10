@@ -1,7 +1,7 @@
 // src/redux/fileSlice.js
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { chatFiles } from 'api/chat';
-import { getLocalData, setLocalData, getNewPromptId } from './helpers';
+import { getLocalData, getNewPromptId, setLocalData } from '../helpers';
 import { setPrompts } from './promptSlice';
 
 const LOCAL_NAME = 'fileStore';
@@ -13,7 +13,6 @@ function setLocalFileData(data) {
   setLocalData(LOCAL_NAME, data);
 }
 
-// Thunk to fetch all images
 export const fetchAllImages = createAsyncThunk(
   'files/fetchAllImages',
   async (_, { rejectWithValue }) => {
@@ -27,7 +26,6 @@ export const fetchAllImages = createAsyncThunk(
   }
 );
 
-// Thunk to fetch all files
 export const fetchAllFiles = createAsyncThunk(
   'files/fetchAllFiles',
   async (_, { rejectWithValue }) => {
@@ -158,9 +156,9 @@ export const fileSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchFileData.pending, state => {
-        state.fileRequest.status = 'loading';
-      })
+      // .addCase(fetchFileData.pending, state => {
+      //   state.fileRequest.status = 'loading';
+      // })
       .addCase(fetchFileData.fulfilled, (state, action) => {
         state.byId = { ...state.byId, ...action.payload.byId };
         state.allIds = [...state.allIds, ...action.payload.allIds];
@@ -170,9 +168,9 @@ export const fileSlice = createSlice({
         state.fileRequest.status = 'failed';
         state.fileRequest.error = action.error.message;
       })
-      .addCase(fetchAllImages.pending, state => {
-        state.status = 'loading';
-      })
+      // .addCase(fetchAllImages.pending, state => {
+      //   state.status = 'loading';
+      // })
       .addCase(fetchAllImages.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.images = action.payload;
@@ -181,9 +179,9 @@ export const fileSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-      .addCase(fetchAllFiles.pending, state => {
-        state.status = 'loading';
-      })
+      // .addCase(fetchAllFiles.pending, state => {
+      //   state.status = 'loading';
+      // })
       .addCase(fetchAllFiles.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.files = action.payload;

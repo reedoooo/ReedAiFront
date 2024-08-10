@@ -42,14 +42,15 @@ const PaperCard = styled(Box)(({ theme }) => ({
   padding: theme.spacing(8),
 }));
 const StyledLogoIcon = styled(SvgIcon)(({ theme, hval }) => ({
-  width: hval || '50px',
-  height: hval || '50px',
+  // width: hval || '50px',
+  // height: hval || '50px',
+  height: '2rem',
+  width: '2rem',
   borderRadius: '50%',
   boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
   overflow: 'hidden',
   my: 'auto',
 }));
-
 const StyledIconContainer = styled(Box)(({ theme }) => ({
   marginLeft: theme.spacing(0.5),
   padding: theme.spacing(2),
@@ -64,7 +65,6 @@ const StyledIconContainer = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.background.hover,
   },
 }));
-
 const StyledMenu = styled(props => (
   <Menu
     elevation={0}
@@ -101,7 +101,6 @@ const StyledMenu = styled(props => (
     },
   },
 }));
-
 const ScrollablePaper = styled(Paper)(({ theme }) => ({
   maxHeight: 'calc(90vh - 96px)',
   marginRight: theme.spacing(2),
@@ -112,32 +111,27 @@ const ScrollablePaper = styled(Paper)(({ theme }) => ({
   overflowY: 'auto',
   backgroundColor: '#fff',
 }));
-
 const EditorContainer = styled(Paper)(({ theme }) => ({
   minHeight: 'calc(80vh - 96px)',
   maxHeight: 'calc(80vh - 96px)',
   flexDirection: 'column',
 }));
-
 const PdfPreviewContainer = styled(Paper)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
   borderRadius: theme.shape.borderRadius,
   overflow: 'hidden',
 }));
-
 const FormContainer = styled(Paper)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   padding: theme.spacing(2),
   boxShadow: theme.shadows[1],
 }));
-
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   '&:selected': {
     color: theme.palette.primary.main,
     backgroundColor: alpha(theme.palette.primary.main, 0.1),
   },
 }));
-
 const LeftSection = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between',
   width: '200px',

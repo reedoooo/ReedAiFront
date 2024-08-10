@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import LoadingIndicator from 'utils/app/LoadingIndicator';
+import { LoadingIndicator } from 'utils/app/LoadingIndicator';
 
 export const Loadable = Component => {
   const WrappedComponent = props => (

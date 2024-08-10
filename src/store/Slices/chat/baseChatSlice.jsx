@@ -1,7 +1,7 @@
-import { createSlice, combineSlices, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getChatSessionMessagesBySessionId } from 'api/index';
+import { getLocalData, setLocalData } from '../helpers';
 import { setUserOpenAiSettings } from '../user/userSlice';
-import { getLocalData, setLocalData } from './helpers';
 
 const LOCAL_NAME = 'baseChatStore';
 const REDUX_NAME = 'baseChat';

@@ -16,20 +16,23 @@ export const File = props => {
     file.type === 'image/svg+xml';
   return (
     <Box
-      display="flex"
-      alignItems="center"
-      borderRadius={2}
-      border={1}
-      borderColor="grey.300"
-      p={1}
-      width="100%"
       position="relative" // Make the parent container position relative
-      maxWidth={400}
-      maxHeight={200}
+      color={'#BDBDBD'}
       sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItem: hidden ? 'flex-start' : 'center', // Align items differently based on state
+        p: hidden ? 0.5 : 1,
+        width: hidden ? 'auto' : '100%',
+        maxWidth: hidden ? 'auto' : 400,
+        maxHeight: hidden ? 'auto' : 200,
+        ml: hidden ? '-48px' : 0,
         '&:hover .delete-button': {
           visibility: 'visible',
         },
+        borderRadius: 2,
+        zIndex: hidden ? 1 : 'auto',
+        border: '1px solid #BDBDBD',
       }}
     >
       {isImage ? (
@@ -47,12 +50,14 @@ export const File = props => {
             size={40}
             iconColor="grey.400"
           />
-          <Box flexGrow={1} flexDirection="row">
-            <Typography variant="body2">{file.name}</Typography>
-            <Typography variant="caption" color="textSecondary">
-              {file.size}
-            </Typography>
-          </Box>
+          {!hidden && (
+            <Box flexGrow={1} flexDirection="row" height={20}>
+              <Typography variant="body2">{file.name}</Typography>
+              {/* <Typography variant="caption" color="textSecondary">
+                {file.size}
+              </Typography> */}
+            </Box>
+          )}
         </Box>
       )}
       <IconButton

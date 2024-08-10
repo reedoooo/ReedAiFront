@@ -6,6 +6,10 @@
 option {
   color: black;
 }
+.custom-editor {
+  padding: 12px; /* Add padding inside the editor */
+  border-radius: 4px; /* Optional: Add border-radius */
+}
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,

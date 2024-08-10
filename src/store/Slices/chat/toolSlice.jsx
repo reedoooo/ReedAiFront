@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getLocalData, setLocalData } from './helpers';
+import { getLocalData, setLocalData } from '../helpers';
 
 const LOCAL_NAME = 'toolStore';
 const REDUX_NAME = 'tools';
@@ -11,7 +11,7 @@ function setLocalToolData(data) {
 }
 
 export const toolSlice = createSlice({
-  name: LOCAL_NAME,
+  name: REDUX_NAME,
   initialState,
   reducers: {
     setTools: (state, action) => {

@@ -1,5 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { getLocalData, setLocalData } from './helpers';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { sessions } from 'api/chat';
+import { getLocalData, setLocalData } from '../helpers';
 
 const LOCAL_NAME = 'chatSessionStore';
 const REDUX_NAME = 'chatSessions';
@@ -9,6 +10,18 @@ const initialState = getLocalData(LOCAL_NAME, REDUX_NAME);
 function setLocalSessionData(data) {
   setLocalData(LOCAL_NAME, data);
 }
+// Async thunk for creating a new chat session
+export const createChatSession = createAsyncThunk(
+  `${REDUX_NAME}/createChatSession`,
+  async (newSessionData, { rejectWithValue }) => {
+    try {
+      const response = await sessions.create(newSessionData);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const chatSessionsSlice = createSlice({
   name: REDUX_NAME,
@@ -60,6 +73,25 @@ export const chatSessionsSlice = createSlice({
         selectedChatSession: action.payload,
         sessionId: action.payload._id,
       });
+    },
+    extraReducers: builder => {
+      builder
+        .addCase(createChatSession.fulfilled, (state, action) => {
+          const newSession = action.payload;
+          state.chatSessions.push(newSession);
+          state.activeSession = newSession;
+          state.selectedSession = newSession;
+          state.sessionId = newSession._id;
+          setLocalSessionData({
+            ...state,
+            chatSessions: state.chatSessions,
+            activeSession: newSession,
+            sessionId: newSession._id,
+          });
+        })
+        .addCase(createChatSession.rejected, (state, action) => {
+          console.error('Failed to create chat session:', action.payload);
+        });
     },
   },
 });

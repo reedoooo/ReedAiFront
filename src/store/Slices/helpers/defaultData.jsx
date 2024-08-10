@@ -660,7 +660,14 @@ export function defaultBaseChatStoreData() {
     },
   };
 }
+function defaultAppStoreData() {
+  return {
+    isSidebarOpen: false,
+    theme: 'light',
+  };
+}
 export const DEFAULTS = {
+  app: defaultAppStoreData(),
   auth: defaultAuthStoreData(),
   user: defaultUserSessionData(),
   profile: defaultProfileData(),

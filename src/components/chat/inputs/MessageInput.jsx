@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import { EditorContent } from '@tiptap/react';
 import React, { useEffect } from 'react';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { SendIcon, StopCircleIcon } from 'assets/humanIcons';
 import { useChatStore } from 'contexts';
 import { useDialog, useTipTapEditor } from 'hooks';
@@ -80,22 +81,31 @@ export const MessageInput = ({
       >
         <Box
           sx={{
-            display: 'flex',
+            display: !showFilesDisplay || files.length === 0 ? 'none' : 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
-            p: 1,
+            width: '100%',
           }}
         >
-          <Button
+          {/* <IconButton
             onClick={() => setShowFilesDisplay(!showFilesDisplay)}
             sx={{
-              mr: 'auto',
+              p: 2,
+              borderRadius: '50%',
+              width: 40,
+              height: 40,
+              my: 'auto',
+              py: 'auto',
             }}
+            aria-expanded={showFilesDisplay}
+            aria-label={showFilesDisplay ? 'Hide files' : 'Show files'}
           >
-            {!showFilesDisplay || files.length === 0
-              ? 'Show Files'
-              : 'Hide Files'}
-          </Button>
+            {showFilesDisplay && files.length > 0 ? (
+              <FaChevronLeft />
+            ) : (
+              <FaChevronRight />
+            )}
+          </IconButton> */}
           <FileDisplay
             files={files}
             hidden={!showFilesDisplay || files.length === 0}
@@ -103,6 +113,25 @@ export const MessageInput = ({
         </Box>
         <ChatMessageActionsContainer>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <IconButton
+              onClick={() => setShowFilesDisplay(!showFilesDisplay)}
+              sx={{
+                p: 2,
+                borderRadius: '50%',
+                width: 40,
+                height: 40,
+                my: 'auto',
+                py: 'auto',
+              }}
+              aria-expanded={showFilesDisplay}
+              aria-label={showFilesDisplay ? 'Hide files' : 'Show files'}
+            >
+              {showFilesDisplay && files.length > 0 ? (
+                <FaChevronLeft />
+              ) : (
+                <FaChevronRight />
+              )}
+            </IconButton>
             <InputActions
               editor={editor}
               handleOpenApiModal={apiKeyDialog.handleOpen}
@@ -111,6 +140,7 @@ export const MessageInput = ({
               isFirstMessage={isFirstMessage}
             />
           </Box>
+
           <IconButton
             onClick={() => {
               if (!sessionStorage.getItem('apiKey')) {
@@ -136,7 +166,7 @@ export const MessageInput = ({
           </IconButton>
         </ChatMessageActionsContainer>
       </CardActions>
-      <CardContent sx={{ p: 2 }}>
+      <CardContent>
         <ChatMessageActionsContainer>
           <Box
             sx={{

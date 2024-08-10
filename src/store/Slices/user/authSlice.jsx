@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { useNavigate } from 'react-router-dom';
 import { auth } from 'api/user';
 import constants from 'config/constants';
@@ -10,13 +9,13 @@ import {
   setChatSessions,
   setWorkspaces,
 } from '../chat';
-import { getLocalData, setLocalData } from '../chat/helpers';
+import { getLocalData, setLocalData } from '../helpers';
 import {
-  setUser,
-  setUserToken,
-  setUserId,
   setAuthTokens,
   setIsAuthenticated,
+  setUser,
+  setUserId,
+  setUserToken,
 } from './userSlice';
 const { API_URL } = constants;
 
@@ -28,6 +27,7 @@ const initialState = getLocalData(LOCAL_NAME, REDUX_NAME);
 function setLocalAuthData(data) {
   setLocalData(LOCAL_NAME, data);
 }
+
 export const handleAuthSubmit = createAsyncThunk(
   'auth/handleAuthSubmit',
   async (values, { dispatch, rejectWithValue }) => {

@@ -1,4 +1,11 @@
-import { Avatar, Box, Drawer, IconButton, Tooltip } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Drawer,
+  IconButton,
+  Tooltip,
+  useMediaQuery,
+} from '@mui/material';
 import React, { useState } from 'react';
 import {
   AccountCircleRoundedIcon,
@@ -14,7 +21,7 @@ import {
 
 import { ChatBotIcon } from 'assets/humanIcons/custom';
 import ValidationIcon from 'components/styled/ValidationIcon';
-import { useChatStore, useUserStore } from 'contexts';
+import { useAppStore, useChatStore, useUserStore } from 'contexts';
 import { useMode, useRouter } from 'hooks';
 import { SidebarContainer, SidebarPanel } from '../styled';
 import Assistants from './panel/Assistants';
@@ -37,24 +44,35 @@ export const ChatSidebar = () => {
   const {
     state: { apiKey },
   } = useChatStore();
+  const {
+    state: { isSidebarOpen },
+    actions: { setSidebarOpen },
+  } = useAppStore();
   const { theme } = useMode();
   const { navigate } = useRouter();
   const [tab, setTab] = useState(null);
-  const [showSidebar, setShowSidebar] = useState(true);
   const sideBarWidthRef = React.useRef(null);
   const isValidApiKey = Boolean(apiKey);
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is mobile
+  // const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'));
+
   React.useEffect(() => {
     if (sideBarWidthRef.current) {
       console.log('Sidebar width:', sideBarWidthRef.current.offsetWidth);
     }
   }, []);
+  React.useEffect(() => {
+    if (isMobile) {
+      setSidebarOpen(false); // Close sidebar on mobile view
+    }
+  }, [isMobile, setSidebarOpen]);
 
   const handleSidebarOpen = index => {
     setTab(index);
-    setShowSidebar(true);
+    setSidebarOpen(true);
   };
   const handleSidebarClose = () => {
-    setShowSidebar(false);
+    isSidebarOpen(false);
     setTab(null);
   };
   const renderContent = () => {
@@ -77,8 +95,19 @@ export const ChatSidebar = () => {
   };
 
   return (
-    <SidebarContainer>
-      <SidebarPanel ref={sideBarWidthRef}>
+    <SidebarContainer
+      sx={{
+        transform: isMobile && !isSidebarOpen ? 'translateX(-100%)' : 'none', // Slide out if mobile and sidebar is hidden
+        transition: 'transform 0.3s ease-in-out',
+      }}
+    >
+      <SidebarPanel
+        ref={sideBarWidthRef}
+        sx={{
+          transform: isMobile && !isSidebarOpen ? 'translateX(-100%)' : 'none', // Slide out if mobile and sidebar is hidden
+          transition: 'transform 0.3s ease-in-out',
+        }}
+      >
         <Avatar
           sx={{
             width: 40,
@@ -170,10 +199,16 @@ export const ChatSidebar = () => {
             color: 'white',
             padding: '20px',
             background: '#000',
-            minWidth: showSidebar ? `35vw` : '0px',
-            maxWidth: showSidebar ? `35vw` : '0px',
-            width: showSidebar ? `35vw` : '0px',
+            minWidth: isSidebarOpen ? (isMobile ? `100vw` : `35vw`) : '0px',
+            maxWidth: isSidebarOpen ? (isMobile ? `100vw` : `35vw`) : '0px',
+            width: isSidebarOpen ? (isMobile ? `100vw` : `35vw`) : '0px',
+            // minWidth: showSidebar ? `35vw` : '0px',
+            // maxWidth: showSidebar ? `35vw` : '0px',
+            // width: showSidebar ? `35vw` : '0px',
             borderRight: '1px solid #333', // Adds a border to the right side
+            transform:
+              isMobile && !isSidebarOpen ? 'translateX(-100%)' : 'none',
+            transition: 'transform 0.3s ease-in-out',
           },
         }}
       >

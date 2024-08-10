@@ -2,7 +2,6 @@
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { CustomLogoIcon } from 'assets/humanIcons/custom-logo';
-import { StyledLogoIcon } from 'components/styled';
 import { BreadcrumbsComponent } from '../breadcrumbs'; // Adjust the path as needed
 
 export const NavbarContainer = ({
@@ -94,9 +93,9 @@ export const NavbarContainer = ({
               mr: '8px',
             }}
           >
-            <StyledLogoIcon hval="120px">
-              <CustomLogoIcon />
-            </StyledLogoIcon>
+            {/* <StyledLogoIcon hval="120px"> */}
+            <CustomLogoIcon />
+            {/* </StyledLogoIcon> */}
           </Box>
           <BreadcrumbsComponent
             pathName={pathName}

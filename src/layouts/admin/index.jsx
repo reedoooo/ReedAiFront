@@ -151,23 +151,6 @@ const AdminLayout = props => {
     return menuItems;
   };
   const { onOpen } = useDisclosure();
-  // const {
-  //   state: {
-  //     authSession: { accessToken, refreshToken, expiresIn },
-  //   },
-  // } = useUserStore();
-  // const {
-  //   actions: { handleRefreshAccessToken },
-  // } = useAuthStore();
-
-  // useEffect(() => {
-  //   setupInterceptors(
-  //     () => accessToken,
-  //     () => refreshToken,
-  //     () => expiresIn,
-  //     handleRefreshAccessToken
-  //   );
-  // }, [accessToken, refreshToken, expiresIn, handleRefreshAccessToken]);
   if (navigation.state === 'loading') {
     console.log('navigation:', navigation);
     return <LoadingIndicator />;

@@ -1,4 +1,3 @@
-import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import {
   Box,
   Button,
@@ -33,6 +32,7 @@ import { RCOption, RCSelect } from 'components/themed';
 import { DEFAULT_APP_DATA } from 'config/app-data-configs';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useDialog, useMode } from 'hooks';
+import { PresetSelect } from '../preset-items';
 
 const marks = [
   { value: 0, label: '0' },
@@ -47,11 +47,48 @@ const CustomIcon = createSvgIcon(
   />,
   'CustomIcon'
 );
-
+const FormSection = ({ label, children }) => (
+  <>
+    <Typography variant="caption" sx={{ color: '#ffffff' }}>
+      {label}
+    </Typography>
+    {children}
+  </>
+);
+const ReusableSliderField = ({ label, value, onChange, min, max, step }) => (
+  <FormSection label={label}>
+    <StyledSlider
+      value={value}
+      // onChange={onChange}
+      onChange={(e, newValue) => onChange(newValue)}
+      min={min}
+      max={max}
+      step={step}
+      marks={marks}
+      valueLabelDisplay="auto"
+    />
+  </FormSection>
+);
+const ReusableSwitchControl = ({ label, checked, onChange }) => (
+  <StyledSwitchFormControlLabel
+    control={<StyledSwitch checked={checked} onChange={onChange} />}
+    label={label}
+  />
+);
+const ReusableIconButtonWithTooltip = ({ icon, tooltipTitle, onClick }) => (
+  <Tooltip title={tooltipTitle}>
+    <IconButton
+      onClick={onClick}
+      sx={{ color: '#ffffff', height: '18px', width: '18px', ml: '12px' }}
+    >
+      {icon}
+    </IconButton>
+  </Tooltip>
+);
 export const WorkspaceCreatorForm = () => {
   const { theme } = useMode();
   const chatStore = useChatStore();
-  const { selectedPreset, presets } = chatStore.state;
+  const { selectedPreset, presets, modelNames } = chatStore.state;
   const { setSelectedPreset } = chatStore.actions;
   const [name, setName] = useState('Default Workspace');
   const [instructions, setInstructions] = useState('Default instructions');
@@ -61,7 +98,7 @@ export const WorkspaceCreatorForm = () => {
   const [topP, setTopP] = useState(0.9);
   const [frequencyPenalty, setFrequencyPenalty] = useState(0.1);
   const [presencePenalty, setPresencePenalty] = useState(0.1);
-  const [model, setModel] = useState('gpt-4o-mini');
+  const [model, setModel] = useState(modelNames[0]);
   const [contextLength, setContextLength] = useState(10);
   const [embeddingsProvider, setEmbeddingsProvider] = useState(
     'text-embedding-3-small'
@@ -157,57 +194,12 @@ export const WorkspaceCreatorForm = () => {
       <Typography variant="h6" sx={{ color: '#ffffff', marginTop: '5px' }}>
         Models
       </Typography>
-      <Typography variant="caption" sx={{ color: '#ffffff' }}>
-        Example
-      </Typography>
-      {/* <RCSelect defaultValue={10}>
-        {[10, 20, 30].map((value, index) => (
-          <RCOption key={index} value={value}>
-            Option {value}
-          </RCOption>
-        ))}
-      </RCSelect>{' '} */}
       <Divider sx={{ color: '#ffffff', marginBottom: '5px' }} />
-      <Typography variant="caption" sx={{ color: '#ffffff' }}>
-        Preset Name
-      </Typography>
-      <FormControl
-        variant="outlined"
-        sx={{
-          minWidth: 200,
-          marginRight: 2,
-          color: '#ffffff',
-        }}
-      >
-        <Select
-          value={selectedPreset?.name || ''}
-          onChange={handlePresetChange}
-          label="Load a preset..."
-          sx={{
-            color: '#ffffff',
-          }}
-          MenuProps={{
-            PaperProps: {
-              sx: {
-                bgcolor: '#333333',
-                color: '#ffffff',
-                '& .MuiMenuItem-root': {
-                  justifyContent: 'center',
-                },
-              },
-            },
-          }}
-        >
-          <MenuItem value="" disabled>
-            Select a preset...
-          </MenuItem>
-          {presets.map(preset => (
-            <MenuItem key={preset.name} value={preset.name}>
-              {preset.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <PresetSelect
+        presets={presets}
+        selectedPreset={selectedPreset}
+        handlePresetChange={handlePresetChange}
+      />
       <Typography variant="caption" sx={{ color: '#ffffff' }}>
         Model Name
       </Typography>
@@ -220,11 +212,14 @@ export const WorkspaceCreatorForm = () => {
             color: '#ffffff',
           }}
         >
-          <MenuItem value="">
-            <em>None</em>
+          <MenuItem value="" disabled>
+            Select a model...
           </MenuItem>
-          <MenuItem value="gpt-4o">GPT-40</MenuItem>
-          <MenuItem value="gpt-4o-mini">GPT-40-mini</MenuItem>
+          {modelNames?.map(name => (
+            <MenuItem key={name} value={name}>
+              {name}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <Typography variant="caption" sx={{ color: '#ffffff' }}>
@@ -267,28 +262,22 @@ export const WorkspaceCreatorForm = () => {
         value={assistantPrompt}
         onChange={e => setAssistantPrompt(e.target.value)}
       />
-      <Typography variant="caption" sx={{ color: '#ffffff' }}>
-        Temperature
-      </Typography>
-      <StyledSlider
+      <ReusableSliderField
+        label="Temperature"
         value={temperature}
-        onChange={(e, newValue) => setTemperature(newValue)}
+        onChange={setTemperature}
         min={0}
         max={1}
         step={0.01}
-        marks={marks}
-        valueLabelDisplay="auto"
       />
-      <Typography variant="caption" sx={{ color: '#ffffff' }}>
-        Maximum Tokens
-      </Typography>
-      <StyledSlider
+
+      <ReusableSliderField
+        label="Maximum Tokens"
         value={maxTokens}
-        onChange={(e, newValue) => setMaxTokens(newValue)}
+        onChange={setMaxTokens}
         min={1}
         max={512}
         step={1}
-        valueLabelDisplay="auto"
       />
       <Typography variant="caption" sx={{ color: '#ffffff' }}>
         Stop sequences
@@ -303,39 +292,31 @@ export const WorkspaceCreatorForm = () => {
           color: '#ffffff',
         }}
       />
-      <Typography variant="caption" sx={{ color: '#ffffff' }}>
-        Top P
-      </Typography>
-      <StyledSlider
+      <ReusableSliderField
+        label="Top P"
         value={topP}
-        onChange={(e, newValue) => setTopP(newValue)}
+        onChange={setTopP}
         min={0}
         max={1}
         step={0.01}
-        marks={marks}
-        valueLabelDisplay="auto"
       />
-      <Typography variant="caption" sx={{ color: '#ffffff' }}>
-        Frequency penalty
-      </Typography>
-      <StyledSlider
+
+      <ReusableSliderField
+        label="Frequency penalty"
         value={frequencyPenalty}
-        onChange={(e, newValue) => setFrequencyPenalty(newValue)}
+        onChange={setFrequencyPenalty}
         min={0}
         max={2}
         step={0.01}
-        valueLabelDisplay="auto"
       />
-      <Typography variant="caption" sx={{ color: '#ffffff' }}>
-        Presence penalty
-      </Typography>
-      <StyledSlider
+
+      <ReusableSliderField
+        label="Presence penalty"
         value={presencePenalty}
-        onChange={(e, newValue) => setPresencePenalty(newValue)}
+        onChange={setPresencePenalty}
         min={0}
         max={2}
         step={0.01}
-        valueLabelDisplay="auto"
       />
       <FormGroup>
         <Box
@@ -343,27 +324,22 @@ export const WorkspaceCreatorForm = () => {
           alignItems="center"
           sx={{
             marginBottom: '10px',
-            fontSize: '0.875rem', // Directly targeting the label font size
+            width: '100%',
           }}
         >
-          <StyledSwitchFormControlLabel
-            control={
-              <StyledSwitch
-                checked={fileSearchEnabled}
-                onChange={() => setFileSearchEnabled(!fileSearchEnabled)}
-              />
-            }
+          <ReusableSwitchControl
             label="File search"
+            checked={fileSearchEnabled}
+            onChange={() => setFileSearchEnabled(!fileSearchEnabled)}
           />
-          <Tooltip title="Information about Code interpreter">
-            <IconButton sx={{ marginLeft: 'auto', color: '#ffffff' }}>
-              <InfoOutlinedIcon />
-            </IconButton>
-          </Tooltip>
-
-          <IconButton sx={{ marginLeft: 'auto' }}>
-            <SettingsIcon />
-          </IconButton>
+          <ReusableIconButtonWithTooltip
+            icon={<InfoOutlinedIcon />}
+            tooltipTitle="Information about File search"
+          />
+          <ReusableIconButtonWithTooltip
+            icon={<SettingsIcon />}
+            tooltipTitle="Settings"
+          />
           <label htmlFor="file-input" style={{ marginLeft: '10px' }}>
             <input
               id="file-input"
@@ -390,26 +366,24 @@ export const WorkspaceCreatorForm = () => {
           </label>
         </Box>
         <Divider sx={{ bgcolor: 'rgba(255, 255, 255, 0.12)', width: '100%' }} />
-        <Box display="flex" alignItems="center" sx={{ marginBottom: '10px' }}>
-          <StyledSwitchFormControlLabel
-            control={
-              <StyledSwitch
-                checked={codeInterpreterEnabled}
-                onChange={() =>
-                  setCodeInterpreterEnabled(!codeInterpreterEnabled)
-                }
-              />
-            }
+        <Box
+          display="flex"
+          alignItems="center"
+          sx={{ marginBottom: '10px', width: '100%' }}
+        >
+          <ReusableSwitchControl
             label="Code interpreter"
+            checked={codeInterpreterEnabled}
+            onChange={() => setCodeInterpreterEnabled(!codeInterpreterEnabled)}
           />
-          <Tooltip title="Information about Code interpreter">
-            <IconButton sx={{ marginLeft: 'auto', color: '#ffffff' }}>
-              <InfoOutlinedIcon />
-            </IconButton>
-          </Tooltip>
-          <IconButton sx={{ marginLeft: 'auto' }}>
-            <SettingsIcon />
-          </IconButton>
+          <ReusableIconButtonWithTooltip
+            icon={<InfoOutlinedIcon />}
+            tooltipTitle="Information about Code interpreter"
+          />
+          <ReusableIconButtonWithTooltip
+            icon={<SettingsIcon />}
+            tooltipTitle="Settings"
+          />
           <label htmlFor="file-input" style={{ marginLeft: '10px' }}>
             <input
               id="file-input"
@@ -431,25 +405,22 @@ export const WorkspaceCreatorForm = () => {
                 padding: '4px 10px', // Adjust padding to fit the reduced height
               }}
             >
-              + Files
+              + Code
             </Button>
           </label>
         </Box>
       </FormGroup>
       <Divider sx={{ bgcolor: 'rgba(255, 255, 255, 0.12)', width: '100%' }} />
-      <Box display="flex" alignItems="center" sx={{ marginBottom: '10px' }}>
+      <Box
+        display="flex"
+        alignItems="center"
+        sx={{ marginBottom: '10px', width: '100%' }}
+      >
         <Typography variant="h6" sx={{ color: '#ffffff', marginRight: '10px' }}>
           Functions
         </Typography>
         <Tooltip title="Information about Functions">
-          <InformationCircleIcon
-            sx={{
-              color: '#ffffff',
-              marginLeft: '5px',
-              height: '18px',
-              width: '18px',
-            }}
-          />{' '}
+          <InfoOutlinedIcon />
         </Tooltip>
         <Button
           variant="outlined"
@@ -493,7 +464,7 @@ export const WorkspaceCreatorForm = () => {
           width: '100%',
         }}
       >
-        <InformationCircleIcon
+        <InfoOutlinedIcon
           sx={{
             color: '#ffffff',
             marginRight: '10px',

@@ -4,3 +4,4 @@ export * from './session-items';
 export * from './file-items';
 export * from './folder-items';
 export * from './assistant-items';
+export * from './preset-items';

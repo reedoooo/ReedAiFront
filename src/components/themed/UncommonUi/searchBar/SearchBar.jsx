@@ -38,6 +38,11 @@ export function SearchBar(props) {
         variant: 'searchbar',
         sx: {
           borderRadius: '30px',
+          color: searchIconColor,
+          fontSize: {
+            xs: '12px',
+            md: '14px',
+          },
           border: 'none',
           '&:hover': {
             border: 'none',
@@ -46,18 +51,20 @@ export function SearchBar(props) {
             border: 'none',
             boxShadow: 'none',
           },
-          // add styles to color background white when filled
+          '& .MuiInputBase-input': {
+            color: searchIconColor,
+          },
           '&.Mui-focused': {
             backgroundColor: '#fff',
             border: 'none',
             boxShadow: 'none',
           },
-          '& .MuiInputBase-input': {
-            color: '#fff',
-          },
           '&.MuiOutlinedInput-notchedOutline': {
             borderColor: 'grey',
             borderRadius: '30px',
+          },
+          '&.MuiInputBase-input-MuiOutlinedInput-input': {
+            px: `0px !important`,
           },
         },
       }}

@@ -27,7 +27,7 @@ import {
 import { ReusableDropdownMenu } from 'components/themed';
 import { useAuthStore, useChatStore, useUserStore } from 'contexts';
 import { useMode } from 'hooks';
-import { SearchBar } from '../shared/searchBar/SearchBar';
+import { SearchBar } from '../../../components/themed/UncommonUi/searchBar/SearchBar';
 import Sidebar from '../sidebar';
 
 export default function HeaderLinks(props) {

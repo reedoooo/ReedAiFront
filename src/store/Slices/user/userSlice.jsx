@@ -21,7 +21,7 @@ import {
   setWorkspaceId,
   setWorkspaces,
 } from '../chat';
-import { getLocalData, setLocalData } from '../chat/helpers';
+import { getLocalData, setLocalData } from '../helpers';
 
 const LOCAL_NAME = 'userStore';
 const REDUX_NAME = 'user';
@@ -61,11 +61,13 @@ export const fetchAndSetUserData = createAsyncThunk(
 
       // Fetch and set the profile image
       const { username } = storedUserData.user;
-      const profileImageAction = await dispatch(
-        fetchUserProfileImage(username)
-      );
-      const profileImageUrl = profileImageAction.payload || avatar5;
-
+      let profileImageUrl = null;
+      if (!storedUserData.user.profileImage) {
+        const profileImageAction = await dispatch(
+          fetchUserProfileImage(username)
+        );
+        profileImageUrl = profileImageAction.payload || avatar5;
+      }
       // Assuming userData has properties like presets, workspaces, prompts, etc.
       const {
         presets,
@@ -101,6 +103,7 @@ export const fetchAndSetUserData = createAsyncThunk(
           chatSessions.find(session => session.active === true)
         )
       );
+      // dispatch
       // dispatch(
       //   setSessionId(chatSessions.find(session => session.active === true)._id)
       // );

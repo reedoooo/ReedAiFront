@@ -1,68 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getLocalData, setLocalData } from './helpers';
 
-const LOCAL_NAME = 'appSetting';
+const LOCAL_NAME = 'appStore';
+const REDUX_NAME = 'app';
 
-function defaultSetting() {
-  return {
-    siderCollapsed: false,
-    theme: 'light',
-    dialogState: {
-      viewDraftsDialogOpen: false,
-      profileDialogOpen: false,
-      addDraftDialogOpen: false,
-      authDialogOpen: false,
-    },
-    draftsBarVisible: true,
-    initAddContentVisible: false,
-    formDisabled: true,
-  };
-}
+const initialState = getLocalData(LOCAL_NAME, REDUX_NAME);
 
-function getLocalSetting() {
-  const localSetting = JSON.parse(localStorage.getItem(LOCAL_NAME) || '{}');
-  return { ...defaultSetting(), ...localSetting };
-}
-
-function setLocalSetting(setting) {
-  localStorage.setItem(LOCAL_NAME, JSON.stringify(setting));
+function setLocalAppData(data) {
+  setLocalData(LOCAL_NAME, data);
 }
 
 const appSlice = createSlice({
   name: 'app',
-  initialState: getLocalSetting(),
+  initialState,
   reducers: {
-    setSiderCollapsed: (state, action) => {
-      setLocalSetting({ ...state, siderCollapsed: action.payload });
-      state.siderCollapsed = action.payload;
+    setSidebarOpen: (state, action) => {
+      setLocalAppData({ ...state, isSidebarOpen: action.payload });
+      state.isSidebarOpen = action.payload;
     },
     setTheme: (state, action) => {
-      setLocalSetting({ ...state, theme: action.payload });
+      setLocalAppData({ ...state, theme: action.payload });
       state.theme = action.payload;
-    },
-    // --- Nav Actions ---
-    toggleDialogState: (state, action) => {
-      const dialog = action.payload;
-      state.dialogState[dialog] = !state.dialogState[dialog];
-    },
-    toggleDraftsBar: state => {
-      state.draftsBarVisible = !state.draftsBarVisible;
-    },
-    toggleInitAddContentVisible: state => {
-      state.initAddContentVisible = !state.initAddContentVisible;
-    },
-    toggleFormDisabled: state => {
-      state.formDisabled = !state.formDisabled;
     },
   },
 });
-
-export const {
-  setSiderCollapsed,
-  setTheme,
-  toggleDialogState,
-  toggleDraftsBar,
-  toggleInitAddContentVisible,
-  toggleFormDisabled,
-} = appSlice.actions;
+export const { setSidebarOpen, setTheme } = appSlice.actions;
 
 export default appSlice.reducer;

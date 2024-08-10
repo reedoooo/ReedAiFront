@@ -7,6 +7,7 @@ import {
   setActiveLocal,
   setActiveSession,
   setActiveWorkspace,
+  setSelectedChatSession,
   setApiKey,
   setAssistantImages,
   setAssistants,
@@ -69,6 +70,7 @@ import {
   setWorkspaceImages,
   setWorkspaces,
   setSessionHeader,
+  createChatSession,
 } from 'store/Slices'; // Assuming you can import all slices from a single entry point
 
 export const selectWorkspace = createSelector(
@@ -279,8 +281,12 @@ export const ChatProvider = ({ children }) => {
     // ===========================================
     setChatSessions: chats => dispatch(setChatSessions(chats)),
     setActiveSession: session => dispatch(setActiveSession(session)),
+    setSelectedChatSession: session =>
+      dispatch(setSelectedChatSession(session)),
     setSessionId: sessionId => dispatch(setSessionId(sessionId)),
     setSessionHeader: header => dispatch(setSessionHeader(header)),
+    createNewChatSession: sessionData =>
+      dispatch(createChatSession(sessionData)),
     // ===========================================
     // [ASSISTANT STORE]
     // ===========================================

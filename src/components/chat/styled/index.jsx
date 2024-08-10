@@ -19,6 +19,7 @@ import {
   IconButton,
   Select,
   Switch,
+  Card,
 } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 /* --- CHAT - SIDEBAR --- */
@@ -342,6 +343,22 @@ export const AnimatedTab = styled(motion(RadixUiTab))(({ theme }) => ({
     width: '100%',
   },
 }));
+export const ConversationCard = styled(Card)({
+  background: '#1c1c1c',
+  color: '#fff',
+  margin: '10px 0',
+  padding: '10px',
+  borderRadius: '5px',
+});
+export const ExportOptions = styled(Box)({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: '10px',
+  background: '#333',
+  borderRadius: '5px',
+  margin: '10px 0',
+});
 /* --- CHAT - MAIN CHAT COMPONENT --- */
 export const StyledChatContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -432,6 +449,7 @@ export const ChatMessageEditorContentsContainer = styled(Box)(({ theme }) => ({
   backgroundColor: '#333',
   borderRadius: 1,
   p: 2,
+  m: 1,
   color: 'white',
   width: '100%',
 }));

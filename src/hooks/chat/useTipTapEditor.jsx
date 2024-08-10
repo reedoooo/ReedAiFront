@@ -74,6 +74,11 @@ export const useTipTapEditor = () => {
         setIsTyping(false);
       }
     },
+    editorProps: {
+      attributes: {
+        class: 'custom-editor',
+      },
+    },
   });
   const handleContentTypeChange = event => {
     setContentType(event.target.value);

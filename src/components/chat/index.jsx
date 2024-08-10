@@ -30,7 +30,6 @@ export const ChatApp = () => {
     isEditorActive,
     setIsEditorActive,
     editorActiveRef,
-    newSessionDialog,
     apiKey,
     userInput,
     isFirstMessageReceived,
@@ -47,10 +46,7 @@ export const ChatApp = () => {
         item
         xs={12}
       >
-        <ChatHeader
-          name={sessionHeader || 'Chat Session'}
-          handleOpen={newSessionDialog.handleOpen}
-        />
+        <ChatHeader />
         <MessageContainer>
           <div ref={messagesStartRef} />
           <MessageBox messages={messages} />

@@ -1,10 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import appSlice from './appSlice';
 import {
-  // activeChatReducer,
-  // passiveChatReducer,
-  // generalChatReducer,
-  // chatInputCommandReducer,
   assistantReducer,
   baseChatReducer,
   chatSessionReducer,

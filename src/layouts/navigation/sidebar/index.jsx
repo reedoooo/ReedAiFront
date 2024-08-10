@@ -22,7 +22,7 @@ import {
   renderThumb,
   renderTrack,
   renderView,
-} from '../shared/scrollbar/Scrollbar';
+} from '../../../components/themed/UncommonUi/scrollbar/Scrollbar';
 import Brand from './components/Brand';
 
 export const Sidebar = props => {
@@ -56,6 +56,7 @@ export const Sidebar = props => {
         boxSizing: 'border-box',
         maxWidth: '100%',
         paddingLeft: `${paddingLeft}px`,
+        visibility: route.hide ? 'hidden' : 'visible',
       }}
       key={uniqueId(route.path)}
     >
