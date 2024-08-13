@@ -53,4 +53,48 @@ export default {
     },
     checked: {},
   },
+
+  variants: [
+    {
+      props: { variant: 'darkMode' },
+      style: {
+        '& .MuiSwitch-switchBase.Mui-checked': {
+          color: '#18b984 !important', // Ensure the thumb color is green when checked
+          '&:hover': {
+            backgroundColor: 'rgba(24, 185, 132, 0.08) !important', // Hover effect when checked
+          },
+        },
+        '& .MuiSwitch-switchBase': {
+          color: '#18b984 !important',
+          '& .MuiSwitch-thumb': {
+            color: '#18b984 !important',
+            backgroundColor: '#18b984 !important',
+          },
+          '&:hover': {
+            backgroundColor: 'rgba(24, 185, 132, 0.08)', // Hover effect when unchecked
+          },
+          '&.Mui-checked': {
+            color: '#18b984 !important', // Ensure the thumb color is green when checked
+            '&:hover': {
+              backgroundColor: 'rgba(24, 185, 132, 0.08)', // Hover effect when checked
+            },
+          },
+          '&.Mui-checked + .MuiSwitch-track': {
+            backgroundColor: '#ffffff !important', // Ensure the track color remains white
+          },
+        },
+        '& .MuiSwitch-track': {
+          backgroundColor: '#ffffff !important', // Ensure the track color remains white
+          opacity: 1, // Ensure track color is visible
+        },
+        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+          color: '#18b984 !important',
+          backgroundColor: '#ffffff !important', // Track color when checked
+        },
+        '& .MuiSwitch-thumb': {
+          color: '#18b984 !important',
+        },
+      },
+    },
+  ],
 };

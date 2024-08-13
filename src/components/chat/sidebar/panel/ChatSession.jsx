@@ -31,7 +31,7 @@ const ConversationMenu = ({
     <MenuItem onClick={handleDeleteConversation}>Delete</MenuItem>
   </Menu>
 );
-const ChatSession = () => {
+export const ChatSession = () => {
   const { handleGetSessionMessages } = useChatHandler();
   const [tab, setTab] = useState(0);
   const [conversations, setConversations] = useState(null);

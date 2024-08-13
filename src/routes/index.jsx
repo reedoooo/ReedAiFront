@@ -1,11 +1,6 @@
 import { createBrowserHistory } from 'history';
 import React, { lazy, Suspense } from 'react';
-import {
-  Navigate,
-  Outlet,
-  createBrowserRouter,
-  redirect,
-} from 'react-router-dom';
+import { Navigate, createBrowserRouter, redirect } from 'react-router-dom';
 import {
   AdminPanelSettingsRoundedIcon,
   AiIcon,
@@ -17,9 +12,9 @@ import {
   PersonAddIcon,
   PersonIcon,
 } from 'assets/humanIcons';
-import LoadingScreen from 'components/themed/UncommonUi/loadingScreen';
-import { Loadable } from 'layouts/navigation/navbar/components/loadable';
+import { Loadable } from 'layouts/navigation/navbar/components';
 import { dispatch, setField } from 'store/index';
+import { LoadingIndicator } from 'utils/app';
 
 /* *** Error Utils *** */
 const RootErrorBoundary = Loadable(
@@ -59,7 +54,7 @@ const baseRoutes = [
     path: '/land',
     breadcrumb: 'Docs',
     element: (
-      <Suspense fallback={<LoadingScreen />}>
+      <Suspense fallback={<LoadingIndicator />}>
         <BlankLayout />
       </Suspense>
     ),
@@ -92,7 +87,7 @@ const adminRoutes = [
     path: '/admin',
     breadcrumb: 'Admin',
     element: (
-      <Suspense fallback={<LoadingScreen />}>
+      <Suspense fallback={<LoadingIndicator />}>
         <AdminLayout />
       </Suspense>
     ),
@@ -126,7 +121,7 @@ const adminRoutes = [
         path: 'chat',
         breadcrumb: 'Chat',
         element: (
-          <Suspense fallback={<LoadingScreen />}>
+          <Suspense fallback={<LoadingIndicator />}>
             <ChatLayout />
           </Suspense>
         ),
@@ -170,12 +165,12 @@ const adminRoutes = [
         ],
       },
       {
-        name: ':workspaceid',
-        title: ':workspaceid',
-        path: ':workspaceid',
-        breadcrumb: ':workspaceid',
+        name: ':workspaceId',
+        title: ':workspaceId',
+        path: ':workspaceId',
+        breadcrumb: ':workspaceId',
         element: (
-          <Suspense fallback={<LoadingScreen />}>
+          <Suspense fallback={<LoadingIndicator />}>
             <ChatLayout />
           </Suspense>
         ),
@@ -215,7 +210,7 @@ const adminRoutes = [
         path: 'templates',
         breadcrumb: 'Templates',
         element: (
-          <Suspense fallback={<LoadingScreen />}>
+          <Suspense fallback={<LoadingIndicator />}>
             <BlankLayout />
           </Suspense>
         ),
@@ -250,7 +245,7 @@ const authRoutes = [
     path: '/auth',
     breadcrumb: 'Auth',
     element: (
-      <Suspense fallback={<LoadingScreen />}>
+      <Suspense fallback={<LoadingIndicator />}>
         <AuthLayout />
       </Suspense>
     ),

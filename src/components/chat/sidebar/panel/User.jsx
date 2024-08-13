@@ -12,7 +12,7 @@ import {
 import { useUserStore } from 'contexts';
 import { useMode } from 'hooks';
 
-const User = () => {
+export const User = () => {
   const { theme } = useMode();
   const {
     state: { profile },

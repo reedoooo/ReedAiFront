@@ -7,7 +7,7 @@ import { useMode } from 'hooks';
 // =========================================================
 // [ChatLayout] | This code provides the chat layout for the app
 // =========================================================
-const ChatLayout = () => {
+export const ChatLayout = () => {
   const { theme } = useMode();
   const {
     state: { isSidebarOpen },

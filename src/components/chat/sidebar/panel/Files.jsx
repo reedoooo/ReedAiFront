@@ -4,7 +4,7 @@ import { FaSave } from 'react-icons/fa';
 import { StyledMuiTabs } from 'components/chat/styled';
 import { EditFile, FileInfo, FileUpsert } from './items';
 
-const Files = () => {
+export const Files = () => {
   const [tab, setTab] = useState(0);
   const [fileName, setFileName] = useState('example.txt');
   const [fileContent, setFileContent] = useState('');

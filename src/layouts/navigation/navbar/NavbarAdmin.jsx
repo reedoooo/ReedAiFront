@@ -8,7 +8,7 @@ import { useMode } from 'hooks';
 import { NavbarContainer } from './components/navbarcontainer'; // Import the new NavbarContainer
 import AdminNavbarLinks from './NavbarLinksAdmin';
 
-export default function AdminNavbar(props) {
+export const AdminNavbar = props => {
   const [scrolled, setScrolled] = useState(false);
   const { theme } = useMode();
   const controls = useAnimation();
@@ -91,7 +91,7 @@ export default function AdminNavbar(props) {
       </Box>
     </NavbarContainer>
   );
-}
+};
 
 AdminNavbar.propTypes = {
   brandText: PropTypes.string,
@@ -100,3 +100,5 @@ AdminNavbar.propTypes = {
   fixed: PropTypes.bool,
   onOpen: PropTypes.func,
 };
+
+export default AdminNavbar;

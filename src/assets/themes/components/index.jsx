@@ -20,18 +20,16 @@ import {
   formControl,
   formHelperText,
   formLabel,
-  input,
   inputBase,
-  inputFilled,
   inputLabel,
   inputOutlined,
   switchButton,
   textField,
 } from './forms';
 import icon from './icon';
-import linearProgress from './linearProgress';
 import link from './link';
 import { baseMenu, menuItem } from './menu';
+import { linearProgress, circularProgress } from './progress';
 import skeleton from './skeleton';
 import stat from './stat';
 // import stat from './stat';
@@ -46,12 +44,12 @@ export default {
     },
   },
   // === CUSTOM COMPONENTS ===
-  MuiStat: {
-    ...stat,
-  },
   // === LOADING AND PROGRESS ===
   MuiLinearProgress: {
     ...linearProgress,
+  },
+  MuiCircularProgress: {
+    ...circularProgress,
   },
   MuiSkeleton: {
     ...skeleton,

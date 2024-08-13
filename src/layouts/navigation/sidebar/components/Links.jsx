@@ -1,10 +1,10 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { RCFlex } from 'components/themed/HumanUi/RCFlex';
+import { RCFlex } from 'components';
 import { useMode } from 'hooks';
 
-const SidebarLinks = props => {
+export const SidebarLinks = props => {
   const { theme } = useMode();
   const activeColor = theme.palette.text.primary;
   const inactiveColor = theme.palette.text.secondary;

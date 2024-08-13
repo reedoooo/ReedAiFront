@@ -21,21 +21,26 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { InfoOutlinedIcon, SettingsIcon } from 'assets/humanIcons';
 import {
-  StyledSlider,
-  StyledSwitch,
-  StyledSwitchFormControlLabel,
   StyledTextareaAutosize,
-  StyledTextField,
   WorkspaceCreatorContainer,
 } from 'components/chat/styled';
 import { IconButtonWithTooltip } from 'components/compositions';
+import {
+  RCFileInputButton,
+  SliderFieldSection,
+  TextAreaAutosizeSection,
+  TextFieldSection,
+} from 'components/themed';
+import {
+  FormSectionLabel,
+  FormTitle,
+} from 'components/themed/HumanUi/RCComposables/container-components';
 import { DEFAULT_APP_DATA } from 'config/app-data-configs';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useChatHandler, useDialog, useMode } from 'hooks';
 import { PresetSelect } from '../preset-items';
 import {
   FormSection,
-  ReusableSliderField,
   ReusableSwitchControl,
   // ReusableTextField,
 } from '../shared-items';
@@ -62,7 +67,7 @@ export const ReusableTextField = ({
   fullWidth = true,
 }) => (
   <FormSection label={label}>
-    <StyledTextField
+    <TextFieldSection
       fullWidth={fullWidth}
       value={value}
       onChange={e => onChange(e.target.value)}
@@ -151,35 +156,36 @@ export const WorkspaceCreatorForm = () => {
 
   return (
     <WorkspaceCreatorContainer theme={theme}>
-      <Typography variant="h6" sx={{ color: '#ffffff' }}>
-        Workspaces
-      </Typography>
+      <FormTitle label="Workspaces" />
       <Divider sx={{ color: '#ffffff', marginBottom: '5px' }} />
-      <ReusableTextField label="Name" value={name} onChange={setName} />
+      <TextFieldSection
+        label="Name"
+        value={name}
+        onChange={setName}
+        variant="darkMode"
+        fullWidth
+      />
 
-      <FormSection label="Instructions">
-        <StyledTextareaAutosize
-          theme={theme}
-          placeholder="Instructions content..."
-          // fullWidth
-          multiline
-          rows={4}
-          value={instructions}
-          onChange={e => setInstructions(e.target.value)}
-        />
-      </FormSection>
+      <TextAreaAutosizeSection
+        label="Instructions"
+        minRows={3}
+        maxRows={5}
+        placeholder="Instructions content..."
+        variant="darkMode"
+        value={instructions}
+        onChange={e => setInstructions(e.target.value)}
+      />
       <Typography variant="h6" sx={{ color: '#ffffff', marginTop: '5px' }}>
         Models
       </Typography>
+
       <Divider sx={{ color: '#ffffff', marginBottom: '5px' }} />
       <PresetSelect
         presets={presets}
         selectedPreset={selectedPreset}
         handlePresetChange={handlePresetChange}
       />
-      <Typography variant="caption" sx={{ color: '#ffffff' }}>
-        Model Name
-      </Typography>
+      <FormSectionLabel label="Model Name" />
       <FormControl fullWidth>
         <Select
           value={model}
@@ -199,89 +205,92 @@ export const WorkspaceCreatorForm = () => {
           ))}
         </Select>
       </FormControl>
-      <FormSection label="Context Length">
-        <StyledTextField
-          fullWidth
-          value={contextLength}
-          onChange={e =>
-            setContextLength(
-              e.target.value === '' ? '' : parseInt(e.target.value)
-            )
-          }
-        />
-      </FormSection>
-      <FormSection label="Embeddings Provider">
-        <StyledTextField
-          fullWidth
-          value={embeddingsProvider}
-          onChange={e => setEmbeddingsProvider(e.target.value)}
-        />
-      </FormSection>
-      <FormSection label="System Prompt">
-        <StyledTextareaAutosize
-          fullWidth
-          multiline
-          rows={3}
-          value={systemPrompt}
-          onChange={e => setSystemPrompt(e.target.value)}
-        />
-      </FormSection>
-      <FormSection label="Assistant Prompt">
-        <StyledTextareaAutosize
-          fullWidth
-          multiline
-          rows={3}
-          value={assistantPrompt}
-          onChange={e => setAssistantPrompt(e.target.value)}
-        />
-      </FormSection>
-      <ReusableSliderField
+      <TextFieldSection
+        label="Context Length"
+        variant="darkMode"
+        fullWidth
+        value={contextLength}
+        onChange={e =>
+          setContextLength(
+            e.target.value === '' ? '' : parseInt(e.target.value)
+          )
+        }
+      />
+      <TextFieldSection
+        label="Embeddings Provider"
+        variant="darkMode"
+        fullWidth
+        value={embeddingsProvider}
+        onChange={e => setEmbeddingsProvider(e.target.value)}
+      />
+      <TextAreaAutosizeSection
+        label="System Prompt"
+        minRows={3}
+        maxRows={5}
+        placeholder="Enter your text here"
+        variant="darkMode"
+        value={systemPrompt}
+        onChange={e => setSystemPrompt(e.target.value)}
+      />
+      <TextAreaAutosizeSection
+        label="Assistant Prompt"
+        minRows={3}
+        maxRows={5}
+        placeholder="Enter your text here"
+        variant="darkMode"
+        value={assistantPrompt}
+        onChange={e => setAssistantPrompt(e.target.value)}
+      />
+      <SliderFieldSection
         label="Temperature"
+        valueLabelDisplay="auto"
         value={temperature}
         onChange={setTemperature}
         min={0}
         max={1}
         step={0.01}
       />
-
-      <ReusableSliderField
+      <SliderFieldSection
         label="Maximum Tokens"
+        valueLabelDisplay="auto"
         value={maxTokens}
         onChange={setMaxTokens}
         min={1}
         max={512}
         step={1}
       />
-      <FormSection label="Stop sequences">
-        <StyledTextField
-          placeholder="Enter sequence and press Tab"
-          variant="outlined"
-          fullWidth
-          value={stopSequences}
-          onChange={e => setStopSequences(e.target.value)}
-          sx={{
-            color: '#ffffff',
-          }}
-        />
-      </FormSection>
-      <ReusableSliderField
+      <TextFieldSection
+        label="Stop sequences"
+        placeholder="Enter sequence and press Tab"
+        variant="darkMode"
+        value={stopSequences}
+        onChange={e => setStopSequences(e.target.value)}
+        fullWidth
+        sx={{
+          color: '#ffffff',
+        }}
+      />
+      <SliderFieldSection
         label="Top P"
+        valueLabelDisplay="auto"
         value={topP}
         onChange={setTopP}
         min={0}
         max={1}
         step={0.01}
       />
-      <ReusableSliderField
+      <SliderFieldSection
         label="Frequency penalty"
+        valueLabelDisplay="auto"
         value={frequencyPenalty}
         onChange={setFrequencyPenalty}
         min={0}
         max={2}
         step={0.01}
       />
-      <ReusableSliderField
+      <SliderFieldSection
         label="Presence penalty"
+        valueLabelDisplay="auto"
         value={presencePenalty}
         onChange={setPresencePenalty}
         min={0}
@@ -306,8 +315,13 @@ export const WorkspaceCreatorForm = () => {
           <IconButtonWithTooltip
             icon={InfoOutlinedIcon}
             tooltipTitle="Information about File search"
+            onClick={() => {}}
           />
-          <IconButtonWithTooltip icon={SettingsIcon} tooltipTitle="Settings" />
+          <IconButtonWithTooltip
+            icon={SettingsIcon}
+            tooltipTitle="Settings"
+            onClick={() => {}}
+          />
           <label htmlFor="file-input" style={{ marginLeft: '10px' }}>
             <input
               id="file-input"
@@ -347,9 +361,24 @@ export const WorkspaceCreatorForm = () => {
           <IconButtonWithTooltip
             icon={InfoOutlinedIcon}
             tooltipTitle="Information about Code interpreter"
+            onClick={() => {}}
           />
-          <IconButtonWithTooltip icon={SettingsIcon} tooltipTitle="Settings" />
-          <label htmlFor="file-input" style={{ marginLeft: '10px' }}>
+          <IconButtonWithTooltip
+            icon={SettingsIcon}
+            tooltipTitle="Settings"
+            onClick={() => {}}
+          />
+          <RCFileInputButton
+            onChange={handleFileChange}
+            buttonText="Upload File"
+            accept=".txt,.pdf"
+            buttonSx={{
+              color: '#ffffff',
+              borderColor: '#ffffff',
+              height: '50%', // Reducing height by 50%
+            }}
+          />
+          {/* <label htmlFor="file-input" style={{ marginLeft: '10px' }}>
             <input
               id="file-input"
               type="file"
@@ -372,7 +401,7 @@ export const WorkspaceCreatorForm = () => {
             >
               + Code
             </Button>
-          </label>
+          </label> */}
         </Box>
       </FormGroup>
       <Divider sx={{ bgcolor: 'rgba(255, 255, 255, 0.12)', width: '100%' }} />

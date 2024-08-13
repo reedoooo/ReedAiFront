@@ -1,4 +1,3 @@
-export * from '../../cleanup/AuthProvider';
 export * from './AppProvider';
 export * from './ChatProvider';
 export * from './ColorModeProvider';
@@ -17,4 +16,5 @@ export default {
   useChatStore,
   useUserStore,
   useAppStore,
+  useSnackbarStore,
 };

@@ -1,6 +1,6 @@
 // src/libs/api.js
 import axios from 'axios';
-import { useSnackbarStore } from 'contexts';
+// import { useSnackbarStore } from 'contexts';
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:3001/api',
@@ -12,6 +12,8 @@ const axiosInstance = axios.create({
 });
 
 export const setupInterceptors = () => {
+  // const { showMessage } = useSnackbarStore();
+
   axiosInstance.interceptors.request.use(
     config => {
       const accessToken = sessionStorage.getItem('accessToken');
@@ -39,9 +41,8 @@ export const setupInterceptors = () => {
       return response;
     },
     error => {
-      const { showMessage } = useSnackbarStore();
       // console.error('Response Error:', error.response.data);
-      showMessage(message, 'error');
+      // showMessage(message, 'error');
       if (error.response.data.message === 'jwt expired') {
         window.location.href = `${window.location.origin}/auth/sign-in`;
       }

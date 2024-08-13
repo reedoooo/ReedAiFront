@@ -24,13 +24,12 @@ import {
   PersonIcon,
   SettingsIcon,
 } from 'assets/humanIcons';
-import { ReusableDropdownMenu } from 'components/themed';
+import { ReusableDropdownMenu, SearchBar } from 'components/themed';
 import { useChatStore, useUserStore } from 'contexts';
 import { useMode } from 'hooks';
-import { SearchBar } from '../../../components/themed/UncommonUi/searchBar/SearchBar';
-import Sidebar from '../sidebar';
+import { Sidebar } from '../sidebar';
 
-export default function HeaderLinks(props) {
+export const HeaderLinks = props => {
   const { secondary } = props;
   const { theme } = useMode();
   const userStore = useUserStore(); // Use the useChatStore hook to get state
@@ -258,8 +257,10 @@ export default function HeaderLinks(props) {
       {/* </StyledAppBar> */}
     </Box>
   );
-}
+};
 
 HeaderLinks.propTypes = {
   secondary: PropTypes.bool,
 };
+
+export default HeaderLinks;

@@ -29,7 +29,7 @@ import { AssistantDisplay } from './items/assistant-items/AssistantDisplay';
 import { AssistantTemplates } from './items/assistant-items/AssistantTemplates';
 import { AssistantTools } from './items/assistant-items/AssistantTools';
 
-const Assistants = props => {
+export const Assistants = props => {
   const { title, data, folders } = props;
   const [tab, setTab] = useState(0);
   const { assistants } = data;

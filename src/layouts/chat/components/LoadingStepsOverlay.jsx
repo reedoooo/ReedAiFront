@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
-const LoadingStep = ({ step, completed }) => (
+export const LoadingStep = ({ step, completed }) => (
   <ListItem>
     <ListItemIcon>
       {completed ? (
@@ -26,7 +26,7 @@ const LoadingStep = ({ step, completed }) => (
   </ListItem>
 );
 
-const LoadingSection = ({ title, steps, active }) => (
+export const LoadingSection = ({ title, steps, active }) => (
   <Fade in={active} timeout={500}>
     <Box>
       <Typography variant="h6" gutterBottom>

@@ -73,7 +73,7 @@ const StyledMenuList = styled(props => (
   },
 }));
 
-function Landing() {
+export const Landing = () => {
   const { theme } = useMode();
   const { navigate } = useRouter();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -392,9 +392,10 @@ function Landing() {
       </PageLayout>
     </Grid>
   );
-}
+};
+
 export const HeroDocs = () => {
   return <Landing />;
 };
 
-export default Landing;
+export default HeroDocs;

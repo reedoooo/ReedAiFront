@@ -1,9 +1,9 @@
 import Typography from '@mui/material/Typography';
 import styledDefault from 'styled-components';
-import { useMode } from 'hooks';
+// import { useMode } from 'hooks';
 
-const RCTypographyRoot = styledDefault(Typography)(({ ownerState }) => {
-  const { theme } = useMode();
+const RCTypographyRoot = styledDefault(Typography)(({ theme, ownerState }) => {
+  // const { theme } = useMode();
   const { palette, typography, functions } = theme;
   const {
     color,
@@ -13,6 +13,7 @@ const RCTypographyRoot = styledDefault(Typography)(({ ownerState }) => {
     opacity,
     textGradient,
     darkMode,
+    variant,
   } = ownerState;
   const { gradients, transparent, white } = palette;
   const {
@@ -28,6 +29,9 @@ const RCTypographyRoot = styledDefault(Typography)(({ ownerState }) => {
     bold: fontWeightBold,
   };
   const { linearGradient } = functions;
+  const darkModeFormLabelStyles = {
+    color: '#ffffff',
+  };
   const gradientStyles = () => ({
     backgroundImage:
       color !== 'inherit' &&
@@ -55,6 +59,7 @@ const RCTypographyRoot = styledDefault(Typography)(({ ownerState }) => {
     color: colorValue,
     fontWeight: fontWeights[fontWeight] && fontWeights[fontWeight],
     ...(textGradient && gradientStyles()),
+    ...(variant === 'darkModeFormLabel' && darkModeFormLabelStyles),
   };
 });
 

@@ -1,9 +1,8 @@
 import { Snackbar } from '@mui/base/Snackbar';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/system';
 import * as React from 'react';
 import { Transition } from 'react-transition-group';
+import { CheckCircleRoundedIcon, CloseIcon } from 'assets/humanIcons';
 
 export const NotificationBox = ({ open, message, severity, onClose }) => {
   const [exited, setExited] = React.useState(true);
@@ -53,7 +52,7 @@ export const NotificationBox = ({ open, message, severity, onClose }) => {
             }}
             ref={nodeRef}
           >
-            <CheckRoundedIcon
+            <CheckCircleRoundedIcon
               sx={{
                 color: severity === 'success' ? 'success.main' : 'error.main',
                 flexShrink: 0,

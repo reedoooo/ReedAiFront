@@ -26,12 +26,14 @@ import ValidationIcon from 'components/styled/ValidationIcon';
 import { useAppStore, useChatStore, useUserStore } from 'contexts';
 import { useMode, useRouter } from 'hooks';
 import { SidebarContainer, SidebarPanel } from '../styled';
-import Assistants from './panel/Assistants';
-import ChatSession from './panel/ChatSession';
-import Files from './panel/Files';
-import Prompts from './panel/Prompts';
-import User from './panel/User';
-import Workspace from './panel/Workspace';
+import {
+  Workspace,
+  ChatSession,
+  Assistants,
+  Files,
+  Prompts,
+  User,
+} from './panel';
 
 const sidebarIconStyle = {
   width: '32px',
@@ -292,6 +294,6 @@ export const ChatSidebar = () => {
   );
 };
 
-const DefaultTab = () => <div style={{ color: 'white' }}></div>;
+export const DefaultTab = () => <div style={{ color: 'white' }}></div>;
 
 export default ChatSidebar;

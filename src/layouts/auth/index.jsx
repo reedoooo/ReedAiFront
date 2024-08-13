@@ -60,4 +60,5 @@ export const AuthLayout = () => {
     </Box>
   );
 };
+
 export default AuthLayout;

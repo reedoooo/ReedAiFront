@@ -61,7 +61,7 @@ export const ReusableTextField = ({
   label,
   value,
   onChange,
-  multiline = false,
+  multiline,
   rows = 1,
   fullWidth = true,
 }) => (
@@ -70,7 +70,7 @@ export const ReusableTextField = ({
       fullWidth={fullWidth}
       value={value}
       onChange={e => onChange(e.target.value)}
-      multiline={multiline}
+      multiline
       rows={rows}
       variant="outlined"
       sx={{

@@ -1,28 +1,24 @@
 // Chakra imports
-import { Box, Portal, useTheme } from '@mui/material';
-import { useAnimation } from 'framer-motion';
+import { Box, Portal } from '@mui/material';
 import React, { useState } from 'react';
 import {
   Outlet,
   useLocation,
   useNavigation,
   useParams,
-  useSearchParams,
 } from 'react-router-dom';
 import routes from '@/routes/index';
-import { useUserStore } from 'contexts';
-import { SidebarContext } from 'contexts/SidebarProvider';
+import { useUserStore, SidebarContext } from 'contexts';
 import { useDisclosure, useRouter } from 'hooks';
-import { FooterAdmin } from 'layouts/navigation/footer/FooterAdmin';
-import AdminNavbar from 'layouts/navigation/navbar/NavbarAdmin';
-import { LoadingIndicator } from 'utils/app/LoadingIndicator';
+import { FooterAdmin, AdminNavbar } from 'layouts';
 import {
   getActiveNavbar,
   getActiveNavbarText,
   getActiveRoute,
   getLayoutRoute,
   getMenuItems,
-} from 'utils/navigation';
+  LoadingIndicator,
+} from 'utils';
 
 // =========================================================
 // [AdminLayout] | This code provides the admin layout for the app
@@ -57,7 +53,7 @@ const ChatBotContainer = ({ children }) => {
     </Box>
   );
 };
-const AdminLayout = props => {
+export const AdminLayout = props => {
   const { ...rest } = props;
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);

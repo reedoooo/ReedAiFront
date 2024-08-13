@@ -89,6 +89,7 @@ const MuiModeBasedStyles = {
       colorText: '#343239',
       colorPrimaryText: rgba('#fff', 0.96),
       colorLabel: '#A4A3A6',
+      disabled: '#424242',
       gradient: 'linear-gradient(180deg, #212121, #3d3d3d)',
     },
     dark: {
@@ -101,6 +102,7 @@ const MuiModeBasedStyles = {
       colorText: '#343239',
       colorPrimaryText: rgba('#fff', 0.96),
       colorLabel: '#A4A3A6',
+      disabled: '#424242',
       gradient: 'linear-gradient(180deg, #212121, #3d3d3d)',
     },
   },
