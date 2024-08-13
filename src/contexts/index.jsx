@@ -16,6 +16,5 @@ import { useUserStore } from './UserProvider';
 export default {
   useChatStore,
   useUserStore,
-  useSnackbarStore,
   useAppStore,
 };
