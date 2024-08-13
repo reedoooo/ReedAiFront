@@ -34,7 +34,34 @@ export const addStaticPrompt = createAsyncThunk(
     }
   }
 );
+// export const fetchStaticPrompts = createAsyncThunk(
+//   '/api/static-files',
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       // Step 1: Fetch the list of static files
+//       const fileListResponse = await axios.get('/static');
+//       const fileList = fileListResponse.data;
+//       console.log('fileList', fileList);
+//       // Step 2: Parse each JSON file
+//       const parsedPrompts = await Promise.all(
+//         fileList.map(async fileName => {
+//           if (fileName.endsWith('.json')) {
+//             const fileContent = await axios.get(
+//               `/api/static-files/${fileName}`
+//             );
+//             return fileContent.data;
+//           }
+//           return null;
+//         })
+//       );
 
+//       // Filter out any null values and flatten the array
+//       return parsedPrompts.filter(Boolean).flat();
+//     } catch (error) {
+//       return rejectWithValue(error.response.data);
+//     }
+//   }
+// );
 const initialState = getLocalData(LOCAL_NAME, REDUX_NAME);
 
 function setLocalPromptData(data) {

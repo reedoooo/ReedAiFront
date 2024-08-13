@@ -63,7 +63,6 @@ export const InputActions = ({
         open={apiModalDialog.open}
         onClose={apiModalDialog.handleClose}
         onOpen={apiModalDialog.handleOpen}
-        setApiKey={chatStore.actions.setApiKey}
         handleCloseApiModal={apiModalDialog.handleClose}
       />
       <ContentTypeDropDown

@@ -12,6 +12,7 @@ import {
   AiIcon,
   AssistantIcon,
   ChatIcon,
+  EditIcon,
   FilePresentIcon,
   FingerprintIcon,
   HomeIcon,
@@ -20,6 +21,7 @@ import {
 } from 'assets/humanIcons';
 
 import { ChatBotIcon } from 'assets/humanIcons/custom';
+import { IconButtonWithTooltip } from 'components/compositions';
 import ValidationIcon from 'components/styled/ValidationIcon';
 import { useAppStore, useChatStore, useUserStore } from 'contexts';
 import { useMode, useRouter } from 'hooks';
@@ -42,8 +44,45 @@ export const ChatSidebar = () => {
     state: { user, isAuthenticated },
   } = useUserStore();
   const {
-    state: { apiKey },
+    state: {
+      apiKey,
+      folders,
+      chatSessions,
+      workspaces,
+      prompts,
+      files,
+      assistants,
+      presets,
+      collections,
+      tools,
+      models,
+    },
+    // actions: {
+    //   setFolders,
+    //   setChats,
+    //   setPresets,
+    //   setPrompts,
+    //   setFiles,
+    //   setCollections,
+    //   setAssistants,
+    //   setTools,
+    //   setModels,
+    // },
   } = useChatStore();
+  const chatSessionFolders = folders?.filter(
+    folder => folder.type === 'chatSessions'
+  );
+  const promptFolders = folders?.filter(folder => folder.type === 'prompts');
+  const fileFolders = folders?.filter(folder => folder.type === 'files');
+  const assistantFolders = folders?.filter(
+    folder => folder.type === 'assistants'
+  );
+  const toolFolders = folders?.filter(folder => folder.type === 'tools');
+  // const presetFolders = folders.filter(folder => folder.type === 'presets');
+  // const collectionFolders = folders.filter(
+  //   folder => folder.type === 'collections'
+  // );
+  // const modelFolders = folders.filter(folder => folder.type === 'models');
   const {
     state: { isSidebarOpen },
     actions: { setSidebarOpen },
@@ -54,7 +93,6 @@ export const ChatSidebar = () => {
   const sideBarWidthRef = React.useRef(null);
   const isValidApiKey = Boolean(apiKey);
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is mobile
-  // const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
   React.useEffect(() => {
     if (sideBarWidthRef.current) {
@@ -72,23 +110,39 @@ export const ChatSidebar = () => {
     setSidebarOpen(true);
   };
   const handleSidebarClose = () => {
-    isSidebarOpen(false);
+    setSidebarOpen(false);
     setTab(null);
   };
   const renderContent = () => {
     switch (tab) {
       case 0:
-        return <User />;
+        return (
+          <Workspace title="Workspaces" data={workspaces} folders={folders} />
+        );
       case 1:
-        return <Workspace />;
+        return (
+          <ChatSession
+            title="ChatSessions"
+            data={chatSessions}
+            folders={chatSessionFolders}
+          />
+        );
       case 2:
-        return <ChatSession />;
+        return (
+          <Assistants
+            title="Assistants"
+            data={assistants}
+            folders={assistantFolders}
+          />
+        );
       case 3:
-        return <Prompts />;
+        return (
+          <Prompts title="Prompts" data={prompts} folders={promptFolders} />
+        );
       case 4:
-        return <Assistants />;
+        return <Files title="Files" data={files} folders={fileFolders} />;
       case 5:
-        return <Files />;
+        return <User title="User" data={user} />;
       default:
         return <DefaultTab />;
     }
@@ -118,36 +172,51 @@ export const ChatSidebar = () => {
         >
           <AiIcon sx={{ fontSize: 32, color: theme.palette.common.white }} />
         </Avatar>
-        <Tooltip title="User Settings" placement="right">
-          <IconButton onClick={() => handleSidebarOpen(0)}>
-            <AccountCircleRoundedIcon sx={sidebarIconStyle} />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Workspaces" placement="right">
-          <IconButton onClick={() => handleSidebarOpen(1)}>
-            <SettingsIcon sx={sidebarIconStyle} />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Chats" placement="right">
-          <IconButton onClick={() => handleSidebarOpen(2)}>
-            <ChatIcon sx={sidebarIconStyle} />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Prompts" placement="right">
-          <IconButton onClick={() => handleSidebarOpen(3)}>
-            <ChatBotIcon sx={sidebarIconStyle} />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Assistants" placement="right">
-          <IconButton onClick={() => handleSidebarOpen(4)}>
-            <AssistantIcon sx={sidebarIconStyle} />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Files" placement="right">
-          <IconButton onClick={() => handleSidebarOpen(5)}>
-            <FilePresentIcon sx={sidebarIconStyle} />
-          </IconButton>
-        </Tooltip>
+        <IconButtonWithTooltip
+          tooltipTitle="Workspaces"
+          placement="right"
+          icon={SettingsIcon}
+          colorVariant="white"
+          sizeVariant="large"
+          variant="circle"
+          onClick={() => handleSidebarOpen(0)}
+        />
+        <IconButtonWithTooltip
+          tooltipTitle="ChatSessions"
+          placement="right"
+          icon={ChatIcon}
+          colorVariant="white"
+          sizeVariant="large"
+          variant="circle"
+          onClick={() => handleSidebarOpen(1)}
+        />
+        <IconButtonWithTooltip
+          tooltipTitle="Assistants"
+          placement="right"
+          icon={AssistantIcon}
+          colorVariant="white"
+          sizeVariant="large"
+          variant="circle"
+          onClick={() => handleSidebarOpen(2)}
+        />
+        <IconButtonWithTooltip
+          tooltipTitle="Prompts"
+          placement="right"
+          icon={EditIcon}
+          colorVariant="white"
+          sizeVariant="large"
+          variant="circle"
+          onClick={() => handleSidebarOpen(3)}
+        />
+        <IconButtonWithTooltip
+          tooltipTitle="Files"
+          placement="right"
+          icon={FilePresentIcon}
+          colorVariant="white"
+          sizeVariant="large"
+          variant="circle"
+          onClick={() => handleSidebarOpen(4)}
+        />
         <Box
           sx={{
             display: 'flex',
@@ -183,11 +252,16 @@ export const ChatSidebar = () => {
             mt: 'auto',
           }}
         >
+          <Tooltip title="User" placement="right">
+            <IconButton onClick={() => handleSidebarOpen(5)}>
+              <AccountCircleRoundedIcon sx={sidebarIconStyle} />
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Home" placement="right">
             <IconButton onClick={() => navigate('/admin/dashboard')}>
               <HomeIcon sx={sidebarIconStyle} />
             </IconButton>
-          </Tooltip>{' '}
+          </Tooltip>
         </Box>
       </SidebarPanel>
       <Drawer

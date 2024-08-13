@@ -11,6 +11,16 @@ export const chatPrompt = {
     }
   },
 
+  // getAll: async () => {
+  //   try {
+  //     const data = await apiUtils.get('/chat/prompts');
+  //     return data;
+  //   } catch (error) {
+  //     console.error('Error fetching chat prompts:', error);
+  //     throw error;
+  //   }
+  // },
+
   getById: async id => {
     try {
       const data = await apiUtils.get(`/chat/prompts/${id}`);

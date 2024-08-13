@@ -10,6 +10,15 @@ export const chatFiles = {
       throw error;
     }
   },
+  getAllByType: async filetype => {
+    try {
+      const data = await apiUtils.get(`/chat/files/static/list/${filetype}`);
+      return data;
+    } catch (error) {
+      console.error('Error fetching chat presets:', error);
+      throw error;
+    }
+  },
   getAllImages: async () => {
     try {
       const fileTypes = 'png';
@@ -45,6 +54,15 @@ export const chatFiles = {
   fetchChatFileData: async () => {
     try {
       const data = await apiUtils.get(`/files/list-files`);
+      return data;
+    } catch (error) {
+      console.error('Error fetching chat file data:', error);
+      throw error;
+    }
+  },
+  getFileByName: async filename => {
+    try {
+      const data = await apiUtils.get(`/chat/files/static/${filename}`);
       return data;
     } catch (error) {
       console.error('Error fetching chat file data:', error);

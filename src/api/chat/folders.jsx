@@ -51,3 +51,5 @@ export const chatFolders = {
     }
   },
 };
+
+export default chatFolders;

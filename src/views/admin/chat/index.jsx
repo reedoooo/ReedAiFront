@@ -40,20 +40,16 @@ export const ChatInterface = () => {
         display: 'flex',
         flexDirection: 'column',
         height: '100vh',
-        width: '100%',
-        flexGrow: 1,
       }}
     >
-      <Box
+      {/* <Box
         sx={{
           display: 'flex',
-          flexDirection: 'row',
           height: '100%',
-          width: '100%',
         }}
-      >
-        <ChatApp />
-      </Box>
+      > */}
+      <ChatApp />
+      {/* </Box> */}
     </Box>
   );
 };

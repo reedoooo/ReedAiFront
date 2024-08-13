@@ -1,4 +1,4 @@
-import { Tab, Typography, Box } from '@mui/material';
+import { Tab, Typography, Box, IconButton } from '@mui/material';
 import { useState } from 'react';
 import { FaSave } from 'react-icons/fa';
 import { StyledMuiTabs } from 'components/chat/styled';
@@ -12,10 +12,20 @@ const Files = () => {
 
   return (
     <>
-      <Typography variant="h6" style={{ color: '#fff' }}>
-        File Editor
-        <FaSave style={{ float: 'right', cursor: 'pointer' }} />
-      </Typography>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography
+          variant="h6"
+          sx={{
+            color: 'white',
+            mx: '12px',
+          }}
+        >
+          Files
+        </Typography>
+        <IconButton>
+          <FaSave style={{ float: 'right', cursor: 'pointer' }} />
+        </IconButton>{' '}
+      </Box>
       <Box
         sx={{
           display: 'flex',

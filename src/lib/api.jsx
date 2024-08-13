@@ -1,7 +1,8 @@
 // src/libs/api.js
 import axios from 'axios';
+import { useSnackbarStore } from 'contexts';
 
-const api = axios.create({
+const axiosInstance = axios.create({
   baseURL: 'http://localhost:3001/api',
   timeout: 40000,
   headers: {
@@ -11,16 +12,11 @@ const api = axios.create({
 });
 
 export const setupInterceptors = () => {
-  // const navigate = useNavigate();
-  api.interceptors.request.use(
+  axiosInstance.interceptors.request.use(
     config => {
       const accessToken = sessionStorage.getItem('accessToken');
       if (accessToken) {
-        console.log('[VALID TOKEN BEING PASSED]', accessToken);
         config.headers.Authorization = `Bearer ${accessToken}`;
-      }
-      if (!accessToken) {
-        console.error('[NO TOKEN FOUND FOR REQUEST]', config);
       }
       console.log(
         'Request:',
@@ -36,20 +32,31 @@ export const setupInterceptors = () => {
       return Promise.reject(error);
     }
   );
-  api.interceptors.response.use(
+  axiosInstance.interceptors.response.use(
     response => {
+      // const { showMessage } = useSnackbarStore();
       console.log('Response:', response.status, response.data);
       return response;
     },
     error => {
-      console.error('Response Error:', error.response.data);
+      const { showMessage } = useSnackbarStore();
+      // console.error('Response Error:', error.response.data);
+      showMessage(message, 'error');
       if (error.response.data.message === 'jwt expired') {
-        // navigate('/auth/sign-in', { replace: true });
         window.location.href = `${window.location.origin}/auth/sign-in`;
       }
-      // if (error.response && error.response.status === 401) {
-      //   toast.error('Your session has expired. Please log in again.');
-      // }
+      if (error.response.status === 401) {
+        console.error('Unauthorized access - maybe redirect to login');
+      }
+      if (error.response.status === 404) {
+        console.error('Resource not found');
+      }
+      if (error.response.status === 500) {
+        console.error('Server error');
+      }
+      if (!error.response.data.message) {
+        console.error('Unknown error');
+      }
       return Promise.reject(error);
     }
     // function (error) {
@@ -86,4 +93,5 @@ export const setupInterceptors = () => {
     // }
   );
 };
-export default api;
+
+export default axiosInstance;

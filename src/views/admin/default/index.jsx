@@ -1,14 +1,13 @@
 import { alpha, Box, Grid, Icon, Paper, styled } from '@mui/material';
-
 import { RichTreeView } from '@mui/x-tree-view';
 import { TreeItem, treeItemClasses } from '@mui/x-tree-view/TreeItem';
+import React, { useEffect, useState } from 'react';
+import { MdAddChart, MdBarChart, MdFileCopy, MdMoney } from 'react-icons/md';
 import { MdAddTask } from 'assets/humanIcons';
 import IconBox from 'assets/humanIcons/utils/IconBox';
 import { MiniStatistics } from 'components/index';
 import { careerTrackerTable } from 'config/data';
 import { useMode, useRouter } from 'hooks';
-import React, { useEffect, useState } from 'react';
-import { MdAddChart, MdBarChart, MdFileCopy, MdMoney } from 'react-icons/md';
 import { JobStatusTracker } from './components';
 import DailyTraffic from './components/DailyTraffic';
 import { CalendarComponent } from './components/DashboardCalendar';
@@ -25,10 +24,10 @@ const MainDashboard = () => {
   const boxBg = '#cdd5df';
   const [user, setUser] = useState({});
   const { navigate } = useRouter();
-  useEffect(() => {
-    const sessionData = JSON.parse(localStorage.getItem('userStore'));
-    setUser(sessionData?.user);
-  }, []);
+  // useEffect(() => {
+  //   const sessionData = JSON.parse(localStorage.getItem('userStore'));
+  //   setUser(sessionData?.user);
+  // }, []);
 
   const FileTreeWidget = styled(TreeItem)(({ theme }) => ({
     color: theme.palette.grey[800],

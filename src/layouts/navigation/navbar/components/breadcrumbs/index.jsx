@@ -3,17 +3,7 @@ import { Box, Breadcrumbs, Link, Typography } from '@mui/material';
 import { uniqueId } from 'lodash';
 import React from 'react';
 import constants from 'config/constants';
-import { extractPaths } from 'utils/navigation';
-
-const findBreadcrumbs = (path, linkPaths) => {
-  const pathParts = path.split('/').filter(Boolean);
-  let fullPath = '';
-  return pathParts.map(part => {
-    fullPath += `/${part}`;
-    const matchingPath = linkPaths.find(p => p === fullPath);
-    return { text: part, link: matchingPath || fullPath };
-  });
-};
+import { extractPaths, findBreadcrumbs } from 'utils/navigation';
 
 export const BreadcrumbsComponent = ({ pathName, brandText, routes }) => {
   const { PUBLIC_URL } = constants;

@@ -10,8 +10,9 @@ import { EditorContent } from '@tiptap/react';
 import React, { useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { SendIcon, StopCircleIcon } from 'assets/humanIcons';
+import { DarkIconBox } from 'assets/humanIcons/utils';
 import { useChatStore } from 'contexts';
-import { useDialog, useTipTapEditor } from 'hooks';
+import { useChatHistoryHandler, useDialog, useTipTapEditor } from 'hooks';
 import { File, FileDisplay, FileUploadButton } from '../files';
 import {
   ChatMessageActionsContainer,
@@ -36,7 +37,10 @@ export const MessageInput = ({
     state: { files, showFilesDisplay },
     actions: { setShowFilesDisplay },
   } = chatStore;
-
+  const {
+    setNewMessageContentToNextUserMessage,
+    setNewMessageContentToPreviousUserMessage,
+  } = useChatHistoryHandler();
   const handleSendMessageWrapper = async () => {
     await handleSendMessage();
     editor.commands.clearContent(); // Clear the editor content
@@ -87,25 +91,6 @@ export const MessageInput = ({
             width: '100%',
           }}
         >
-          {/* <IconButton
-            onClick={() => setShowFilesDisplay(!showFilesDisplay)}
-            sx={{
-              p: 2,
-              borderRadius: '50%',
-              width: 40,
-              height: 40,
-              my: 'auto',
-              py: 'auto',
-            }}
-            aria-expanded={showFilesDisplay}
-            aria-label={showFilesDisplay ? 'Hide files' : 'Show files'}
-          >
-            {showFilesDisplay && files.length > 0 ? (
-              <FaChevronLeft />
-            ) : (
-              <FaChevronRight />
-            )}
-          </IconButton> */}
           <FileDisplay
             files={files}
             hidden={!showFilesDisplay || files.length === 0}
@@ -140,44 +125,76 @@ export const MessageInput = ({
               isFirstMessage={isFirstMessage}
             />
           </Box>
-
-          <IconButton
-            onClick={() => {
-              if (!sessionStorage.getItem('apiKey')) {
-                console.log('No API Key');
-                apiKeyDialog.handleOpen();
-              } else if (disabled) {
-                console.log('Already Sending');
-              } else {
-                console.log('Sending');
-                handleSendMessageWrapper();
-              }
-            }}
-          >
-            {!disabled ? (
-              <SendIcon
-                style={{ color: theme.palette.primary.main, fontSize: 20 }}
-              />
-            ) : (
-              <StopCircleIcon
-                style={{ color: theme.palette.primary.main, fontSize: 20 }}
-              />
-            )}
-          </IconButton>
         </ChatMessageActionsContainer>
       </CardActions>
       <CardContent>
         <ChatMessageActionsContainer>
-          <Box
-            sx={{
-              pr: 2,
-              alignItems: 'center',
-            }}
-          >
-            <FileUploadButton />
-          </Box>
           <ChatMessageEditorContentsContainer>
-            <EditorContent editor={editor} />
+            <Box
+              sx={{
+                px: 2,
+                alignItems: 'center',
+                flexGrow: 1,
+              }}
+            >
+              <FileUploadButton />
+            </Box>
+            <Box
+              sx={{
+                px: 2,
+                alignItems: 'center',
+                flexGrow: 1,
+                justifyContent: 'flex-start',
+                width: '100%',
+              }}
+            >
+              {' '}
+              <EditorContent editor={editor} />
+            </Box>{' '}
+            <Box
+              sx={{
+                px: 2,
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <DarkIconBox
+                icon={
+                  <IconButton
+                    onClick={() => {
+                      if (
+                        !JSON.parse(localStorage.getItem('baseChatStore'))
+                          .apiKey
+                      ) {
+                        console.log('No API Key');
+                        apiKeyDialog.handleOpen();
+                      } else if (disabled) {
+                        console.log('Already Sending');
+                      } else {
+                        console.log('Sending');
+                        handleSendMessageWrapper();
+                      }
+                    }}
+                  >
+                    {!disabled ? (
+                      <SendIcon
+                        style={{
+                          color: theme.palette.primary.main,
+                          fontSize: 20,
+                        }}
+                      />
+                    ) : (
+                      <StopCircleIcon
+                        style={{
+                          color: theme.palette.primary.main,
+                          fontSize: 20,
+                        }}
+                      />
+                    )}
+                  </IconButton>
+                }
+              />
+            </Box>
           </ChatMessageEditorContentsContainer>
         </ChatMessageActionsContainer>
       </CardContent>

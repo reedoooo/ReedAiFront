@@ -1,14 +1,15 @@
-import apiUtils from '@/lib/apiUtils';
-import { useAuthStore } from 'contexts/AuthProvider';
-import { setAuthTokens } from 'store/Slices';
+import { apiUtils } from '@/lib/apiUtils';
+import { useUserStore } from 'contexts';
+// import { setAuthTokens } from 'store/Slices';
 
 export const useHttp = () => {
-  const { state: authState, actions: authActions } = useAuthStore();
+  const { state: authState, actions: authActions } = useUserStore();
 
   const updateAuthToken = () => {
     const token = authState.token;
     const expiresIn = authState.expiresIn;
-    setAuthTokens(token, expiresIn);
+    console.log('UPDATING IN AUTH', token, expiresIn);
+    // setAuthTokens(token, expiresIn);
   };
 
   const http = async ({

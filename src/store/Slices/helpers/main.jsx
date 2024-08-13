@@ -80,3 +80,8 @@ export const getLocalData = (LOCAL_NAME, REDUX_NAME) => {
 export const setLocalData = (LOCAL_NAME, data) => {
   localStorage.setItem(LOCAL_NAME, JSON.stringify(data));
 };
+
+export const clearLocalDataAtStore = (LOCAL_NAME, REDUX_NAME) => {
+  localStorage.removeItem(LOCAL_NAME);
+  console.log(`[${LOCAL_NAME.toUpperCase()}][CLEARED ${REDUX_NAME} DATA]`);
+};

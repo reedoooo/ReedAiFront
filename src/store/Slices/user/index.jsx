@@ -1,25 +1,4 @@
-import { combineReducers } from '@reduxjs/toolkit';
 // user/index.js
-
-// Importing actions and thunks from authSlice
-import authReducer, {
-  handleAuthSubmit,
-  logout,
-  clearError,
-  disableForm,
-  enableForm,
-  updateAuthStateFromLocalStorage,
-  setIsRedirectToSignin,
-  refreshAccessToken,
-} from './authSlice';
-
-// Importing actions from profileSlice
-import profileReducer, {
-  setProfile,
-  setSelectedProfileImage,
-} from './profileSlice';
-
-// Importing actions and thunks from userSlice
 import userReducer, {
   fetchUserProfileImage,
   updateUserInfo,
@@ -29,25 +8,26 @@ import userReducer, {
   setAuthTokens,
   setIsAuthenticated,
   setUserOpenAiSettings,
+  setIsRedirectToSignin,
   fetchAndSetUserData,
+  handleAuthSubmit,
+  logout,
+  refreshAccessToken,
+  setProfile,
+  setEnvKeyMap,
+  setSelectedProfileImage,
 } from './userSlice';
 
 // Exporting all actions and thunks
 export {
-  // Auth actions and thunks
+  // User actions and thunks
+  setProfile,
+  setEnvKeyMap,
+  setSelectedProfileImage,
   handleAuthSubmit,
   logout,
-  clearError,
-  disableForm,
-  enableForm,
-  updateAuthStateFromLocalStorage,
-  setIsRedirectToSignin,
   refreshAccessToken,
-  // Profile actions
-  setProfile,
-  setSelectedProfileImage,
-
-  // User actions and thunks
+  setIsRedirectToSignin,
   fetchUserProfileImage,
   updateUserInfo,
   resetUserInfo,
@@ -60,12 +40,4 @@ export {
 };
 
 // Exporting reducers
-export { authReducer, profileReducer, userReducer };
-
-// const rootReducer = combineReducers({
-//   auth: authReducer,
-//   profile: profileReducer,
-//   user: userReducer,
-// });
-
-// export default rootReducer;
+export { userReducer };

@@ -5,10 +5,10 @@ import {
 } from '@mui/icons-material';
 import { Button, Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useCopyToClipboard } from 'hooks/useCopyToClipboard';
 import React, { FC, memo } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { useCopyToClipboard } from 'hooks/util';
 
 // ... (keep the programmingLanguages and generateRandomString functions as they are)
 
@@ -91,6 +91,7 @@ export const MessageCodeBlock = memo(({ language, value }) => {
     if (isCopied) return;
     copyToClipboard(value);
   };
+
   return (
     <CodeBlockWrapper>
       <CodeBlockHeader>

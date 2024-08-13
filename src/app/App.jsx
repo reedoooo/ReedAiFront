@@ -29,9 +29,12 @@ const App = () => {
     <React.StrictMode>
       <ErrorBoundary
         FallbackComponent={ErrorFallback}
-        onReset={() => {
-          console.log('reloading the page...');
-          window.location.reload();
+        onReset={details => {
+          console.log(
+            'reloading the page...',
+            details.reason,
+            window.location.reload()
+          );
         }}
         resetKeys={[someKey]} // Reset error boundary when someKey changes
         onError={(error, errorInfo) => {

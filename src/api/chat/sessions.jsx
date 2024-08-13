@@ -77,6 +77,17 @@ export const sessions = {
       throw error;
     }
   },
+  // async sessionId => {
+  //   const id = encodeURIComponent(sessionId);
+  //   try {
+  //     return await apiUtils.post('/chat/chatSessions/session/messages', {
+  //       sessionId: id,
+  //     });
+  //   } catch (error) {
+  //     console.error('Error fetching messages data:', error);
+  //     throw error;
+  //   }
+  // };
 
   delete: async sessionId => {
     try {

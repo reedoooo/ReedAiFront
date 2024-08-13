@@ -1,13 +1,9 @@
 /* eslint-disable no-constant-condition */
-import { CircularProgress, Grid, Typography } from '@mui/material';
+import { Box, CircularProgress, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { MessageBox } from 'components/chat/messages';
-import {
-  ChatWindow,
-  MessageContainer,
-  StyledChatContainer,
-} from 'components/chat/styled';
-import { useMode, useChatLogic } from 'hooks';
+import { ChatWindow, StyledChatContainer } from 'components/chat/styled';
+import { useMode, useChatLogic, useChatScroll, useChatHandler } from 'hooks';
 import { ChatHeader } from './ChatHeader';
 import 'styles/ChatStyles.css';
 
@@ -15,28 +11,31 @@ const MessageInput = React.lazy(() => import('./inputs/MessageInput'));
 
 export const ChatApp = () => {
   const { theme } = useMode();
+  // const functionCallHandler = async call => {
+  //   if (call?.function?.name !== 'get_weather') return;
+  //   const args = JSON.parse(call.function.arguments);
+  //   const data = getWeather(args.location);
+  //   setWeatherData(data);
+  //   return JSON.stringify(data);
+  // };
   const {
     messages,
     error,
     loading,
-    sessionHeader,
+    setIsEditorActive,
+    editorActiveRef,
+    userInput,
+    isFirstMessageReceived,
+  } = useChatLogic();
+  const {
+    setError,
     handleSendMessage,
     handleRegenerateResponse,
     handleStop,
-    chatContainerRef,
-    messagesStartRef,
-    messagesEndRef,
     handleContentChange,
-    isEditorActive,
-    setIsEditorActive,
-    editorActiveRef,
-    apiKey,
-    userInput,
-    isFirstMessageReceived,
-    setError,
-    handleNewSession,
-  } = useChatLogic();
-
+  } = useChatHandler();
+  const { messagesStartRef, messagesEndRef, chatContainerRef, handleScroll } =
+    useChatScroll();
   return (
     <ChatWindow theme={theme} elevation={3}>
       <StyledChatContainer
@@ -47,7 +46,15 @@ export const ChatApp = () => {
         xs={12}
       >
         <ChatHeader />
-        <MessageContainer>
+        <Box
+          onScroll={handleScroll}
+          sx={{
+            flexGrow: 1,
+            overflowY: 'auto',
+            padding: theme.spacing(2),
+            maxWidth: '100%',
+          }}
+        >
           <div ref={messagesStartRef} />
           <MessageBox messages={messages} />
           <div ref={messagesEndRef} />
@@ -57,7 +64,7 @@ export const ChatApp = () => {
             </Typography>
           )}
           {loading && <CircularProgress />}
-        </MessageContainer>
+        </Box>
         <MessageInput
           theme={theme}
           disabled={loading}

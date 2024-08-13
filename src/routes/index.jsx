@@ -145,6 +145,68 @@ const adminRoutes = [
             functionalStatus: true,
             collapse: false,
           },
+          {
+            name: 'Chat Session',
+            title: 'ChatSession',
+            path: ':id', // Dynamic route for chat session
+            breadcrumb: 'Chat Session',
+            element: <ChatBot />, // Replace with the component handling the chat session
+            icon: <DocumentScannerRoundedIcon />,
+            description: 'Chat Sessions',
+            functionalStatus: true,
+            collapse: false,
+          },
+          {
+            name: 'Assistants',
+            title: 'Assistants',
+            path: 'chat-assistants',
+            breadcrumb: 'Chat Assistants',
+            element: <ChatBot />, // Replace with the component handling the chat session
+            icon: <DocumentScannerRoundedIcon />,
+            description: 'Assistants Api',
+            functionalStatus: true,
+            collapse: false,
+          },
+        ],
+      },
+      {
+        name: ':workspaceid',
+        title: ':workspaceid',
+        path: ':workspaceid',
+        breadcrumb: ':workspaceid',
+        element: (
+          <Suspense fallback={<LoadingScreen />}>
+            <ChatLayout />
+          </Suspense>
+        ),
+        icon: <AiIcon />,
+        collapse: true,
+        children: [
+          {
+            // index: true,
+            name: 'Chat',
+            title: 'Chat',
+            path: 'chat',
+            breadcrumb: 'Chat',
+            element: <ChatBot />,
+            icon: <HomeIcon />,
+            description: 'Chat Bot',
+            functionalStatus: true,
+            collapse: true,
+            children: [
+              {
+                name: ':sessionId',
+                title: ':sessionId',
+                path: ':sessionId', // Dynamic route for chat session
+                breadcrumb: ':sessionId',
+                element: <ChatBot />, // Replace with the component handling the chat session
+                icon: <DocumentScannerRoundedIcon />,
+                description: 'Chat Sessions',
+                functionalStatus: true,
+                collapse: false,
+              },
+            ],
+          },
         ],
       },
       {

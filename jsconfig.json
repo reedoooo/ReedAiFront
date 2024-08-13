@@ -26,5 +26,5 @@
     },
   },
   "exclude": ["node_modules", "build"],
-  "include": ["src", "cleanup/editor-configs", "cleanup/hosted", "cleanup/old", "cleanup/message-markdown-memoized.jsx", "cleanup/main.jsx", "cleanup/useFormikSchema.jsx"],
+  "include": ["src", "cleanup/editor-configs", "cleanup/hosted", "cleanup/old", "cleanup/message-markdown-memoized.jsx", "cleanup/main.jsx", "cleanup/useFormikSchema.jsx", "cleanup/SAVE", "cleanup/export.jsx", "cleanup/admin.jsx", "cleanup/files.jsx", "cleanup/logo/main.jsx", "cleanup/AuthProvider.jsx", "cleanup/ComponentProvider.jsx", "cleanup/MessageProvider.jsx"],
 }

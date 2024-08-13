@@ -2,14 +2,27 @@
 import { Box, Portal, useTheme } from '@mui/material';
 import { useAnimation } from 'framer-motion';
 import React, { useState } from 'react';
-import { Outlet, useLocation, useNavigation } from 'react-router-dom';
+import {
+  Outlet,
+  useLocation,
+  useNavigation,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 import routes from '@/routes/index';
-import { useAuthStore } from 'contexts/AuthProvider';
+import { useUserStore } from 'contexts';
 import { SidebarContext } from 'contexts/SidebarProvider';
 import { useDisclosure, useRouter } from 'hooks';
 import { FooterAdmin } from 'layouts/navigation/footer/FooterAdmin';
 import AdminNavbar from 'layouts/navigation/navbar/NavbarAdmin';
 import { LoadingIndicator } from 'utils/app/LoadingIndicator';
+import {
+  getActiveNavbar,
+  getActiveNavbarText,
+  getActiveRoute,
+  getLayoutRoute,
+  getMenuItems,
+} from 'utils/navigation';
 
 // =========================================================
 // [AdminLayout] | This code provides the admin layout for the app
@@ -49,12 +62,11 @@ const AdminLayout = props => {
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const navigation = useNavigation();
-  const authStore = useAuthStore();
-  const userStore = useAuthStore();
-  const theme = useTheme();
   const location = useLocation();
-  const controls = useAnimation();
-  const chatBotRoute = location.pathname.includes('/admin/chat/chat-home');
+  const params = useParams();
+  const chatBotRoute =
+    location.pathname.includes(`/admin/${params.workspaceId}`) ||
+    location.pathname.includes(`/admin/chat`);
   const isChatBotRoute = Boolean(chatBotRoute);
   const { navigate } = useRouter();
   const HistoryTracker = () => {
@@ -63,92 +75,6 @@ const AdminLayout = props => {
     }, [location]);
 
     return null;
-  };
-  const getRoute = () => {
-    return window.location.pathname !== '/admin/full-screen-maps';
-  };
-  const getActiveRoute = routes => {
-    let activeRoute = 'Default Brand Text';
-    for (let i = 0; i < routes.length; i++) {
-      if (routes[i].collapse) {
-        console.log('ROUTES', routes[i].items);
-        let collapseActiveRoute = getActiveRoute(routes[i].items);
-        if (collapseActiveRoute !== activeRoute) {
-          return collapseActiveRoute;
-        }
-      } else if (routes[i].category) {
-        let categoryActiveRoute = getActiveRoute(routes[i].items);
-        if (categoryActiveRoute !== activeRoute) {
-          return categoryActiveRoute;
-        }
-      } else {
-        if (
-          window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
-        ) {
-          return routes[i].name;
-        }
-      }
-    }
-    return activeRoute;
-  };
-  const getActiveNavbar = routes => {
-    let activeNavbar = false;
-    for (let i = 0; i < routes.length; i++) {
-      if (routes[i].collapse) {
-        let collapseActiveNavbar = getActiveNavbar(routes[i].items);
-        if (collapseActiveNavbar !== activeNavbar) {
-          return collapseActiveNavbar;
-        }
-      } else if (routes[i].category) {
-        let categoryActiveNavbar = getActiveNavbar(routes[i].items);
-        if (categoryActiveNavbar !== activeNavbar) {
-          return categoryActiveNavbar;
-        }
-      } else {
-        if (
-          window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
-        ) {
-          return routes[i].secondary;
-        }
-      }
-    }
-    return activeNavbar;
-  };
-  const getActiveNavbarText = routes => {
-    let activeNavbar = false;
-    for (let i = 0; i < routes.length; i++) {
-      if (routes[i].collapse) {
-        let collapseActiveNavbar = getActiveNavbarText(routes[i].items);
-        if (collapseActiveNavbar !== activeNavbar) {
-          return collapseActiveNavbar;
-        }
-      } else if (routes[i].category) {
-        let categoryActiveNavbar = getActiveNavbarText(routes[i].items);
-        if (categoryActiveNavbar !== activeNavbar) {
-          return categoryActiveNavbar;
-        }
-      } else {
-        if (
-          window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
-        ) {
-          return routes[i].messageNavbar;
-        }
-      }
-    }
-    return activeNavbar;
-  };
-  const getMenuItems = routes => {
-    let menuItems = [];
-    for (let i = 0; i < routes.length; i++) {
-      if (routes[i].collapse) {
-        menuItems.push(...getMenuItems(routes[i].items));
-      } else if (routes[i].category) {
-        menuItems.push(...getMenuItems(routes[i].items));
-      } else {
-        menuItems.push(routes[i]);
-      }
-    }
-    return menuItems;
   };
   const { onOpen } = useDisclosure();
   if (navigation.state === 'loading') {
@@ -210,7 +136,7 @@ const AdminLayout = props => {
                 )}
               </Box>
             </Portal>
-            {getRoute() ? (
+            {getLayoutRoute('admin') ? (
               isChatBotRoute ? (
                 <>
                   <Outlet />

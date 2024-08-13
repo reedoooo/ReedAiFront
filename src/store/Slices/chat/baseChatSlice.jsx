@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getChatSessionMessagesBySessionId } from 'api/index';
+import { sessions as sessionsApi } from 'api/chat';
+import user from 'api/user/user';
 import { getLocalData, setLocalData } from '../helpers';
 import { setUserOpenAiSettings } from '../user/userSlice';
 
@@ -12,96 +13,11 @@ function setLocalBaseChatData(data) {
   setLocalData(LOCAL_NAME, data);
 }
 
-// const initialState = {
-//   // apiKey: '',
-//   // workspaceId: '',
-//   // sessionId: '',
-//   // activeSession: {
-//   //   id: '',
-//   //   name: '',
-//   //   summary: '',
-//   //   systemPrompt: '',
-//   //   assisstantPrompt: '',
-//   //   isFirstPromptName: true,
-//   //   messages: [],
-//   //   files: [],
-//   //   tools: [],
-//   //   stats: {},
-//   //   setting: {},
-//   // },
-//   // payload: {
-//   //   sessionId: getItem('sessionId'),
-//   //   chatId: getItem('chatId'),
-//   //   regenerate: false,
-//   //   prompt: 'Hello, I need help with a project. Can you help me with that?',
-//   //   userId: getItem('userId'),
-//   //   clientApiKey: getItem('apiKey'),
-//   //   role: 'user',
-//   //   signal: new AbortController().signal,
-//   //   // file: new FormData().append(
-//   //   //   'file',
-//   //   //   new File(
-//   //   //     ['Hello, I need help with a project. Can you help me with that?'],
-//   //   //     'test.txt',
-//   //   //     { type: 'text/plain' }
-//   //   //   )
-//   //   // ),
-//   // },
-//   apiKey: '',
-//   workspaceId: '',
-//   isApiKeySet: false,
-//   envKeyMap: {
-//     openai: 'OPENAI_API_KEY',
-//     openai_organization_id: 'OPENAI_ORGANIZATION_ID',
-//   },
-//   isGenerating: false,
-//   firstTokenReceived: false,
-//   isMessagesUpdated: false,
-//   isDisabled: false,
-//   isFirstMessageReceived: false,
-//   abortController: null,
-//   active: null,
-//   userInput: '',
-//   chatMessages: [],
-//   chatSettings: {
-//     model: 'gpt-4-turbo-preview',
-//     prompt: 'You are a helpful AI assistant.',
-//     temperature: 0.5,
-//     contextLength: 4000,
-//     includeProfileContext: true,
-//     includeWorkspaceInstructions: true,
-//     embeddingsProvider: 'openai',
-//   },
-//   selectedChat: null,
-//   chatFileItems: [],
-//   payload: {},
-//   isPromptPickerOpen: false,
-//   slashCommand: '',
-//   isFilePickerOpen: false,
-//   hashtagCommand: '',
-//   isToolPickerOpen: false,
-//   toolCommand: '',
-//   focusPrompt: false,
-//   focusFile: false,
-//   focusTool: false,
-//   focusAssistant: false,
-//   atCommand: '',
-//   isAssistantPickerOpen: false,
-//   useRetrieval: true,
-//   sourceCount: 0,
-//   baseChatRequest: {
-//     status: 'idle',
-//     error: null,
-//     success: null,
-//     message: '',
-//   },
-// };
-
 export const syncChatMessages = createAsyncThunk(
-  'chat/syncChatMessages',
+  `${REDUX_NAME}/session/messages`,
   async (id, { dispatch }) => {
     if (id) {
-      const response = await getChatSessionMessagesBySessionId(id);
+      const response = await sessionsApi.getMessages(id);
       dispatch(
         baseChatSlice.actions.setChatMessages({
           id,
@@ -112,10 +28,35 @@ export const syncChatMessages = createAsyncThunk(
   }
 );
 
+export const addEnvToUser = createAsyncThunk(
+  `${REDUX_NAME}/addEnvToUser`,
+  async ({ apiKey }, { dispatch, rejectWithValue }) => {
+    dispatch(setLoading());
+    try {
+      console.log('Adding API key:', apiKey);
+      const response = await user.addEnvToUser(
+        sessionStorage.getItem('userId'),
+        apiKey
+      );
+      // dispatch(setApiKey(apiKey));
+      // dispatch(setChatRequestData(response.message));
+      return response;
+      // await dispatch(addApiKey(apiKey));
+      // dispatch(setChatRequestData({ message: 'Added API key successfully' }));
+    } catch (error) {
+      dispatch(setError(error));
+      rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const baseChatSlice = createSlice({
   name: REDUX_NAME,
   initialState,
   reducers: {
+    setMode: (state, action) => {
+      state.mode = action.payload;
+    },
     setLoading: (state, action) => {
       state.baseChatRequest.status = 'loading';
       state.baseChatRequest.error = null;
@@ -133,14 +74,12 @@ export const baseChatSlice = createSlice({
         action.payload.message || 'Chat request successful';
     },
     setApiKey: (state, action) => {
+      console.log('Setting API key:', action.payload);
       state.apiKey = action.payload;
       state.isApiKeySet = action.payload.length > 0 ? true : false;
       sessionStorage.setItem('apiKey', action.payload);
       setUserOpenAiSettings({ apiKey: action.payload });
       setLocalBaseChatData({ ...state, apiKey: action.payload });
-    },
-    setEnvKeyMap: (state, action) => {
-      state.envKeyMap = action.payload;
     },
     setIsGenerating: (state, action) => {
       state.isGenerating = action.payload;
@@ -225,9 +164,37 @@ export const baseChatSlice = createSlice({
       state.sourceCount = action.payload;
     },
   },
+  extraReducers: builder => {
+    builder
+      // .addCase(syncChatMessages.pending, state => {
+      //   state.baseChatRequest.status = 'loading';
+      // })
+      // .addCase(syncChatMessages.fulfilled, (state, action) => {
+      //   state.baseChatRequest.status = 'succeeded';
+      //   state.chatMessages = action.payload.messages;
+      // })
+      // .addCase(syncChatMessages.rejected, (state, action) => {
+      //   state.baseChatRequest.status = 'failed';
+      //   state.baseChatRequest.error = action.error.message;
+      // })
+      .addCase(addEnvToUser.pending, state => {
+        state.baseChatRequest.status = 'loading';
+      })
+      .addCase(addEnvToUser.fulfilled, (state, action) => {
+        console.log('addEnvToUser.fulfilled:', action.payload);
+        state.baseChatRequest.status = 'succeeded';
+        state.baseChatRequest.success = action.payload;
+        state.baseChatRequest.message = 'Added API key successfully';
+      })
+      .addCase(addEnvToUser.rejected, (state, action) => {
+        state.baseChatRequest.status = 'failed';
+        state.baseChatRequest.error = action.error.message;
+      });
+  },
 });
 
 export const {
+  setMode,
   setLoading,
   setError,
   setChatRequestData,
@@ -257,7 +224,6 @@ export const {
   setSelectedChat,
   setChatFileItems,
   setPayload,
-  setEnvKeyMap,
   setUseRetrieval,
   setSourceCount,
 } = baseChatSlice.actions;

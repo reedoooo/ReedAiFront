@@ -13,9 +13,15 @@ function setLocalFileData(data) {
   setLocalData(LOCAL_NAME, data);
 }
 
+// Async thunk to fetch all images, with a check to prevent refetching if already in state
 export const fetchAllImages = createAsyncThunk(
   'files/fetchAllImages',
-  async (_, { rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
+    const state = getState();
+    // Check if images are already in state
+    if (state.files.images && state.files.images.length > 0) {
+      return state.files.images;
+    }
     try {
       const data = await chatFiles.getAllImages();
       console.log('[fetchAllImages]', data);

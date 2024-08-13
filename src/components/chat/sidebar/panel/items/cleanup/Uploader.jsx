@@ -2,23 +2,16 @@ import { Button, CircularProgress, Container } from '@mui/material';
 import { debounce } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { apiUtils } from '@/lib/apiUtils';
-import { useAuthStore } from 'contexts/AuthProvider';
-import { useChatStore } from 'contexts/ChatProvider';
+import { useUserStore, useChatStore } from 'contexts';
 
 const UploadComponent = ({ sessionId, showUploaderButton }) => {
   const chatStore = useChatStore();
-  const authStore = useAuthStore();
+  const authStore = useUserStore();
   const [fileListData, setFileListData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [headers, setHeaders] = useState({});
-  const [data, setData] = useState({});
-  const queryClient = useRef(null); // Simulating Vue's useQueryClient
   const [model, setModel] = useState({
     chatModel: 'gpt-3.5-turbo',
   });
-  const token = authStore.getToken();
-  const baseURL = process.env.REACT_APP_API_URL; // Adjust the environment variable name
-  const actionURL = `${baseURL}/upload`;
   const debouncedUpdate = debounce(updatedModel => {
     chatStore.updateChatSession(sessionId, {
       maxLength: updatedModel.contextCount,

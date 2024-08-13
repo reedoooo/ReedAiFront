@@ -25,7 +25,7 @@ import {
   SettingsIcon,
 } from 'assets/humanIcons';
 import { ReusableDropdownMenu } from 'components/themed';
-import { useAuthStore, useChatStore, useUserStore } from 'contexts';
+import { useChatStore, useUserStore } from 'contexts';
 import { useMode } from 'hooks';
 import { SearchBar } from '../../../components/themed/UncommonUi/searchBar/SearchBar';
 import Sidebar from '../sidebar';
@@ -33,16 +33,10 @@ import Sidebar from '../sidebar';
 export default function HeaderLinks(props) {
   const { secondary } = props;
   const { theme } = useMode();
-  const matches = useMediaQuery(theme.breakpoints.up('md'));
-  const authstore = useAuthStore(); // Use the useAuthStore hook to get state
-  const chatStore = useChatStore();
   const userStore = useUserStore(); // Use the useChatStore hook to get state
-  const { isAuthenticated, user } = authstore.state; // Destructure isAuthenticated from state
   const [anchorEl2, setAnchorEl2] = useState(null);
   const iconColor = theme.palette.grey[400];
-  const textColor = theme.palette.text.primary;
-  const textColorSecondary = theme.palette.text.secondary;
-  const profileImage = userStore.state.profileImage;
+  const { profileImage, isAuthenticated, user } = userStore.state;
   const notificationsMenuItems = [
     {
       icon: <NotificationsNoneIcon color={iconColor} />,

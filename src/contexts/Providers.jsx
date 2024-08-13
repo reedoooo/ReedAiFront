@@ -2,8 +2,8 @@ import ContextErrorBoundary from 'utils/app/ContextErrorBoundary';
 import * as providers from './index';
 
 const providerList = [
-  providers.AuthProvider,
   providers.AppProvider,
+  providers.SnackbarProvider,
   providers.UserProvider,
   providers.ChatProvider,
   // providers.PromptProvider,

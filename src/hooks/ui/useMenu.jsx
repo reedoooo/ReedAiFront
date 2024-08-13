@@ -11,11 +11,16 @@ export const useMenu = () => {
     setAnchorEl(null);
   }, []);
 
+  const toggle = useCallback(() => {
+    setAnchorEl(anchorEl ? null : document.activeElement);
+  }, [anchorEl]);
+
   return {
     anchorEl: anchorEl,
     isOpen: Boolean(anchorEl),
     handleMenuOpen: handleOpen,
     handleMenuClose: handleClose,
+    toggle,
   };
 };
 

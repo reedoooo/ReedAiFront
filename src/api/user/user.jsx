@@ -1,29 +1,26 @@
 import { apiUtils } from '@/lib/apiUtils';
 
-export const getUserActiveChatSession = async () => {
-  try {
-    const response = await apiUtils.get(
-      '/chat/chat_session/user_active_sessions'
-    );
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+export const userApi = {
+  getUserById: async id => {
+    try {
+      const data = await apiUtils.get(`/user/${id}`);
+      return data;
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      throw error;
+    }
+  },
+  addEnvToUser: async (userId, apiKey) => {
+    try {
+      const data = await apiUtils.post(`/user/${userId}/addApiKey`, {
+        clientApiKey: apiKey,
+      });
+      return data;
+    } catch (error) {
+      console.error('Error adding API key to user:', error);
+      throw error;
+    }
+  },
 };
 
-// createOrUpdateUserActiveChatSession
-export const createOrUpdateUserActiveChatSession = async chatSessionId => {
-  try {
-    const response = await apiUtils.put(
-      '/chat/chat_session/user_active_sessions',
-      {
-        chatSessionId,
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
+export default userApi;

@@ -2,12 +2,26 @@ import React, { createContext, useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import {
+  addEnvToUser,
+  clearChatSessions,
+  createAssistant,
+  createChatSession,
+  createFolder,
+  createMessage,
+  createRun,
+  createRunStream,
+  createRunStreamWithFunctions,
+  createThread,
+  deleteAssistant,
+  deleteFolder,
   fetchAndSetUserData,
+  fetchAssistantByThread,
+  fetchAssistantList,
+  retrieveRun,
   setAbortController,
   setActiveLocal,
-  setActiveSession,
+  setActiveSessionId,
   setActiveWorkspace,
-  setSelectedChatSession,
   setApiKey,
   setAssistantImages,
   setAssistants,
@@ -39,6 +53,7 @@ import {
   setIsMessagesUpdated,
   setIsPromptPickerOpen,
   setIsToolPickerOpen,
+  setMode,
   setModels,
   setNewMessageFiles,
   setNewMessageImages,
@@ -50,11 +65,13 @@ import {
   setProfile,
   setPrompts,
   setSelectedAssistant,
+  setSelectedChatSession,
   setSelectedFiles,
   setSelectedPreset,
   setSelectedPrompt,
   setSelectedTools,
   setSelectedWorkspace,
+  setSessionHeader,
   setSessionId,
   setShowFilesDisplay,
   setSlashCommand,
@@ -69,8 +86,9 @@ import {
   setWorkspaceId,
   setWorkspaceImages,
   setWorkspaces,
-  setSessionHeader,
-  createChatSession,
+  updateAssistant,
+  updateFolder,
+  uploadFile,
 } from 'store/Slices'; // Assuming you can import all slices from a single entry point
 
 export const selectWorkspace = createSelector(
@@ -123,7 +141,6 @@ export const ChatProvider = ({ children }) => {
   const model = useSelector(selectModel);
   const preset = useSelector(selectPreset);
   const prompt = useSelector(selectPrompt);
-
   const state = {
     ...workspace,
     ...baseChat,
@@ -211,6 +228,58 @@ export const ChatProvider = ({ children }) => {
   };
   const actions = {
     // ===========================================
+    // [WORKSPACE STORE]
+    // ===========================================
+    setWorkspaces: workspaces => dispatch(setWorkspaces(workspaces)),
+    setSelectedWorkspace: workspace =>
+      dispatch(setSelectedWorkspace(workspace)),
+    setHomeWorkSpace: workspace => dispatch(setHomeWorkSpace(workspace)),
+    setActiveWorkspace: session => dispatch(setActiveWorkspace(session)),
+    setWorkspaceImages: images => dispatch(setWorkspaceImages(images)),
+    setWorkspaceId: workspaceId => dispatch(setWorkspaceId(workspaceId)),
+    // ===========================================
+    // [CHAT SESSION STORE]
+    // ===========================================
+    setMode: mode => dispatch(setMode(mode)),
+    setChatSessions: chats => dispatch(setChatSessions(chats)),
+    setActiveSessionId: session => dispatch(setActiveSessionId(session)),
+    setSelectedChatSession: session =>
+      dispatch(setSelectedChatSession(session)),
+    setSessionId: sessionId => dispatch(setSessionId(sessionId)),
+    setSessionHeader: header => dispatch(setSessionHeader(header)),
+    setActive: id => dispatch(setActiveSessionId(id)),
+    setActiveLocal: id => dispatch(setActiveLocal(id)),
+    createNewChatSession: sessionData =>
+      dispatch(createChatSession(sessionData)),
+    clearChatSessions: () => dispatch(clearChatSessions()),
+    // ===========================================
+    // [ASSISTANT STORE]
+    // ===========================================
+    setAssistants: assistants => dispatch(setAssistants(assistants)),
+    setSelectedAssistant: assistant =>
+      dispatch(setSelectedAssistant(assistant)),
+    setAssistantImages: images => dispatch(setAssistantImages(images)),
+    setOpenaiAssistants: assistants =>
+      dispatch(setOpenaiAssistants(assistants)),
+    fetchAssistantList: () => dispatch(fetchAssistantList()),
+    fetchAssistantByThread: (threadId, prompt) =>
+      dispatch(fetchAssistantByThread({ threadId, prompt })),
+    createAssistant: assistantData => dispatch(createAssistant(assistantData)),
+    updateAssistant: assistantData => dispatch(updateAssistant(assistantData)),
+    deleteAssistant: assistantData => dispatch(deleteAssistant(assistantData)),
+    uploadFile: filePath => dispatch(uploadFile(filePath)),
+    createThread: threadData => dispatch(createThread(threadData)),
+    createMessage: (threadId, messageData) =>
+      dispatch(createMessage({ threadId, messageData })),
+    createRun: (threadId, runData) =>
+      dispatch(createRun({ threadId, runData })),
+    createRunStream: (threadId, runData) =>
+      dispatch(createRunStream({ threadId, runData })),
+    createRunStreamWithFunctions: runData =>
+      dispatch(createRunStreamWithFunctions(runData)),
+    retrieveRun: (threadId, runId) =>
+      dispatch(retrieveRun({ threadId, runId })),
+    // ===========================================
     // [PRESET STORE]
     // ===========================================
     setPresets: presets => dispatch(setPresets(presets)),
@@ -219,6 +288,7 @@ export const ChatProvider = ({ children }) => {
     // [PROMPT STORE]
     // ===========================================
     setSelectedPrompt: prompt => dispatch(setSelectedPrompt(prompt)),
+    setPrompts: prompts => dispatch(setPrompts(prompts)),
     // ===========================================
     // [COLLECTION STORE]
     // ===========================================
@@ -235,8 +305,6 @@ export const ChatProvider = ({ children }) => {
       updateChatSessionIfEdited(id, edit),
     deleteChatSession: index => deleteChatSession(index),
     syncChatMessages: id => syncChatMessages(id),
-    setActive: id => dispatch(setActiveSession(id)),
-    setActiveLocal: id => dispatch(setActiveLocal(id)),
     addChatById: (id, chat) => addChatById(id, chat),
     updateChatById: (id, index, chat) => updateChatById(id, index, chat),
     updateChatPartialById: (id, index, chat) =>
@@ -244,21 +312,35 @@ export const ChatProvider = ({ children }) => {
     deleteChatById: (id, index) => deleteChatById(id, index),
     clearChatById: id => clearChatById(id),
     // ===========================================
+    // [FOLDER STORE]
+    // ===========================================
+    setFolders: folders => dispatch(setFolders(folders)),
+    createFolder: folder => dispatch(createFolder(folder)),
+    deleteFolder: folder => dispatch(deleteFolder(folder)),
+    updateFolder: folder => dispatch(updateFolder(folder)),
+    // ===========================================
+    // [FILE STORE]
+    // ===========================================
+    setFiles: files => dispatch(setFiles(files)),
+    setSelectedFiles: files => dispatch(setSelectedFiles(files)),
+    setUploadedFiles: files => dispatch(setUploadedFiles(files)),
+    setPreviewFiles: files => dispatch(setPreviewFiles(files)),
+    setPreviewUrls: urls => dispatch(setPreviewUrls(urls)),
+    setChatFiles: files => dispatch(setChatFiles(files)),
+    setChatImages: images => dispatch(setChatImages(images)),
+    setNewMessageFiles: files => dispatch(setNewMessageFiles(files)),
+    setNewMessageImages: images => dispatch(setNewMessageImages(images)),
+    setShowFilesDisplay: show => dispatch(setShowFilesDisplay(show)),
+    // ===========================================
     // [PROFILE STORE]
     // ===========================================
     setProfile: profile => dispatch(setProfile(profile)),
     setUserOpenAiSettings: settings =>
       dispatch(setUserOpenAiSettings(settings)),
     // ===========================================
-    // [ITEMS STORE]
-    // ===========================================
-    setFolders: folders => dispatch(setFolders(folders)),
-    setModels: models => dispatch(setModels(models)),
-    setPrompts: prompts => dispatch(setPrompts(prompts)),
-    setTools: tools => dispatch(setTools(tools)),
-    // ===========================================
     // [MODEL STORE]
     // ===========================================
+    setModels: models => dispatch(setModels(models)),
     setEnvKeyMap: envKeyMap => dispatch(setEnvKeyMap(envKeyMap)),
     setAvailableHostedModels: models =>
       dispatch(setAvailableHostedModels(models)),
@@ -267,44 +349,21 @@ export const ChatProvider = ({ children }) => {
     setAvailableOpenRouterModels: models =>
       dispatch(setAvailableOpenRouterModels(models)),
     // ===========================================
-    // [WORKSPACE STORE]
-    // ===========================================
-    setWorkspaces: workspaces => dispatch(setWorkspaces(workspaces)),
-    setSelectedWorkspace: workspace =>
-      dispatch(setSelectedWorkspace(workspace)),
-    setHomeWorkSpace: workspace => dispatch(setHomeWorkSpace(workspace)),
-    setActiveWorkspace: session => dispatch(setActiveWorkspace(session)),
-    setWorkspaceImages: images => dispatch(setWorkspaceImages(images)),
-    setWorkspaceId: workspaceId => dispatch(setWorkspaceId(workspaceId)),
-    // ===========================================
-    // [CHAT SESSION STORE]
-    // ===========================================
-    setChatSessions: chats => dispatch(setChatSessions(chats)),
-    setActiveSession: session => dispatch(setActiveSession(session)),
-    setSelectedChatSession: session =>
-      dispatch(setSelectedChatSession(session)),
-    setSessionId: sessionId => dispatch(setSessionId(sessionId)),
-    setSessionHeader: header => dispatch(setSessionHeader(header)),
-    createNewChatSession: sessionData =>
-      dispatch(createChatSession(sessionData)),
-    // ===========================================
-    // [ASSISTANT STORE]
-    // ===========================================
-    setAssistants: assistants => dispatch(setAssistants(assistants)),
-    setSelectedAssistant: assistant =>
-      dispatch(setSelectedAssistant(assistant)),
-    setAssistantImages: images => dispatch(setAssistantImages(images)),
-    setOpenaiAssistants: assistants =>
-      dispatch(setOpenaiAssistants(assistants)),
-    // ===========================================
     // [PASSIVE CHAT STORE]
     // ===========================================
     setPayload: payload => dispatch(setPayload(payload)),
     setApiKey: apiKey => dispatch(setApiKey(apiKey)),
+    setNewUserApiKey: apiKey => dispatch(addEnvToUser(apiKey)),
     setUserInput: userInput => dispatch(setUserInput(userInput)),
     setChatMessages: messages => dispatch(setChatMessages(messages)),
     setChatSettings: settings => dispatch(setChatSettings(settings)),
     setChatFileItems: items => dispatch(setChatFileItems(items)),
+    // ===========================================
+    // [TOOL STORE]
+    // ===========================================
+    setSelectedTools: tools => dispatch(setSelectedTools(tools)),
+    setToolInUse: tool => dispatch(setToolInUse(tool)),
+    setTools: tools => dispatch(setTools(tools)),
     // ===========================================
     // [ACTIVE CHAT STORE]
     // ===========================================
@@ -332,28 +391,10 @@ export const ChatProvider = ({ children }) => {
     setIsAssistantPickerOpen: isOpen =>
       dispatch(setIsAssistantPickerOpen(isOpen)),
     // ===========================================
-    // [ATTACHMENTS STORE]
-    // ===========================================
-    setFiles: files => dispatch(setFiles(files)),
-    setSelectedFiles: files => dispatch(setSelectedFiles(files)),
-    setUploadedFiles: files => dispatch(setUploadedFiles(files)),
-    setPreviewFiles: files => dispatch(setPreviewFiles(files)),
-    setPreviewUrls: urls => dispatch(setPreviewUrls(urls)),
-    setChatFiles: files => dispatch(setChatFiles(files)),
-    setChatImages: images => dispatch(setChatImages(images)),
-    setNewMessageFiles: files => dispatch(setNewMessageFiles(files)),
-    setNewMessageImages: images => dispatch(setNewMessageImages(images)),
-    setShowFilesDisplay: show => dispatch(setShowFilesDisplay(show)),
-    // ===========================================
     // [RETRIEVAL STORE]
     // ===========================================
     setUseRetrieval: use => dispatch(setUseRetrieval(use)),
     setSourceCount: count => dispatch(setSourceCount(count)),
-    // ===========================================
-    // [TOOL STORE]
-    // ===========================================
-    setSelectedTools: tools => dispatch(setSelectedTools(tools)),
-    setToolInUse: tool => dispatch(setToolInUse(tool)),
   };
 
   return (

@@ -32,7 +32,7 @@ const ChatLayout = () => {
           // }}
           sx={{
             flexGrow: 1,
-            marginLeft: isMobile && !isSidebarOpen ? '0px' : '60px', // Adjust margin based on sidebar visibility
+            marginLeft: isMobile && !isSidebarOpen ? '0px' : '40px', // Adjust margin based on sidebar visibility
             display: 'flex',
             flexDirection: 'column',
             width: isMobile && !isSidebarOpen ? '100%' : 'calc(100% - 40px)', // Expand width when sidebar is closed

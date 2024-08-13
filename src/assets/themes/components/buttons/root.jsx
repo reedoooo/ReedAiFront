@@ -15,6 +15,7 @@ export default {
     fontWeight: fontWeightRegular,
     borderRadius: borderRadius.lg,
     padding: `${pxToRem(6.302)} ${pxToRem(16.604)}`,
+    minWidth: 'unset !important',
     lineHeight: 1.4,
     textAlign: 'center',
     textTransform: 'uppercase',

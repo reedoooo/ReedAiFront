@@ -1,25 +1,167 @@
-import { Dropdown as BaseDropdown } from '@mui/base/Dropdown';
-import { Menu as BaseMenu } from '@mui/base/Menu';
-import { MenuButton as BaseMenuButton } from '@mui/base/MenuButton';
-import { MenuItem as BaseMenuItem, menuItemClasses } from '@mui/base/MenuItem';
-import { CssTransition } from '@mui/base/Transitions';
-import { PopupContext } from '@mui/base/Unstable_Popup';
-import { Box, createSvgIcon, IconButton, Tab, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  IconButton,
+  Menu,
+  MenuItem,
+  MenuList,
+  Tab,
+  Typography,
+  alpha,
+} from '@mui/material';
 import { styled } from '@mui/system';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
+import { HomeIcon } from 'assets/humanIcons';
 import { PanelHeaderRow, StyledMotionTabs } from 'components/chat/styled';
 import { useChatStore } from 'contexts';
-import { useMode } from 'hooks';
+import { useMenu, useMode } from 'hooks';
 import {
   WorkspaceCreatorForm,
   WorkspaceFolders,
   WorkspaceItemValues,
 } from './items';
+const blue = {
+  50: '#F0F7FF',
+  100: '#C2E0FF',
+  200: '#99CCF3',
+  300: '#66B2FF',
+  400: '#3399FF',
+  500: '#007FFF',
+  600: '#0072E6',
+  700: '#0059B3',
+  800: '#004C99',
+  900: '#003A75',
+};
+
+const grey = {
+  50: '#F3F6F9',
+  100: '#E5EAF2',
+  200: '#DAE2ED',
+  300: '#C7D0DD',
+  400: '#B0B8C4',
+  500: '#9DA8B7',
+  600: '#6B7A90',
+  700: '#434D5B',
+  800: '#303740',
+  900: '#1C2025',
+};
+
+const ReusableMenu = ({
+  anchorEl = null,
+  open = false,
+  handleClose = () => {},
+  handleOpen = () => {},
+  handleSelect = () => {},
+  buttonText = '',
+  items = [],
+  selectedItem = '',
+}) => {
+  return (
+    <Box
+      sx={{
+        fontFamily: 'IBM Plex Sans, sans-serif',
+        // fontSize: '0.875rem',
+        // boxSizing: 'border-box',
+        // padding: '6px',
+        // margin: '12px 0',
+        // minWidth: '200px',
+        // borderRadius: '12px',
+        // overflow: 'auto',
+        // outline: 0,
+        // background: alpha(grey[900], 0.95),
+        // border: '1px solid',
+        // borderColor: grey[700],
+        // color: grey[300],
+        // boxShadow: `0px 4px 30px ${grey[900]}`,
+        // zIndex: 1,
+      }}
+    >
+      <Button
+        onClick={handleOpen}
+        sx={{
+          fontFamily: 'IBM Plex Sans, sans-serif',
+          fontWeight: 600,
+          fontSize: '0.875rem',
+          lineHeight: 1.5,
+          padding: '8px 16px',
+          borderRadius: '8px',
+          color: grey[200],
+          transition: 'all 150ms ease',
+          cursor: 'pointer',
+          background: grey[900],
+          border: '1px solid',
+          borderColor: grey[700],
+          boxShadow: '0 1px 2px 0 rgba(0,0,0,0.05)',
+          '&:hover': {
+            background: grey[800],
+            borderColor: grey[600],
+          },
+          '&:active': {
+            background: grey[700],
+          },
+          '&:focus-visible': {
+            boxShadow: `0 0 0 4px ${blue[300]}`,
+            outline: 'none',
+          },
+        }}
+      >
+        {selectedItem || buttonText}
+      </Button>
+      <Menu
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        MenuListProps={{
+          component: styled(MenuList)({ variant: 'sidebarList' }),
+          sx: {
+            padding: '0',
+            boxShadow: 'none',
+            border: 'none',
+          },
+        }}
+      >
+        {items?.map(item => (
+          <MenuItem
+            key={item.name}
+            onClick={() => handleSelect(item._id)}
+            sx={{
+              listStyle: 'none',
+              padding: '8px',
+              borderRadius: '8px',
+              cursor: 'default',
+              userSelect: 'none',
+              '&:last-of-type': {
+                borderBottom: 'none',
+              },
+              '&:focus': {
+                outline: '3px solid',
+                backgroundColor: grey[800],
+                color: grey[300],
+              },
+              '&.Mui-disabled': {
+                color: grey[700],
+              },
+              '& .Mui-selected': {
+                background: grey[700],
+                color: grey[300],
+              },
+            }}
+          >
+            <HomeIcon fontSize="small" />
+            {item.name}
+          </MenuItem>
+        ))}
+      </Menu>
+    </Box>
+  );
+};
 
 export const Workspace = () => {
   const [tab, setTab] = useState(0);
+  const navigate = useNavigate();
   const { theme } = useMode();
   const { state: chatState, actions: chatActions } = useChatStore();
   const {
@@ -33,89 +175,52 @@ export const Workspace = () => {
     files,
     assistants,
     tools,
+    selectedWorkspace,
   } = chatState;
-  const { setActiveWorkspace } = chatActions;
+  const { setSelectedWorkspace } = chatActions;
   const itemRef = useRef(null);
+  const customMenu = useMenu();
   const [anchorEl, setAnchorEl] = useState(null);
-  const createHandleMenuClick = menuItem => {
-    return () => {
-      console.log(`Clicked on ${menuItem}`);
-    };
-  };
-  const handleSave = () => {
-    console.log('Workspace updated!');
-  };
-  const handleWorkspaceClick = event => {
+  const handleWorkspaceOpen = event => {
     setAnchorEl(event.currentTarget);
   };
-  const handleWorkspaceClose = workspace => {
-    if (workspace) {
-      setActiveWorkspace(workspace);
-    }
+
+  const handleWorkspaceClose = () => {
     setAnchorEl(null);
   };
-  const handleChangeTab = (event, newValue) => {
-    setTab(newValue);
-  };
-  const handleKeyDown = e => {
-    if (e.key === 'Enter') {
-      e.stopPropagation();
-      itemRef.current?.click();
-    }
+
+  const handleSelect = workspaceId => {
+    const workspace = workspaces.find(
+      workspace => workspace._id === workspaceId
+    );
+    if (!workspace) return;
+    setSelectedWorkspace(workspace);
+    navigate(`/admin/${workspace._id}/chat`);
+    handleWorkspaceClose();
   };
   return (
     <>
       <PanelHeaderRow theme={theme}>
         <Box display="flex" alignItems="center">
-          <Typography
+          {/* <Typography
             variant="h6"
             sx={{
               color: 'white',
-              marginLeft: '12px',
+              mx: '12px',
             }}
           >
             Workspace:
-          </Typography>
-          {/* <StyledPanelHeaderButton theme={theme}> */}
-          {/* <Dropdown>
-            <MenuButton>My account</MenuButton>
-            <Menu slots={{ listbox: AnimatedListbox }}>
-              <BaseMenuItem onClick={createHandleMenuClick('Profile')}>
-                Profile
-              </BaseMenuItem>
-              <BaseMenuItem
-                onClick={createHandleMenuClick('Language settings')}
-              >
-                Language settings
-              </BaseMenuItem>
-              <BaseMenuItem onClick={createHandleMenuClick('Log out')}>
-                Log out
-              </BaseMenuItem>
-            </Menu>
-          </Dropdown> */}
-          {/* </StyledPanelHeaderButton> */}
-          <BaseDropdown>
-            <MenuButton>Workspaces</MenuButton>
-            <BaseMenu
-              // anchorEl={anchorEl}
-              // open={Boolean(anchorEl)}
-              // onClose={() => handleWorkspaceClose()}
-              slots={{
-                listbox: AnimatedListbox,
-              }}
-            >
-              {workspaces?.map(workspace => (
-                <MenuItem
-                  key={workspace.name}
-                  // onClick={() => handleWorkspaceClose(workspace.name)}
-                  onClick={createHandleMenuClick(workspace.name)}
-                >
-                  {console.log('WPRKSPACE', workspace)}
-                  {workspace.name}
-                </MenuItem>
-              ))}
-            </BaseMenu>
-          </BaseDropdown>
+          </Typography> */}
+          <ReusableMenu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            handleClose={handleWorkspaceClose}
+            handleOpen={handleWorkspaceOpen}
+            handleSelect={handleSelect}
+            buttonText={'Select Workspace'}
+            items={workspaces}
+            selectedItem={selectedWorkspace.name}
+          />
         </Box>
         <IconButton>
           <FiSettings />
@@ -166,148 +271,3 @@ export const Workspace = () => {
 };
 
 export default Workspace;
-
-const blue = {
-  50: '#F0F7FF',
-  100: '#C2E0FF',
-  200: '#99CCF3',
-  300: '#66B2FF',
-  400: '#3399FF',
-  500: '#007FFF',
-  600: '#0072E6',
-  700: '#0059B3',
-  800: '#004C99',
-  900: '#003A75',
-};
-
-const grey = {
-  50: '#F3F6F9',
-  100: '#E5EAF2',
-  200: '#DAE2ED',
-  300: '#C7D0DD',
-  400: '#B0B8C4',
-  500: '#9DA8B7',
-  600: '#6B7A90',
-  700: '#434D5B',
-  800: '#303740',
-  900: '#1C2025',
-};
-
-const Listbox = styled('ul')(
-  ({ theme }) => `
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 0.875rem;
-  box-sizing: border-box;
-  padding: 6px;
-  margin: 12px 0;
-  min-width: 200px;
-  border-radius: 12px;
-  overflow: auto;
-  outline: 0px;
-  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-  box-shadow: 0px 4px 30px ${theme.palette.mode === 'dark' ? grey[900] : grey[200]};
-  z-index: 1;
-
-  .closed & {
-    opacity: 0;
-    transform: scale(0.95, 0.8);
-    transition: opacity 200ms ease-in, transform 200ms ease-in;
-  }
-
-  .open & {
-    opacity: 1;
-    transform: scale(1, 1);
-    transition: opacity 100ms ease-out, transform 100ms cubic-bezier(0.43, 0.29, 0.37, 1.48);
-  }
-
-  .placement-top & {
-    transform-origin: bottom;
-  }
-
-  .placement-bottom & {
-    transform-origin: top;
-  }
-  `
-);
-
-const AnimatedListbox = React.forwardRef(function AnimatedListbox(props, ref) {
-  const { ownerState, ...other } = props;
-  const popupContext = React.useContext(PopupContext);
-
-  if (popupContext == null) {
-    throw new Error(
-      'The `AnimatedListbox` component cannot be rendered outside a `Popup` component'
-    );
-  }
-
-  const verticalPlacement = popupContext.placement.split('-')[0];
-
-  return (
-    <CssTransition
-      className={`placement-${verticalPlacement}`}
-      enterClassName="open"
-      exitClassName="closed"
-    >
-      <Listbox {...other} ref={ref} />
-    </CssTransition>
-  );
-});
-AnimatedListbox.propTypes = {
-  ownerState: PropTypes.object.isRequired,
-};
-const MenuItem = styled(BaseMenuItem)(
-  ({ theme }) => `
-  list-style: none;
-  padding: 8px;
-  border-radius: 8px;
-  cursor: default;
-  user-select: none;
-
-  &:last-of-type {
-    border-bottom: none;
-  }
-
-  &:focus {
-    outline: 3px solid ${theme.palette.mode === 'dark' ? blue[600] : blue[200]};
-    background-color: ${theme.palette.mode === 'dark' ? grey[800] : grey[100]};
-    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-  }
-
-  &.${menuItemClasses.disabled} {
-    color: ${theme.palette.mode === 'dark' ? grey[700] : grey[400]};
-  }
-  `
-);
-const MenuButton = styled(BaseMenuButton)(
-  ({ theme }) => `
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-weight: 600;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  padding: 8px 16px;
-  border-radius: 8px;
-  color: white;
-  transition: all 150ms ease;
-  cursor: pointer;
-  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  color: ${theme.palette.mode === 'dark' ? grey[200] : grey[900]};
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-
-  &:hover {
-    background: ${theme.palette.mode === 'dark' ? grey[800] : grey[50]};
-    border-color: ${theme.palette.mode === 'dark' ? grey[600] : grey[300]};
-  }
-
-  &:active {
-    background: ${theme.palette.mode === 'dark' ? grey[700] : grey[100]};
-  }
-
-  &:focus-visible {
-    box-shadow: 0 0 0 4px ${theme.palette.mode === 'dark' ? blue[300] : blue[200]};
-    outline: none;
-  }
-  `
-);

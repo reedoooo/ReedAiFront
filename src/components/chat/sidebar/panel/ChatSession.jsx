@@ -18,6 +18,7 @@ import {
   StyledMuiTabs,
   StyledTextField,
 } from 'components/chat/styled';
+import { useChatHandler } from 'hooks/chat';
 const ConversationMenu = ({
   anchorEl,
   handleMenuClose,
@@ -31,6 +32,7 @@ const ConversationMenu = ({
   </Menu>
 );
 const ChatSession = () => {
+  const { handleGetSessionMessages } = useChatHandler();
   const [tab, setTab] = useState(0);
   const [conversations, setConversations] = useState(null);
   const [conversationMessages, setConversationMessages] = useState(null);
@@ -42,27 +44,6 @@ const ChatSession = () => {
   const chatSessionStore = JSON.parse(localStorage.getItem('chatSessionStore'));
   const activeSessionId = chatSessionStore?.sessionId;
   const chatSessions = userSession?.user?.chatSessions;
-
-  const handleGetSessionMessages = useCallback(async () => {
-    try {
-      // const currentSession = await sessionApi.getById(sessionId);
-      // console.log('CURRENT SESSION:', currentSession);
-      const response = await sessions.getMessages(activeSessionId);
-      console.log('RESPONSE:', response);
-      setConversationMessages([...response]);
-      setConversations(
-        chatSessions.map(session => ({
-          ...session,
-          messages: [...response],
-        }))
-      );
-      console.log('conversationMessages', conversationMessages);
-      console.log('conversations', conversations);
-      // setConversationMessages(response);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [activeSessionId]);
 
   useEffect(() => {
     handleGetSessionMessages();
@@ -148,7 +129,7 @@ const ChatSession = () => {
       </Box>
       {tab === 0 && (
         <Box sx={{ padding: '1rem', flexGrow: 1, overflowY: 'auto' }}>
-          {conversations.map(conversation => (
+          {conversations?.map(conversation => (
             <ConversationCard
               key={conversation._id}
               onClick={() => setSelectedConversation(conversation)}
@@ -181,7 +162,7 @@ const ChatSession = () => {
                   borderRadius: '5px',
                 }}
               >
-                {selectedConversation.messages?.map((message, index) => (
+                {selectedConversation?.messages?.map((message, index) => (
                   <Typography key={index} sx={{ color: '#fff' }}>
                     {message.content}
                   </Typography>

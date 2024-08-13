@@ -17,15 +17,16 @@ import {
   Typography,
 } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { EditIcon } from 'assets/humanIcons';
 import { TrashCanIcon } from 'assets/humanIcons/custom';
 import { useChatStore } from 'contexts/ChatProvider';
-import { deleteFolder, updateFolder } from '../folder-items/Folders';
 
 export const UpdateFolder = ({ folder }) => {
-  const { setFolders } = useChatStore();
+  const {
+    actions: { setFolders, updateFolder },
+  } = useChatStore();
   const buttonRef = useRef(null);
   const [showFolderDialog, setShowFolderDialog] = useState(false);
   const [name, setName] = useState(folder.name);
@@ -46,29 +47,28 @@ export const UpdateFolder = ({ folder }) => {
 
   return (
     <>
-      <IconButton onClick={() => setShowFolderDialog(true)} size="small">
-        <EditIcon fontSize="small" />
+      <IconButton onClick={() => setShowFolderDialog(true)}>
+        <EditIcon />
       </IconButton>
-
       <Dialog
         open={showFolderDialog}
         onClose={() => setShowFolderDialog(false)}
-        onKeyDown={handleKeyDown}
       >
         <DialogTitle>Edit Folder</DialogTitle>
-        <DialogContent>
+        <DialogContent onKeyDown={handleKeyDown}>
           <TextField
-            autoFocus
-            margin="dense"
             label="Name"
-            fullWidth
             value={name}
             onChange={e => setName(e.target.value)}
+            fullWidth
+            margin="dense"
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setShowFolderDialog(false)}>Cancel</Button>
-          <Button ref={buttonRef} onClick={handleUpdateFolder}>
+          <Button onClick={() => setShowFolderDialog(false)} color="secondary">
+            Cancel
+          </Button>
+          <Button ref={buttonRef} onClick={handleUpdateFolder} color="primary">
             Save
           </Button>
         </DialogActions>
@@ -79,144 +79,95 @@ export const UpdateFolder = ({ folder }) => {
 
 export const DeleteFolder = ({ folder, contentType }) => {
   const {
-    actions: {
-      setFolders,
-      setChats,
-      setPresets,
-      setPrompts,
-      setFiles,
-      setCollections,
-      setAssistants,
-      setTools,
-      setModels,
-    },
+    actions: { setFolders, deleteFolder },
   } = useChatStore();
 
   const buttonRef = useRef(null);
   const [showFolderDialog, setShowFolderDialog] = useState(false);
 
-  const stateUpdateFunctions = {
-    chats: setChats,
-    presets: setPresets,
-    prompts: setPrompts,
-    files: setFiles,
-    collections: setCollections,
-    assistants: setAssistants,
-    tools: setTools,
-    models: setModels,
-  };
-
   const handleDeleteFolderOnly = async () => {
     await deleteFolder(folder.id);
     setFolders(prevState => prevState.filter(c => c.id !== folder.id));
     setShowFolderDialog(false);
-
-    const setStateFunction = stateUpdateFunctions[contentType];
-    if (!setStateFunction) return;
-
-    setStateFunction(prevItems =>
-      prevItems.map(item => {
-        if (item.folder_id === folder.id) {
-          return { ...item, folder_id: null };
-        }
-        return item;
-      })
-    );
   };
 
   const handleDeleteFolderAndItems = async () => {
-    const setStateFunction = stateUpdateFunctions[contentType];
-    if (!setStateFunction) return;
-    const [error] = false;
-
-    if (error) {
-      enqueueSnackbar('Error deleting folder and items', { variant: 'error' });
-    }
-
-    setStateFunction(prevItems =>
-      prevItems.filter(item => item.folder_id !== folder.id)
-    );
-
     handleDeleteFolderOnly();
   };
 
   return (
-    <>
-      <IconButton onClick={() => setShowFolderDialog(true)} size="small">
-        <TrashCanIcon
-          fontSize="small"
-          sx={{
-            color: '#fff',
-          }}
-        />
+    <div>
+      <IconButton onClick={() => setShowFolderDialog(true)}>
+        <TrashCanIcon />
       </IconButton>
-
       <Dialog
         open={showFolderDialog}
         onClose={() => setShowFolderDialog(false)}
       >
         <DialogTitle>Delete {folder.name}</DialogTitle>
         <DialogContent>
-          <Typography>Are you sure you want to delete this folder?</Typography>
+          <p>Are you sure you want to delete this folder?</p>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setShowFolderDialog(false)}>Cancel</Button>
+          <Button onClick={() => setShowFolderDialog(false)} color="secondary">
+            Cancel
+          </Button>
           <Button
             ref={buttonRef}
-            color="error"
             onClick={handleDeleteFolderAndItems}
+            color="error"
           >
             Delete Folder & Included Items
           </Button>
           <Button
             ref={buttonRef}
-            color="error"
             onClick={handleDeleteFolderOnly}
+            color="error"
           >
             Delete Folder Only
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </div>
   );
 };
 
-const folderdata = {
-  id: 'folder-1',
-  name: 'Folder 1',
-  items: [
-    { id: 'file-1', name: 'File 1', type: 'file' },
-    { id: 'file-2', name: 'File 2', type: 'file' },
-  ],
-  type: 'folder',
-};
-const sessiondata = {
-  id: 'folder-1',
-  name: 'Folder 1',
-  items: [
-    { id: 'file-1', name: 'File 1', type: 'file' },
-    { id: 'file-2', name: 'File 2', type: 'file' },
-  ],
-  type: 'folder',
-};
-const filedata = {
-  id: 'folder-1',
-  name: 'Folder 1',
-  items: [
-    { id: 'file-1', name: 'File 1', type: 'file' },
-    { id: 'file-2', name: 'File 2', type: 'file' },
-  ],
-  type: 'folder',
-};
-const tooldata = {
-  id: 'folder-1',
-  name: 'Folder 1',
-  items: [
-    { id: 'file-1', name: 'File 1', type: 'file' },
-    { id: 'file-2', name: 'File 2', type: 'file' },
-  ],
-  type: 'folder',
-};
+// const folderdata = {
+//   id: 'folder-1',
+//   name: 'Folder 1',
+//   items: [
+//     { id: 'file-1', name: 'File 1', type: 'file' },
+//     { id: 'file-2', name: 'File 2', type: 'file' },
+//   ],
+//   type: 'folder',
+// };
+// const sessiondata = {
+//   id: 'folder-1',
+//   name: 'Folder 1',
+//   items: [
+//     { id: 'file-1', name: 'File 1', type: 'file' },
+//     { id: 'file-2', name: 'File 2', type: 'file' },
+//   ],
+//   type: 'folder',
+// };
+// const filedata = {
+//   id: 'folder-1',
+//   name: 'Folder 1',
+//   items: [
+//     { id: 'file-1', name: 'File 1', type: 'file' },
+//     { id: 'file-2', name: 'File 2', type: 'file' },
+//   ],
+//   type: 'folder',
+// };
+// const tooldata = {
+//   id: 'folder-1',
+//   name: 'Folder 1',
+//   items: [
+//     { id: 'file-1', name: 'File 1', type: 'file' },
+//     { id: 'file-2', name: 'File 2', type: 'file' },
+//   ],
+//   type: 'folder',
+// };
 
 export const getBlankSessionData = () => {
   return {
@@ -257,6 +208,20 @@ export const getBlankSessionData = () => {
   };
 };
 export const ChatFolders = props => {
+  const {
+    state: { folders, files },
+    actions: {
+      setFolders,
+      setChats,
+      setPresets,
+      setPrompts,
+      setFiles,
+      setCollections,
+      setAssistants,
+      setTools,
+      setModels,
+    },
+  } = useChatStore();
   const itemRef = useRef(null);
 
   const [isDragOver, setIsDragOver] = useState(false);
@@ -295,7 +260,7 @@ export const ChatFolders = props => {
   const handleClick = () => {
     setIsExpanded(!isExpanded);
   };
-  const [folders, setFolders] = useState([folderdata]);
+  // const [folders, setFolders] = useState([folderdata]);
 
   const onDragEnd = result => {
     if (!result.destination) return;

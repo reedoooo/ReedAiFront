@@ -11,19 +11,21 @@ import {
 import React, { useState } from 'react';
 import { MdLock } from 'react-icons/md';
 import { ApiIcon } from 'assets/humanIcons';
+import { useChatStore } from 'contexts/ChatProvider';
 import { useMode } from 'hooks';
 
-export const APIModal = ({ open, onClose, setApiKey, onOpen }) => {
+export const APIModal = ({ open, onClose, onOpen }) => {
+  const chatStore = useChatStore();
   const [inputCode, setInputCode] = useState('');
   const { theme } = useMode();
 
   const handleChange = event => {
     setInputCode(event.target.value);
+    // sessionStorage.setItem('apiKey', event.target.value);
   };
 
-  const handleApiKeyChange = () => {
-    setApiKey(inputCode);
-    localStorage.setItem('apiKey', inputCode);
+  const handleSubmit = () => {
+    chatStore.actions.setNewUserApiKey(inputCode);
     onClose();
   };
 
@@ -76,11 +78,7 @@ export const APIModal = ({ open, onClose, setApiKey, onOpen }) => {
                 onChange={handleChange}
                 value={inputCode}
               />
-              <Button
-                variant="contained"
-                onClick={handleApiKeyChange}
-                sx={{ ml: 1 }}
-              >
+              <Button variant="contained" onClick={handleSubmit} sx={{ ml: 1 }}>
                 Save
               </Button>
             </Box>

@@ -18,7 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { workspaces as workspacesApi } from 'api/chat';
+import { useNavigate } from 'react-router-dom';
 import { InfoOutlinedIcon, SettingsIcon } from 'assets/humanIcons';
 import {
   StyledSlider,
@@ -28,11 +28,17 @@ import {
   StyledTextField,
   WorkspaceCreatorContainer,
 } from 'components/chat/styled';
-import { RCOption, RCSelect } from 'components/themed';
+import { IconButtonWithTooltip } from 'components/compositions';
 import { DEFAULT_APP_DATA } from 'config/app-data-configs';
 import { useChatStore } from 'contexts/ChatProvider';
-import { useDialog, useMode } from 'hooks';
+import { useChatHandler, useDialog, useMode } from 'hooks';
 import { PresetSelect } from '../preset-items';
+import {
+  FormSection,
+  ReusableSliderField,
+  ReusableSwitchControl,
+  // ReusableTextField,
+} from '../shared-items';
 
 const marks = [
   { value: 0, label: '0' },
@@ -47,49 +53,36 @@ const CustomIcon = createSvgIcon(
   />,
   'CustomIcon'
 );
-const FormSection = ({ label, children }) => (
-  <>
-    <Typography variant="caption" sx={{ color: '#ffffff' }}>
-      {label}
-    </Typography>
-    {children}
-  </>
-);
-const ReusableSliderField = ({ label, value, onChange, min, max, step }) => (
+export const ReusableTextField = ({
+  label,
+  value,
+  onChange,
+  multiline = false,
+  rows = 1,
+  fullWidth = true,
+}) => (
   <FormSection label={label}>
-    <StyledSlider
+    <StyledTextField
+      fullWidth={fullWidth}
       value={value}
-      // onChange={onChange}
-      onChange={(e, newValue) => onChange(newValue)}
-      min={min}
-      max={max}
-      step={step}
-      marks={marks}
-      valueLabelDisplay="auto"
+      onChange={e => onChange(e.target.value)}
+      multiline={multiline}
+      rows={rows}
+      variant="outlined"
+      sx={{
+        color: '#ffffff',
+      }}
     />
   </FormSection>
-);
-const ReusableSwitchControl = ({ label, checked, onChange }) => (
-  <StyledSwitchFormControlLabel
-    control={<StyledSwitch checked={checked} onChange={onChange} />}
-    label={label}
-  />
-);
-const ReusableIconButtonWithTooltip = ({ icon, tooltipTitle, onClick }) => (
-  <Tooltip title={tooltipTitle}>
-    <IconButton
-      onClick={onClick}
-      sx={{ color: '#ffffff', height: '18px', width: '18px', ml: '12px' }}
-    >
-      {icon}
-    </IconButton>
-  </Tooltip>
 );
 export const WorkspaceCreatorForm = () => {
   const { theme } = useMode();
   const chatStore = useChatStore();
-  const { selectedPreset, presets, modelNames } = chatStore.state;
-  const { setSelectedPreset } = chatStore.actions;
+  const navigate = useNavigate();
+  const { handleCreateNewWorkspace } = useChatHandler();
+  const { selectedPreset, presets, modelNames, workspaces } = chatStore.state;
+  const { setSelectedPreset, setSelectedWorkspace, setWorkspaces } =
+    chatStore.actions;
   const [name, setName] = useState('Default Workspace');
   const [instructions, setInstructions] = useState('Default instructions');
   const [temperature, setTemperature] = useState(0.5);
@@ -128,42 +121,32 @@ export const WorkspaceCreatorForm = () => {
     console.log(files); // Handle the selected files
   };
 
-  const handleSave = async () => {
-    const workspaceData = {
-      name,
-      userId: sessionStorage.getItem('userId'),
-      customPreset: {
-        name: selectedPreset?.name || '',
-        temperature,
-        maxTokens,
-        stopSequences,
-        topP,
-        frequencyPenalty,
-        presencePenalty,
-        model,
-        contextLength,
-        embeddingsProvider,
-        systemPrompt,
-        assistantPrompt,
-        functions: [],
-      },
-      defaultData: {
-        prompt: defaultAppData.PROMPT,
-        file: defaultAppData.FILE,
-        assistant: 'asst_IGZesXTMSiEQyO9qxg1FlOCG',
-        tool: defaultAppData.TOOLS,
-        model: defaultAppData.MODEL,
-        folder: defaultAppData.FOLDER,
-      },
-    };
-
-    try {
-      const savedWorkspace = await workspacesApi.create(workspaceData);
-      console.log('Workspace settings saved:', savedWorkspace);
-      // Additional logic to update the user context can be added here
-    } catch (error) {
-      console.error('Error saving workspace:', error);
-    }
+  const workspaceData = {
+    name,
+    userId: sessionStorage.getItem('userId'),
+    customPreset: {
+      name: selectedPreset?.name || '',
+      temperature,
+      maxTokens,
+      stopSequences,
+      topP,
+      frequencyPenalty,
+      presencePenalty,
+      model,
+      contextLength,
+      embeddingsProvider,
+      systemPrompt,
+      assistantPrompt,
+      functions: [],
+    },
+    defaultData: {
+      prompt: defaultAppData.PROMPT,
+      file: defaultAppData.FILE,
+      assistant: 'asst_IGZesXTMSiEQyO9qxg1FlOCG',
+      tool: defaultAppData.TOOLS,
+      model: defaultAppData.MODEL,
+      folder: defaultAppData.FOLDER,
+    },
   };
 
   return (
@@ -172,25 +155,19 @@ export const WorkspaceCreatorForm = () => {
         Workspaces
       </Typography>
       <Divider sx={{ color: '#ffffff', marginBottom: '5px' }} />
-      <Typography variant="caption" sx={{ color: '#ffffff' }}>
-        Name
-      </Typography>
-      <StyledTextField
-        fullWidth
-        value={name}
-        onChange={e => setName(e.target.value)}
-      />
-      <Typography variant="caption" sx={{ color: '#ffffff' }}>
-        Instructions
-      </Typography>
-      <StyledTextareaAutosize
-        theme={theme}
-        fullWidth
-        multiline
-        rows={4}
-        value={instructions}
-        onChange={e => setInstructions(e.target.value)}
-      />
+      <ReusableTextField label="Name" value={name} onChange={setName} />
+
+      <FormSection label="Instructions">
+        <StyledTextareaAutosize
+          theme={theme}
+          placeholder="Instructions content..."
+          // fullWidth
+          multiline
+          rows={4}
+          value={instructions}
+          onChange={e => setInstructions(e.target.value)}
+        />
+      </FormSection>
       <Typography variant="h6" sx={{ color: '#ffffff', marginTop: '5px' }}>
         Models
       </Typography>
@@ -222,46 +199,42 @@ export const WorkspaceCreatorForm = () => {
           ))}
         </Select>
       </FormControl>
-      <Typography variant="caption" sx={{ color: '#ffffff' }}>
-        Context Length
-      </Typography>
-      <StyledTextField
-        fullWidth
-        value={contextLength}
-        onChange={e =>
-          setContextLength(
-            e.target.value === '' ? '' : parseInt(e.target.value)
-          )
-        }
-      />
-      <Typography variant="caption" sx={{ color: '#ffffff' }}>
-        Embeddings Provider
-      </Typography>
-      <StyledTextField
-        fullWidth
-        value={embeddingsProvider}
-        onChange={e => setEmbeddingsProvider(e.target.value)}
-      />
-      <Typography variant="caption" sx={{ color: '#ffffff' }}>
-        System Prompt
-      </Typography>
-      <StyledTextField
-        fullWidth
-        multiline
-        rows={3}
-        value={systemPrompt}
-        onChange={e => setSystemPrompt(e.target.value)}
-      />
-      <Typography variant="caption" sx={{ color: '#ffffff' }}>
-        Assistant Prompt
-      </Typography>
-      <StyledTextField
-        fullWidth
-        multiline
-        rows={3}
-        value={assistantPrompt}
-        onChange={e => setAssistantPrompt(e.target.value)}
-      />
+      <FormSection label="Context Length">
+        <StyledTextField
+          fullWidth
+          value={contextLength}
+          onChange={e =>
+            setContextLength(
+              e.target.value === '' ? '' : parseInt(e.target.value)
+            )
+          }
+        />
+      </FormSection>
+      <FormSection label="Embeddings Provider">
+        <StyledTextField
+          fullWidth
+          value={embeddingsProvider}
+          onChange={e => setEmbeddingsProvider(e.target.value)}
+        />
+      </FormSection>
+      <FormSection label="System Prompt">
+        <StyledTextareaAutosize
+          fullWidth
+          multiline
+          rows={3}
+          value={systemPrompt}
+          onChange={e => setSystemPrompt(e.target.value)}
+        />
+      </FormSection>
+      <FormSection label="Assistant Prompt">
+        <StyledTextareaAutosize
+          fullWidth
+          multiline
+          rows={3}
+          value={assistantPrompt}
+          onChange={e => setAssistantPrompt(e.target.value)}
+        />
+      </FormSection>
       <ReusableSliderField
         label="Temperature"
         value={temperature}
@@ -279,19 +252,18 @@ export const WorkspaceCreatorForm = () => {
         max={512}
         step={1}
       />
-      <Typography variant="caption" sx={{ color: '#ffffff' }}>
-        Stop sequences
-      </Typography>
-      <TextField
-        placeholder="Enter sequence and press Tab"
-        variant="outlined"
-        fullWidth
-        value={stopSequences}
-        onChange={e => setStopSequences(e.target.value)}
-        sx={{
-          color: '#ffffff',
-        }}
-      />
+      <FormSection label="Stop sequences">
+        <StyledTextField
+          placeholder="Enter sequence and press Tab"
+          variant="outlined"
+          fullWidth
+          value={stopSequences}
+          onChange={e => setStopSequences(e.target.value)}
+          sx={{
+            color: '#ffffff',
+          }}
+        />
+      </FormSection>
       <ReusableSliderField
         label="Top P"
         value={topP}
@@ -300,7 +272,6 @@ export const WorkspaceCreatorForm = () => {
         max={1}
         step={0.01}
       />
-
       <ReusableSliderField
         label="Frequency penalty"
         value={frequencyPenalty}
@@ -309,7 +280,6 @@ export const WorkspaceCreatorForm = () => {
         max={2}
         step={0.01}
       />
-
       <ReusableSliderField
         label="Presence penalty"
         value={presencePenalty}
@@ -320,11 +290,12 @@ export const WorkspaceCreatorForm = () => {
       />
       <FormGroup>
         <Box
-          display="flex"
-          alignItems="center"
           sx={{
+            display: 'flex',
             marginBottom: '10px',
             width: '100%',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
         >
           <ReusableSwitchControl
@@ -332,14 +303,11 @@ export const WorkspaceCreatorForm = () => {
             checked={fileSearchEnabled}
             onChange={() => setFileSearchEnabled(!fileSearchEnabled)}
           />
-          <ReusableIconButtonWithTooltip
-            icon={<InfoOutlinedIcon />}
+          <IconButtonWithTooltip
+            icon={InfoOutlinedIcon}
             tooltipTitle="Information about File search"
           />
-          <ReusableIconButtonWithTooltip
-            icon={<SettingsIcon />}
-            tooltipTitle="Settings"
-          />
+          <IconButtonWithTooltip icon={SettingsIcon} tooltipTitle="Settings" />
           <label htmlFor="file-input" style={{ marginLeft: '10px' }}>
             <input
               id="file-input"
@@ -376,14 +344,11 @@ export const WorkspaceCreatorForm = () => {
             checked={codeInterpreterEnabled}
             onChange={() => setCodeInterpreterEnabled(!codeInterpreterEnabled)}
           />
-          <ReusableIconButtonWithTooltip
-            icon={<InfoOutlinedIcon />}
+          <IconButtonWithTooltip
+            icon={InfoOutlinedIcon}
             tooltipTitle="Information about Code interpreter"
           />
-          <ReusableIconButtonWithTooltip
-            icon={<SettingsIcon />}
-            tooltipTitle="Settings"
-          />
+          <IconButtonWithTooltip icon={SettingsIcon} tooltipTitle="Settings" />
           <label htmlFor="file-input" style={{ marginLeft: '10px' }}>
             <input
               id="file-input"
@@ -440,7 +405,7 @@ export const WorkspaceCreatorForm = () => {
             id="code-input"
             label="Code"
             type="text"
-            fullWidth
+            // fullWidth
             multiline
             rows={10}
             value={codeInput}
@@ -478,7 +443,7 @@ export const WorkspaceCreatorForm = () => {
       </Box>
       <Button
         variant="contained"
-        onClick={handleSave}
+        onClick={() => handleCreateNewWorkspace(workspaceData)}
         sx={{
           bgcolor: 'rgba(255, 255, 255, 0.1)',
           color: '#ffffff',

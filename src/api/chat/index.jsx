@@ -1,9 +1,8 @@
 export * from './assistants';
-export * from './collections';
-export * from './files';
 export * from './chatFiles';
+export * from './collections';
+export * from './completions';
 export * from './folders';
-export * from './main';
 export * from './messages';
 export * from './models';
 export * from './presets';
@@ -11,4 +10,3 @@ export * from './prompts';
 export * from './sessions';
 export * from './tools';
 export * from './workspaces';
-export * from './completions';

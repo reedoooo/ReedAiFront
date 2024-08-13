@@ -6,6 +6,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
   Drawer,
   IconButton,
@@ -20,6 +21,8 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import routes from '@/routes/index';
 import {
   CodeIcon,
   EditIcon,
@@ -28,26 +31,44 @@ import {
   SaveIcon,
   ShareIcon,
 } from 'assets/humanIcons';
-// import { CodeIcon } from 'assets/humanIcons/custom';
-import { useChatStore } from 'contexts';
-import { useDialog, useMenu, useMode } from 'hooks';
-import { defaultChatSessionStoreData } from 'store/Slices/helpers';
+import { useChatStore, useUserStore } from 'contexts';
+import { useChatHandler, useDialog, useMenu, useMode } from 'hooks';
+import { extractPaths, findBreadcrumbs } from 'utils/navigation';
 import { PresetSelect } from './sidebar/panel';
 
-const DialogBox = ({ dialog, title, children, handleAction }) => (
+const DialogBox = ({ dialog, title, subtitle, children, handleAction }) => (
   <Dialog
     open={dialog.open}
     onClose={dialog.handleClose}
+    fullWidth={true}
+    maxWidth={'sm'}
     sx={{
       '& .MuiPaper-root': {
-        bgcolor: '#333333',
+        bgcolor: '#2B2C31',
       },
     }}
   >
-    <DialogTitle sx={{ color: '#ffffff' }}>{title}</DialogTitle>
-    <DialogContent>{children}</DialogContent>
+    <DialogTitle>
+      <Typography variant="h6" component="div" color="#ffffff">
+        {title}
+      </Typography>
+    </DialogTitle>
+    <DialogContent>
+      {subtitle && (
+        <Typography variant="body2" color="textSecondary" gutterBottom>
+          {subtitle}
+        </Typography>
+      )}
+      {children}
+    </DialogContent>
     <DialogActions>
-      <Button onClick={dialog.handleClose} sx={{ color: '#ffffff' }}>
+      <Button
+        onClick={dialog.handleClose}
+        sx={{
+          background: '#353740',
+          color: '#ffffff',
+        }}
+      >
         Cancel
       </Button>
       <Button onClick={handleAction} sx={{ color: '#ffffff' }}>
@@ -60,96 +81,36 @@ const DialogBox = ({ dialog, title, children, handleAction }) => (
 export const ChatHeader = props => {
   const { theme } = useMode();
   const chatStore = useChatStore();
-  const { selectedPreset, presets, sessionHeader } = chatStore.state;
-  const {
-    setSelectedPreset,
-    createNewChatSession,
-    setSessionHeader,
-    setSessionId,
-    setActiveSession,
-    setSelectedChatSession,
-    setIsGenerating,
-    setChatFileItems,
-    setFirstTokenReceived,
-    setChatFiles,
-    setChatImages,
-    setNewMessageFiles,
-    setNewMessageImages,
-    setShowFilesDisplay,
-    setIsPromptPickerOpen,
-    setIsFilePickerOpen,
-    setSelectedTools,
-    setToolInUse,
-    setChatMessages,
-  } = chatStore.actions;
+  const userStore = useUserStore();
+  const { userId } = userStore.state;
+  const { selectedPreset, presets, sessionHeader, sessionId, workspaceId } =
+    chatStore.state;
+  const { setSelectedPreset, setSessionHeader } = chatStore.actions;
   const { name } = props;
   const codeDialog = useDialog();
   const saveDialog = useDialog();
   const shareDialog = useDialog();
   const sessionNameDialog = useDialog();
-
+  const { handleCreateNewSession } = useChatHandler();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is mobile
   const mobileMenu = useMenu();
-
+  const pathName = window.location.pathname;
+  const linkPaths = extractPaths(routes);
+  const breadcrumbs = findBreadcrumbs(pathName, linkPaths);
+  let crumbs = [];
+  let header = '';
+  breadcrumbs.forEach((crumb, index) => {
+    if (index === breadcrumbs.length - 1) {
+      header = crumb.text;
+    } else {
+      crumbs.push(crumb);
+    }
+  });
   const [anchorEl, setAnchorEl] = useState(null);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
   const handleMenuOpen = event => setAnchorEl(event.currentTarget);
   const handleMenuClose = () => setAnchorEl(null);
-  const handleCreateNewSession = () => {
+  const handleOpenSessionDialog = () => {
     sessionNameDialog.handleOpen();
-  };
-  const handleConfirmCreateSession = () => {
-    // --- Clear the current session data ---
-    setSelectedChatSession({
-      _id: null,
-    });
-    setActiveSession({
-      _id: null,
-      messages: [],
-    });
-    setChatFileItems([]);
-    setSessionId(null);
-    setIsGenerating(false);
-    setFirstTokenReceived(false);
-    setChatFiles([]);
-    setChatMessages([]);
-    setChatImages([]);
-    setNewMessageFiles([]);
-    setNewMessageImages([]);
-    setShowFilesDisplay(false);
-    setIsPromptPickerOpen(false);
-    setIsFilePickerOpen(false);
-    setSelectedTools([]);
-    setToolInUse('none');
-    window.location.reload();
-
-    // --- Create a new session with the entered name ---
-    const newSessionData = {
-      ...defaultChatSessionStoreData(),
-      name: sessionHeader || 'New Chat Session',
-      topic: sessionHeader || 'New Chat Session',
-      prompt: `Starting a new chat session with topic: ${sessionHeader || 'New Chat Session'}.`,
-      userId: chatStore.state.userId,
-      workspaceId: chatStore.state.workspaceId,
-      summary: '',
-      messages: [],
-      model: 'gpt-4o-mini',
-      active: true,
-      settings: {
-        contextCount: 15,
-        maxTokens: 500,
-        temperature: 0.7,
-        model: 'gpt-4o-mini',
-        topP: 1,
-        n: 4,
-        debug: false,
-        summarizeMode: false,
-      },
-      apiKey: chatStore.state.apiKey,
-    };
-    createNewChatSession(newSessionData);
-    sessionNameDialog.handleClose();
   };
   const handlePresetChange = event => {
     const selectedPresetName = event.target.value;
@@ -159,7 +120,6 @@ export const ChatHeader = props => {
   const handleDialogAction = dialog => {
     dialog.handleClose();
   };
-
   return (
     <>
       <CssBaseline />
@@ -187,7 +147,7 @@ export const ChatHeader = props => {
             {isMobile ? <MenuIcon /> : <EditIcon />}
           </IconButton>
           <Typography variant="h6" sx={{ color: '#ffffff', marginLeft: '8px' }}>
-            Playground
+            {header.length === 0 ? 'Playground' : header.toLocaleUpperCase()}
           </Typography>
         </Box>
         <Box
@@ -259,7 +219,7 @@ export const ChatHeader = props => {
         sx={{ display: { xs: 'block', sm: 'none' }, p: 1 }}
       >
         <MenuList>
-          <MenuItem onClick={handleCreateNewSession}>
+          <MenuItem onClick={handleOpenSessionDialog}>
             <EditIcon sx={{ mr: 1 }} /> New Session
           </MenuItem>
           {/* <PresetSelect
@@ -281,7 +241,10 @@ export const ChatHeader = props => {
       <DialogBox
         dialog={sessionNameDialog}
         title="New Session Name"
-        handleAction={handleConfirmCreateSession}
+        handleAction={() => {
+          handleCreateNewSession();
+          sessionNameDialog.handleClose();
+        }}
       >
         <TextField
           autoFocus
@@ -307,16 +270,21 @@ export const ChatHeader = props => {
           }}
         />
       </DialogBox>
-      <DialogBox dialog={codeDialog} title="View code">
+      <DialogBox
+        dialog={codeDialog}
+        title="View code"
+        subtitle="The model will intelligently decide to call functions based on the input it receives from the user"
+      >
         <TextField
           multiline
           fullWidth
           rows={10}
           defaultValue={`import os\nimport openai\n\nopenai.api_key = os.getenv("OPENAI_API_KEY")\n\nresponse = openai.Completion.create(\n  model="davinci",\n  prompt="",\n  temperature=0.9,\n  max_tokens=5,\n  top_p=1,\n  frequency_penalty=0,\n  presence_penalty=0,\n)`}
           sx={{
-            color: '#ffffff',
+            color: '#888888',
             '& .MuiInputBase-root': {
-              color: '#ffffff',
+              color: '#888888',
+              p: '0.875rem',
             },
             '& .MuiOutlinedInput-notchedOutline': {
               borderColor: '#ffffff',

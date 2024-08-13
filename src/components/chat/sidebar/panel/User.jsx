@@ -1,4 +1,5 @@
-import { Box, Tab, Tabs, Typography } from '@mui/material';
+import { UserIcon } from '@heroicons/react/24/outline';
+import { Box, IconButton, Tab, Tabs, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import React, { useState } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
@@ -8,21 +9,49 @@ import {
   StyledTextField,
   StyledMuiTabs,
 } from 'components/chat/styled';
+import { useUserStore } from 'contexts';
 import { useMode } from 'hooks';
 
 const User = () => {
   const { theme } = useMode();
+  const {
+    state: { profile },
+    actions: { setProfile },
+  } = useUserStore();
+
   const [tab, setTab] = useState(0);
-  const [username, setUsername] = useState('user6edad39745ba');
   const [chatDisplayName, setChatDisplayName] = useState('thaHuman');
   const [profileContext, setProfileContext] = useState('');
-
+  const [displayName, setDisplayName] = useState(profile?.displayName || '');
+  const [username, setUsername] = useState(profile?.username || '');
+  const [usernameAvailable, setUsernameAvailable] = useState(true);
+  const [loadingUsername, setLoadingUsername] = useState(false);
+  const [profileImageSrc, setProfileImageSrc] = useState(
+    profile?.image_url || ''
+  );
+  const [profileImageFile, setProfileImageFile] = useState(null);
+  const [profileInstructions, setProfileInstructions] = useState(
+    profile?.profile_context || ''
+  );
+  const [googleGeminiAPIKey, setGoogleGeminiAPIKey] = useState(
+    profile?.google_gemini_api_key || ''
+  );
   return (
     <>
-      <Typography variant="h6" style={{ color: '#fff' }}>
-        User Settings
-        <FaSignOutAlt style={{ float: 'right', cursor: 'pointer' }} />
-      </Typography>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography
+          variant="h6"
+          sx={{
+            color: 'white',
+            mx: '12px',
+          }}
+        >
+          User
+        </Typography>
+        <IconButton>
+          <UserIcon style={{ float: 'right', cursor: 'pointer' }} />
+        </IconButton>
+      </Box>
       <Box
         sx={{
           display: 'flex',
