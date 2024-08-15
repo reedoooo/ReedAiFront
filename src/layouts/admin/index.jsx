@@ -8,8 +8,8 @@ import {
   useParams,
 } from 'react-router-dom';
 import routes from '@/routes/index';
-import { useUserStore, SidebarContext } from 'contexts';
-import { useDisclosure, useRouter } from 'hooks';
+import { SidebarContext } from 'contexts';
+import { useDisclosure } from 'hooks/ui';
 import { FooterAdmin, AdminNavbar } from 'layouts';
 import {
   getActiveNavbar,
@@ -17,7 +17,6 @@ import {
   getActiveRoute,
   getLayoutRoute,
   getMenuItems,
-  LoadingIndicator,
 } from 'utils';
 
 // =========================================================
@@ -38,45 +37,18 @@ const DashboardContainer = ({ children }) => {
     </Box>
   );
 };
-const ChatBotContainer = ({ children }) => {
-  return (
-    <Box
-      sx={{
-        mx: 'auto',
-        p: { xs: '20px', md: '30px' },
-        pe: '20px',
-        minHeight: '100vh',
-        pt: '50px',
-      }}
-    >
-      {children}
-    </Box>
-  );
-};
 export const AdminLayout = props => {
   const { ...rest } = props;
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
-  const navigation = useNavigation();
+  const { onOpen } = useDisclosure();
   const location = useLocation();
   const params = useParams();
   const chatBotRoute =
     location.pathname.includes(`/admin/${params.workspaceId}`) ||
     location.pathname.includes(`/admin/chat`);
   const isChatBotRoute = Boolean(chatBotRoute);
-  const { navigate } = useRouter();
-  const HistoryTracker = () => {
-    React.useEffect(() => {
-      console.log(`Navigated to ${location.pathname}`);
-    }, [location]);
 
-    return null;
-  };
-  const { onOpen } = useDisclosure();
-  if (navigation.state === 'loading') {
-    console.log('navigation:', navigation);
-    return <LoadingIndicator />;
-  }
   return (
     <Box>
       <Box>
@@ -86,8 +58,6 @@ export const AdminLayout = props => {
             setToggleSidebar,
           }}
         >
-          {/* <Sidebar routes={routes} display="none" {...rest} /> */}
-          <HistoryTracker />
           <Box
             sx={{
               float: 'right',
@@ -152,11 +122,6 @@ export const AdminLayout = props => {
                 </>
               )
             ) : null}
-            {/* {!isChatBotRoute && (
-              <Box>
-                <FooterAdmin />
-              </Box>
-            )} */}
           </Box>
         </SidebarContext.Provider>
       </Box>

@@ -1,6 +1,7 @@
 // src/libs/apiUtils.js
-import axiosInstance from './api';
 import { createApi } from '@reduxjs/toolkit/query/react';
+import axiosInstance from './api';
+import { toast } from 'sonner';
 
 export const apiUtils = {
   async get(url) {
@@ -9,6 +10,13 @@ export const apiUtils = {
       return response.data;
     } catch (error) {
       console.error('GET request error:', error);
+      toast.error(
+        `GET request failed: ${error.message} ${error.response.status}` +
+          ': ' +
+          error.response.statusText,
+        { className: 'error-toast' }
+      );
+
       throw error;
     }
   },
@@ -20,30 +28,56 @@ export const apiUtils = {
       ...config?.headers,
     };
     try {
-      const response = await axiosInstance.post(url, data);
+      const response = await axiosInstance.post(url, data, { headers });
       return response.data;
     } catch (error) {
       console.error('POST request error:', error);
+      toast.error(
+        `POST request failed: ${error.message} ${error.response.status}` +
+          ': ' +
+          error.response.statusText,
+        { className: 'error-toast' }
+      );
       throw error;
     }
   },
 
-  async put(url, data) {
+  async put(url, data, config) {
+    const headers = {
+      'Content-Type': 'application/json',
+      ...config?.headers,
+    };
     try {
-      const response = await axiosInstance.put(url, data);
+      const response = await axiosInstance.put(url, data, { headers });
       return response.data;
     } catch (error) {
       console.error('PUT request error:', error);
+      toast.error(
+        `PUT request failed: ${error.message} ${error.response.status}` +
+          ': ' +
+          error.response.statusText,
+        { className: 'error-toast' }
+      );
       throw error;
     }
   },
 
-  async delete(url) {
+  async delete(url, config) {
+    const headers = {
+      'Content-Type': 'application/json',
+      ...config?.headers,
+    };
     try {
-      const response = await axiosInstance.delete(url);
+      const response = await axiosInstance.delete(url, { headers });
       return response.data;
     } catch (error) {
       console.error('DELETE request error:', error);
+      toast.error(
+        `DELETE request failed: ${error.message} ${error.response.status}` +
+          ': ' +
+          error.response.statusText,
+        { className: 'error-toast' }
+      );
       throw error;
     }
   },
@@ -80,6 +114,7 @@ const axiosBaseQuery =
       };
     }
   };
+
 // Create API slice with RESTful endpoints
 export const api = createApi({
   baseQuery: axiosBaseQuery(),
@@ -88,11 +123,7 @@ export const api = createApi({
       query: () => ({ url: '/posts', method: 'GET' }),
     }),
     addPost: builder.mutation({
-      query: newPost => ({
-        url: '/posts',
-        method: 'POST',
-        data: newPost,
-      }),
+      query: newPost => ({ url: '/posts', method: 'POST', data: newPost }),
     }),
     editPost: builder.mutation({
       query: ({ id, ...updatedPost }) => ({
@@ -102,10 +133,7 @@ export const api = createApi({
       }),
     }),
     removePost: builder.mutation({
-      query: id => ({
-        url: `/posts/${id}`,
-        method: 'DELETE',
-      }),
+      query: id => ({ url: `/posts/${id}`, method: 'DELETE' }),
     }),
   }),
 });

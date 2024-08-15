@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
   completions as completionsApi,
   sessions as sessionApi,
@@ -9,17 +10,12 @@ import { useChatStore, useUserStore } from 'contexts';
 import { defaultChatSessionStoreData } from 'store/Slices/helpers';
 import { safeParse } from 'utils/format';
 
-export const useChatHandler = () => {
+export const useChatHandler = (messages, setMessages) => {
   const navigate = useNavigate();
   const {
     state: {
       apiKey,
       userInput,
-      isMessagesUpdated,
-      isFirstMessageReceived,
-      chatMessages,
-      selectedPreset,
-      presets,
       sessionHeader,
       sessionId,
       workspaceId,
@@ -30,13 +26,11 @@ export const useChatHandler = () => {
       setWorkspaceId,
       setSessionId,
       setSessionHeader,
-      setActiveWorkspace,
       setActiveSessionId,
       setUserInput,
       setIsMessagesUpdated,
       setFirstMessageReceived,
       setChatMessages,
-      setSelectedPreset,
       createNewChatSession,
       setSelectedChatSession,
       setIsGenerating,
@@ -61,9 +55,10 @@ export const useChatHandler = () => {
     state: { userId },
   } = useUserStore();
 
-  const [messages, setMessages] = useState([]);
+  // const [messages, setMessages] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [messageCount, setMessageCount] = useState(0); // Initialize message counter
   const controllerRef = useRef(null);
 
   const handleContentChange = useCallback(
@@ -105,6 +100,7 @@ export const useChatHandler = () => {
   };
   const handleCreateNewSession = async () => {
     try {
+      setMessageCount(0);
       // --- Clear the current session data ---
       setUserInput('');
       setChatMessages([]);
@@ -141,12 +137,11 @@ export const useChatHandler = () => {
         model: 'gpt-4o-mini',
         active: true,
         settings: {
-          contextCount: 15,
-          maxTokens: 500,
-          temperature: 0.7,
           model: 'gpt-4o-mini',
+          contextCount: 2,
+          maxTokens: 2000,
+          temperature: 0.7,
           topP: 1,
-          n: 4,
           debug: false,
           summarizeMode: false,
         },
@@ -162,17 +157,19 @@ export const useChatHandler = () => {
   const handleSendMessage = useCallback(async () => {
     if (!userId) {
       setError('Please login to continue');
-      setIsRedirectToSignin(true);
+      toast.error('Please login to continue');
       return;
     }
     if (!userInput.trim()) {
       setError('Please enter your message.');
+      toast.error('Please enter your message.');
       return;
     }
 
     setError('');
     setLoading(true);
-
+    const userMessage = { role: 'user', content: userInput };
+    setMessages([...messages, userMessage]);
     if (controllerRef.current) {
       controllerRef.current.abort();
     }
@@ -181,16 +178,18 @@ export const useChatHandler = () => {
     const payload = {
       sessionId: sessionId || 'id not provided',
       workspaceId: workspaceId || 'id not provided',
-      regenerate: isRegenerating,
-      prompt: userInput,
-      userId: userId,
-      clientApiKey: JSON.parse(localStorage.getItem('baseChatStore')).apiKey,
+      prompt: userInput || 'No prompt provided',
+      userId: userId || 'id not provided',
+      clientApiKey:
+        JSON.parse(localStorage.getItem('baseChatStore')).apiKey ||
+        'key not provided',
       role: 'user',
+      regenerate: isRegenerating,
       signal: controllerRef.current.signal,
+      length: messageCount,
     };
 
-    const newMessage = { role: 'user', content: userInput };
-    setMessages(prevMessages => [...prevMessages, newMessage]);
+    // setMessages(prevMessages => [...prevMessages, userMessage]);
     clearInput();
 
     const decoder = new TextDecoder('utf-8');
@@ -206,6 +205,7 @@ export const useChatHandler = () => {
         const { done, value } = await reader.read();
         if (done) break;
         const decodedValue = decoder.decode(value, { stream: true });
+        console.log('Decoded value:', decodedValue);
         assistantMessage.content += decodedValue;
         setMessages(prevMessages => {
           const newMessages = [...prevMessages];
@@ -219,22 +219,27 @@ export const useChatHandler = () => {
         });
       }
 
-      setChatMessages(messages);
+      // Final parsing and formatting of the complete message
       const data = safeParse(
         assistantMessage.content,
         assistantMessage.content
       );
       assistantMessage.content = data.content;
+      console.log('Assistant message:', assistantMessage);
+      localStorage.setItem('chatMessages', JSON.stringify(messages));
+      // setChatMessages(messages);
+      // const data = safeParse(
+      //   assistantMessage.content,
+      //   assistantMessage.content
+      // );
+      // assistantMessage.content = data.content;
       setMessages(prevMessages => {
         const newMessages = [...prevMessages];
         newMessages[newMessages.length - 1] = assistantMessage;
         return newMessages;
       });
-      // setChatMessages(prevMessages => {
-      //   const newMessages = [...prevMessages];
-      //   newMessages[newMessages.length - 1] = assistantMessage;
-      //   return newMessages;
-      // });
+      setMessageCount(prevCount => prevCount + 1);
+
       setIsMessagesUpdated(false);
     } catch (error) {
       console.error('Error sending message:', error);
@@ -255,7 +260,7 @@ export const useChatHandler = () => {
     clearInput,
     setIsMessagesUpdated,
     setChatMessages,
-    safeParse,
+    messageCount, // Include messageCount in dependencies
   ]);
 
   const handleRegenerateResponse = useCallback(async () => {
@@ -272,8 +277,9 @@ export const useChatHandler = () => {
 
   return {
     messages,
-    error,
-    loading,
+    chatError: error,
+    chatLoading: loading,
+    messageCount, // Return messageCount to access it outside
     clearInput,
     handleCreateNewSession,
     handleSendMessage,

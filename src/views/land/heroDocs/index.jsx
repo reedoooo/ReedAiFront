@@ -17,11 +17,11 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigation } from 'react-router-dom';
 import { SequentialAnimations } from 'assets/animation';
 import { PageLayout, RCTypography } from 'components/index';
 import { templateData } from 'config/data';
-import { useRouter, useMode } from 'hooks';
+import { useMode } from 'hooks';
 
 const StyledMenuList = styled(props => (
   <MenuList
@@ -75,7 +75,7 @@ const StyledMenuList = styled(props => (
 
 export const Landing = () => {
   const { theme } = useMode();
-  const { navigate } = useRouter();
+  const navigate = useNavigation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuExpanded, setMenuExpanded] = useState(false);

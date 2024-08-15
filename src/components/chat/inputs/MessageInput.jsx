@@ -32,9 +32,8 @@ export const MessageInput = ({
 }) => {
   const apiKeyDialog = useDialog();
   const chatStore = useChatStore();
-  const { editor } = useTipTapEditor();
   const {
-    state: { files, showFilesDisplay },
+    state: { files, showFilesDisplay, userInput },
     actions: { setShowFilesDisplay },
   } = chatStore;
   const {
@@ -45,6 +44,7 @@ export const MessageInput = ({
     await handleSendMessage();
     editor.commands.clearContent(); // Clear the editor content
   };
+  const { editor } = useTipTapEditor(userInput);
 
   useEffect(() => {
     if (editor) {

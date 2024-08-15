@@ -58,28 +58,28 @@ const CustomIcon = createSvgIcon(
   />,
   'CustomIcon'
 );
-export const ReusableTextField = ({
-  label,
-  value,
-  onChange,
-  multiline = false,
-  rows = 1,
-  fullWidth = true,
-}) => (
-  <FormSection label={label}>
-    <TextFieldSection
-      fullWidth={fullWidth}
-      value={value}
-      onChange={e => onChange(e.target.value)}
-      multiline={multiline}
-      rows={rows}
-      variant="outlined"
-      sx={{
-        color: '#ffffff',
-      }}
-    />
-  </FormSection>
-);
+// export const ReusableTextField = ({
+//   label,
+//   value,
+//   onChange,
+//   multiline = false,
+//   rows = 1,
+//   fullWidth = true,
+// }) => (
+//   <FormSection label={label}>
+//     <TextFieldSection
+//       fullWidth={fullWidth}
+//       value={value}
+//       onChange={e => onChange(e.target.value)}
+//       multiline={multiline}
+//       rows={rows}
+//       variant="outlined"
+//       sx={{
+//         color: '#ffffff',
+//       }}
+//     />
+//   </FormSection>
+// );
 export const WorkspaceCreatorForm = () => {
   const { theme } = useMode();
   const chatStore = useChatStore();
@@ -128,7 +128,8 @@ export const WorkspaceCreatorForm = () => {
 
   const workspaceData = {
     name,
-    userId: sessionStorage.getItem('userId'),
+    userId: JSON.parse(sessionStorage.getItem('userId')),
+
     customPreset: {
       name: selectedPreset?.name || '',
       temperature,
@@ -193,6 +194,34 @@ export const WorkspaceCreatorForm = () => {
           label="Model"
           sx={{
             color: '#ffffff',
+            '&.Mui-focused': {
+              opacity: 1,
+              transform: 'scale(1, 1)',
+              transition:
+                'opacity 100ms ease-out, transform 100ms cubic-bezier(0.43, 0.29, 0.37, 1.48)',
+            },
+            // '&:not(.Mui-focused)': {
+            //   opacity: 0,
+            //   transform: 'scale(0.95, 0.8)',
+            //   transition: 'opacity 200ms ease-in, transform 200ms ease-in',
+            // },
+          }}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: 'bottom',
+              horizontal: 'right',
+            },
+            transformOrigin: {
+              vertical: 'top',
+              horizontal: 'right',
+            },
+            PaperProps: {
+              sx: {
+                maxHeight: 200,
+                mt: '10px',
+                // ml: '50%', // Adjust this value to ensure the menu is visible
+              },
+            },
           }}
         >
           <MenuItem value="" disabled>

@@ -25,7 +25,6 @@ import { RCBox, RCButton, RCTypography } from 'components/themed';
 import { authConfigs } from 'config/form-configs';
 import { useUserStore } from 'contexts';
 import { useDialog, useMode } from 'hooks';
-import { LoadingIndicator } from 'utils/app';
 
 const StyledInfoPanel = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -75,13 +74,8 @@ export const AuthPages = () => {
     state: { isAuthenticated, userRequest },
     actions: { handleAuthSubmit },
   } = useUserStore();
-
   const navigate = useNavigate();
   const { theme } = useMode();
-  const pageRef = React.createRef();
-  const formRef = React.createRef();
-  const searchParams = {};
-  // const { navigate } = useRouter();
   const authDialog = useDialog();
   const formik = useFormik({
     initialValues: {
@@ -92,6 +86,9 @@ export const AuthPages = () => {
     },
     onSubmit: values => handleAuthSubmit(values),
   });
+  const pageRef = React.createRef();
+  const formRef = React.createRef();
+  const searchParams = {};
 
   const renderFormFields = () => {
     const formFieldsConfigs = {
@@ -137,18 +134,12 @@ export const AuthPages = () => {
     initDialogToggle();
     onClose();
   };
-  const storedUserData = JSON.parse(localStorage.getItem('userStore'));
   useEffect(() => {
     if (isAuthenticated) {
       return navigate('/admin/dashboard');
     }
   }, [isAuthenticated]); // Add dependencies as needed
 
-  useEffect(() => {
-    if (userRequest.status === 'pending') {
-      return <LoadingIndicator />;
-    }
-  }, [userRequest.status]); // Add dependencies as needed
   return (
     <div>
       <GuestInfoPanel />

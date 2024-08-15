@@ -15,7 +15,7 @@ import {
 } from './chat';
 import { userReducer } from './user';
 
-export const rootReducer = combineReducers({
+const reedAiReducer = combineReducers({
   app: appReducer,
   user: userReducer,
   workspace: workspaceReducer,
@@ -30,5 +30,12 @@ export const rootReducer = combineReducers({
   prompt: promptReducer,
   tool: toolReducer,
 });
+
+export const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT') {
+    state = undefined;
+  }
+  return reedAiReducer(state, action);
+};
 
 export default rootReducer;

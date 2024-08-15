@@ -31,7 +31,6 @@ export const fetchAllImages = createAsyncThunk(
     }
   }
 );
-
 export const fetchAllFiles = createAsyncThunk(
   'files/fetchAllFiles',
   async (_, { rejectWithValue }) => {
@@ -44,8 +43,6 @@ export const fetchAllFiles = createAsyncThunk(
     }
   }
 );
-
-// Async thunk for fetching file data using apiUtils
 export const fetchFileData = createAsyncThunk(
   'files/fetchData',
   async (_, { getState, rejectWithValue }) => {
@@ -111,8 +108,6 @@ export const fetchFileData = createAsyncThunk(
     }
   }
 );
-
-// File slice with reducers
 export const fileSlice = createSlice({
   name: REDUX_NAME,
   initialState,
@@ -129,20 +124,6 @@ export const fileSlice = createSlice({
         const file = action.payload;
         state.files[file.id] = file;
       }
-    },
-    setPreviewFiles: (state, action) => {
-      console.log('previewFiles:', action.payload);
-      state.previewFiles = action.payload;
-    },
-    setPreviewUrls: (state, action) => {
-      console.log('previewUrls:', action.payload);
-      state.previewUrls = action.payload;
-    },
-    setSelectedFiles: (state, action) => {
-      state.selectedFiles = action.payload;
-    },
-    setUploadedFiles: (state, action) => {
-      state.uploadedFiles = action.payload;
     },
     setChatFiles: (state, action) => {
       state.chatFiles = action.payload;
@@ -206,10 +187,6 @@ export const {
   setNewMessageFiles,
   setNewMessageImages,
   setShowFilesDisplay,
-  setPreviewFiles,
-  setSelectedFiles,
-  setPreviewUrls,
-  setUploadedFiles,
 } = fileSlice.actions;
 
 export default fileSlice.reducer;

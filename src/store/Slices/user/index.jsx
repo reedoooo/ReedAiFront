@@ -16,11 +16,13 @@ import userReducer, {
   setProfile,
   setEnvKeyMap,
   setSelectedProfileImage,
+  addEnvToUser,
 } from './userSlice';
 
 // Exporting all actions and thunks
 export {
   // User actions and thunks
+  addEnvToUser,
   setProfile,
   setEnvKeyMap,
   setSelectedProfileImage,

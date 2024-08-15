@@ -11,12 +11,7 @@ import LoadingIndicator from 'utils/app/LoadingIndicator';
 // =========================================================
 export const AuthLayout = () => {
   const [toggleSidebar, setToggleSidebar] = useState(false);
-  const navigation = useNavigation();
   const authBg = '#f5f5f5';
-  const { onOpen } = useDisclosure();
-  if (navigation.state === 'loading') {
-    return <LoadingIndicator />;
-  }
   return (
     <Box>
       <SidebarContext.Provider
@@ -26,18 +21,6 @@ export const AuthLayout = () => {
         }}
       >
         <CssBaseline />
-        {/* <Portal>
-          <Box>
-            <AuthNavbar
-              onOpen={onOpen}
-              logoText={'Horizon UI Dashboard PRO'}
-              brandText={getActiveRoute(routes)}
-              secondary={getActiveNavbar(routes)}
-              message={getActiveNavbarText(routes)}
-              fixed={fixed}
-            />
-          </Box>
-        </Portal> */}
         <Box
           sx={{
             backgroundColor: authBg,

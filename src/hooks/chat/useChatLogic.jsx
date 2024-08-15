@@ -1,7 +1,7 @@
 /* eslint-disable no-constant-condition */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useChatStore } from 'contexts';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useChatStore, useUserStore } from 'contexts';
 import { useChatHandler, useChatScroll } from 'hooks';
 import { organizeMessages } from 'utils/format';
 import 'styles/ChatStyles.css';
@@ -23,20 +23,10 @@ import 'styles/ChatStyles.css';
  * @returns {Object.editorActiveRef} - The editor active ref object.
  * @returns {Object.userInput} - The user input object.
  * @returns {Object.isFirstMessageReceived} - The is first message received object.
- * returns {Function.setError} - The set error function.
- *     messages,
-    error,
-    loading,
-    sessionHeader,
-    isEditorActive,
-    setIsEditorActive,
-    editorActiveRef,
-    userInput,
-    isFirstMessageReceived,
-    setError,
  */
 export const useChatLogic = () => {
   const params = useParams(); // Extract the dynamic 'id' parameter from the URL
+  const chatStore = useChatStore(); // Use the useChatStore hook to get state
   const {
     state: {
       userInput,
@@ -47,19 +37,36 @@ export const useChatLogic = () => {
       sessionId,
       workspaceId,
     },
-    actions: { setIsMessagesUpdated },
-  } = useChatStore();
+    actions: { setIsMessagesUpdated, setSessionHeader },
+  } = chatStore;
   const { scrollToBottom, setIsAtBottom } = useChatScroll();
-  const { handleGetSessionMessages, handleGetSession } = useChatHandler();
+  const { handleGetSessionMessages, handleGetSession, handleContentChange } =
+    useChatHandler();
   const [messages, setMessages] = useState(() => {
     const savedMessages = chatMessages ? chatMessages : [];
     return savedMessages;
   });
+  const [isFirstMessage, setIsFirstMessage] = useState(true);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [isEditorActive, setIsEditorActive] = useState(false);
   const controllerRef = useRef(null);
   const editorActiveRef = useRef(false);
+  // --- functions for sending messages ---
+  useEffect(() => {
+    if (messages.length === 0) {
+      handleContentChange(
+        'Generate a data table component for organizing a list of data, UI library documents, which have been upserted into a vector database'
+      );
+    }
+    if (messages.length > 0) {
+      setIsFirstMessage(false);
+      setSessionHeader(messages[0]?.content || '');
+    }
+    if (isFirstMessage) {
+      setSessionHeader(userInput);
+    }
+  }, [messages, userInput, isFirstMessage]);
 
   useEffect(() => {
     const fetchData = async () => {

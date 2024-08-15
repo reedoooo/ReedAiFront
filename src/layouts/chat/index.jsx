@@ -18,7 +18,9 @@ export const ChatLayout = () => {
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <>
         <Portal>
-          <Box sx={{ padding: '4px', maxHeight: 'calc(100% - 16px)' }}>
+          <Box
+            sx={{ padding: '4px', maxHeight: 'calc(100% - 16px)', flexGrow: 1 }}
+          >
             <ChatSidebar />
           </Box>
         </Portal>
@@ -32,10 +34,10 @@ export const ChatLayout = () => {
           // }}
           sx={{
             flexGrow: 1,
-            marginLeft: isMobile && !isSidebarOpen ? '0px' : '40px', // Adjust margin based on sidebar visibility
+            marginLeft: isMobile && !isSidebarOpen ? '0px' : '50px', // Adjust margin based on sidebar visibility
             display: 'flex',
             flexDirection: 'column',
-            width: isMobile && !isSidebarOpen ? '100%' : 'calc(100% - 40px)', // Expand width when sidebar is closed
+            width: isMobile && !isSidebarOpen ? '100%' : 'calc(100% - 24px)', // Expand width when sidebar is closed
             transition: 'margin-left 0.3s ease-in-out, width 0.3s ease-in-out', // Smooth transition
           }}
         >

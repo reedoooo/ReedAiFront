@@ -1,6 +1,15 @@
 import { apiUtils } from '@/lib/apiUtils';
 
 export const authApi = {
+  signup: async (username, email, password) => {
+    const data = await apiUtils.post(`/user/signup`, {
+      username,
+      email,
+      password,
+    });
+    return data;
+  },
+
   login: async (usernameOrEmail, password) => {
     const data = await apiUtils.post(`/user/login`, {
       usernameOrEmail,
@@ -9,12 +18,8 @@ export const authApi = {
     return data;
   },
 
-  signup: async (username, email, password) => {
-    const data = await apiUtils.post(`/user/signup`, {
-      username,
-      email,
-      password,
-    });
+  logout: async token => {
+    const data = await apiUtils.post(`/user/logout`, token);
     return data;
   },
 
@@ -29,17 +34,6 @@ export const authApi = {
     const data = await apiUtils.post(`/user/refresh-token`, {
       token: refreshToken,
     });
-    return data;
-  },
-
-  logout: async token => {
-    const data = await apiUtils.post(
-      `/user/logout`,
-      {},
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
     return data;
   },
 };

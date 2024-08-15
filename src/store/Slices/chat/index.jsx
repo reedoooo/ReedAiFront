@@ -18,7 +18,7 @@ import assistantReducer, {
   uploadFile,
 } from './assistantSlice';
 import baseChatReducer, {
-  addEnvToUser,
+  // addEnvToUser,
   setAbortController,
   setActiveLocal,
   setApiKey,
@@ -69,11 +69,7 @@ import fileReducer, {
   setFiles,
   setNewMessageFiles,
   setNewMessageImages,
-  setPreviewFiles,
-  setPreviewUrls,
-  setSelectedFiles,
   setShowFilesDisplay,
-  setUploadedFiles,
 } from './fileSlice';
 import folderReducer, {
   createFolder,
@@ -97,7 +93,6 @@ import toolReducer, {
   setTools,
 } from './toolSlice';
 import workspaceReducer, {
-  setActiveWorkspace,
   setHomeWorkSpace,
   setSelectedWorkspace,
   setWorkspaceId,
@@ -106,7 +101,7 @@ import workspaceReducer, {
 } from './workspaceSlice';
 
 export {
-  addEnvToUser,
+  // addEnvToUser,
   clearChatSessions,
   createAssistant,
   createChatSession,
@@ -125,7 +120,6 @@ export {
   setAbortController,
   setActiveLocal,
   setActiveSessionId,
-  setActiveWorkspace,
   setApiKey,
   setAssistantImages,
   setAssistants,
@@ -167,13 +161,10 @@ export {
   setOpenaiAssistants,
   setPayload,
   setPresets,
-  setPreviewFiles,
-  setPreviewUrls,
   setPrompts,
   setSelectedAssistant,
   setSelectedChat,
   setSelectedChatSession,
-  setSelectedFiles,
   setSelectedFolder,
   setSelectedModel,
   setSelectedPreset,
@@ -188,7 +179,6 @@ export {
   setToolCommand,
   setToolInUse,
   setTools,
-  setUploadedFiles,
   setUseRetrieval,
   setUserInput,
   setWorkspaceId,

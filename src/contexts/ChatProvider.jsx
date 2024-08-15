@@ -21,7 +21,6 @@ import {
   setAbortController,
   setActiveLocal,
   setActiveSessionId,
-  setActiveWorkspace,
   setApiKey,
   setAssistantImages,
   setAssistants,
@@ -60,13 +59,9 @@ import {
   setOpenaiAssistants,
   setPayload,
   setPresets,
-  setPreviewFiles,
-  setPreviewUrls,
-  setProfile,
   setPrompts,
   setSelectedAssistant,
   setSelectedChatSession,
-  setSelectedFiles,
   setSelectedPreset,
   setSelectedPrompt,
   setSelectedTools,
@@ -79,7 +74,6 @@ import {
   setToolCommand,
   setToolInUse,
   setTools,
-  setUploadedFiles,
   setUseRetrieval,
   setUserInput,
   setUserOpenAiSettings,
@@ -155,8 +149,6 @@ export const ChatProvider = ({ children }) => {
   };
   const userStore = JSON.parse(localStorage.getItem('userStore'));
   const user = userStore?.user;
-  const userInfo = userStore?.userInfo;
-  const userProfile = user?.profile;
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -171,61 +163,6 @@ export const ChatProvider = ({ children }) => {
     initializeUserData();
   }, [dispatch]);
 
-  const reloadRoute = id => {
-    console.log(`Dummy reloadRoute called with id: ${id}`);
-  };
-
-  const syncChatSessions = () => {
-    console.log(`Dummy syncChatSessions called`);
-  };
-
-  const addChatSession = (historyData, chatData) => {
-    console.log(
-      `Dummy addChatSession called with historyData: ${historyData}, chatData: ${chatData}`
-    );
-  };
-
-  const updateChatSession = (id, edit) => {
-    console.log(`Dummy updateChatSession called with id: ${id}, edit: ${edit}`);
-  };
-
-  const updateChatSessionIfEdited = (id, edit) => {
-    console.log(
-      `Dummy updateChatSessionIfEdited called with id: ${id}, edit: ${edit}`
-    );
-  };
-
-  const deleteChatSession = index => {
-    console.log(`Dummy deleteChatSession called with index: ${index}`);
-  };
-
-  const syncChatMessages = id => {
-    console.log(`Dummy syncChatMessages called with id: ${id}`);
-  };
-
-  const addChatById = (id, chat) => {
-    console.log(`Dummy addChatById called with id: ${id}, chat: ${chat}`);
-  };
-
-  const updateChatById = (id, index, chat) => {
-    console.log(
-      `Dummy updateChatById called with id: ${id}, index: ${index}, chat: ${chat}`
-    );
-  };
-
-  const updateChatPartialById = (id, index, chat) => {
-    console.log(
-      `Dummy updateChatPartialById called with id: ${id}, index: ${index}, chat: ${chat}`
-    );
-  };
-
-  const deleteChatById = (id, index) => {
-    console.log(`Dummy deleteChatById called with id: ${id}, index: ${index}`);
-  };
-
-  const clearChatById = id => {
-    console.log(`Dummy clearChatById called with id: ${id}`);
-  };
   const actions = {
     // ===========================================
     // [WORKSPACE STORE]
@@ -234,7 +171,6 @@ export const ChatProvider = ({ children }) => {
     setSelectedWorkspace: workspace =>
       dispatch(setSelectedWorkspace(workspace)),
     setHomeWorkSpace: workspace => dispatch(setHomeWorkSpace(workspace)),
-    setActiveWorkspace: session => dispatch(setActiveWorkspace(session)),
     setWorkspaceImages: images => dispatch(setWorkspaceImages(images)),
     setWorkspaceId: workspaceId => dispatch(setWorkspaceId(workspaceId)),
     // ===========================================
@@ -294,24 +230,6 @@ export const ChatProvider = ({ children }) => {
     // ===========================================
     setCollections: collections => dispatch(setCollections(collections)),
     // ===========================================
-    // [ADDED CHAT STORE]
-    // ===========================================
-    reloadRoute: id => reloadRoute(id),
-    syncChatSessions: () => syncChatSessions(),
-    addChatSession: (historyData, chatData) =>
-      addChatSession(historyData, chatData),
-    updateChatSession: (id, edit) => updateChatSession(id, edit),
-    updateChatSessionIfEdited: (id, edit) =>
-      updateChatSessionIfEdited(id, edit),
-    deleteChatSession: index => deleteChatSession(index),
-    syncChatMessages: id => syncChatMessages(id),
-    addChatById: (id, chat) => addChatById(id, chat),
-    updateChatById: (id, index, chat) => updateChatById(id, index, chat),
-    updateChatPartialById: (id, index, chat) =>
-      updateChatPartialById(id, index, chat),
-    deleteChatById: (id, index) => deleteChatById(id, index),
-    clearChatById: id => clearChatById(id),
-    // ===========================================
     // [FOLDER STORE]
     // ===========================================
     setFolders: folders => dispatch(setFolders(folders)),
@@ -322,19 +240,16 @@ export const ChatProvider = ({ children }) => {
     // [FILE STORE]
     // ===========================================
     setFiles: files => dispatch(setFiles(files)),
-    setSelectedFiles: files => dispatch(setSelectedFiles(files)),
-    setUploadedFiles: files => dispatch(setUploadedFiles(files)),
-    setPreviewFiles: files => dispatch(setPreviewFiles(files)),
-    setPreviewUrls: urls => dispatch(setPreviewUrls(urls)),
     setChatFiles: files => dispatch(setChatFiles(files)),
     setChatImages: images => dispatch(setChatImages(images)),
+    setChatFileItems: items => dispatch(setChatFileItems(items)),
     setNewMessageFiles: files => dispatch(setNewMessageFiles(files)),
     setNewMessageImages: images => dispatch(setNewMessageImages(images)),
     setShowFilesDisplay: show => dispatch(setShowFilesDisplay(show)),
     // ===========================================
     // [PROFILE STORE]
     // ===========================================
-    setProfile: profile => dispatch(setProfile(profile)),
+    // setProfile: profile => dispatch(setProfile(profile)),
     setUserOpenAiSettings: settings =>
       dispatch(setUserOpenAiSettings(settings)),
     // ===========================================
@@ -357,7 +272,6 @@ export const ChatProvider = ({ children }) => {
     setUserInput: userInput => dispatch(setUserInput(userInput)),
     setChatMessages: messages => dispatch(setChatMessages(messages)),
     setChatSettings: settings => dispatch(setChatSettings(settings)),
-    setChatFileItems: items => dispatch(setChatFileItems(items)),
     // ===========================================
     // [TOOL STORE]
     // ===========================================
@@ -378,18 +292,18 @@ export const ChatProvider = ({ children }) => {
     // [CHAT INPUT COMMAND STORE]
     // ===========================================
     setIsPromptPickerOpen: isOpen => dispatch(setIsPromptPickerOpen(isOpen)),
-    setSlashCommand: command => dispatch(setSlashCommand(command)),
-    setIsFilePickerOpen: isOpen => dispatch(setIsFilePickerOpen(isOpen)),
-    setHashtagCommand: command => dispatch(setHashtagCommand(command)),
     setIsToolPickerOpen: isOpen => dispatch(setIsToolPickerOpen(isOpen)),
+    setIsFilePickerOpen: isOpen => dispatch(setIsFilePickerOpen(isOpen)),
+    setIsAssistantPickerOpen: isOpen =>
+      dispatch(setIsAssistantPickerOpen(isOpen)),
+    setSlashCommand: command => dispatch(setSlashCommand(command)),
+    setHashtagCommand: command => dispatch(setHashtagCommand(command)),
     setToolCommand: command => dispatch(setToolCommand(command)),
+    setAtCommand: command => dispatch(setAtCommand(command)),
     setFocusPrompt: focus => dispatch(setFocusPrompt(focus)),
     setFocusFile: focus => dispatch(setFocusFile(focus)),
     setFocusTool: focus => dispatch(setFocusTool(focus)),
     setFocusAssistant: focus => dispatch(setFocusAssistant(focus)),
-    setAtCommand: command => dispatch(setAtCommand(command)),
-    setIsAssistantPickerOpen: isOpen =>
-      dispatch(setIsAssistantPickerOpen(isOpen)),
     // ===========================================
     // [RETRIEVAL STORE]
     // ===========================================

@@ -296,6 +296,7 @@ const authRoutes = [
         collapse: false,
         icon: <PersonAddIcon />,
         async action() {
+          console.log('Logging out');
           return redirect('/');
         },
       },

@@ -3,9 +3,9 @@ import * as providers from './index';
 
 const providerList = [
   providers.AppProvider,
-  providers.SnackbarProvider,
   providers.UserProvider,
   providers.ChatProvider,
+  // providers.ToastProvider,
   // providers.PromptProvider,
   // StyledEngineProvider,
 ];

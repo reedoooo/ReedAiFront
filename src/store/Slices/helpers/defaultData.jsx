@@ -1,5 +1,11 @@
 import mongoose from 'mongoose';
-
+const REQUEST_STATE = {
+  status: 'idle' | 'loading' | 'success' | 'error',
+  message: '',
+  error: null,
+  success: null,
+  data: null,
+};
 // export const defaultPromptList = [
 export function defaultPromptList() {
   return [
@@ -85,6 +91,7 @@ export function defaultPromptList() {
 }
 export function defaultUserSessionData() {
   return {
+    userRequest: REQUEST_STATE,
     user: {
       username: '',
       email: '',
@@ -446,39 +453,16 @@ export function defaultUserSessionData() {
       profileImage: 'http://localhost:3001/static/files/avatar1.png',
       isImageRetrieved: false,
     },
-    userRequest: {
-      isFetching: false,
-      error: null,
-      message: '',
-      status: '',
-    },
   };
 }
 export function defaultWorkspaceStoreData() {
   return {
+    workspaceRequest: REQUEST_STATE,
     workspaceId: '',
-    activeWorkspace: {
-      _id: null,
-      userId: null,
-      name: '',
-      description: '',
-      image: null,
-      chatSessions: [],
-      folders: [],
-      activeChatSession: null,
-      selectedChatSession: null,
-      systemPrompt: '',
-    },
     workspaces: [],
     selectedWorkspace: null,
     homeWorkSpace: null,
     workspaceImages: [],
-    workspaceRequest: {
-      isFetching: false,
-      error: null,
-      message: '',
-      status: '',
-    },
   };
 }
 export function defaultChatSessionStoreData() {
@@ -609,6 +593,7 @@ export function defaultChatSessionStoreData() {
 }
 export function defaultAssistantStoreData() {
   return {
+    assistantRequest: REQUEST_STATE,
     assistants: [
       {
         name: 'ChatBot Assistant',
@@ -650,12 +635,6 @@ export function defaultAssistantStoreData() {
       stats: {},
       setting: {},
     },
-    assistantRequest: {
-      status: 'idle',
-      error: null,
-      success: null,
-      message: '',
-    },
   };
 }
 export function defaultModelStoreData() {
@@ -690,51 +669,37 @@ export function defaultModelStoreData() {
 }
 export function defaultPresetStoreData() {
   return {
+    presetRequest: REQUEST_STATE,
     presets: [],
     selectedPreset: null,
-    presetRequest: {
-      status: 'idle',
-      error: null,
-      success: null,
-      message: '',
-    },
   };
 }
 export function defaultCollectionStoreData() {
   return {
+    collectionRequest: REQUEST_STATE,
     collections: [],
-    chatInputCommandRequest: {
-      status: 'idle',
-      error: null,
-      success: null,
-      message: '',
-    },
   };
 }
 export function defaultFileStoreData() {
   return {
+    fileRequest: REQUEST_STATE,
+    files: [],
+    selectedFiles: [],
     byId: {},
     allIds: [],
-    files: [],
     chatFiles: [],
     chatImages: [],
     newMessageFiles: [],
     newMessageImages: [],
     previewFiles: [],
     previewUrls: [],
-    selectedFiles: [],
     uploadedFiles: [],
     showFilesDisplay: false,
-    fileRequest: {
-      status: 'idle',
-      error: null,
-      success: null,
-      message: '',
-    },
   };
 }
 export function defaultFolderStoreData() {
   return {
+    folderRequest: REQUEST_STATE,
     folders: [
       {
         name: 'src',

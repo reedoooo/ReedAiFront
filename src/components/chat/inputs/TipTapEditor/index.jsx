@@ -9,13 +9,17 @@ import {
 import React, { useEffect } from 'react';
 import { useTipTapEditor } from 'hooks/chat';
 
-export const TipTapEditor = ({ initialContent, onContentChange }) => {
+export const TipTapEditor = ({ onSend }) => {
   const { editor, content, handleContentTypeChange, contentType } =
-    useTipTapEditor(initialContent);
-
-  useEffect(() => {
-    onContentChange(content);
-  }, [content, onContentChange]);
+    useTipTapEditor();
+  const handleSend = async () => {
+    if (content.trim()) {
+      onSend(content);
+    }
+  };
+  // useEffect(() => {
+  //   onContentChange(content);
+  // }, [content, onContentChange]);
 
   return (
     <Box>

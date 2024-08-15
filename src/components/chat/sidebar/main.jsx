@@ -7,6 +7,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   AccountCircleRoundedIcon,
   AiIcon,
@@ -19,12 +20,10 @@ import {
   KeyIcon,
   SettingsIcon,
 } from 'assets/humanIcons';
-
-import { ChatBotIcon } from 'assets/humanIcons/custom';
 import { IconButtonWithTooltip } from 'components/compositions';
 import ValidationIcon from 'components/styled/ValidationIcon';
 import { useAppStore, useChatStore, useUserStore } from 'contexts';
-import { useMode, useRouter } from 'hooks';
+import { useMode } from 'hooks';
 import { SidebarContainer, SidebarPanel } from '../styled';
 import {
   Workspace,
@@ -54,22 +53,7 @@ export const ChatSidebar = () => {
       prompts,
       files,
       assistants,
-      presets,
-      collections,
-      tools,
-      models,
     },
-    // actions: {
-    //   setFolders,
-    //   setChats,
-    //   setPresets,
-    //   setPrompts,
-    //   setFiles,
-    //   setCollections,
-    //   setAssistants,
-    //   setTools,
-    //   setModels,
-    // },
   } = useChatStore();
   const chatSessionFolders = folders?.filter(
     folder => folder.type === 'chatSessions'
@@ -90,7 +74,7 @@ export const ChatSidebar = () => {
     actions: { setSidebarOpen },
   } = useAppStore();
   const { theme } = useMode();
-  const { navigate } = useRouter();
+  const navigate = useNavigate();
   const [tab, setTab] = useState(null);
   const sideBarWidthRef = React.useRef(null);
   const isValidApiKey = Boolean(apiKey);
@@ -272,7 +256,7 @@ export const ChatSidebar = () => {
         onClose={() => handleSidebarClose()}
         PaperProps={{
           sx: {
-            color: 'white',
+            color: '#fff',
             padding: '20px',
             background: '#000',
             minWidth: isSidebarOpen ? (isMobile ? `100vw` : `35vw`) : '0px',

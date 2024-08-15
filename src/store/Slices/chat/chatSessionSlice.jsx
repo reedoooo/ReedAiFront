@@ -56,8 +56,9 @@ export const chatSessionsSlice = createSlice({
   reducers: {
     setSessionId: (state, action) => {
       console.log('setSessionId action payload', action.payload);
-      setLocalSessionData({ ...state, sessionId: action.payload });
       state.sessionId = action.payload;
+      sessionStorage.setItem('sessionId', JSON.stringify(action.payload));
+      setLocalSessionData({ ...state, sessionId: action.payload });
     },
     setSessionHeader: (state, action) => {
       console.log('setSessionHeader action payload', action.payload);

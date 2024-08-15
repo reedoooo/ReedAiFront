@@ -75,5 +75,20 @@ export const constants = {
     PRESETS_SLICE: 'presetStore',
     FILES_SLICE: 'fileStore',
   },
+  ERROR_TYPES: {
+    ACTION_UNAUTHORIZED: 'The user is unauthorized',
+    ACTION_NOT_FOUND: 'Resource Not Found',
+    ACTION_INTERNAL_SERVER: 'Internal Server Error',
+    ACTION_BAD_GATEWAY: 'Bad Gateway',
+    ACTION_SERVICE_UNAVAILABLE: 'The service is unavailable',
+    ACTION_REQUEST_TIMED_OUT: 'Request Timed Out',
+    ACTION_TOO_MANY: 'Too Many Requests',
+    ACTION_INSUFFICIENT_STORAGE: 'Insuffucient Storage',
+    ACTION_INVALID_INPUT: 'Invalid Input',
+    ACTION_INVALID_CREDENTIALS: 'Invalid Credentials',
+    ACTION_INVALID_TOKEN: 'Invalid Token',
+    ACTION_INVALID_REFRESH_TOKEN: 'Invalid Refresh Token',
+    ACTION_INVALID_URL: 'Invalid URL',
+  },
 };
 export default constants;

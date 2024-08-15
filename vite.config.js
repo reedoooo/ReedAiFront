@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url';
 import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv } from 'vite';
 import svgr from 'vite-plugin-svgr';
+import { VitePWA } from 'vite-plugin-pwa';
 
 // --- FILE PATHS --- //
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -19,6 +20,21 @@ export default defineConfig(({ mode }) => {
         jsxRuntime: 'automatic',
       }),
       svgr(),
+      VitePWA({
+        registerType: 'autoUpdate',
+        /* if you are using vite-plugin-pwa plugin version prior to 0.12.2
+        add below lines to fix injectRegister bug.
+      */
+        workbox: {
+          clientsClaim: true,
+          skipWaiting: true,
+        },
+        /* If you want to check it on dev, add devOptions.
+         */
+        devOptions: {
+          enabled: true,
+        },
+      }),
     ],
     // --- CONFIG --- //
     // root -- The root directory of the project

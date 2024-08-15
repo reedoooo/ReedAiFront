@@ -12,6 +12,7 @@ export const completions = {
     clientApiKey,
     role = 'assistant',
     signal,
+    count,
     // filePath,
   }) {
     let response;
@@ -30,6 +31,7 @@ export const completions = {
           userId,
           clientApiKey,
           role,
+          count,
         }),
         signal,
       });
@@ -91,7 +93,7 @@ export const completions = {
               const json = JSON.parse(data);
               const text = json.content;
               const queue = encoder.encode(text);
-              console.log('received queue', queue);
+              // console.log('received queue', queue);
               controller.enqueue(queue);
             } catch (e) {
               controller.error(e);

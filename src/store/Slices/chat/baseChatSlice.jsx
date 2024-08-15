@@ -28,28 +28,6 @@ export const syncChatMessages = createAsyncThunk(
   }
 );
 
-export const addEnvToUser = createAsyncThunk(
-  `${REDUX_NAME}/addEnvToUser`,
-  async ({ apiKey }, { dispatch, rejectWithValue }) => {
-    dispatch(setLoading());
-    try {
-      console.log('Adding API key:', apiKey);
-      const response = await user.addEnvToUser(
-        sessionStorage.getItem('userId'),
-        apiKey
-      );
-      // dispatch(setApiKey(apiKey));
-      // dispatch(setChatRequestData(response.message));
-      return response;
-      // await dispatch(addApiKey(apiKey));
-      // dispatch(setChatRequestData({ message: 'Added API key successfully' }));
-    } catch (error) {
-      dispatch(setError(error));
-      rejectWithValue(error.response.data);
-    }
-  }
-);
-
 export const baseChatSlice = createSlice({
   name: REDUX_NAME,
   initialState,
@@ -164,33 +142,33 @@ export const baseChatSlice = createSlice({
       state.sourceCount = action.payload;
     },
   },
-  extraReducers: builder => {
-    builder
-      // .addCase(syncChatMessages.pending, state => {
-      //   state.baseChatRequest.status = 'loading';
-      // })
-      // .addCase(syncChatMessages.fulfilled, (state, action) => {
-      //   state.baseChatRequest.status = 'succeeded';
-      //   state.chatMessages = action.payload.messages;
-      // })
-      // .addCase(syncChatMessages.rejected, (state, action) => {
-      //   state.baseChatRequest.status = 'failed';
-      //   state.baseChatRequest.error = action.error.message;
-      // })
-      .addCase(addEnvToUser.pending, state => {
-        state.baseChatRequest.status = 'loading';
-      })
-      .addCase(addEnvToUser.fulfilled, (state, action) => {
-        console.log('addEnvToUser.fulfilled:', action.payload);
-        state.baseChatRequest.status = 'succeeded';
-        state.baseChatRequest.success = action.payload;
-        state.baseChatRequest.message = 'Added API key successfully';
-      })
-      .addCase(addEnvToUser.rejected, (state, action) => {
-        state.baseChatRequest.status = 'failed';
-        state.baseChatRequest.error = action.error.message;
-      });
-  },
+  // extraReducers: builder => {
+  //   builder;
+  // .addCase(syncChatMessages.pending, state => {
+  //   state.baseChatRequest.status = 'loading';
+  // })
+  // .addCase(syncChatMessages.fulfilled, (state, action) => {
+  //   state.baseChatRequest.status = 'succeeded';
+  //   state.chatMessages = action.payload.messages;
+  // })
+  // .addCase(syncChatMessages.rejected, (state, action) => {
+  //   state.baseChatRequest.status = 'failed';
+  //   state.baseChatRequest.error = action.error.message;
+  // })
+  // .addCase(addEnvToUser.pending, state => {
+  //   state.baseChatRequest.status = 'loading';
+  // })
+  // .addCase(addEnvToUser.fulfilled, (state, action) => {
+  //   console.log('addEnvToUser.fulfilled:', action.payload);
+  //   state.baseChatRequest.status = 'succeeded';
+  //   state.baseChatRequest.success = action.payload;
+  //   state.baseChatRequest.message = 'Added API key successfully';
+  // })
+  // .addCase(addEnvToUser.rejected, (state, action) => {
+  //   state.baseChatRequest.status = 'failed';
+  //   state.baseChatRequest.error = action.error.message;
+  // });
+  // },
 });
 
 export const {
