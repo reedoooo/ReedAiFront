@@ -9,10 +9,8 @@ import {
   Divider,
   FormControl,
   FormGroup,
-  IconButton,
   MenuItem,
   Select,
-  Switch,
   TextField,
   Tooltip,
   Typography,
@@ -20,10 +18,7 @@ import {
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { InfoOutlinedIcon, SettingsIcon } from 'assets/humanIcons';
-import {
-  StyledTextareaAutosize,
-  WorkspaceCreatorContainer,
-} from 'components/chat/styled';
+import { WorkspaceCreatorContainer } from 'components/chat/styled';
 import { IconButtonWithTooltip } from 'components/compositions';
 import {
   RCFileInputButton,
@@ -39,11 +34,7 @@ import { DEFAULT_APP_DATA } from 'config/app-data-configs';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useChatHandler, useDialog, useMode } from 'hooks';
 import { PresetSelect } from '../preset-items';
-import {
-  FormSection,
-  ReusableSwitchControl,
-  // ReusableTextField,
-} from '../shared-items';
+import { ReusableSwitchControl } from '../shared-items';
 
 const marks = [
   { value: 0, label: '0' },

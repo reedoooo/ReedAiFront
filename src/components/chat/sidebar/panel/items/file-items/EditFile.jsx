@@ -1,10 +1,6 @@
-import { TextareaAutosize, Box } from '@mui/material';
-import React, { useState } from 'react';
-import {
-  StyledButton,
-  StyledTextField,
-  StyledMuiTabs,
-} from 'components/chat/styled';
+import { Box, TextareaAutosize } from '@mui/material';
+import React from 'react';
+import { StyledButton, StyledTextField } from 'components/chat/styled';
 
 export const EditFile = ({
   fileName,

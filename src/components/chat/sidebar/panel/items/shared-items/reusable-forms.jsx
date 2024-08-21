@@ -1,22 +1,9 @@
-import {
-  Box,
-  Button,
-  createSvgIcon,
-  IconButton,
-  MenuItem,
-  Select,
-  Switch,
-  TextField,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Typography } from '@mui/material';
 import {
   StyledSlider,
   StyledSwitch,
   StyledSwitchFormControlLabel,
-  StyledTextareaAutosize,
   StyledTextField,
-  WorkspaceCreatorContainer,
 } from 'components/chat/styled';
 const marks = [
   { value: 0, label: '0' },

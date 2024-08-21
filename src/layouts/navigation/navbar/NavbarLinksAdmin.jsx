@@ -35,6 +35,7 @@ export const HeaderLinks = props => {
   const dispatch = useDispatch();
   const {
     state: { profileImage, isAuthenticated, user },
+    state: { setIsAuthenticated },
   } = useUserStore(); // Use the useChatStore hook to get state
   const {
     theme: {
@@ -44,8 +45,9 @@ export const HeaderLinks = props => {
   const [anchorEl2, setAnchorEl2] = useState(null);
   const iconColor = grey[400];
   const handleLogout = () => {
+    setIsAuthenticated(false);
     dispatch({ type: 'LOGOUT' }); // Dispatch the logout action
-    navigate('/sign-in'); // Navigate to the sign-in page
+    navigate('/auth/sign-in'); // Navigate to the sign-in page
   };
   const notificationsMenuItems = [
     {

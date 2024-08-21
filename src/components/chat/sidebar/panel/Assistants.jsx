@@ -1,29 +1,7 @@
-import {
-  Box,
-  Button,
-  FormControlLabel,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  MenuItem,
-  Select,
-  Slider,
-  Switch,
-  Tab,
-  TextField,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
-import { FaSignOutAlt, FaTrashAlt } from 'react-icons/fa';
+import { Box, IconButton, Tab, Typography } from '@mui/material';
+import React, { useState } from 'react';
 import { AssistantIcon } from 'assets/humanIcons';
-import {
-  StyledButton,
-  StyledMotionTabs,
-  StyledTextField,
-  TabContentContainer,
-} from 'components/chat/styled';
+import { StyledMotionTabs } from 'components/chat/styled';
 import { useMode } from 'hooks';
 import { AssistantDisplay } from './items/assistant-items/AssistantDisplay';
 import { AssistantTemplates } from './items/assistant-items/AssistantTemplates';

@@ -6,16 +6,14 @@ import {
   MenuItem,
   MenuList,
   Tab,
-  Typography,
-  alpha,
 } from '@mui/material';
 import { styled } from '@mui/system';
-import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { HomeIcon } from 'assets/humanIcons';
 import { PanelHeaderRow, StyledMotionTabs } from 'components/chat/styled';
+import { RCTabs } from 'components/themed';
 import { useChatStore } from 'contexts';
 import { useMenu, useMode } from 'hooks';
 import {
@@ -198,19 +196,12 @@ export const Workspace = () => {
     navigate(`/admin/${workspace._id}/chat`);
     handleWorkspaceClose();
   };
+
+  const tabs = [{ label: 'Main' }, { label: 'Defaults' }, { label: 'Folders' }];
   return (
     <>
       <PanelHeaderRow theme={theme}>
         <Box display="flex" alignItems="center">
-          {/* <Typography
-            variant="h6"
-            sx={{
-              color: 'white',
-              mx: '12px',
-            }}
-          >
-            Workspace:
-          </Typography> */}
           <ReusableMenu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
@@ -237,7 +228,13 @@ export const Workspace = () => {
           background: '#1c1c1c', // Slightly different background for the panel to distinguish it
         }}
       >
-        <StyledMotionTabs
+        <RCTabs
+          value={tab}
+          onChange={(e, newValue) => setTab(newValue)}
+          tabs={tabs}
+          variant="default"
+        />
+        {/* <StyledMotionTabs
           value={tab}
           onChange={(e, newValue) => setTab(newValue)}
           indicatorColor="#fff"
@@ -248,7 +245,7 @@ export const Workspace = () => {
             style={{ color: '#fff', borderRadius: '5px' }}
           />
           <Tab label="Folders" style={{ color: '#fff', borderRadius: '5px' }} />
-        </StyledMotionTabs>
+        </StyledMotionTabs> */}
       </Box>
       {tab === 0 && <WorkspaceCreatorForm />}
       {tab === 1 && (

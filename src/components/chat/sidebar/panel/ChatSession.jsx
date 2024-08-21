@@ -1,16 +1,15 @@
 import {
-  Tab,
-  Button,
-  Typography,
   Box,
+  Button,
   IconButton,
   Menu,
   MenuItem,
+  Tab,
+  Typography,
 } from '@mui/material';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { MdInfoOutline } from 'react-icons/md';
-import { sessions } from 'api/chat';
 import {
   ConversationCard,
   ExportOptions,

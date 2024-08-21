@@ -33,6 +33,7 @@ const initialState = getLocalData(LOCAL_NAME, REDUX_NAME);
 function setLocalUserData(data) {
   setLocalData(LOCAL_NAME, data);
 }
+
 function dispatchUserUpdates(dispatch, updatedUserData) {
   console.log('Dispatching user updates:', updatedUserData);
   dispatch(setUser(updatedUserData));
@@ -84,7 +85,7 @@ export const handleAuthSubmit = createAsyncThunk(
         }
 
         dispatchUserUpdates(dispatch, updatedUserData);
-
+        window.location.href = '/admin/dashboard';
         return {
           user: updatedUserData,
           token: data.accessToken,
@@ -151,6 +152,7 @@ export const logout = createAsyncThunk(
     }
   }
 );
+
 export const fetchUserProfileImage = createAsyncThunk(
   'user/fetchUserProfileImage',
   async (username, { rejectWithValue }) => {
@@ -188,7 +190,7 @@ export const fetchAndSetUserData = createAsyncThunk(
       const { username } = storedUserData.user;
       let imageUrl = null;
       let imageRetrievalStatus = false;
-      if (!storedUserData.userInfo.profileImage) {
+      if (!storedUserData?.userInfo?.profileImage) {
         const profileImageAction = await dispatch(
           fetchUserProfileImage(username)
         );
@@ -265,6 +267,7 @@ export const fetchAndSetUserData = createAsyncThunk(
     }
   }
 );
+
 export const addEnvToUser = createAsyncThunk(
   `${REDUX_NAME}/addEnvToUser`,
   async ({ apiKey }, { rejectWithValue }) => {
@@ -284,6 +287,7 @@ export const addEnvToUser = createAsyncThunk(
     }
   }
 );
+
 export const userSlice = createSlice({
   name: REDUX_NAME,
   initialState,
@@ -410,6 +414,7 @@ export const userSlice = createSlice({
       });
   },
 });
+
 export const {
   updateUserInfo,
   resetUserInfo,

@@ -9,6 +9,7 @@ import {
 import { useChatStore, useUserStore } from 'contexts';
 import { defaultChatSessionStoreData } from 'store/Slices/helpers';
 import { safeParse } from 'utils/format';
+import useTipTapEditor from './useTipTapEditor';
 
 export const useChatHandler = (messages, setMessages) => {
   const navigate = useNavigate();
@@ -61,10 +62,12 @@ export const useChatHandler = (messages, setMessages) => {
   const [messageCount, setMessageCount] = useState(0); // Initialize message counter
   const controllerRef = useRef(null);
 
-  const handleContentChange = useCallback(
-    content => setUserInput(content),
-    [setUserInput]
-  );
+  const { editor, insertContentAndSync } = useTipTapEditor(userInput);
+
+  // const handleContentChange = useCallback(
+  //   content => setUserInput(content),
+  //   [setUserInput]
+  // );
   const clearInput = useCallback(() => setUserInput(''), [setUserInput]);
   const handleGetSessionMessages = useCallback(async () => {
     try {
@@ -265,7 +268,7 @@ export const useChatHandler = (messages, setMessages) => {
 
   const handleRegenerateResponse = useCallback(async () => {
     setIsRegenerating(true);
-    handleContentChange(messages[messages.length - 2]?.content || '');
+    insertContentAndSync(messages[messages.length - 2]?.content || '');
     await handleSendMessage();
   }, [messages, handleSendMessage]);
 
@@ -285,7 +288,7 @@ export const useChatHandler = (messages, setMessages) => {
     handleSendMessage,
     handleRegenerateResponse,
     handleStop,
-    handleContentChange,
+    handleContentChange: insertContentAndSync, // Use the custom command
     handleGetSessionMessages,
     handleGetSession,
     handleCreateNewWorkspace,

@@ -158,7 +158,7 @@ export const Landing = () => {
               gutterBottom
               sx={{ fontSize: '2rem', fontWeight: 'bold' }}
             >
-              AI Cover Letter Generator
+              ReedAi LLM
             </Typography>
             {/* ======= DEFAULT GENERATOR BUTTON ======= */}
             <Typography

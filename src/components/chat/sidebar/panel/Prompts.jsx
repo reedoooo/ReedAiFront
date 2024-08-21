@@ -16,8 +16,8 @@ import { chatFiles } from 'api/chat';
 import {
   EditIcon,
   FileCopyIcon,
-  KeyboardArrowUpIcon,
   KeyboardArrowDownIcon,
+  KeyboardArrowUpIcon,
 } from 'assets/humanIcons';
 import PromptRecommend from 'assets/recommend.json';
 import {

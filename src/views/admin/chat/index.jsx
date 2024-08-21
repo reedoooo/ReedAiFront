@@ -1,21 +1,22 @@
 /* eslint-disable no-constant-condition */
 'use client';
 // =========================================================
-// [CHAT BOT] | ...
+// [CHAT BOT] | React Chatbot
 // =========================================================
-import { Box, CircularProgress, Grid, Typography } from '@mui/material';
+import { Box, CircularProgress, Grid, Paper, Typography } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams, useActionData } from 'react-router-dom';
-import { ChatHeader } from 'components/chat';
+import { useActionData, useParams } from 'react-router-dom';
+import { ChatHeader, MessageInput } from 'components/chat';
 import { MessageBox } from 'components/chat/messages';
-import { ChatWindow, StyledChatContainer } from 'components/chat/styled';
+import { useAppStore } from 'contexts/AppProvider';
 import { useChatStore } from 'contexts/ChatProvider';
-import { useMode, useMenu, useChatScroll, useChatHandler } from 'hooks';
-import { organizeMessages } from 'utils/format';
+import { useChatHandler, useChatScroll, useMenu, useMode } from 'hooks';
 import 'styles/ChatStyles.css';
-const MessageInput = React.lazy(() => import('components/chat'));
+import { organizeMessages } from 'utils/format';
 
-export const ChatApp = () => {
+// const MessageInput = React.lazy(() => import(''));
+
+export const MainChat = () => {
   const { theme } = useMode();
   // const functionCallHandler = async call => {
   //   if (call?.function?.name !== 'get_weather') return;
@@ -24,6 +25,10 @@ export const ChatApp = () => {
   //   setWeatherData(data);
   //   return JSON.stringify(data);
   // };
+  const {
+    state: { isSidebarOpen, isMobile },
+    actions: { toggleSidebar },
+  } = useAppStore();
   const [messages, setMessages] = useState(() => {
     const savedMessages = localStorage.getItem('chatMessages');
     return savedMessages ? JSON.parse(savedMessages) : [];
@@ -63,7 +68,7 @@ export const ChatApp = () => {
   const [isFirstMessage, setIsFirstMessage] = useState(true);
   const controllerRef = useRef(null);
   const editorActiveRef = useRef(false);
-  // --- functions for sending messages ---
+  /* --- fn() to handle the focus of the chat input --- */
   useEffect(() => {
     if (promptsMenu.isOpen && sidebarItemRef.current) {
       const sidebarItemRect = sidebarItemRef.current.getBoundingClientRect();
@@ -79,9 +84,12 @@ export const ChatApp = () => {
       dialogRef.current.style.top = `${topPosition}px`;
     }
   }, [promptsMenu.isOpen]);
-
+  /* --- fn() to set the chat session header and the default input content --- */
   useEffect(() => {
-    if (messages.length === 0) {
+    if (
+      messages.length === 0 &&
+      JSON.parse(localStorage.getItem('chatMessages'))?.length === 0
+    ) {
       handleContentChange(
         'Generate a data table component for organizing a list of data, UI library documents, which have been upserted into a vector database'
       );
@@ -95,7 +103,7 @@ export const ChatApp = () => {
       setIsFirstMessage(false);
     }
   }, [messages, userInput, isFirstMessage]);
-
+  /* --- fn() to handle the scroll to bottom --- */
   useEffect(() => {
     const fetchData = async () => {
       await handleGetSessionMessages();
@@ -114,7 +122,7 @@ export const ChatApp = () => {
       setLoading(false);
     }
   }, []);
-
+  /* --- fn() to handle the chat abort option --- */
   useEffect(() => {
     return () => {
       if (controllerRef.current) {
@@ -122,7 +130,7 @@ export const ChatApp = () => {
       }
     };
   }, []);
-
+  /* --- fn() to handle the chat messages --- */
   useEffect(() => {
     const filterMessagesWithContent = messages => {
       const seen = new Set();
@@ -160,57 +168,106 @@ export const ChatApp = () => {
   }
   return (
     <Box
+      // sx={{
+      //   flexGrow: 1,
+      //   marginLeft: '60px', // Adjust to match the sidebar padding
+      //   display: 'flex',
+      //   flexDirection: 'column',
+      //   width: 'calc(100% - 40px)', // Assuming the sidebar width is 240px + 16px padding
+      // }}
       sx={{
+        flexGrow: 1,
+        marginLeft: isMobile && !isSidebarOpen ? '0px' : '50px', // Adjust margin based on sidebar visibility
         display: 'flex',
         flexDirection: 'column',
-        height: '100vh',
+        width: isMobile && !isSidebarOpen ? '100%' : 'calc(100% - 24px)', // Expand width when sidebar is closed
+        transition: 'margin-left 0.3s ease-in-out, width 0.3s ease-in-out', // Smooth transition
       }}
     >
-      <ChatWindow theme={theme} elevation={3}>
-        <StyledChatContainer
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100vh',
+        }}
+      >
+        <Paper
           theme={theme}
-          ref={chatContainerRef}
-          component={Grid}
-          item
-          xs={12}
+          elevation={3}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: 'calc(100vh - 8px)',
+            width: `calc(100% - 60px)`,
+            margin: 'auto',
+            [theme.breakpoints.down('sm')]: {
+              height: '100vh',
+              width: '100%',
+            },
+          }}
         >
-          <ChatHeader />
           <Box
-            onScroll={handleScroll}
+            theme={theme}
+            ref={chatContainerRef}
+            component={Grid}
+            item
+            xs={12}
             sx={{
-              flexGrow: 1,
-              overflowY: 'auto',
-              padding: theme.spacing(2),
+              display: 'flex',
+              flexDirection: 'column',
+              backgroundColor: '#1C1C1C',
+              width: '100%',
+              height: '100%',
+              borderRadius: '14px',
+              overflow: 'auto', // Allow scrolling
               maxWidth: '100%',
+              flexGrow: 1,
             }}
           >
-            <div ref={messagesStartRef} />
-            <MessageBox messages={messages} />
-            <div ref={messagesEndRef} />
-            {error && (
-              <Typography color="error" variant="body2">
-                {error}
-              </Typography>
-            )}
-            {loading && <CircularProgress />}
+            <ChatHeader />
+            <Box
+              onScroll={handleScroll}
+              sx={{
+                flexGrow: 1,
+                overflowY: 'auto',
+                padding: theme.spacing(2),
+                height: '100%',
+                width: '100%',
+                maxWidth: '100%',
+                maxHeight: '100%',
+              }}
+            >
+              <div ref={messagesStartRef} />
+              <MessageBox messages={messages} />
+              <div ref={messagesEndRef} />
+              {error && (
+                <Typography color="error" variant="body2">
+                  {error}
+                </Typography>
+              )}
+              {loading && <CircularProgress />}
+            </Box>
+            <MessageInput
+              theme={theme}
+              disabled={loading}
+              editorRef={editorActiveRef}
+              initialContent={userInput}
+              isFirstMessage={isFirstMessageReceived}
+              setIsEditorActive={setIsEditorActive}
+              setError={setError}
+              onContentChange={handleContentChange}
+              handleSendMessage={handleSendMessage}
+              handleRegenerateResponse={handleRegenerateResponse}
+              handleStop={handleStop}
+              value={userInput}
+              onChange={handleContentChange} // Use the editor's content change handler
+              onSend={handleSendMessage}
+            />
           </Box>
-          <MessageInput
-            theme={theme}
-            disabled={loading}
-            editorRef={editorActiveRef}
-            initialContent={userInput}
-            isFirstMessage={isFirstMessageReceived}
-            setIsEditorActive={setIsEditorActive}
-            setError={setError}
-            onContentChange={handleContentChange}
-            handleSendMessage={handleSendMessage}
-            handleRegenerateResponse={handleRegenerateResponse}
-            handleStop={handleStop}
-          />
-        </StyledChatContainer>
-      </ChatWindow>
+        </Paper>
+      </Box>
     </Box>
   );
 };
 
-export default ChatApp;
+export default MainChat;

@@ -1,6 +1,5 @@
 import { Box, Typography } from '@mui/material';
 import { StyledButton } from 'components/chat/styled';
-import { DisplayDropdownMenus } from 'components/themed';
 
 export const WorkspaceItemValues = (
   workspaces,

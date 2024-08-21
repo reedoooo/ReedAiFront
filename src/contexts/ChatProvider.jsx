@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import {
@@ -135,6 +135,8 @@ export const ChatProvider = ({ children }) => {
   const model = useSelector(selectModel);
   const preset = useSelector(selectPreset);
   const prompt = useSelector(selectPrompt);
+  const [messages, setMessages] = useState([]);
+
   const state = {
     ...workspace,
     ...baseChat,
@@ -146,11 +148,11 @@ export const ChatProvider = ({ children }) => {
     ...model,
     ...preset,
     ...prompt,
+    messages,
   };
   const userStore = JSON.parse(localStorage.getItem('userStore'));
-  const user = userStore?.user;
-
   const dispatch = useDispatch();
+
   useEffect(() => {
     const initializeUserData = async () => {
       try {
@@ -164,6 +166,7 @@ export const ChatProvider = ({ children }) => {
   }, [dispatch]);
 
   const actions = {
+    setMessages: messages => setMessages(messages),
     // ===========================================
     // [WORKSPACE STORE]
     // ===========================================

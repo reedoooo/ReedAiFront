@@ -1,14 +1,12 @@
 import { UserIcon } from '@heroicons/react/24/outline';
-import { Box, IconButton, Tab, Tabs, Typography } from '@mui/material';
-import { styled } from '@mui/system';
+import { Box, IconButton, Tab, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { FaSignOutAlt } from 'react-icons/fa';
+import { StyledButton } from 'components/chat/styled';
 import {
-  StyledButton,
-  StyledTextareaAutosize,
-  StyledTextField,
-  StyledMuiTabs,
-} from 'components/chat/styled';
+  RCTabs,
+  TextAreaAutosizeSection,
+  TextFieldSection,
+} from 'components/themed';
 import { useUserStore } from 'contexts';
 import { useMode } from 'hooks';
 
@@ -36,6 +34,7 @@ export const User = () => {
   const [googleGeminiAPIKey, setGoogleGeminiAPIKey] = useState(
     profile?.google_gemini_api_key || ''
   );
+  const tabs = [{ label: 'Main' }, { label: 'Defaults' }, { label: 'Folders' }];
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -63,7 +62,13 @@ export const User = () => {
           background: '#1c1c1c', // Slightly different background for the panel to distinguish it
         }}
       >
-        <StyledMuiTabs
+        <RCTabs
+          value={tab}
+          onChange={(e, newValue) => setTab(newValue)}
+          tabs={tabs}
+          variant="default"
+        />
+        {/* <StyledMuiTabs
           value={tab}
           onChange={(e, newValue) => setTab(newValue)}
           indicatorColor="#fff"
@@ -74,7 +79,7 @@ export const User = () => {
             style={{ color: '#fff', borderRadius: '5px' }}
           />
           <Tab label="Account" style={{ color: '#fff', borderRadius: '5px' }} />
-        </StyledMuiTabs>
+        </StyledMuiTabs> */}
       </Box>
       {tab === 0 && (
         <Box
@@ -86,22 +91,22 @@ export const User = () => {
             justifyContent: 'space-between',
           }}
         >
-          <StyledTextField
+          <TextFieldSection
             label="Username"
             value={username}
             onChange={e => setUsername(e.target.value)}
+            variant="darkMode"
             fullWidth
-            margin="normal"
           />
           <StyledButton variant="outlined" component="label">
             Choose File <input type="file" hidden />
           </StyledButton>
-          <StyledTextField
+          <TextFieldSection
             label="Chat Display Name"
             value={chatDisplayName}
             onChange={e => setChatDisplayName(e.target.value)}
+            variant="darkMode"
             fullWidth
-            margin="normal"
           />
           {/* <RCInput
             variant="base"
@@ -111,12 +116,12 @@ export const User = () => {
             fullWidth
             margin="normal"
           /> */}
-          <StyledTextareaAutosize
+          <TextAreaAutosizeSection
             minRows={3}
             placeholder="Profile context... (optional)"
             value={profileContext}
             onChange={e => setProfileContext(e.target.value)}
-            theme={theme}
+            variant="darkMode"
           />
           <Box>
             <StyledButton variant="outlined" style={{ marginRight: '10px' }}>

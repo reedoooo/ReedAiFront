@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { lazy, Suspense, useMemo } from 'react';
 import { UserMessage, AssistantMessage } from './MessagesMemoized';
@@ -15,21 +15,36 @@ export const MessageBox = props => {
   }, [messages]);
 
   return (
-    <Box
+    <Container
       sx={{
-        borderRadius: 'theme.shape.borderRadius',
-        marginTop: 4,
-        overflowY: 'auto',
-        flexGrow: 1,
+        display: 'flex',
+        justifyContent: 'center',
+        p: 3,
+        width: '90%',
+        maxWidth: '90%',
+        mx: 'auto',
+        // borderRadius: 'theme.shape.borderRadius',
+        // marginTop: 4,
+        // overflowY: 'auto',
+        // flexGrow: 1,
       }}
     >
-      <Box
+      <Container
         sx={{
-          p: 2,
-          flexGrow: 1,
-          overflowY: 'auto',
+          position: 'relative',
           display: 'flex',
           flexDirection: 'column',
+          p: 3,
+          width: '90%',
+          maxWidth: '90%',
+          mx: 'auto',
+          // width: { sm: 550, md: 650, xl: 700 },
+          // maxWidth: { sm: 550, md: 650, xl: 700 },
+          // p: 2,
+          // flexGrow: 1,
+          // overflowY: 'auto',
+          // display: 'flex',
+          // flexDirection: 'column',
         }}
       >
         {groupedMessages.map((group, index) => (
@@ -40,6 +55,10 @@ export const MessageBox = props => {
               flexDirection: 'column',
               alignItems: group[0]?.role === 'user' ? 'flex-end' : 'flex-start',
               mb: 2,
+              // maxWidth: '100%',
+              width: '100%',
+              maxWidth: '100%',
+              mx: 'auto',
             }}
           >
             {group.map((message, subIndex) => (
@@ -47,9 +66,14 @@ export const MessageBox = props => {
                 key={subIndex}
                 sx={{
                   display: 'flex',
-                  flexDirection:
-                    message.role === 'user' ? 'row-reverse' : 'row',
+                  flexDirection: 'column',
+                  padding: { xs: '10px', sm: '15px', md: '20px' },
+                  height: '100%',
                   maxWidth: '100%',
+                  // overflowX: 'auto',
+                  // display: 'flex',
+                  // flexDirection:
+                  //   message.role === 'user' ? 'row-reverse' : 'row',
                   flexGrow: 1,
                 }}
               >
@@ -62,8 +86,8 @@ export const MessageBox = props => {
             ))}
           </Box>
         ))}
-      </Box>
-    </Box>
+      </Container>
+    </Container>
   );
 };
 

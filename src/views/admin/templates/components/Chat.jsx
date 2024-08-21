@@ -31,7 +31,6 @@ import {
   MdTag,
   MdVpnKey,
 } from 'react-icons/md';
-import { getGeneralChatResponse } from 'api/index';
 import { APIModal } from 'components/chat/inputs/toolbar';
 import { MessageBox } from 'components/chat/messages';
 import constants from 'config/constants';
@@ -108,7 +107,8 @@ export default function Chat(props) {
       formData.append('modelData', modelData);
       formData.append('apiKey', apiKey);
 
-      const data = await getGeneralChatResponse(formData);
+      // const data = await getGeneralChatResponse(formData);
+      const data = {};
       setResponse(data);
     } catch (error) {
       console.error('Error fetching chat response:', error);

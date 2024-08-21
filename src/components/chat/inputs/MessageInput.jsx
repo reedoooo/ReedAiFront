@@ -1,19 +1,17 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  IconButton,
-} from '@mui/material';
+import { Box, Card, CardActions, CardContent, IconButton } from '@mui/material';
 import { EditorContent } from '@tiptap/react';
 import React, { useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { SendIcon, StopCircleIcon } from 'assets/humanIcons';
 import { DarkIconBox } from 'assets/humanIcons/utils';
 import { useChatStore } from 'contexts';
-import { useChatHistoryHandler, useDialog, useTipTapEditor } from 'hooks';
-import { File, FileDisplay, FileUploadButton } from '../files';
+import {
+  useChatHistoryHandler,
+  useDialog,
+  useMode,
+  useTipTapEditor,
+} from 'hooks';
+import { FileDisplay, FileUploadButton } from '../files';
 import {
   ChatMessageActionsContainer,
   ChatMessageEditorContentsContainer,
@@ -21,30 +19,41 @@ import {
 import { InputActions } from './toolbar';
 
 export const MessageInput = ({
-  theme,
-  handleSendMessage,
-  disabled,
+  disabled, // loading state for the send button
   setIsEditorActive,
   editorRef,
-  setFileInput,
-  isFirstMessage,
-  onContentChange,
+  onSend,
+  onChange,
 }) => {
   const apiKeyDialog = useDialog();
   const chatStore = useChatStore();
+  const { theme } = useMode();
   const {
-    state: { files, showFilesDisplay, userInput },
-    actions: { setShowFilesDisplay },
+    state: { files, showFilesDisplay, isFirstMessage },
+    actions: { setShowFilesDisplay, setUserInput },
   } = chatStore;
   const {
     setNewMessageContentToNextUserMessage,
     setNewMessageContentToPreviousUserMessage,
   } = useChatHistoryHandler();
+  const { editor, handleContentTypeChange } = useTipTapEditor(
+    isFirstMessage ? 'begin session' : 'continue session'
+  );
   const handleSendMessageWrapper = async () => {
-    await handleSendMessage();
+    if (!JSON.parse(localStorage.getItem('baseChatStore')).apiKey) {
+      apiKeyDialog.handleOpen();
+      return;
+    }
+
+    if (disabled) {
+      console.log('Already Sending');
+      return;
+    }
+
+    console.log('Sending');
     editor.commands.clearContent(); // Clear the editor content
+    await onSend();
   };
-  const { editor } = useTipTapEditor(userInput);
 
   useEffect(() => {
     if (editor) {
@@ -85,18 +94,18 @@ export const MessageInput = ({
       >
         <Box
           sx={{
-            display: !showFilesDisplay || files.length === 0 ? 'none' : 'flex',
+            display: !showFilesDisplay || files?.length === 0 ? 'none' : 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: '100%',
           }}
         >
-          <FileDisplay
+          {/* <FileDisplay
             files={files}
             hidden={!showFilesDisplay || files.length === 0}
-          />
+          /> */}
         </Box>
-        <ChatMessageActionsContainer>
+        {/* <ChatMessageActionsContainer>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <IconButton
               onClick={() => setShowFilesDisplay(!showFilesDisplay)}
@@ -120,12 +129,12 @@ export const MessageInput = ({
             <InputActions
               editor={editor}
               handleOpenApiModal={apiKeyDialog.handleOpen}
-              setUserInput={onContentChange}
-              setFileInput={setFileInput}
+              setUserInput={onChange}
+              // setFileInput={setFileInput}
               isFirstMessage={isFirstMessage}
             />
           </Box>
-        </ChatMessageActionsContainer>
+        </ChatMessageActionsContainer> */}
       </CardActions>
       <CardContent>
         <ChatMessageActionsContainer>

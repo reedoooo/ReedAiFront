@@ -1,7 +1,5 @@
-import { TextareaAutosize } from '@mui/material';
-import { styled } from '@mui/system';
-import React from 'react';
 import { StyledTextareaAutosize } from 'components/chat/styled';
+import React from 'react';
 
 /**
  * @typedef {Object} TextareaAutosizeProps

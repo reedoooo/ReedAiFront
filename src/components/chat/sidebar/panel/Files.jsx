@@ -1,4 +1,4 @@
-import { Tab, Typography, Box, IconButton } from '@mui/material';
+import { Box, IconButton, Tab, Typography } from '@mui/material';
 import { useState } from 'react';
 import { FaSave } from 'react-icons/fa';
 import { StyledMuiTabs } from 'components/chat/styled';

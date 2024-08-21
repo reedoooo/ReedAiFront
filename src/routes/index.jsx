@@ -35,7 +35,7 @@ const SignUpCentered = Loadable(lazy(() => import('views/auth/signUp')));
 const MainDashboard = Loadable(lazy(() => import('views/admin/default')));
 const UserProfile = Loadable(lazy(() => import('views/admin/profile')));
 
-const ChatBot = Loadable(lazy(() => import('views/admin/chat')));
+const ChatMain = lazy(() => import('views/admin/chat'));
 const Templates = Loadable(lazy(() => import('views/admin/templates')));
 
 export const customHistory = createBrowserHistory();
@@ -134,7 +134,11 @@ const adminRoutes = [
             title: 'ChatHome',
             path: 'chat-home',
             breadcrumb: 'Chat Home',
-            element: <ChatBot />,
+            element: (
+              <Suspense fallback={<LoadingIndicator />}>
+                <ChatMain />
+              </Suspense>
+            ),
             icon: <HomeIcon />,
             description: 'Chat Bot',
             functionalStatus: true,
@@ -145,23 +149,23 @@ const adminRoutes = [
             title: 'ChatSession',
             path: ':id', // Dynamic route for chat session
             breadcrumb: 'Chat Session',
-            element: <ChatBot />, // Replace with the component handling the chat session
+            element: <ChatMain />, // Replace with the component handling the chat session
             icon: <DocumentScannerRoundedIcon />,
             description: 'Chat Sessions',
             functionalStatus: true,
             collapse: false,
           },
-          {
-            name: 'Assistants',
-            title: 'Assistants',
-            path: 'chat-assistants',
-            breadcrumb: 'Chat Assistants',
-            element: <ChatBot />, // Replace with the component handling the chat session
-            icon: <DocumentScannerRoundedIcon />,
-            description: 'Assistants Api',
-            functionalStatus: true,
-            collapse: false,
-          },
+          // {
+          //   name: 'Assistants',
+          //   title: 'Assistants',
+          //   path: 'chat-assistants',
+          //   breadcrumb: 'Chat Assistants',
+          //   element: <ChatMain />, // Replace with the component handling the chat session
+          //   icon: <DocumentScannerRoundedIcon />,
+          //   description: 'Assistants Api',
+          //   functionalStatus: true,
+          //   collapse: false,
+          // },
         ],
       },
       {
@@ -183,7 +187,7 @@ const adminRoutes = [
             title: 'Chat',
             path: 'chat',
             breadcrumb: 'Chat',
-            element: <ChatBot />,
+            element: <ChatMain />,
             icon: <HomeIcon />,
             description: 'Chat Bot',
             functionalStatus: true,
@@ -194,7 +198,7 @@ const adminRoutes = [
                 title: ':sessionId',
                 path: ':sessionId', // Dynamic route for chat session
                 breadcrumb: ':sessionId',
-                element: <ChatBot />, // Replace with the component handling the chat session
+                element: <ChatMain />, // Replace with the component handling the chat session
                 icon: <DocumentScannerRoundedIcon />,
                 description: 'Chat Sessions',
                 functionalStatus: true,

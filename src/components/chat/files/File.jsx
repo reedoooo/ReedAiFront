@@ -1,27 +1,44 @@
 import { Box, IconButton, Typography } from '@mui/material';
+import React, { useCallback } from 'react';
 import { FiX } from 'react-icons/fi';
 import { FileIcon } from '@/lib/fileUtils';
 import { useFileProcesser } from 'hooks';
 
-export const File = props => {
+export const File = React.memo(props => {
   const { file, hidden } = props;
-  console.log('File:', file);
   const { handleRemoveFile } = useFileProcesser();
-  const isImage =
-    file.type === 'image' ||
-    file.type === 'image/jpeg' ||
-    file.type === 'image/png' ||
-    file.type === 'image/gif' ||
-    file.type === 'image/webp' ||
-    file.type === 'image/svg+xml';
+
+  // Memoize the isImage calculation
+  const isImage = useCallback(() => {
+    return [
+      'image',
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'image/webp',
+      'image/svg+xml',
+    ].includes(file.type);
+  }, [file.type]);
+
+  // Memoize the handleRemove function
+  const handleRemove = useCallback(() => {
+    handleRemoveFile(file.id);
+  }, [handleRemoveFile, file.id]);
+
+  // Check if file object is valid
+  if (!file || !file.id || !file.name || !file.data) {
+    console.error('Invalid file object:', file);
+    return null;
+  }
+
   return (
     <Box
-      position="relative" // Make the parent container position relative
+      position="relative"
       color={'#BDBDBD'}
       sx={{
         display: 'flex',
         flexDirection: 'row',
-        alignItem: hidden ? 'flex-start' : 'center', // Align items differently based on state
+        alignItems: hidden ? 'flex-start' : 'center',
         p: hidden ? 0.5 : 1,
         width: hidden ? 'auto' : '100%',
         maxWidth: hidden ? 'auto' : 400,
@@ -35,10 +52,10 @@ export const File = props => {
         border: '1px solid #BDBDBD',
       }}
     >
-      {isImage ? (
+      {isImage() ? (
         <Box
           component="img"
-          src={file?.data}
+          src={file.data}
           alt={file.name}
           sx={{ width: 50, height: 50, objectFit: 'cover', borderRadius: 1 }}
         />
@@ -53,16 +70,13 @@ export const File = props => {
           {!hidden && (
             <Box flexGrow={1} flexDirection="row" height={20}>
               <Typography variant="body2">{file.name}</Typography>
-              {/* <Typography variant="caption" color="textSecondary">
-                {file.size}
-              </Typography> */}
             </Box>
           )}
         </Box>
       )}
       <IconButton
         className="delete-button"
-        onClick={() => handleRemoveFile(file.id)}
+        onClick={handleRemove}
         sx={{
           position: 'absolute',
           top: '50%',
@@ -76,6 +90,8 @@ export const File = props => {
       </IconButton>
     </Box>
   );
-};
+});
+
+File.displayName = 'File';
 
 export default File;

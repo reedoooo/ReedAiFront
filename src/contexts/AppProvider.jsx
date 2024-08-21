@@ -7,7 +7,6 @@ export const AppContext = createContext(null);
 export const AppProvider = ({ children }) => {
   const state = useSelector(state => state.app);
   const dispatch = useDispatch();
-
   const actions = {
     setSidebarOpen: collapsed => dispatch(setSidebarOpen(collapsed)),
     setTheme: theme => dispatch(setTheme(theme)),

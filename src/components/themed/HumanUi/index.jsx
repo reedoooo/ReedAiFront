@@ -18,4 +18,5 @@ export * from './RCSelect/RCSelectRoot';
 export * from './RCSelect/RCOption';
 export * from './RCSelect/RCPopup';
 export * from './RCSelect/RCListBox';
+export * from './RCTabs';
 export * from './RCComposables';

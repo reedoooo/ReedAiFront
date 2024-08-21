@@ -8,3 +8,4 @@ export * from './useNotification';
 export * from './useTabs';
 export * from './useSelect';
 export * from './useChatScroll';
+export * from './useBreakPoint';
