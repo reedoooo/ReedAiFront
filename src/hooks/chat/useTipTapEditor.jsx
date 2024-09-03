@@ -1,17 +1,26 @@
 import { useEditor } from '@tiptap/react';
 import { StarterKit } from '@tiptap/starter-kit';
-import { useState, useCallback } from 'react';
+import { debounce } from 'lodash';
+import { useState, useCallback, useEffect } from 'react';
 import { useChatStore } from 'contexts/ChatProvider'; // Import the context
 
 export const useTipTapEditor = (initialContent = '') => {
   const [content, setContent] = useState(initialContent);
   const [contentType, setContentType] = useState('markdown');
+  const [isInitialMessageAdded, setIsInitialMessageAdded] = useState(false);
 
   // Destructure the actions from the chat store
   const {
     actions: { setUserInput, setMessages },
     state: { messages },
   } = useChatStore();
+  // Create a debounced version of setUserInput
+  const debouncedSetUserInput = useCallback(
+    debounce(input => {
+      setUserInput(input);
+    }, 300), // Adjust the debounce delay as needed
+    []
+  );
 
   // Initialize the editor with extensions and content
   const editor = useEditor({
@@ -19,8 +28,10 @@ export const useTipTapEditor = (initialContent = '') => {
     content: initialContent,
     onUpdate: ({ editor }) => {
       const output = editor.getText();
-      setContent(output);
-      setUserInput(output); // Update the user input in the chat store
+      if (output !== content) {
+        setContent(output);
+        debouncedSetUserInput(output);
+      }
     },
   });
 
@@ -31,26 +42,41 @@ export const useTipTapEditor = (initialContent = '') => {
       if (editor) {
         const output = editor.getText();
         setContent(output);
-        setUserInput(output); // Update the user input in the chat store
+        // setUserInput(output); // Update the user input in the chat store
       }
     },
-    [editor, setUserInput]
+    [editor]
   );
 
-  // Custom command to insert content and update messages
   const insertContentAndSync = useCallback(
     newContent => {
       if (editor) {
         editor.commands.insertContent(newContent);
         const updatedContent = editor.getText();
         setContent(updatedContent);
-        setUserInput(updatedContent); // Sync with chat store
+        debouncedSetUserInput(updatedContent); // Sync with chat store
         setMessages([...messages, { role: 'user', content: updatedContent }]); // Update messages
       }
     },
-    [editor, setUserInput, setMessages, messages]
+    [editor, debouncedSetUserInput, setMessages, messages]
   );
-
+  // Effect to handle the initial message setup
+  useEffect(() => {
+    if (!isInitialMessageAdded && messages.length === 0) {
+      const savedMessages =
+        JSON.parse(localStorage.getItem('chatMessages')) || [];
+      if (savedMessages.length === 0) {
+        setMessages([
+          {
+            role: 'system',
+            content:
+              'Generate a data table component for organizing a list of data, UI library documents, which have been upserted into a vector database',
+          },
+        ]);
+        setIsInitialMessageAdded(true);
+      }
+    }
+  }, [isInitialMessageAdded, messages, setMessages]);
   return {
     editor,
     content,

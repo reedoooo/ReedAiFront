@@ -217,7 +217,7 @@ export const Workspace = () => {
           <FiSettings />
         </IconButton>
       </PanelHeaderRow>
-      <Box
+      {/* <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -227,14 +227,26 @@ export const Workspace = () => {
           borderRadius: '14px',
           background: '#1c1c1c', // Slightly different background for the panel to distinguish it
         }}
-      >
-        <RCTabs
-          value={tab}
-          onChange={(e, newValue) => setTab(newValue)}
-          tabs={tabs}
-          variant="default"
-        />
-        {/* <StyledMotionTabs
+      > */}
+      {/* <Box
+        sx={{
+          // display: 'flex',
+          // flexDirection: 'column',
+          // alignItems: 'center',
+          padding: '0.5rem',
+          // color: 'white',
+          // borderRadius: '14px',
+          // background: '#1c1c1c', // Slightly different background for the panel to distinguish it
+        }}
+      > */}
+      <RCTabs
+        value={tab}
+        onChange={(e, newValue) => setTab(newValue)}
+        tabs={tabs}
+        variant="darkMode"
+      />
+      {/* </Box> */}
+      {/* <StyledMotionTabs
           value={tab}
           onChange={(e, newValue) => setTab(newValue)}
           indicatorColor="#fff"
@@ -245,8 +257,8 @@ export const Workspace = () => {
             style={{ color: '#fff', borderRadius: '5px' }}
           />
           <Tab label="Folders" style={{ color: '#fff', borderRadius: '5px' }} />
-        </StyledMotionTabs> */}
-      </Box>
+        </StyledMotionTabs>
+      </Box> */}
       {tab === 0 && <WorkspaceCreatorForm />}
       {tab === 1 && (
         <WorkspaceItemValues

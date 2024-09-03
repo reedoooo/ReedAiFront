@@ -36,7 +36,7 @@ export const MessageInput = ({
     setNewMessageContentToNextUserMessage,
     setNewMessageContentToPreviousUserMessage,
   } = useChatHistoryHandler();
-  const { editor, handleContentTypeChange } = useTipTapEditor(
+  const { editor } = useTipTapEditor(
     isFirstMessage ? 'begin session' : 'continue session'
   );
   const handleSendMessageWrapper = async () => {
@@ -55,31 +55,27 @@ export const MessageInput = ({
     await onSend();
   };
 
-  useEffect(() => {
-    if (editor) {
-      editor.on('focus', () => {
-        setIsEditorActive(true);
-        editorRef.current = true;
-      });
-      editor.on('blur', () => {
-        setIsEditorActive(false);
-        editorRef.current = false;
-      });
-    }
+  // useEffect(() => {
+  //   if (editor) {
+  //     const handleFocus = () => {
+  //       setIsEditorActive(true);
+  //       editorRef.current = true;
+  //     };
 
-    return () => {
-      if (editor) {
-        editor.off('focus', () => {
-          setIsEditorActive(true);
-          editorRef.current = true;
-        });
-        editor.off('blur', () => {
-          setIsEditorActive(false);
-          editorRef.current = false;
-        });
-      }
-    };
-  }, [editor, setIsEditorActive, editorRef]);
+  //     const handleBlur = () => {
+  //       setIsEditorActive(false);
+  //       editorRef.current = false;
+  //     };
+
+  //     editor.on('focus', handleFocus);
+  //     editor.on('blur', handleBlur);
+
+  //     return () => {
+  //       editor.off('focus', handleFocus);
+  //       editor.off('blur', handleBlur);
+  //     };
+  //   }
+  // }, [editor, setIsEditorActive, editorRef]);
 
   return (
     <Card sx={{ backgroundColor: '#26242C', borderRadius: 2, mt: 2, mb: 2 }}>
@@ -100,12 +96,12 @@ export const MessageInput = ({
             width: '100%',
           }}
         >
-          {/* <FileDisplay
+          <FileDisplay
             files={files}
             hidden={!showFilesDisplay || files.length === 0}
-          /> */}
+          />
         </Box>
-        {/* <ChatMessageActionsContainer>
+        <ChatMessageActionsContainer>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <IconButton
               onClick={() => setShowFilesDisplay(!showFilesDisplay)}
@@ -134,7 +130,7 @@ export const MessageInput = ({
               isFirstMessage={isFirstMessage}
             />
           </Box>
-        </ChatMessageActionsContainer> */}
+        </ChatMessageActionsContainer>
       </CardActions>
       <CardContent>
         <ChatMessageActionsContainer>

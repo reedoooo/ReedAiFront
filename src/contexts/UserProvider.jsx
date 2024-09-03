@@ -6,9 +6,9 @@ import {
   refreshAccessToken,
   setIsRedirectToSignin,
   setUser,
-  setIsAuthenticated,
   setProfile,
   setSelectedProfileImage,
+  setIsAuthenticated,
 } from 'store/Slices';
 
 const UserContext = createContext(null);

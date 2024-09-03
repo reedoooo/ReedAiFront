@@ -17,6 +17,8 @@ import {
   StyledMuiTabs,
   StyledTextField,
 } from 'components/chat/styled';
+import { RCTabs } from 'components/themed';
+import { useChatStore } from 'contexts/ChatProvider';
 import { useChatHandler } from 'hooks/chat';
 const ConversationMenu = ({
   anchorEl,
@@ -31,7 +33,12 @@ const ConversationMenu = ({
   </Menu>
 );
 export const ChatSession = () => {
-  const { handleGetSessionMessages } = useChatHandler();
+  const chatStore = useChatStore();
+  const {
+    state: { messages },
+    actions: { setMessages },
+  } = chatStore;
+  const { handleGetSessionMessages } = useChatHandler(messages, setMessages);
   const [tab, setTab] = useState(0);
   const [conversations, setConversations] = useState(null);
   const [conversationMessages, setConversationMessages] = useState(null);
@@ -93,6 +100,10 @@ export const ChatSession = () => {
   const handleDeleteConversation = id => {
     setConversations(conversations?.filter(conv => conv.id !== id));
   };
+  const tabs = [
+    { label: 'Conversations', value: 0 },
+    { label: 'Settings', value: 1 },
+  ];
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
@@ -100,7 +111,13 @@ export const ChatSession = () => {
         Conversation History
         <FaSignOutAlt style={{ float: 'right', cursor: 'pointer' }} />
       </Typography>
-      <Box
+      <RCTabs
+        value={tab}
+        onChange={(e, newValue) => setTab(newValue)}
+        tabs={tabs}
+        variant="darkMode"
+      />
+      {/* <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -125,7 +142,7 @@ export const ChatSession = () => {
             style={{ color: '#fff', borderRadius: '5px' }}
           />
         </StyledMuiTabs>
-      </Box>
+      </Box> */}
       {tab === 0 && (
         <Box sx={{ padding: '1rem', flexGrow: 1, overflowY: 'auto' }}>
           {conversations?.map(conversation => (

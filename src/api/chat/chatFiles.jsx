@@ -71,7 +71,7 @@ export const chatFiles = {
   },
   upsertData: async docs => {
     try {
-      const data = await apiUtils.post(`/chat/vectors/upsert-docs`, docs);
+      const data = await apiUtils.post(`/chat/files/upsert-docs`, docs);
       return data;
     } catch (error) {
       console.error('Error fetching chat file data:', error);

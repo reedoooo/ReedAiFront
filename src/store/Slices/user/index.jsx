@@ -9,7 +9,7 @@ import userReducer, {
   setIsAuthenticated,
   setUserOpenAiSettings,
   setIsRedirectToSignin,
-  fetchAndSetUserData,
+  setAuthUserData,
   handleAuthSubmit,
   logout,
   refreshAccessToken,
@@ -38,7 +38,7 @@ export {
   setAuthTokens,
   setIsAuthenticated,
   setUserOpenAiSettings,
-  fetchAndSetUserData,
+  setAuthUserData,
 };
 
 // Exporting reducers

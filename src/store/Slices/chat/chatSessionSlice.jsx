@@ -62,8 +62,8 @@ export const chatSessionsSlice = createSlice({
     },
     setSessionHeader: (state, action) => {
       console.log('setSessionHeader action payload', action.payload);
-      setLocalSessionData({ ...state, sessionHeader: action.payload });
       state.sessionHeader = action.payload;
+      setLocalSessionData({ ...state, sessionHeader: action.payload });
     },
     setActiveSessionId: (state, action) => {
       console.log('setActiveSessionId action payload', action.payload);

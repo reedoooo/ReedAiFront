@@ -136,9 +136,10 @@ export const AuthPages = () => {
   };
   useEffect(() => {
     if (isAuthenticated) {
+      console.log('User is authenticated');
       return navigate('/admin/dashboard');
     }
-  }, [isAuthenticated]); // Add dependencies as needed
+  }, [isAuthenticated, navigate]); // Add dependencies as needed
 
   return (
     <div>

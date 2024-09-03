@@ -252,18 +252,16 @@ export const useChatHandler = (messages, setMessages) => {
       setLoading(false);
     }
   }, [
+    userId,
     userInput,
+    setMessages,
     messages,
-    controllerRef,
     sessionId,
     workspaceId,
     isRegenerating,
-    userId,
-    setIsRedirectToSignin,
+    messageCount,
     clearInput,
     setIsMessagesUpdated,
-    setChatMessages,
-    messageCount, // Include messageCount in dependencies
   ]);
 
   const handleRegenerateResponse = useCallback(async () => {

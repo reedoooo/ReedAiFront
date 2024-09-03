@@ -1,4 +1,5 @@
 import { Box, Button, MenuItem, Select } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import {
   StyledButton,
   StyledTextareaAutosize,
@@ -6,7 +7,6 @@ import {
   TabContentContainer,
 } from 'components/chat/styled';
 import { useChatStore } from 'contexts/ChatProvider';
-import React, { useEffect, useState } from 'react';
 import {
   FormSection,
   ReusableSliderField,
@@ -18,42 +18,48 @@ export const AssistantDisplay = props => {
     state: { assistants, selectedAssistant },
     actions: { deleteAssistant, setSelectedAssistant, createAssistant },
   } = useChatStore();
-  const [formObject, setFormObject] = useState({
-    name: selectedAssistant.name,
-    role: selectedAssistant.role,
-    instructions: selectedAssistant.instructions,
-    model: selectedAssistant.model,
-    tools: selectedAssistant.tools,
-    file_search: selectedAssistant.file_search,
-    code_interpreter: selectedAssistant.code_interpreter,
-    functions: selectedAssistant.functions,
+
+  // Add a check for selectedAssistant being undefined or null
+  const initialFormObject = {
+    name: selectedAssistant?.name || '',
+    role: selectedAssistant?.role || '',
+    instructions: selectedAssistant?.instructions || '',
+    model: selectedAssistant?.model || '',
+    tools: selectedAssistant?.tools || [],
+    file_search: selectedAssistant?.file_search || false,
+    code_interpreter: selectedAssistant?.code_interpreter || false,
+    functions: selectedAssistant?.functions || [],
     model_configuration: {
-      response_format: selectedAssistant.response_format,
-      temperature: selectedAssistant.temperature,
-      top_p: selectedAssistant.top_p,
+      response_format:
+        selectedAssistant?.model_configuration?.response_format || false,
+      temperature: selectedAssistant?.model_configuration?.temperature || 0.5,
+      top_p: selectedAssistant?.model_configuration?.top_p || 0.5,
     },
-    temperature: selectedAssistant.temperature,
-    top_p: selectedAssistant.top_p,
-  });
+    temperature: selectedAssistant?.temperature || 0.5,
+    top_p: selectedAssistant?.top_p || 0.5,
+  };
+
+  const [formObject, setFormObject] = useState(initialFormObject);
 
   useEffect(() => {
     // Sync formObject with selectedAssistant when selectedAssistant changes
     setFormObject({
-      name: selectedAssistant.name,
-      role: selectedAssistant.role,
-      instructions: selectedAssistant.instructions,
-      model: selectedAssistant.model,
-      tools: selectedAssistant.tools,
-      file_search: selectedAssistant.file_search,
-      code_interpreter: selectedAssistant.code_interpreter,
-      functions: selectedAssistant.functions,
+      name: selectedAssistant?.name || '',
+      role: selectedAssistant?.role || '',
+      instructions: selectedAssistant?.instructions || '',
+      model: selectedAssistant?.model || '',
+      tools: selectedAssistant?.tools || [],
+      file_search: selectedAssistant?.file_search || false,
+      code_interpreter: selectedAssistant?.code_interpreter || false,
+      functions: selectedAssistant?.functions || [],
       model_configuration: {
-        response_format: selectedAssistant.response_format,
-        temperature: selectedAssistant.temperature,
-        top_p: selectedAssistant.top_p,
+        response_format:
+          selectedAssistant?.model_configuration?.response_format || false,
+        temperature: selectedAssistant?.model_configuration?.temperature || 0.5,
+        top_p: selectedAssistant?.model_configuration?.top_p || 0.5,
       },
-      temperature: selectedAssistant.temperature,
-      top_p: selectedAssistant.top_p,
+      temperature: selectedAssistant?.temperature || 0.5,
+      top_p: selectedAssistant?.top_p || 0.5,
     });
   }, [selectedAssistant]);
 
@@ -70,6 +76,7 @@ export const AssistantDisplay = props => {
     // Update the assistant in the store only when the form is submitted
     createAssistant(formObject);
   };
+
   return (
     <TabContentContainer>
       <Box sx={{ mt: 2 }}>

@@ -84,25 +84,6 @@ export const MainChat = () => {
       dialogRef.current.style.top = `${topPosition}px`;
     }
   }, [promptsMenu.isOpen]);
-  /* --- fn() to set the chat session header and the default input content --- */
-  useEffect(() => {
-    if (
-      messages.length === 0 &&
-      JSON.parse(localStorage.getItem('chatMessages'))?.length === 0
-    ) {
-      handleContentChange(
-        'Generate a data table component for organizing a list of data, UI library documents, which have been upserted into a vector database'
-      );
-    }
-    if (messages.length > 0) {
-      setIsFirstMessage(false);
-      setSessionHeader(messages[0]?.content || '');
-    }
-    if (isFirstMessage) {
-      setSessionHeader(userInput);
-      setIsFirstMessage(false);
-    }
-  }, [messages, userInput, isFirstMessage]);
   /* --- fn() to handle the scroll to bottom --- */
   useEffect(() => {
     const fetchData = async () => {

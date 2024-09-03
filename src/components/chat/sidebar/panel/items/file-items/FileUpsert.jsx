@@ -1,16 +1,27 @@
 import { Box, Card } from '@mui/material';
 import { useState } from 'react';
 import { chatFiles } from 'api/chat';
+import { useUserStore } from 'contexts/UserProvider';
 
 export function FileUpsert() {
+  const {
+    state: {
+      user: { folders },
+    },
+  } = useUserStore();
+  const fileFolder = folders.find(folder => folder.type === 'files');
   const [url, setUrl] = useState('');
   const [library, setLibrary] = useState('');
   const [message, setMessage] = useState('');
-
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const response = await chatFiles.upsertData({ url, library });
+      const response = await chatFiles.upsertData({
+        url,
+        library,
+        workspaceId: sessionStorage.getItem('workspaceId'),
+        folderId: fileFolder._id,
+      });
       console.log('RESPONSE:', response);
       setMessage(response);
     } catch (error) {

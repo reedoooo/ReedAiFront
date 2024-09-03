@@ -65,15 +65,17 @@ export const sessions = {
     }
   },
 
-  getMessages: async sessionId => {
+  getMessages: async () => {
     try {
+      const sessionId = JSON.parse(sessionStorage.getItem('sessionId'));
+      console.log(
+        'FETCHING messages for chat session with id ${newSessionId}:',
+        sessionId
+      );
       const data = await apiUtils.get(`/chat/sessions/${sessionId}/messages`);
       return data;
     } catch (error) {
-      console.error(
-        `Error fetching messages for chat session with id ${sessionId}:`,
-        error
-      );
+      console.error(`Error fetching messages for chat session with id:`, error);
       throw error;
     }
   },

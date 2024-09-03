@@ -78,6 +78,7 @@ export const ChatSidebar = () => {
   const sideBarWidthRef = React.useRef(null);
   const isValidApiKey = Boolean(apiKey);
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is mobile
+  const isXs = useMediaQuery(theme.breakpoints.down('xs')); // Check if the screen size is mobile
 
   React.useEffect(() => {
     if (sideBarWidthRef.current) {
@@ -85,10 +86,10 @@ export const ChatSidebar = () => {
     }
   }, []);
   React.useEffect(() => {
-    if (isMobile) {
-      setSidebarOpen(false); // Close sidebar on mobile view
+    if (isXs && tab !== null) {
+      setSidebarOpen(true); // Keep sidebar open in mobile view when a tab is selected
     }
-  }, [isMobile, setSidebarOpen]);
+  }, [isXs, tab, setSidebarOpen]);
 
   const handleSidebarOpen = index => {
     setTab(index);
@@ -143,7 +144,7 @@ export const ChatSidebar = () => {
     >
       <div
         style={{
-          transform: isMobile && !isSidebarOpen ? 'translateX(-100%)' : 'none', // Slide out if mobile and sidebar is hidden
+          transform: isMobile && !isSidebarOpen ? 'translateX(-100%)' : 'none',
           transition: 'transform 0.3s ease-in-out',
           color: '#fff',
           display: 'flex',
@@ -152,11 +153,12 @@ export const ChatSidebar = () => {
           maxHeight: 'calc(100% - 16px)',
         }}
       >
+        {/* -- SIDEBAR SECTION ICON BUTTONS -- */}
         <Box
           ref={sideBarWidthRef}
           sx={{
             transform:
-              isMobile && !isSidebarOpen ? 'translateX(-100%)' : 'none', // Slide out if mobile and sidebar is hidden
+              isMobile && !isSidebarOpen ? 'translateX(-100%)' : 'none',
             transition: 'transform 0.3s ease-in-out',
             display: 'flex',
             flexDirection: 'column',
@@ -273,6 +275,7 @@ export const ChatSidebar = () => {
             </Tooltip>
           </Box>
         </Box>
+        {/* -- SIDEBAR DRAWER -- */}
         <Drawer
           anchor="left"
           open={tab !== null}
@@ -282,10 +285,12 @@ export const ChatSidebar = () => {
               color: '#fff',
               padding: '20px',
               background: '#000',
-              minWidth: isSidebarOpen ? (isMobile ? `100vw` : `35vw`) : '0px',
-              maxWidth: isSidebarOpen ? (isMobile ? `100vw` : `35vw`) : '0px',
-              width: isSidebarOpen ? (isMobile ? `100vw` : `35vw`) : '0px',
-              borderRight: '1px solid #333', // Adds a border to the right side
+              minWidth: 'fit-content',
+              maxWidth: '350px', // Ensure maxWidth is set to 350px
+              // minWidth: isSidebarOpen ? (isMobile ? `100vw` : `320px`) : '0px',
+              // maxWidth: isSidebarOpen ? (isMobile ? `100vw` : `350px`) : '0px',
+              width: isSidebarOpen ? (isMobile ? `100vw` : `350px`) : '0px',
+              borderRight: '1px solid #333',
               transform:
                 isMobile && !isSidebarOpen ? 'translateX(-100%)' : 'none',
               transition: 'transform 0.3s ease-in-out',

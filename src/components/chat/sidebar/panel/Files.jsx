@@ -2,6 +2,7 @@ import { Box, IconButton, Tab, Typography } from '@mui/material';
 import { useState } from 'react';
 import { FaSave } from 'react-icons/fa';
 import { StyledMuiTabs } from 'components/chat/styled';
+import { RCTabs } from 'components/themed';
 import { EditFile, FileInfo, FileUpsert } from './items';
 
 export const Files = () => {
@@ -9,7 +10,12 @@ export const Files = () => {
   const [fileName, setFileName] = useState('example.txt');
   const [fileContent, setFileContent] = useState('');
   const [fileDescription, setFileDescription] = useState('');
-
+  const tabs = [
+    { label: 'Edit File', value: 0 },
+    { label: 'File Info', value: 1 },
+    { label: 'File Upsert', value: 2 },
+    { label: 'List', value: 3 },
+  ];
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -26,7 +32,13 @@ export const Files = () => {
           <FaSave style={{ float: 'right', cursor: 'pointer' }} />
         </IconButton>{' '}
       </Box>
-      <Box
+      <RCTabs
+        value={tab}
+        onChange={(e, newValue) => setTab(newValue)}
+        tabs={tabs}
+        variant="darkMode"
+      />
+      {/* <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -56,7 +68,7 @@ export const Files = () => {
           />
           <Tab label="List" style={{ color: '#fff', borderRadius: '5px' }} />
         </StyledMuiTabs>
-      </Box>
+      </Box> */}
       {tab === 0 && (
         <EditFile
           fileName={fileName}

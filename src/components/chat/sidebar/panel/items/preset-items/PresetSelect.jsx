@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import { MenuItem, Select, FormControl } from '@mui/material';
+
 export const PresetSelect = ({
   presets,
   selectedPreset,
@@ -14,7 +15,7 @@ export const PresetSelect = ({
     }}
   >
     <Select
-      value={selectedPreset.name || ''}
+      value={selectedPreset?.name || ''}
       onChange={handlePresetChange}
       label="Load a preset..."
       sx={{

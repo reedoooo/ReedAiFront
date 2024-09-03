@@ -39,6 +39,7 @@ function dispatchUserUpdates(dispatch, updatedUserData) {
   dispatch(setUser(updatedUserData));
   dispatch(setProfile(updatedUserData.profile));
   dispatch(setWorkspaces(updatedUserData.workspaces));
+  dispatch(setSelectedWorkspace(updatedUserData.workspaces[0]));
   dispatch(setChatSessions(updatedUserData.chatSessions));
   dispatch(setUserId(updatedUserData._id));
   dispatch(
@@ -85,6 +86,14 @@ export const handleAuthSubmit = createAsyncThunk(
         }
 
         dispatchUserUpdates(dispatch, updatedUserData);
+        sessionStorage.setItem(
+          'workspaceId',
+          updatedUserData.workspaces[0]._id
+        );
+        sessionStorage.setItem(
+          'sessionId',
+          updatedUserData.workspaces[0].chatSessions[0]?._id
+        );
         window.location.href = '/admin/dashboard';
         return {
           user: updatedUserData,
@@ -139,6 +148,7 @@ export const logout = createAsyncThunk(
   'auth/logout',
   async (_, { dispatch, getState, rejectWithValue }) => {
     const token = getState().user.accessToken;
+    console.log('LOGOUT TOKEN', token);
     try {
       await authApi.logout(token);
       localStorage.clear();
@@ -177,14 +187,16 @@ export const fetchUserProfileImage = createAsyncThunk(
   }
 );
 
-export const fetchAndSetUserData = createAsyncThunk(
-  'user/fetchAndSetUserData',
+export const setAuthUserData = createAsyncThunk(
+  'user/setAuthUserData',
   async (_, { dispatch, rejectWithValue }) => {
     try {
       const storedUserData = JSON.parse(localStorage.getItem(LOCAL_NAME));
 
       if (!storedUserData) {
-        throw new Error('No user data found in local storage');
+        // throw new Error('No user data found in local storage');
+        console.log('No user data found in local storage');
+        return;
       }
 
       const { username } = storedUserData.user;
@@ -208,12 +220,19 @@ export const fetchAndSetUserData = createAsyncThunk(
         assistants,
         tools,
       } = storedUserData.user;
+      if (!workspaces || workspaces.length === 0) {
+        // console.error('No workspaces available or workspaces array is empty');
+        // return rejectWithValue('No workspaces available');
+        return;
+      }
       const { accessToken, refreshToken, userId } = storedUserData;
-      const homeWorkSpace = workspaces.find(
+      const homeWorkSpace = workspaces?.find(
         workspace => workspace.isHome === true
       );
-      const homeWorkSpaceId = homeWorkSpace?._id;
-      console.log('ID_WORKSPACE', homeWorkSpaceId);
+      // if (!homeWorkSpace) {
+      //   console.error('Home workspace not found');
+      //   return rejectWithValue('Home workspace not found');
+      // }
       console.log('HOME_WORKSPACE', homeWorkSpace);
       const updatedHomeWorkSpace = {
         ...homeWorkSpace,
@@ -362,7 +381,7 @@ export const userSlice = createSlice({
       state.profile = action.payload;
       state.userInfo = {
         ...state.userInfo,
-        profileImage: action.payload.profile.imagePath,
+        profileImage: action.payload.imagePath,
         isImageRetrieved: true,
       };
       setLocalUserData(action.payload);

@@ -51,7 +51,7 @@ export const User = () => {
           <UserIcon style={{ float: 'right', cursor: 'pointer' }} />
         </IconButton>
       </Box>
-      <Box
+      {/* <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -61,14 +61,14 @@ export const User = () => {
           borderRadius: '14px',
           background: '#1c1c1c', // Slightly different background for the panel to distinguish it
         }}
-      >
-        <RCTabs
-          value={tab}
-          onChange={(e, newValue) => setTab(newValue)}
-          tabs={tabs}
-          variant="default"
-        />
-        {/* <StyledMuiTabs
+      > */}
+      <RCTabs
+        value={tab}
+        onChange={(e, newValue) => setTab(newValue)}
+        tabs={tabs}
+        variant="darkMode"
+      />
+      {/* <StyledMuiTabs
           value={tab}
           onChange={(e, newValue) => setTab(newValue)}
           indicatorColor="#fff"
@@ -80,7 +80,7 @@ export const User = () => {
           />
           <Tab label="Account" style={{ color: '#fff', borderRadius: '5px' }} />
         </StyledMuiTabs> */}
-      </Box>
+      {/* </Box> */}
       {tab === 0 && (
         <Box
           sx={{

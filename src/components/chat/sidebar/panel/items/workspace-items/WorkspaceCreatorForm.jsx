@@ -32,6 +32,7 @@ import {
 } from 'components/themed/HumanUi/RCComposables/container-components';
 import { DEFAULT_APP_DATA } from 'config/app-data-configs';
 import { useChatStore } from 'contexts/ChatProvider';
+import { useUserStore } from 'contexts/UserProvider';
 import { useChatHandler, useDialog, useMode } from 'hooks';
 import { PresetSelect } from '../preset-items';
 import { ReusableSwitchControl } from '../shared-items';
@@ -74,9 +75,14 @@ const CustomIcon = createSvgIcon(
 export const WorkspaceCreatorForm = () => {
   const { theme } = useMode();
   const chatStore = useChatStore();
+  const userStore = useUserStore();
   const navigate = useNavigate();
-  const { handleCreateNewWorkspace } = useChatHandler();
-  const { selectedPreset, presets, modelNames, workspaces } = chatStore.state;
+  const {
+    state: { selectedPreset, presets, modelNames, workspaces, messages },
+    actions: { setMessages },
+  } = chatStore;
+  const { handleCreateNewWorkspace } = useChatHandler(messages, setMessages);
+  const userId = userStore.state.userId;
   const { setSelectedPreset, setSelectedWorkspace, setWorkspaces } =
     chatStore.actions;
   const [name, setName] = useState('Default Workspace');
@@ -119,7 +125,7 @@ export const WorkspaceCreatorForm = () => {
 
   const workspaceData = {
     name,
-    userId: JSON.parse(sessionStorage.getItem('userId')),
+    userId: userId || JSON.parse(sessionStorage.getItem('userId')),
 
     customPreset: {
       name: selectedPreset?.name || '',

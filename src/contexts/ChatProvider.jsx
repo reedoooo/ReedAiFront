@@ -14,7 +14,7 @@ import {
   createThread,
   deleteAssistant,
   deleteFolder,
-  fetchAndSetUserData,
+  setAuthUserData,
   fetchAssistantByThread,
   fetchAssistantList,
   retrieveRun,
@@ -156,7 +156,7 @@ export const ChatProvider = ({ children }) => {
   useEffect(() => {
     const initializeUserData = async () => {
       try {
-        await dispatch(fetchAndSetUserData());
+        await dispatch(setAuthUserData());
       } catch (error) {
         console.error('Error fetching and setting user data:', error);
       }

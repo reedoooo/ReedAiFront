@@ -26,7 +26,7 @@ export const APIModal = ({ open, onClose, onOpen }) => {
 
   const handleSubmit = () => {
     chatStore.actions.setApiKey(inputCode);
-    chatStore.actions.setNewUserApiKey(inputCode);
+    // chatStore.actions.setNewUserApiKey(JSON.stringify(inputCode));
     onClose();
   };
 
