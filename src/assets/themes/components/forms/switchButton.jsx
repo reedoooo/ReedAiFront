@@ -6,9 +6,9 @@ const { borderWidth } = borders;
 const { md } = boxShadows;
 
 export default {
-  defaultProps: {
-    disableRipple: false,
-  },
+  // defaultProps: {
+  //   disableRipple: false,
+  // },
   styleOverrides: {
     switchBase: {
       color: gradients.dark.main,

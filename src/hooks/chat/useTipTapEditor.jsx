@@ -48,6 +48,26 @@ export const useTipTapEditor = (initialContent = '') => {
     [editor]
   );
 
+  const insertForm = (editor, form) => {
+    const formElements = {
+      'Text input': '<input type="text" placeholder="Enter text here"/>',
+      Checkbox: '<input type="checkbox"/> Checkbox',
+      'Radio button': '<input type="radio"/> Radio button',
+      'File input': '<input type="file"/>',
+    };
+    editor.commands.insertContent(formElements[form] || '');
+  };
+
+  const insertCodeBlock = useCallback(() => {
+    if (editor) {
+      editor.chain().focus().toggleCodeBlock().run(); // Use toggleCodeBlock to insert a code block
+      const updatedContent = editor.getText();
+      setContent(updatedContent);
+      debouncedSetUserInput(updatedContent);
+      setMessages([...messages, { role: 'user', content: updatedContent }]);
+    }
+  }, [editor, debouncedSetUserInput, setMessages, messages]);
+
   const insertContentAndSync = useCallback(
     newContent => {
       if (editor) {
@@ -83,6 +103,8 @@ export const useTipTapEditor = (initialContent = '') => {
     contentType,
     handleContentTypeChange,
     insertContentAndSync, // Expose the custom command
+    insertCodeBlock, // Expose the custom command
+    insertForm, // Expose the custom command
   };
 };
 

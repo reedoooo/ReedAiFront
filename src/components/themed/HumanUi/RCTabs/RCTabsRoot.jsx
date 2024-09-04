@@ -1,4 +1,4 @@
-import { Tabs, Tab } from '@mui/material';
+import { Tabs, Tab, TabScrollButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 /**
@@ -14,9 +14,14 @@ export const RCTabsRoot = styled(Tabs)(({ theme }) => ({
   borderRadius: '10px',
   color: 'white',
 
+  '& .MuiTabs-scroller': {
+    overflowX: 'auto', // Enable horizontal scrolling
+    scrollbarWidth: 'thin', // For Firefox: makes the scrollbar thinner
+  },
+
   '& .MuiTabs-flexContainer': {
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    flexWrap: 'nowrap', // Prevent wrapping, make it scroll horizontally
+    // justifyContent: 'center',
   },
 
   '& .MuiTabs-indicator': {
@@ -26,8 +31,8 @@ export const RCTabsRoot = styled(Tabs)(({ theme }) => ({
   '& .MuiTab-root': {
     color: '#fff',
     minWidth: 'auto',
+    minHeight: '40px', // Updated to 40px
     padding: '6px 16px', // Adjust padding for even spacing
-    // padding: '6px 12px',
     fontSize: '0.875rem',
     borderRadius: '10px',
     transition: 'background-color 0.3s',
@@ -53,6 +58,18 @@ export const RCTab = styled(Tab)(({ theme }) => ({
 
   '&:hover': {
     backgroundColor: '#555',
+    '& .MuiTab-wrapper': {
+      color: '#fff', // Change text color to white on hover
+    },
+    '& .MuiTouchRipple-root': {
+      backgroundColor: 'rgba(255, 255, 255, 0.1)', // Show ripple effect on hover
+    },
+    '&.MuiTouchRipple-root:active': {
+      backgroundColor: 'rgba(255, 255, 255, 0.2)', // Increase ripple effect on active
+    },
+    '&.MuiTouchRipple-root:focus': {
+      backgroundColor: 'rgba(255, 255, 255, 0.2)', // Increase ripple effect on focus
+    },
   },
 
   '&.Mui-selected': {
@@ -62,6 +79,21 @@ export const RCTab = styled(Tab)(({ theme }) => ({
 
   [theme.breakpoints.down('sm')]: {
     borderRadius: '5px',
+  },
+}));
+
+export const RCTabScrollButton = styled(TabScrollButton)(({ theme }) => ({
+  backgroundColor: 'transparent', // Transparent background by default
+  opacity: 0, // Hidden by default
+  transition: 'opacity 0.3s',
+
+  '&:hover': {
+    backgroundColor: 'transparent', // Maintain transparent background on hover
+    opacity: 1, // Show the button when hovered
+  },
+
+  '&.Mui-disabled': {
+    opacity: 0, // Ensure the button stays hidden when disabled
   },
 }));
 

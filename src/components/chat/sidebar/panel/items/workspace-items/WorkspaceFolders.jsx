@@ -22,7 +22,7 @@ export const WorkspaceFolders = ({ folders }) => {
         >
           <Box sx={{ mt: 2 }}>
             <Typography variant="subtitle2">Folder</Typography>
-            <ChatFolders />
+            <ChatFolders folders={folders} />
           </Box>
         </Box>
       </Box>

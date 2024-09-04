@@ -85,6 +85,16 @@ export const WorkspaceCreatorContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
+  pt: 2,
+  // padding: '10px',
+  borderRadius: '8px',
+  width: '100%',
+  // border: '1px solid rgba(255, 255, 255, 0.12)',
+}));
+export const PanelContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
   padding: '10px',
   borderRadius: '8px',
   // border: '1px solid rgba(255, 255, 255, 0.12)',

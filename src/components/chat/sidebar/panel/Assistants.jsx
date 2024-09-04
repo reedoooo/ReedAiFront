@@ -2,16 +2,22 @@ import { Box, IconButton, Tab, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { AssistantIcon } from 'assets/humanIcons';
 import { StyledMotionTabs } from 'components/chat/styled';
+import { RCTabs } from 'components/themed';
 import { useMode } from 'hooks';
 import { AssistantDisplay } from './items/assistant-items/AssistantDisplay';
 import { AssistantTemplates } from './items/assistant-items/AssistantTemplates';
 import { AssistantTools } from './items/assistant-items/AssistantTools';
 
 export const Assistants = props => {
-  const { title, data, folders } = props;
+  const { folders = [], data = {}, title = '' } = props;
   const [tab, setTab] = useState(0);
   const { assistants } = data;
   const { theme } = useMode();
+  const tabs = [
+    { label: 'Display', value: 0 },
+    { label: 'Templates', value: 1 },
+    { label: 'Tools', value: 2 },
+  ];
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -28,7 +34,13 @@ export const Assistants = props => {
           <AssistantIcon style={{ float: 'right', cursor: 'pointer' }} />
         </IconButton>
       </Box>
-      <Box
+      <RCTabs
+        value={tab}
+        onChange={(e, newValue) => setTab(newValue)}
+        tabs={tabs}
+        variant="darkMode"
+      />
+      {/* <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -54,7 +66,7 @@ export const Assistants = props => {
           />
           <Tab label="Tools" style={{ color: '#fff', borderRadius: '5px' }} />
         </StyledMotionTabs>
-      </Box>
+      </Box> */}
 
       {tab === 0 && <AssistantDisplay />}
       {tab === 1 && <AssistantTemplates />}

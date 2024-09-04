@@ -6,7 +6,6 @@ import {
   MenuItem,
   Select,
 } from '@mui/material';
-import React, { useEffect } from 'react';
 import { useTipTapEditor } from 'hooks/chat';
 
 export const TipTapEditor = ({ onSend }) => {
@@ -17,9 +16,6 @@ export const TipTapEditor = ({ onSend }) => {
       onSend(content);
     }
   };
-  // useEffect(() => {
-  //   onContentChange(content);
-  // }, [content, onContentChange]);
 
   return (
     <Box>

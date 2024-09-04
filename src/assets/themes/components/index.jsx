@@ -31,9 +31,8 @@ import link from './link';
 import { baseMenu, menuItem } from './menu';
 import { linearProgress, circularProgress } from './progress';
 import skeleton from './skeleton';
-import stat from './stat';
-// import stat from './stat';
 import svgIcon from './svgIcon';
+import { baseTabs, scrollButtons, tab } from './tabs';
 
 export default {
   // === GLOBALS AND LAYOUT ===
@@ -61,8 +60,13 @@ export default {
   // === ICONS ===
   // === NAVIGATION ===
   MuiAppBar: { ...appBar },
+  // === MENUS ===
   MuiMenu: { ...baseMenu },
   MuiMenuItem: { ...menuItem },
+  // === TABS ===
+  MuiTabs: { ...baseTabs },
+  MuiTab: { ...tab },
+  MuiTabScrollButton: { ...scrollButtons },
   // === DIVIDERS ===
   MuiDivider: { ...divider },
   // === DIALOGS ===
@@ -80,9 +84,7 @@ export default {
   MuiCardMedia: { ...cardMedia },
   MuiCardContent: { ...cardContent },
   // === TABLE ===
-  // MuiTableContainer: { ...tableContainer },
-  // MuiTableHead: { ...tableHead },
-  // MuiTableCell: { ...tableCell },
+  // ...
   // === BUTTONS ===
   MuiButton: {
     styleOverrides: {

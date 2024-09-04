@@ -21,6 +21,16 @@ export const chatFolders = {
     }
   },
 
+  getFolderItemsByFolderId: async id => {
+    try {
+      const data = await apiUtils.get(`/chat/folders/${id}`);
+      return data;
+    } catch (error) {
+      console.error(`Error fetching chat folder with id ${id}:`, error);
+      throw error;
+    }
+  },
+
   create: async folderData => {
     try {
       const data = await apiUtils.post('/chat/folders', folderData);

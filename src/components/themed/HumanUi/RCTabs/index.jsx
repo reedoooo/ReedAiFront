@@ -16,7 +16,7 @@ import { RCTab, RCTabsRoot } from './RCTabsRoot';
 
 export const RCTabs = React.forwardRef(
   ({ value = 0, onChange, tabs = [], variant = 'default', ...rest }, ref) => {
-    const MUI_VARIANT = variant === 'darkMode' ? 'standard' : variant;
+    const MUI_VARIANT = variant === 'darkMode' ? 'scrollable' : variant;
 
     return (
       <RCTabsRoot
@@ -24,6 +24,10 @@ export const RCTabs = React.forwardRef(
         value={value}
         onChange={onChange}
         variant={MUI_VARIANT}
+        scrollButtons="auto" // Enables scroll buttons to appear when needed
+        allowScrollButtonsMobile
+        centered
+        aria-label="wrapped label tabs example"
         {...rest} // Spread other props to avoid passing unnecessary props to the DOM
       >
         {tabs.map((tab, index) => (

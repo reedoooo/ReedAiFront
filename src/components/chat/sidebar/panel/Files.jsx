@@ -4,8 +4,10 @@ import { FaSave } from 'react-icons/fa';
 import { StyledMuiTabs } from 'components/chat/styled';
 import { RCTabs } from 'components/themed';
 import { EditFile, FileInfo, FileUpsert } from './items';
+import { ReusableFolder } from './items/shared-items';
 
-export const Files = () => {
+export const Files = props => {
+  const { folders = [], data = {}, title = '' } = props;
   const [tab, setTab] = useState(0);
   const [fileName, setFileName] = useState('example.txt');
   const [fileContent, setFileContent] = useState('');
@@ -38,38 +40,29 @@ export const Files = () => {
         tabs={tabs}
         variant="darkMode"
       />
-      {/* <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '1rem',
-          color: 'white',
-          borderRadius: '14px',
-          background: '#1c1c1c', // Slightly different background for the panel to distinguish it
-        }}
-      >
-        <StyledMuiTabs
-          value={tab}
-          onChange={(e, newValue) => setTab(newValue)}
-          indicatorColor="#fff"
-        >
-          <Tab
-            label="Edit File"
-            style={{ color: '#fff', borderRadius: '5px' }}
-          />
-          <Tab
-            label="File Info"
-            style={{ color: '#fff', borderRadius: '5px' }}
-          />
-          <Tab
-            label="Upsert Docs"
-            style={{ color: '#fff', borderRadius: '5px' }}
-          />
-          <Tab label="List" style={{ color: '#fff', borderRadius: '5px' }} />
-        </StyledMuiTabs>
-      </Box> */}
       {tab === 0 && (
+        <ReusableFolder
+          title="Files"
+          folders={folders}
+          // files={files}
+          // onUpdateFolder={updateFolder}
+          // onDeleteFolder={deleteFolder}
+          // onAddItem={handleAddItem}
+          // onDragEnd={handleDragEnd}
+          // selectedFolder={selectedFolder}
+          // setSelectedFolder={setSelectedFolder}
+          files={[]}
+          onUpdateFolder={() => {}}
+          onDeleteFolder={() => {}}
+          onAddItem={() => {}}
+          onDragEnd={() => {}}
+          selectedFolder={null}
+          setSelectedFolder={() => {}}
+          placeholder="Search files..."
+          addButtonLabel="New File"
+        />
+      )}
+      {tab === 1 && (
         <EditFile
           fileName={fileName}
           fileContent={fileContent}
@@ -77,13 +70,13 @@ export const Files = () => {
           setFileContent={setFileContent}
         />
       )}
-      {tab === 1 && (
+      {tab === 2 && (
         <FileInfo
           fileDescription={fileDescription}
           setFileDescription={setFileDescription}
         />
       )}
-      {tab === 2 && <FileUpsert />}
+      {tab === 3 && <FileUpsert />}
     </>
   );
 };

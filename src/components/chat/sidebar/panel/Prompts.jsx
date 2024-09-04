@@ -128,7 +128,8 @@ const CurrentPromptRenderer = ({ prompt, isOpen, onToggle }) => {
   );
 };
 
-export const Prompts = () => {
+export const Prompts = props => {
+  const { folders = [], data = {}, title = '' } = props;
   const { theme } = useMode();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const {

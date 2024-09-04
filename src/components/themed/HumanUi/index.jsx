@@ -20,3 +20,4 @@ export * from './RCSelect/RCPopup';
 export * from './RCSelect/RCListBox';
 export * from './RCTabs';
 export * from './RCComposables';
+export * from './RCSpeedDial';

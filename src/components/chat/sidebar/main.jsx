@@ -43,26 +43,32 @@ export const ChatSidebar = () => {
   const {
     state: { user, isAuthenticated },
   } = useUserStore();
+  const { folders } = user;
   const {
     state: {
       apiKey,
-      folders,
       chatSessions,
       workspaces,
       prompts,
       files,
       assistants,
+      tools,
+      selectedWorkspace,
+      collections,
+      models,
+      presets,
+      modelNames,
     },
   } = useChatStore();
-  const chatSessionFolders = folders?.filter(
-    folder => folder.type === 'chatSessions'
-  );
-  const promptFolders = folders?.filter(folder => folder.type === 'prompts');
-  const fileFolders = folders?.filter(folder => folder.type === 'files');
   const assistantFolders = folders?.filter(
-    folder => folder.type === 'assistants'
+    folder => folder.space === 'assistants'
   );
-  const toolFolders = folders?.filter(folder => folder.type === 'tools');
+  const chatSessionFolders = folders?.filter(
+    folder => folder.space === 'chatSessions'
+  );
+  const promptFolders = folders?.filter(folder => folder.space === 'prompts');
+  const fileFolders = folders?.filter(folder => folder.space === 'files');
+  const toolFolders = folders?.filter(folder => folder.space === 'tools');
   // const presetFolders = folders.filter(folder => folder.type === 'presets');
   // const collectionFolders = folders.filter(
   //   folder => folder.type === 'collections'
@@ -285,11 +291,12 @@ export const ChatSidebar = () => {
               color: '#fff',
               padding: '20px',
               background: '#000',
-              minWidth: 'fit-content',
+              // minWidth: 'fit-content',
               maxWidth: '350px', // Ensure maxWidth is set to 350px
               // minWidth: isSidebarOpen ? (isMobile ? `100vw` : `320px`) : '0px',
               // maxWidth: isSidebarOpen ? (isMobile ? `100vw` : `350px`) : '0px',
-              width: isSidebarOpen ? (isMobile ? `100vw` : `350px`) : '0px',
+              // width: isSidebarOpen ? (isMobile ? `100vw` : `350px`) : '0px',
+              width: isMobile ? '100vw' : '350px', // Responsive width for mobile
               borderRight: '1px solid #333',
               transform:
                 isMobile && !isSidebarOpen ? 'translateX(-100%)' : 'none',

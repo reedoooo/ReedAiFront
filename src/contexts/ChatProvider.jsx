@@ -83,6 +83,7 @@ import {
   updateAssistant,
   updateFolder,
   uploadFile,
+  setSelectedFolder,
 } from 'store/Slices'; // Assuming you can import all slices from a single entry point
 
 export const selectWorkspace = createSelector(
@@ -236,6 +237,7 @@ export const ChatProvider = ({ children }) => {
     // [FOLDER STORE]
     // ===========================================
     setFolders: folders => dispatch(setFolders(folders)),
+    setSelectedFolder: folder => dispatch(setSelectedFolder(folder)),
     createFolder: folder => dispatch(createFolder(folder)),
     deleteFolder: folder => dispatch(deleteFolder(folder)),
     updateFolder: folder => dispatch(updateFolder(folder)),

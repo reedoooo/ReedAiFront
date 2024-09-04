@@ -1,6 +1,7 @@
 import { Box, Button, MenuItem, Select } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import {
+  PanelContainer,
   StyledButton,
   StyledTextareaAutosize,
   StyledTextField,
@@ -78,7 +79,7 @@ export const AssistantDisplay = props => {
   };
 
   return (
-    <TabContentContainer>
+    <PanelContainer>
       <Box sx={{ mt: 2 }}>
         <StyledTextField
           label="Name"
@@ -199,6 +200,6 @@ export const AssistantDisplay = props => {
           Save Changes
         </StyledButton>
       </Box>
-    </TabContentContainer>
+    </PanelContainer>
   );
 };

@@ -56,6 +56,7 @@ const ReusableMenu = ({
   buttonText = '',
   items = [],
   selectedItem = '',
+  icon = null,
 }) => {
   return (
     <Box
@@ -77,37 +78,41 @@ const ReusableMenu = ({
         // zIndex: 1,
       }}
     >
-      <Button
-        onClick={handleOpen}
-        sx={{
-          fontFamily: 'IBM Plex Sans, sans-serif',
-          fontWeight: 600,
-          fontSize: '0.875rem',
-          lineHeight: 1.5,
-          padding: '8px 16px',
-          borderRadius: '8px',
-          color: grey[200],
-          transition: 'all 150ms ease',
-          cursor: 'pointer',
-          background: grey[900],
-          border: '1px solid',
-          borderColor: grey[700],
-          boxShadow: '0 1px 2px 0 rgba(0,0,0,0.05)',
-          '&:hover': {
-            background: grey[800],
-            borderColor: grey[600],
-          },
-          '&:active': {
-            background: grey[700],
-          },
-          '&:focus-visible': {
-            boxShadow: `0 0 0 4px ${blue[300]}`,
-            outline: 'none',
-          },
-        }}
-      >
-        {selectedItem || buttonText}
-      </Button>
+      <Box>
+        <Button
+          onClick={handleOpen}
+          // add start icon
+          startIcon={icon}
+          sx={{
+            fontFamily: 'IBM Plex Sans, sans-serif',
+            fontWeight: 600,
+            fontSize: '0.875rem',
+            lineHeight: 1.5,
+            padding: '8px 16px',
+            borderRadius: '8px',
+            color: grey[200],
+            transition: 'all 150ms ease',
+            cursor: 'pointer',
+            background: grey[900],
+            border: '1px solid',
+            borderColor: grey[700],
+            boxShadow: '0 1px 2px 0 rgba(0,0,0,0.05)',
+            '&:hover': {
+              background: grey[800],
+              borderColor: grey[600],
+            },
+            '&:active': {
+              background: grey[700],
+            },
+            '&:focus-visible': {
+              boxShadow: `0 0 0 4px ${blue[300]}`,
+              outline: 'none',
+            },
+          }}
+        >
+          {selectedItem || buttonText}
+        </Button>
+      </Box>
       <Menu
         open={open}
         anchorEl={anchorEl}
@@ -148,7 +153,17 @@ const ReusableMenu = ({
               },
             }}
           >
-            <HomeIcon fontSize="small" />
+            {icon && (
+              <Box
+                sx={{
+                  marginRight: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                {icon}
+              </Box>
+            )}
             {item.name}
           </MenuItem>
         ))}
@@ -157,7 +172,9 @@ const ReusableMenu = ({
   );
 };
 
-export const Workspace = () => {
+export const Workspace = props => {
+  const { folders = [], data = {}, title = '' } = props;
+  console.log('Workspace', { title, data, folders });
   const [tab, setTab] = useState(0);
   const navigate = useNavigate();
   const { theme } = useMode();
@@ -197,7 +214,7 @@ export const Workspace = () => {
     handleWorkspaceClose();
   };
 
-  const tabs = [{ label: 'Main' }, { label: 'Defaults' }, { label: 'Folders' }];
+  const tabs = [{ label: 'Main' }, { label: 'Folders' }];
   return (
     <>
       <PanelHeaderRow theme={theme}>
@@ -211,70 +228,21 @@ export const Workspace = () => {
             buttonText={'Select Workspace'}
             items={workspaces}
             selectedItem={selectedWorkspace.name}
+            icon={<HomeIcon />}
           />
         </Box>
         <IconButton>
           <FiSettings />
         </IconButton>
       </PanelHeaderRow>
-      {/* <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '0.5rem',
-          color: 'white',
-          borderRadius: '14px',
-          background: '#1c1c1c', // Slightly different background for the panel to distinguish it
-        }}
-      > */}
-      {/* <Box
-        sx={{
-          // display: 'flex',
-          // flexDirection: 'column',
-          // alignItems: 'center',
-          padding: '0.5rem',
-          // color: 'white',
-          // borderRadius: '14px',
-          // background: '#1c1c1c', // Slightly different background for the panel to distinguish it
-        }}
-      > */}
       <RCTabs
         value={tab}
         onChange={(e, newValue) => setTab(newValue)}
         tabs={tabs}
         variant="darkMode"
       />
-      {/* </Box> */}
-      {/* <StyledMotionTabs
-          value={tab}
-          onChange={(e, newValue) => setTab(newValue)}
-          indicatorColor="#fff"
-        >
-          <Tab label="Main" style={{ color: '#fff', borderRadius: '5px' }} />
-          <Tab
-            label="Defaults"
-            style={{ color: '#fff', borderRadius: '5px' }}
-          />
-          <Tab label="Folders" style={{ color: '#fff', borderRadius: '5px' }} />
-        </StyledMotionTabs>
-      </Box> */}
       {tab === 0 && <WorkspaceCreatorForm />}
-      {tab === 1 && (
-        <WorkspaceItemValues
-          workspaces={workspaces}
-          chatSessions={chatSessions}
-          modelNames={modelNames}
-          presets={presets}
-          prompts={prompts}
-          models={models}
-          collections={collections}
-          files={[]}
-          assistants={assistants}
-          tools={tools}
-        />
-      )}
-      {tab === 2 && <WorkspaceFolders />}
+      {tab === 1 && <WorkspaceFolders folders={folders} />}
     </>
   );
 };

@@ -16,12 +16,14 @@ export const ChatLayout = props => {
 
   return (
     <Box
+      id="chat-layout-container"
       sx={{
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100vh',
         height: '100vh',
         width: '100%',
+        minWidth: '100vw',
         overflow: 'hidden',
       }}
     >

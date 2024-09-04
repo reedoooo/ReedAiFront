@@ -20,6 +20,7 @@ import {
 import { RCTabs } from 'components/themed';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useChatHandler } from 'hooks/chat';
+import { ConversationTab, SessionSettings } from './items';
 const ConversationMenu = ({
   anchorEl,
   handleMenuClose,
@@ -32,7 +33,8 @@ const ConversationMenu = ({
     <MenuItem onClick={handleDeleteConversation}>Delete</MenuItem>
   </Menu>
 );
-export const ChatSession = () => {
+export const ChatSession = props => {
+  const { folders = [], data = {}, title = '' } = props;
   const chatStore = useChatStore();
   const {
     state: { messages },
@@ -117,95 +119,19 @@ export const ChatSession = () => {
         tabs={tabs}
         variant="darkMode"
       />
-      {/* <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '1rem',
-          color: 'white',
-          borderRadius: '14px',
-          background: '#1c1c1c',
-        }}
-      >
-        <StyledMuiTabs
-          value={tab}
-          onChange={handleTabChange}
-          indicatorColor="#fff"
-        >
-          <Tab
-            label="Conversations"
-            style={{ color: '#fff', borderRadius: '5px' }}
-          />
-          <Tab
-            label="Settings"
-            style={{ color: '#fff', borderRadius: '5px' }}
-          />
-        </StyledMuiTabs>
-      </Box> */}
       {tab === 0 && (
-        <Box sx={{ padding: '1rem', flexGrow: 1, overflowY: 'auto' }}>
-          {conversations?.map(conversation => (
-            <ConversationCard
-              key={conversation._id}
-              onClick={() => setSelectedConversation(conversation)}
-            >
-              <Typography variant="h6">{conversation.name}</Typography>
-              <IconButton
-                onClick={event => handleMenuClick(event, conversation)}
-              >
-                <MdInfoOutline style={{ color: '#fff' }} />
-              </IconButton>
-            </ConversationCard>
-          ))}
-          <ConversationMenu
-            anchorEl={anchorEl}
-            handleMenuClose={handleMenuClose}
-            handleExportJSON={handleExportJSON}
-            handleDeleteConversation={() =>
-              handleDeleteConversation(selectedConversation?._id)
-            }
-          />
-          {selectedConversation && (
-            <Box>
-              <Typography variant="h6" sx={{ color: '#fff' }}>
-                {selectedConversation.name}
-              </Typography>
-              <Box
-                sx={{
-                  padding: '10px',
-                  background: '#000',
-                  borderRadius: '5px',
-                }}
-              >
-                {selectedConversation?.messages?.map((message, index) => (
-                  <Typography key={index} sx={{ color: '#fff' }}>
-                    {message.content}
-                  </Typography>
-                ))}
-              </Box>
-            </Box>
-          )}
-          <ExportOptions>
-            <Button variant="contained" onClick={handleExportJSON}>
-              Export All as JSON
-            </Button>
-          </ExportOptions>
-        </Box>
+        <ConversationTab
+          conversations={conversations}
+          selectedConversation={selectedConversation}
+          setSelectedConversation={setSelectedConversation}
+          handleMenuClick={handleMenuClick}
+          anchorEl={anchorEl}
+          handleMenuClose={handleMenuClose}
+          handleExportJSON={handleExportJSON}
+          handleDeleteConversation={handleDeleteConversation}
+        />
       )}
-      {tab === 1 && (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            padding: '1rem',
-          }}
-        >
-          <StyledTextField label="API Key" variant="outlined" fullWidth />
-          <StyledButton variant="outlined">Save Settings</StyledButton>
-        </Box>
-      )}
+      {tab === 1 && <SessionSettings />}
     </Box>
   );
 };

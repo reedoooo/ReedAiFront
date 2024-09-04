@@ -16,7 +16,7 @@ import {
   ChatMessageActionsContainer,
   ChatMessageEditorContentsContainer,
 } from '../styled';
-import { InputActions } from './toolbar';
+import { ToolDial } from './ToolDial';
 
 export const MessageInput = ({
   disabled, // loading state for the send button
@@ -122,13 +122,7 @@ export const MessageInput = ({
                 <FaChevronRight />
               )}
             </IconButton>
-            <InputActions
-              editor={editor}
-              handleOpenApiModal={apiKeyDialog.handleOpen}
-              setUserInput={onChange}
-              // setFileInput={setFileInput}
-              isFirstMessage={isFirstMessage}
-            />
+            <ToolDial editor={editor} />
           </Box>
         </ChatMessageActionsContainer>
       </CardActions>

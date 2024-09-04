@@ -10,7 +10,7 @@ import {
 import { useUserStore } from 'contexts';
 import { useMode } from 'hooks';
 
-export const User = () => {
+export const User = props => {
   const { theme } = useMode();
   const {
     state: { profile },
@@ -34,7 +34,11 @@ export const User = () => {
   const [googleGeminiAPIKey, setGoogleGeminiAPIKey] = useState(
     profile?.google_gemini_api_key || ''
   );
-  const tabs = [{ label: 'Main' }, { label: 'Defaults' }, { label: 'Folders' }];
+  const tabs = [
+    { label: 'Profile' },
+    { label: 'Api Keys' },
+    { label: 'Account' },
+  ];
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -51,43 +55,18 @@ export const User = () => {
           <UserIcon style={{ float: 'right', cursor: 'pointer' }} />
         </IconButton>
       </Box>
-      {/* <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '1rem',
-          color: 'white',
-          borderRadius: '14px',
-          background: '#1c1c1c', // Slightly different background for the panel to distinguish it
-        }}
-      > */}
       <RCTabs
         value={tab}
         onChange={(e, newValue) => setTab(newValue)}
         tabs={tabs}
         variant="darkMode"
       />
-      {/* <StyledMuiTabs
-          value={tab}
-          onChange={(e, newValue) => setTab(newValue)}
-          indicatorColor="#fff"
-        >
-          <Tab label="Profile" style={{ color: '#fff', borderRadius: '5px' }} />
-          <Tab
-            label="API Keys"
-            style={{ color: '#fff', borderRadius: '5px' }}
-          />
-          <Tab label="Account" style={{ color: '#fff', borderRadius: '5px' }} />
-        </StyledMuiTabs> */}
-      {/* </Box> */}
       {tab === 0 && (
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            // alignItems: 'center',
             justifyContent: 'space-between',
           }}
         >
@@ -108,14 +87,6 @@ export const User = () => {
             variant="darkMode"
             fullWidth
           />
-          {/* <RCInput
-            variant="base"
-            label="Chat Display Name"
-            value={chatDisplayName}
-            onChange={e => setChatDisplayName(e.target.value)}
-            fullWidth
-            margin="normal"
-          /> */}
           <TextAreaAutosizeSection
             minRows={3}
             placeholder="Profile context... (optional)"

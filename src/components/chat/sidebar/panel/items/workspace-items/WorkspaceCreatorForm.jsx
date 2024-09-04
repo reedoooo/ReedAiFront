@@ -153,9 +153,16 @@ export const WorkspaceCreatorForm = () => {
   };
 
   return (
-    <WorkspaceCreatorContainer theme={theme}>
-      <FormTitle label="Workspaces" />
-      <Divider sx={{ color: '#ffffff', marginBottom: '5px' }} />
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        justifyContent: 'space-between',
+      }}
+    >
+      {/* <FormTitle label="Workspaces" /> */}
+      {/* <Divider sx={{ color: '#ffffff', marginBottom: '5px' }} /> */}
       <TextFieldSection
         label="Name"
         value={name}
@@ -527,7 +534,7 @@ export const WorkspaceCreatorForm = () => {
           </a>
         </Box>
       </Typography>
-    </WorkspaceCreatorContainer>
+    </Box>
   );
 };
 

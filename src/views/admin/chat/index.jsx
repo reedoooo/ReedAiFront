@@ -3,7 +3,14 @@
 // =========================================================
 // [CHAT BOT] | React Chatbot
 // =========================================================
-import { Box, CircularProgress, Grid, Paper, Typography } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  Paper,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { useActionData, useParams } from 'react-router-dom';
 import { ChatHeader, MessageInput } from 'components/chat';
@@ -26,9 +33,21 @@ export const MainChat = () => {
   //   return JSON.stringify(data);
   // };
   const {
-    state: { isSidebarOpen, isMobile },
+    state: { isSidebarOpen },
     actions: { toggleSidebar },
   } = useAppStore();
+  const [marginLeft, setMarginLeft] = useState('50px');
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is mobile
+  // Update marginLeft based on isMobile
+  useEffect(() => {
+    if (isMobile) {
+      console.log('isMobile:', isMobile);
+      setMarginLeft('0px');
+    } else {
+      setMarginLeft('50px');
+    }
+  }, [isMobile, isSidebarOpen]);
+
   const [messages, setMessages] = useState(() => {
     const savedMessages = localStorage.getItem('chatMessages');
     return savedMessages ? JSON.parse(savedMessages) : [];
@@ -156,20 +175,37 @@ export const MainChat = () => {
       //   flexDirection: 'column',
       //   width: 'calc(100% - 40px)', // Assuming the sidebar width is 240px + 16px padding
       // }}
+      id="chat-view-container"
       sx={{
         flexGrow: 1,
-        marginLeft: isMobile && !isSidebarOpen ? '0px' : '50px', // Adjust margin based on sidebar visibility
+        marginLeft: marginLeft, // Use the marginLeft state variable
+        // marginLeft: isMobile && !isSidebarOpen ? '0px' : '50px', // Adjust margin based on sidebar visibility
+        // marginLeft: isMobile && !isSidebarOpen ? '0px' : '50px', // Adjust margin based on sidebar visibility
         display: 'flex',
         flexDirection: 'column',
-        width: isMobile && !isSidebarOpen ? '100%' : 'calc(100% - 24px)', // Expand width when sidebar is closed
+        width: '100%',
+        maxWidth: !isMobile ? 'calc(100% - 24px)' : null,
+        // width: isMobile && !isSidebarOpen ? '100%' : 'calc(100% - 24px)', // Expand width when sidebar is closed
+        // width: isMobile && !isSidebarOpen ? '100%' : 'calc(100% - 24px)', // Expand to 100% when isMobile
+        // minWidth: isMobile && !isSidebarOpen ? '100%' : 'calc(100% - 24px)', // Ensure minimum width
         transition: 'margin-left 0.3s ease-in-out, width 0.3s ease-in-out', // Smooth transition
+        // '& MuiBox-root': {
+        //   width: isMobile ? '100%' : 'calc(100% - 24px)', // Expand width when sidebar is closed
+        //   flexGrow: 1,
+        // },
       }}
     >
       <Box
+        id="chat-header-container"
         sx={{
           display: 'flex',
           flexDirection: 'column',
           height: '100vh',
+          width: '100%', // Ensure width is 100%
+          // '& MuiBox-root': {
+          //   width: isMobile ? '100%' : 'calc(100% - 24px)', // Expand width when sidebar is closed
+          //   flexGrow: 1,
+          // },
         }}
       >
         <Paper
@@ -198,10 +234,11 @@ export const MainChat = () => {
               flexDirection: 'column',
               backgroundColor: '#1C1C1C',
               width: '100%',
+              // minWidth: 'max-content',
               height: '100%',
               borderRadius: '14px',
               overflow: 'auto', // Allow scrolling
-              maxWidth: '100%',
+              // maxWidth: '100%',
               flexGrow: 1,
             }}
           >
