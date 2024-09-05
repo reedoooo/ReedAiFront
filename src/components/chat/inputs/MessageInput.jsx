@@ -55,30 +55,15 @@ export const MessageInput = ({
     await onSend();
   };
 
-  // useEffect(() => {
-  //   if (editor) {
-  //     const handleFocus = () => {
-  //       setIsEditorActive(true);
-  //       editorRef.current = true;
-  //     };
-
-  //     const handleBlur = () => {
-  //       setIsEditorActive(false);
-  //       editorRef.current = false;
-  //     };
-
-  //     editor.on('focus', handleFocus);
-  //     editor.on('blur', handleBlur);
-
-  //     return () => {
-  //       editor.off('focus', handleFocus);
-  //       editor.off('blur', handleBlur);
-  //     };
-  //   }
-  // }, [editor, setIsEditorActive, editorRef]);
-
   return (
-    <Card sx={{ backgroundColor: '#26242C', borderRadius: 2, mt: 2, mb: 2 }}>
+    <Card
+      sx={{
+        backgroundColor: '#26242C',
+        borderRadius: 2,
+        mt: 2,
+        mb: 2,
+      }}
+    >
       <CardActions
         sx={{
           backgroundColor: '#26242C',
@@ -103,7 +88,7 @@ export const MessageInput = ({
         </Box>
         <ChatMessageActionsContainer>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <IconButton
+            {/* <IconButton
               onClick={() => setShowFilesDisplay(!showFilesDisplay)}
               sx={{
                 p: 2,
@@ -121,14 +106,48 @@ export const MessageInput = ({
               ) : (
                 <FaChevronRight />
               )}
-            </IconButton>
+            </IconButton> */}
             <ToolDial editor={editor} />
           </Box>
         </ChatMessageActionsContainer>
       </CardActions>
-      <CardContent>
+      <CardContent
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          padding: '8px',
+          paddingBottom: '8px !important',
+        }}
+      >
         <ChatMessageActionsContainer>
           <ChatMessageEditorContentsContainer>
+            <Box
+              sx={{
+                alignItems: 'center',
+                flexGrow: 1,
+              }}
+            >
+              <IconButton
+                onClick={() => setShowFilesDisplay(!showFilesDisplay)}
+                sx={{
+                  p: 2,
+                  borderRadius: '50%',
+                  width: 40,
+                  height: 40,
+                  my: 'auto',
+                  py: 'auto',
+                }}
+                aria-expanded={showFilesDisplay}
+                aria-label={showFilesDisplay ? 'Hide files' : 'Show files'}
+              >
+                {showFilesDisplay && files.length > 0 ? (
+                  <FaChevronLeft />
+                ) : (
+                  <FaChevronRight />
+                )}
+              </IconButton>
+            </Box>
             <Box
               sx={{
                 px: 2,
@@ -141,10 +160,25 @@ export const MessageInput = ({
             <Box
               sx={{
                 px: 2,
-                alignItems: 'center',
                 flexGrow: 1,
-                justifyContent: 'flex-start',
+                display: 'flex',
                 width: '100%',
+                '& > div': {
+                  // This targets immediate child div elements
+                  flexGrow: 1,
+                },
+                // If you need to target a specific child div, you can use nth-child
+                '& > div:nth-of-type(1)': {
+                  // This targets the first child div
+                  flexGrow: 1,
+                },
+                // flexGrow: 2,
+                // justifyContent: 'flex-start',
+                // display: 'flex',
+                // width: '100%',
+                // backgroundColor: '#2E2C34', // Adjust this to better fill the area
+                // borderRadius: '8px',
+                // p: 1,
               }}
             >
               {' '}

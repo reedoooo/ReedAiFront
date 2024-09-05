@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { chatFolders as foldersApi } from 'api/chat';
+import foldersApi from 'api/workspaces/folders';
 import { getLocalData, setLocalData } from '../helpers';
 
 const LOCAL_NAME = 'folderStore';

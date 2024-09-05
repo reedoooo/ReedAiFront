@@ -3,7 +3,7 @@ import { StarterKit } from '@tiptap/starter-kit';
 import { debounce } from 'lodash';
 import { useState, useCallback, useEffect } from 'react';
 import { useChatStore } from 'contexts/ChatProvider'; // Import the context
-
+import './Tppy.css';
 export const useTipTapEditor = (initialContent = '') => {
   const [content, setContent] = useState(initialContent);
   const [contentType, setContentType] = useState('markdown');
@@ -32,6 +32,11 @@ export const useTipTapEditor = (initialContent = '') => {
         setContent(output);
         debouncedSetUserInput(output);
       }
+    },
+    editorProps: {
+      attributes: {
+        class: 'custom-editor', // Add a custom class name here
+      },
     },
   });
 

@@ -1,18 +1,5 @@
-// InputActions.js
 import EmojiPicker from '@emoji-mart/react';
-import {
-  Box,
-  SpeedDialIcon,
-  TextField,
-  Button,
-  IconButton,
-  Modal,
-  Typography,
-  Card,
-  Link,
-  Menu,
-  MenuItem,
-} from '@mui/material';
+import { Box, IconButton, Menu, MenuItem } from '@mui/material';
 import React, { useEffect, useState, useCallback } from 'react';
 import { MdLock } from 'react-icons/md';
 import {
@@ -23,7 +10,8 @@ import {
 } from 'assets/humanIcons';
 import { RCSpeedDial } from 'components/themed';
 import { useChatStore } from 'contexts/ChatProvider';
-import { useDialog, useMenu, useMode, useTipTapEditor } from 'hooks';
+import { useMenu, useMode, useTipTapEditor } from 'hooks';
+import ApiModal from './ApiModal';
 
 export const ToolDial = () => {
   const { theme } = useMode();
@@ -33,19 +21,19 @@ export const ToolDial = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [speedDialOpen, setSpeedDialOpen] = useState(false);
   const [inputCode, setInputCode] = useState('');
+  const [apiModalOpen, setApiModalOpen] = useState(false);
+
   const toggleSpeedDial = useCallback(() => {
     setSpeedDialOpen(prevOpen => !prevOpen);
   }, []);
 
   const formMenu = useMenu();
-  const apiModalDialog = useDialog();
 
   const handleCloseDial = useCallback(() => {
-    apiModalDialog.handleClose();
     formMenu.handleMenuClose();
     toggleSpeedDial();
-  }, [apiModalDialog, formMenu, toggleSpeedDial]);
-  const forms = ['Select input', 'Text input'];
+  }, [formMenu, toggleSpeedDial]);
+
   const handleInsertCodeBlock = useCallback(() => {
     if (editor) {
       insertCodeBlock();
@@ -58,17 +46,13 @@ export const ToolDial = () => {
 
   const handleSubmit = useCallback(() => {
     chatStore.actions.setApiKey(inputCode);
-    apiModalDialog.handleClose();
-  }, [chatStore.actions, inputCode, apiModalDialog]);
+    setApiModalOpen(false);
+  }, [chatStore.actions, inputCode]);
 
-  const handleBackdropClick = useCallback(
-    event => {
-      if (event.target === event.currentTarget) {
-        apiModalDialog.handleClose();
-      }
-    },
-    [apiModalDialog]
-  );
+  const handleApiModalToggle = useCallback(() => {
+    setApiModalOpen(prev => !prev);
+  }, []);
+
   const actions = [
     {
       icon: <CodeIcon />,
@@ -92,9 +76,10 @@ export const ToolDial = () => {
       icon: <ApiIcon />,
       name: 'Api',
       title: 'API Settings',
-      onClick: apiModalDialog.toggle,
+      onClick: handleApiModalToggle,
     },
   ];
+
   useEffect(() => {
     // Cleanup on unmount if necessary
     return () => {
@@ -103,8 +88,17 @@ export const ToolDial = () => {
       setInputCode('');
     };
   }, []);
+
   return (
-    <Box sx={{ transform: 'translateZ(0px)', flexGrow: 1 }}>
+    <Box
+      sx={{
+        position: 'fixed',
+        bottom: '75px',
+        right: '15px',
+        margin: '0',
+        zIndex: 1000,
+      }}
+    >
       <RCSpeedDial
         actions={actions}
         onOpen={toggleSpeedDial}
@@ -113,89 +107,13 @@ export const ToolDial = () => {
         hidden={false}
         variant={theme.palette.mode === 'dark' ? 'darkMode' : 'default'}
       />
-      {apiModalDialog.open && (
-        <Modal
-          open={apiModalDialog.open}
-          onClose={apiModalDialog.handleClose}
-          slotProps={{
-            backdrop: {
-              onClick: handleBackdropClick,
-            },
-          }}
-        >
-          <Box
-            onClick={handleBackdropClick}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              minHeight: '100vh',
-              p: 2,
-            }}
-          >
-            <Card
-              sx={{ p: 3, maxWidth: 500, width: '100%', textAlign: 'center' }}
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
-              >
-                <Typography
-                  variant="h6"
-                  component="h2"
-                  color={theme.palette.text.primary}
-                >
-                  Enter your OpenAI API Key
-                </Typography>
-                <IconButton onClick={apiModalDialog.handleClose}>
-                  <MdLock />
-                </IconButton>
-              </Box>
-              <Typography
-                color={theme.palette.grey[500]}
-                fontWeight="500"
-                mb={2}
-              >
-                You need an OpenAI API Key to use Horizon AI Templates features.
-                Your API Key is stored locally on your browser and never sent
-                anywhere else.
-              </Typography>
-              <Box sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
-                <TextField
-                  fullWidth
-                  variant="outlined"
-                  placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                  onChange={handleChange}
-                  value={inputCode}
-                />
-                <Button
-                  variant="contained"
-                  onClick={handleSubmit}
-                  sx={{ ml: 1 }}
-                >
-                  Save
-                </Button>
-              </Box>
-              <Link
-                href="https://platform.openai.com/account/api-keys"
-                sx={{
-                  color: theme.palette.primary.main,
-                  fontSize: 'small',
-                  textDecoration: 'underline',
-                  fontWeight: '600',
-                }}
-                target="_blank"
-                rel="noopener"
-              >
-                Get your API key from OpenAI Dashboard
-              </Link>
-            </Card>
-          </Box>
-        </Modal>
-      )}
+      <ApiModal
+        open={apiModalOpen}
+        onClose={handleApiModalToggle}
+        inputCode={inputCode}
+        onInputChange={handleChange}
+        onSubmit={handleSubmit}
+      />
       {formMenu.isOpen && (
         <Menu
           open={formMenu.isOpen}
@@ -211,7 +129,7 @@ export const ToolDial = () => {
             horizontal: 'left',
           }}
         >
-          {forms.map(form => (
+          {['Select input', 'Text input'].map(form => (
             <MenuItem key={form} onClick={() => insertForm(editor, form)}>
               {form}
             </MenuItem>

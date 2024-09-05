@@ -1,6 +1,6 @@
 import { Box, Card } from '@mui/material';
 import { useState } from 'react';
-import { chatFiles } from 'api/chat';
+import { attachmentsApi } from 'api/Ai/chat-sessions';
 import { useUserStore } from 'contexts/UserProvider';
 
 export function FileUpsert() {
@@ -16,7 +16,7 @@ export function FileUpsert() {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const response = await chatFiles.upsertData({
+      const response = await attachmentsApi.upsertData({
         url,
         library,
         workspaceId: sessionStorage.getItem('workspaceId'),

@@ -1,6 +1,6 @@
 import { apiUtils } from '@/lib/apiUtils';
 
-export const chatAssistants = {
+export const assistantsApi = {
   getExistingAssistants: async () => {
     try {
       const data = await apiUtils.post('/chat/v1/assistants/list');
@@ -199,3 +199,5 @@ export const chatAssistants = {
     }
   },
 };
+
+export default assistantsApi;

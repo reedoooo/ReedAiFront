@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { sessions as sessionsApi } from 'api/chat';
-import user from 'api/user/user';
+import { chatApi } from 'api/Ai/chat-sessions';
 import { getLocalData, setLocalData } from '../helpers';
 import { setUserOpenAiSettings } from '../user/userSlice';
 
@@ -17,7 +16,7 @@ export const syncChatMessages = createAsyncThunk(
   `${REDUX_NAME}/session/messages`,
   async (id, { dispatch }) => {
     if (id) {
-      const response = await sessionsApi.getMessages(id);
+      const response = await chatApi.getMessages(id);
       dispatch(
         baseChatSlice.actions.setChatMessages({
           id,

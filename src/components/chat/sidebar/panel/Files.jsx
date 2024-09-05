@@ -1,7 +1,6 @@
 import { Box, IconButton, Tab, Typography } from '@mui/material';
 import { useState } from 'react';
 import { FaSave } from 'react-icons/fa';
-import { StyledMuiTabs } from 'components/chat/styled';
 import { RCTabs } from 'components/themed';
 import { EditFile, FileInfo, FileUpsert } from './items';
 import { ReusableFolder } from './items/shared-items';

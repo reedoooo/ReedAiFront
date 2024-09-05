@@ -7,7 +7,7 @@ export const RCSpeedDialRoot = styled(SpeedDial)(({ theme, ownerState }) => {
 
   const baseStyles = {
     position: 'fixed',
-    bottom: 16,
+    bottom: 100,
     right: 16,
   };
 

@@ -1,7 +1,8 @@
 import { apiUtils } from '@/lib/apiUtils';
 
-export const chatFiles = {
-  getAll: async () => {
+export const attachmentsApi = {
+  // Chat Files Operations
+  getAllFiles: async () => {
     try {
       const data = await apiUtils.get('/files/static/list');
       return data;
@@ -10,7 +11,7 @@ export const chatFiles = {
       throw error;
     }
   },
-  getAllByType: async filetype => {
+  getAllFilesByType: async filetype => {
     try {
       const data = await apiUtils.get(`/chat/files/static/list/${filetype}`);
       return data;
@@ -22,17 +23,6 @@ export const chatFiles = {
   getAllImages: async () => {
     try {
       const fileTypes = 'png';
-      const data = await apiUtils.get(`/chat/files/static/${fileTypes}`);
-      return data;
-    } catch (error) {
-      console.error('Error fetching chat presets:', error);
-      throw error;
-    }
-  },
-  getAllFiles: async () => {
-    try {
-      const fileTypes =
-        'json,txt,.jsx,.js,.png,text/jsx,application/javascript';
       const data = await apiUtils.get(`/chat/files/static/${fileTypes}`);
       return data;
     } catch (error) {
@@ -69,7 +59,7 @@ export const chatFiles = {
       throw error;
     }
   },
-  upsertData: async docs => {
+  upsertFileData: async docs => {
     try {
       const data = await apiUtils.post(`/chat/files/upsert-docs`, docs);
       return data;
@@ -78,7 +68,7 @@ export const chatFiles = {
       throw error;
     }
   },
-  fetchChatFileDataByType: async filename => {
+  fetchFileDataByType: async filename => {
     try {
       const data = await apiUtils.get(`/files/static/${filename}`);
       return data;
@@ -93,17 +83,6 @@ export const chatFiles = {
       const data = await apiUtils.get(
         `/chat/chatFiles/static/list/${fileTypes}`
       );
-      return data;
-    } catch (error) {
-      console.error('Error fetching chat presets:', error);
-      throw error;
-    }
-  },
-  getChatFiles: async () => {
-    try {
-      const fileTypes =
-        'json,txt,.jsx,.js,.png,text/jsx,application/javascript';
-      const data = await apiUtils.get(`/chat/chatFiles/list/${fileTypes}`);
       return data;
     } catch (error) {
       console.error('Error fetching chat presets:', error);
@@ -155,7 +134,7 @@ export const chatFiles = {
       throw error;
     }
   },
-  getFile: async id => {
+  getFileById: async id => {
     try {
       const data = await apiUtils.get(`/chat/files/${id}`);
       return data;
@@ -208,38 +187,6 @@ export const chatFiles = {
 
     return path;
   },
-  // uploadFile: async (file, onUploadProgress, reqType) => {
-  //   const formData = new FormData();
-  //   formData.append('file', file);
-  //   const additionalData = {
-  //     filename: file.name,
-  //     filesize: file.size,
-  //     filetype: file.type,
-  //   };
-  //   // Append additional data if provided
-  //   Object.keys(additionalData).forEach(key => {
-  //     formData.append(key, additionalData[key]);
-  //   });
-  //   const url =
-  //     reqType === 'chat' ? '/chat/files/upload/single' : '/files/upload/single';
-  //   try {
-  //     const data = await apiUtils.post(url, formData, {
-  //       headers: {
-  //         'Content-Type': 'multipart/form-data',
-  //       },
-  //       onUploadProgress: event => {
-  //         const progress = Math.round((100 * event.loaded) / event.total);
-  //         console.log('Upload progress:', progress);
-  //         onUploadProgress(progress);
-  //       },
-  //     });
-  //     return data;
-  //   } catch (error) {
-  //     console.error('File upload error:', error);
-  //     throw error;
-  //   }
-  // },
-
   downloadFile: async (fileId, onDownloadProgress, reqType) => {
     try {
       const reqUrl =
@@ -266,4 +213,57 @@ export const chatFiles = {
       throw error;
     }
   },
+
+  // Chat Messages Operations
+  getAllMessages: async () => {
+    try {
+      const data = await apiUtils.get('/chat/messages');
+      return data;
+    } catch (error) {
+      console.error('Error fetching chat messages:', error);
+      throw error;
+    }
+  },
+
+  getMessageById: async id => {
+    try {
+      const data = await apiUtils.get(`/chat/messages/${id}`);
+      return data;
+    } catch (error) {
+      console.error(`Error fetching chat message with id ${id}:`, error);
+      throw error;
+    }
+  },
+
+  createMessage: async messageData => {
+    try {
+      const data = await apiUtils.post('/chat/messages', messageData);
+      return data;
+    } catch (error) {
+      console.error('Error creating chat message:', error);
+      throw error;
+    }
+  },
+
+  updateMessage: async (id, messageData) => {
+    try {
+      const data = await apiUtils.put(`/chat/messages/${id}`, messageData);
+      return data;
+    } catch (error) {
+      console.error(`Error updating chat message with id ${id}:`, error);
+      throw error;
+    }
+  },
+
+  deleteMessage: async id => {
+    try {
+      const data = await apiUtils.delete(`/chat/messages/${id}`);
+      return data;
+    } catch (error) {
+      console.error(`Error deleting chat message with id ${id}:`, error);
+      throw error;
+    }
+  },
 };
+
+export default attachmentsApi;

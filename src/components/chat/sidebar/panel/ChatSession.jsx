@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
-import { MdInfoOutline } from 'react-icons/md';
 import {
   ConversationCard,
   ExportOptions,
@@ -21,6 +20,7 @@ import { RCTabs } from 'components/themed';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useChatHandler } from 'hooks/chat';
 import { ConversationTab, SessionSettings } from './items';
+
 const ConversationMenu = ({
   anchorEl,
   handleMenuClose,

@@ -84,6 +84,7 @@ import {
   updateFolder,
   uploadFile,
   setSelectedFolder,
+  syncChatMessages,
 } from 'store/Slices'; // Assuming you can import all slices from a single entry point
 
 export const selectWorkspace = createSelector(
@@ -192,6 +193,7 @@ export const ChatProvider = ({ children }) => {
     createNewChatSession: sessionData =>
       dispatch(createChatSession(sessionData)),
     clearChatSessions: () => dispatch(clearChatSessions()),
+    syncChatMessages: id => dispatch(syncChatMessages(id)),
     // ===========================================
     // [ASSISTANT STORE]
     // ===========================================

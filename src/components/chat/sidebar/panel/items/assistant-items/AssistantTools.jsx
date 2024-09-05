@@ -11,7 +11,7 @@ import {
   IconButton,
 } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
-import { chatFiles } from 'api/chat';
+import { attachmentsApi } from 'api/Ai/chat-sessions';
 import { useChatStore } from 'contexts/ChatProvider';
 export const AssistantTools = () => {
   const {
@@ -31,7 +31,8 @@ export const AssistantTools = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const jsonToolFile = await chatFiles.getFileByName('tool_files.json');
+        const jsonToolFile =
+          await attachmentsApi.getFileByName('tool_files.json');
         console.log('jsonToolFile', jsonToolFile);
         // setPrompts(jsonPromptFile);
       } catch (error) {

@@ -1,11 +1,8 @@
 import { useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import {
-  completions as completionsApi,
-  sessions as sessionApi,
-  workspaces as workspacesApi,
-} from 'api/chat';
+import { chatApi } from 'api/Ai/chat-sessions';
+import { workspacesApi } from 'api/workspaces';
 import { useChatStore, useUserStore } from 'contexts';
 import { defaultChatSessionStoreData } from 'store/Slices/helpers';
 import { safeParse } from 'utils/format';
@@ -49,6 +46,7 @@ export const useChatHandler = (messages, setMessages) => {
       setIsRegenerating,
       setWorkspaces,
       setSelectedWorkspace,
+      syncChatMessages,
     },
   } = useChatStore();
   const {
@@ -71,7 +69,8 @@ export const useChatHandler = (messages, setMessages) => {
   const clearInput = useCallback(() => setUserInput(''), [setUserInput]);
   const handleGetSessionMessages = useCallback(async () => {
     try {
-      const response = await sessionApi.getMessages(sessionId);
+      // const response = await chatApi.getMessages(sessionId);
+      const response = syncChatMessages(sessionId);
       console.log('RESPONSE:', response);
       setMessages([...response]);
     } catch (error) {
@@ -80,10 +79,13 @@ export const useChatHandler = (messages, setMessages) => {
   }, [sessionId]);
   const handleGetSession = useCallback(async () => {
     try {
-      const response = await sessionApi.getById(sessionId);
-      console.log('Setting selected session:', response);
-      setSelectedChatSession(response);
-      setActiveSessionId(response._id);
+      const response = await chatApi.getById(sessionId);
+      // response returns an array of sessions so we need to get the first one
+      const lastSession = response[0];
+      console.log('Setting selected session:', lastSession);
+      setSelectedChatSession(lastSession);
+      setActiveSessionId(lastSession._id);
+      setSessionId(lastSession._id);
       return response;
     } catch (error) {
       console.error('Error fetching session data:', error);
@@ -180,7 +182,10 @@ export const useChatHandler = (messages, setMessages) => {
 
     const payload = {
       sessionId: sessionId || 'id not provided',
-      workspaceId: workspaceId || 'id not provided',
+      workspaceId:
+        workspaceId ||
+        sessionStorage.getItem('workspaceId') ||
+        'id not provided',
       prompt: userInput || 'No prompt provided',
       userId: userId || 'id not provided',
       clientApiKey:
@@ -197,9 +202,7 @@ export const useChatHandler = (messages, setMessages) => {
 
     const decoder = new TextDecoder('utf-8');
     try {
-      const streamResponse = new Response(
-        await completionsApi.getStream(payload)
-      );
+      const streamResponse = new Response(await chatApi.getStream(payload));
       const reader = streamResponse.body.getReader();
       let assistantMessage = { role: 'assistant', content: '' };
 

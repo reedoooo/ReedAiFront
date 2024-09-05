@@ -1,6 +1,6 @@
 import { apiUtils } from '@/lib/apiUtils';
 
-export const workspaces = {
+export const workspacesApi = {
   getAll: async () => {
     try {
       const data = await apiUtils.get('/chat/workspaces');
@@ -59,3 +59,5 @@ export const workspaces = {
     }
   },
 };
+
+export default workspacesApi;

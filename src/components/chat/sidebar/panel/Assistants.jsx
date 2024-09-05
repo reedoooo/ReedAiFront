@@ -1,7 +1,6 @@
-import { Box, IconButton, Tab, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { AssistantIcon } from 'assets/humanIcons';
-import { StyledMotionTabs } from 'components/chat/styled';
 import { RCTabs } from 'components/themed';
 import { useMode } from 'hooks';
 import { AssistantDisplay } from './items/assistant-items/AssistantDisplay';

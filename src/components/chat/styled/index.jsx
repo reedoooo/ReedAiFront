@@ -442,6 +442,7 @@ export const ChatMessageActionsContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between',
   alignItems: 'center', // Align items vertically
   width: '100%', // Make sure it takes the full width
+  flexGrow: 1,
 }));
 export const ChatMessageIconContainer = styled(IconButton)(({ theme }) => ({
   color: theme.palette.primary.main,
@@ -460,13 +461,15 @@ export const ChatMessageIconContainer = styled(IconButton)(({ theme }) => ({
 export const ChatMessageEditorContentsContainer = styled(Box)(({ theme }) => ({
   backgroundColor: '#333',
   borderRadius: '0.25rem',
-  p: 2,
+  // p: 2,
   m: 1,
   color: 'white',
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
   width: '100%',
+  height: '100%',
+  flexGrow: 1,
 }));
 /*  --- CHAT - FILES --- */
 export const FileItemsPreviewContainer = styled(Box)(({ theme }) => ({

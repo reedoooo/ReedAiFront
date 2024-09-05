@@ -81,6 +81,7 @@ export function copyText(options) {
  */
 export const safeParse = (jsonString, defaultValue = null) => {
   try {
+    console.log(`Type: ${typeof jsonString}, Value: ${jsonString}`);
     return JSON.parse(jsonString);
   } catch (error) {
     console.error('Failed to parse JSON string:', error);

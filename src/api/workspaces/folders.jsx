@@ -1,6 +1,6 @@
 import { apiUtils } from '@/lib/apiUtils';
 
-export const chatFolders = {
+export const foldersApi = {
   getAll: async () => {
     try {
       const data = await apiUtils.get('/chat/folders');
@@ -62,4 +62,4 @@ export const chatFolders = {
   },
 };
 
-export default chatFolders;
+export default foldersApi;

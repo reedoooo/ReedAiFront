@@ -1,13 +1,13 @@
 import mammoth from 'mammoth';
 import { useState, useCallback } from 'react';
 import { toast } from 'sonner';
-import { chatFiles } from 'api/chat';
+import { attachmentsApi } from 'api/Ai/chat-sessions';
 
 export const useCreateFileHandler = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const getFileById = async fileId => {
-    const { data: file, error } = await chatFiles.getFile(fileId);
+    const { data: file, error } = await attachmentsApi.getFile(fileId);
 
     if (!file) {
       throw new Error(error.message);
@@ -68,7 +68,8 @@ export const useCreateFileHandler = () => {
       }
 
       try {
-        const { data: createdFile } = await chatFiles.createFile(fileRecord);
+        const { data: createdFile } =
+          await attachmentsApi.createFile(fileRecord);
 
         await createFileWorkspaces([
           {
@@ -78,7 +79,7 @@ export const useCreateFileHandler = () => {
           },
         ]);
 
-        const filePath = await chatFiles.uploadFile(file, {
+        const filePath = await attachmentsApi.uploadFile(file, {
           name: createdFile.name,
           user_id: createdFile.user_id,
           file_id: createdFile.id,
@@ -90,7 +91,7 @@ export const useCreateFileHandler = () => {
         formData.append('fileId', createdFile.id);
         formData.append('embeddingsProvider', embeddingsProvider);
 
-        const response = await chatFiles.getFileRetrievalProcess(formData);
+        const response = await attachmentsApi.getFileRetrievalProcess(formData);
 
         if (!response.data.success) {
           throw new Error(response.data.message);
@@ -114,7 +115,8 @@ export const useCreateFileHandler = () => {
       setIsLoading(true);
 
       try {
-        const { data: createdFile } = await chatFiles.createFile(fileRecord);
+        const { data: createdFile } =
+          await attachmentsApi.createFile(fileRecord);
 
         await createFileWorkspaces([
           {
@@ -124,7 +126,7 @@ export const useCreateFileHandler = () => {
           },
         ]);
 
-        const filePath = await chatFiles.uploadFile(file, {
+        const filePath = await attachmentsApi.uploadFile(file, {
           name: createdFile.name,
           user_id: createdFile.user_id,
           file_id: createdFile.id,
@@ -132,7 +134,7 @@ export const useCreateFileHandler = () => {
 
         await updateFile(createdFile.id, { file_path: filePath });
 
-        const response = await chatFiles.getFileRetrievalProcess({
+        const response = await attachmentsApi.getFileRetrievalProcess({
           text,
           fileId: createdFile.id,
           embeddingsProvider,
@@ -158,7 +160,7 @@ export const useCreateFileHandler = () => {
 
   const createFileWorkspaces = useCallback(async items => {
     try {
-      const data = await chatFiles.createFileWorkspace(items);
+      const data = await attachmentsApi.createFileWorkspace(items);
       return data;
     } catch (error) {
       throw new Error(error.message);
@@ -167,7 +169,7 @@ export const useCreateFileHandler = () => {
 
   const updateFile = useCallback(async (fileId, file) => {
     try {
-      const { data } = await chatFiles.updateFile(fileId, file);
+      const { data } = await attachmentsApi.updateFile(fileId, file);
       return data;
     } catch (error) {
       throw new Error(error.message);
@@ -176,7 +178,7 @@ export const useCreateFileHandler = () => {
 
   const deleteFile = useCallback(async fileId => {
     try {
-      await chatFiles.deleteFile(fileId);
+      await attachmentsApi.deleteFile(fileId);
       return true;
     } catch (error) {
       throw new Error(error.message);
@@ -185,7 +187,7 @@ export const useCreateFileHandler = () => {
 
   const deleteFileWorkspace = useCallback(async (fileId, workspaceId) => {
     try {
-      await chatFiles.deleteFileWorkspace(fileId, workspaceId);
+      await attachmentsApi.deleteFileWorkspace(fileId, workspaceId);
       return true;
     } catch (error) {
       throw new Error(error.message);

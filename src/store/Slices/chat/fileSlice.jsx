@@ -1,6 +1,6 @@
 // src/redux/fileSlice.js
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { chatFiles } from 'api/chat';
+import { attachmentsApi } from 'api/Ai/chat-sessions';
 import { getLocalData, getNewPromptId, setLocalData } from '../helpers';
 import { setPrompts } from './promptSlice';
 
@@ -23,7 +23,7 @@ export const fetchAllImages = createAsyncThunk(
       return state.files.images;
     }
     try {
-      const data = await chatFiles.getAllImages();
+      const data = await attachmentsApi.getAllImages();
       console.log('[fetchAllImages]', data);
       return data;
     } catch (error) {
@@ -35,7 +35,7 @@ export const fetchAllFiles = createAsyncThunk(
   'files/fetchAllFiles',
   async (_, { rejectWithValue }) => {
     try {
-      const data = await chatFiles.getAllFiles();
+      const data = await attachmentsApi.getAllFiles();
       console.log('[fetchAllFiles]', data);
       return data;
     } catch (error) {
@@ -50,7 +50,7 @@ export const fetchFileData = createAsyncThunk(
       // Get the existing prompts from the prompt reducer state
       const state = getState();
       const existingPrompts = state.prompts;
-      const fileList = await chatFiles.fetchChatFileData();
+      const fileList = await attachmentsApi.fetchChatFileData();
       console.log('[fetchFileData]', fileList);
       // Step 2: Parse each JSON file
       // Parse each JSON file
@@ -58,7 +58,7 @@ export const fetchFileData = createAsyncThunk(
         fileList.map(async fileName => {
           if (fileName.endsWith('.json')) {
             const fileContent =
-              await chatFiles.fetchChatFileDataByType(fileName);
+              await attachmentsApi.fetchChatFileDataByType(fileName);
             return fileContent;
           }
           return null;

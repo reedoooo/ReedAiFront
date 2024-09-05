@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { chatAssistants as assistantsApi } from 'api/chat';
+import { assistantsApi } from 'api/Ai/chat-sessions';
 import { getLocalData } from '../helpers';
 
 const LOCAL_NAME = 'assistantStore';

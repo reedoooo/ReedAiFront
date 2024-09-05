@@ -61,6 +61,7 @@ export const MainChat = () => {
     handleContentChange,
     handleGetSessionMessages,
     handleGetSession,
+    handleCreateNewSession,
   } = useChatHandler(messages, setMessages);
   const actionData = useActionData();
   const [open, setOpen] = useState(!actionData);
@@ -78,11 +79,12 @@ export const MainChat = () => {
       sessionId,
       workspaceId,
     },
-    actions: { setIsMessagesUpdated, setSessionHeader },
+    actions: { setIsMessagesUpdated, setSessionHeader, setSessionId },
   } = useChatStore();
   const { scrollToBottom, setIsAtBottom } = useChatScroll();
   const [error, setError] = useState(chatError);
   const [loading, setLoading] = useState(chatLoading);
+  const initializationAttempted = useRef(false);
   const [isEditorActive, setIsEditorActive] = useState(false);
   const [isFirstMessage, setIsFirstMessage] = useState(true);
   const controllerRef = useRef(null);
@@ -103,6 +105,40 @@ export const MainChat = () => {
       dialogRef.current.style.top = `${topPosition}px`;
     }
   }, [promptsMenu.isOpen]);
+  /* -- */
+  useEffect(() => {
+    const initializeSession = async () => {
+      let currentSessionId = sessionId || sessionStorage.getItem('sessionId');
+
+      if (!currentSessionId) {
+        try {
+          console.log('No session found, initializing new session...');
+          await handleCreateNewSession();
+          // Assuming handleCreateNewSession updates sessionId in context
+          currentSessionId = sessionStorage.getItem('sessionId');
+        } catch (error) {
+          console.error('Failed to initialize session:', error);
+        }
+      } else {
+        console.log('Session found:', currentSessionId);
+        // await handleGetSession();
+      }
+      if (!JSON.parse(localStorage.getItem('chatMessages'))) {
+        await handleGetSessionMessages();
+      }
+      // await handleGetSessionMessages();
+
+      setLoading(false);
+    };
+
+    initializeSession();
+  }, [
+    sessionId,
+    workspaceId,
+    handleCreateNewSession,
+    handleGetSessionMessages,
+    handleGetSession,
+  ]);
   /* --- fn() to handle the scroll to bottom --- */
   useEffect(() => {
     const fetchData = async () => {

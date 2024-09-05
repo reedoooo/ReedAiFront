@@ -51,6 +51,7 @@ import baseChatReducer, {
   setToolCommand,
   setUseRetrieval,
   setUserInput,
+  syncChatMessages,
 } from './baseChatSlice';
 import chatSessionReducer, {
   clearChatSessions,
@@ -102,6 +103,7 @@ import workspaceReducer, {
 
 export {
   // addEnvToUser,
+  syncChatMessages,
   clearChatSessions,
   createAssistant,
   createChatSession,

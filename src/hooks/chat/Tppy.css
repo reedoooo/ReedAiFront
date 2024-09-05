@@ -1,0 +1,17 @@
+.custom-editor {
+  /* background-color: #1c1c1e; Dark background color */
+  color: #fff; /* White text color */
+  padding: 10px 15px; /* Adjust padding for better spacing */
+  border-radius: 10px; /* Rounded corners */
+  /* border: 1px solid #444; Border to match the design */
+  width: 100%; /* Make the editor take the full width of its container */
+  box-sizing: border-box; /* Ensure padding and border are included in width */
+  min-height: 50px; /* Minimum height for the editor */
+  max-height: 150px; /* Maximum height before scrolling */
+  overflow-y: auto; /* Allow scrolling when content exceeds max-height */
+}
+
+.custom-editor:focus {
+  outline: none; /* Remove the default focus outline */
+  border-color: #007bff; /* Add a focus border color */
+}

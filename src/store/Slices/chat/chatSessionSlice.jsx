@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { sessions } from 'api/chat';
+import { chatApi } from 'api/Ai/chat-sessions';
 import { clearLocalDataAtStore, getLocalData, setLocalData } from '../helpers';
 
 const LOCAL_NAME = 'chatSessionStore';
@@ -15,13 +15,22 @@ function clearLocalSessionData() {
   clearLocalDataAtStore(LOCAL_NAME, REDUX_NAME);
 }
 // Async thunk for creating a new chat session
+// Async thunk for creating a new chat session
 export const createChatSession = createAsyncThunk(
   `${REDUX_NAME}/create`,
-  async (newSessionData, { rejectWithValue }) => {
+  async (newSessionData, { rejectWithValue, dispatch }) => {
     try {
-      const data = await sessions.create(newSessionData);
+      const data = await chatApi.create(newSessionData);
+
+      // Store the session ID in sessionStorage
+      sessionStorage.setItem('sessionId', data._id);
+
+      // Optionally, you can dispatch an action to update the Redux store
+      dispatch(setSessionId(data._id));
+
       return data;
     } catch (error) {
+      console.error('Error creating chat session:', error);
       return rejectWithValue(error.response?.data || error.message);
     }
   }
@@ -32,7 +41,7 @@ export const fetchSessions = createAsyncThunk(
 
   async (_, { rejectWithValue }) => {
     try {
-      const data = await sessions.getAll();
+      const data = await chatApi.getAll();
       return data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -43,7 +52,7 @@ export const updateSessions = createAsyncThunk(
   `${REDUX_NAME}/update`,
   async (sessionId, sessionData, { rejectWithValue }) => {
     try {
-      const data = await sessions.update(sessionId, sessionData);
+      const data = await chatApi.update(sessionId, sessionData);
       return data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);

@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
-import { chatFiles } from 'api/chat';
+import { settingsApi } from 'api/Ai/chat-items';
 import {
   EditIcon,
   FileCopyIcon,
@@ -165,7 +165,7 @@ export const Prompts = props => {
     const fetchData = async () => {
       try {
         const jsonPromptFile =
-          await chatFiles.getFileByName('prompt_files.json');
+          await settingsApi.getFileByName('prompt_files.json');
         setPrompts(jsonPromptFile);
       } catch (error) {
         console.error('Error fetching data:', error);
