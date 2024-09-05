@@ -31,20 +31,26 @@ export function RootBoundary() {
       cause,
     });
     console.log(errorInfo);
+    if (!error.status) {
+      return console.log('No status');
+    }
+    if (error.status === 500) {
+      return console.log('418');
+    }
     if (error.status === 404) {
-      return <div>Page not found</div>;
+      return console.log('404');
     }
 
     if (error.status === 401) {
-      return <div>You are not authorized to see this</div>;
+      return console.log('401');
     }
 
     if (error.status === 503) {
-      return <div>Looks like our API is down</div>;
+      return console.log('503');
     }
 
     if (error.status === 418) {
-      return <div>🫖</div>;
+      return console.log('418');
     }
   }
 

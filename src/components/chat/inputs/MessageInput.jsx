@@ -1,75 +1,69 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  IconButton,
-} from '@mui/material';
+import { Box, Card, CardActions, CardContent, IconButton } from '@mui/material';
 import { EditorContent } from '@tiptap/react';
 import React, { useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { SendIcon, StopCircleIcon } from 'assets/humanIcons';
+import { DarkIconBox } from 'assets/humanIcons/utils';
 import { useChatStore } from 'contexts';
-import { useDialog, useTipTapEditor } from 'hooks';
-import { File, FileDisplay, FileUploadButton } from '../files';
+import {
+  useChatHistoryHandler,
+  useDialog,
+  useMode,
+  useTipTapEditor,
+} from 'hooks';
+import { FileDisplay, FileUploadButton } from '../files';
 import {
   ChatMessageActionsContainer,
   ChatMessageEditorContentsContainer,
 } from '../styled';
-import { InputActions } from './toolbar';
+import { ToolDial } from './ToolDial';
 
 export const MessageInput = ({
-  theme,
-  handleSendMessage,
-  disabled,
+  disabled, // loading state for the send button
   setIsEditorActive,
   editorRef,
-  setFileInput,
-  isFirstMessage,
-  onContentChange,
+  onSend,
+  onChange,
 }) => {
   const apiKeyDialog = useDialog();
   const chatStore = useChatStore();
-  const { editor } = useTipTapEditor();
+  const { theme } = useMode();
   const {
-    state: { files, showFilesDisplay },
-    actions: { setShowFilesDisplay },
+    state: { files, showFilesDisplay, isFirstMessage },
+    actions: { setShowFilesDisplay, setUserInput },
   } = chatStore;
-
+  const {
+    setNewMessageContentToNextUserMessage,
+    setNewMessageContentToPreviousUserMessage,
+  } = useChatHistoryHandler();
+  const { editor } = useTipTapEditor(
+    isFirstMessage ? 'begin session' : 'continue session'
+  );
   const handleSendMessageWrapper = async () => {
-    await handleSendMessage();
-    editor.commands.clearContent(); // Clear the editor content
-  };
-
-  useEffect(() => {
-    if (editor) {
-      editor.on('focus', () => {
-        setIsEditorActive(true);
-        editorRef.current = true;
-      });
-      editor.on('blur', () => {
-        setIsEditorActive(false);
-        editorRef.current = false;
-      });
+    if (!JSON.parse(localStorage.getItem('baseChatStore')).apiKey) {
+      apiKeyDialog.handleOpen();
+      return;
     }
 
-    return () => {
-      if (editor) {
-        editor.off('focus', () => {
-          setIsEditorActive(true);
-          editorRef.current = true;
-        });
-        editor.off('blur', () => {
-          setIsEditorActive(false);
-          editorRef.current = false;
-        });
-      }
-    };
-  }, [editor, setIsEditorActive, editorRef]);
+    if (disabled) {
+      console.log('Already Sending');
+      return;
+    }
+
+    console.log('Sending');
+    editor.commands.clearContent(); // Clear the editor content
+    await onSend();
+  };
 
   return (
-    <Card sx={{ backgroundColor: '#26242C', borderRadius: 2, mt: 2, mb: 2 }}>
+    <Card
+      sx={{
+        backgroundColor: '#26242C',
+        borderRadius: 2,
+        mt: 2,
+        mb: 2,
+      }}
+    >
       <CardActions
         sx={{
           backgroundColor: '#26242C',
@@ -81,31 +75,12 @@ export const MessageInput = ({
       >
         <Box
           sx={{
-            display: !showFilesDisplay || files.length === 0 ? 'none' : 'flex',
+            display: !showFilesDisplay || files?.length === 0 ? 'none' : 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: '100%',
           }}
         >
-          {/* <IconButton
-            onClick={() => setShowFilesDisplay(!showFilesDisplay)}
-            sx={{
-              p: 2,
-              borderRadius: '50%',
-              width: 40,
-              height: 40,
-              my: 'auto',
-              py: 'auto',
-            }}
-            aria-expanded={showFilesDisplay}
-            aria-label={showFilesDisplay ? 'Hide files' : 'Show files'}
-          >
-            {showFilesDisplay && files.length > 0 ? (
-              <FaChevronLeft />
-            ) : (
-              <FaChevronRight />
-            )}
-          </IconButton> */}
           <FileDisplay
             files={files}
             hidden={!showFilesDisplay || files.length === 0}
@@ -113,7 +88,7 @@ export const MessageInput = ({
         </Box>
         <ChatMessageActionsContainer>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <IconButton
+            {/* <IconButton
               onClick={() => setShowFilesDisplay(!showFilesDisplay)}
               sx={{
                 p: 2,
@@ -131,53 +106,128 @@ export const MessageInput = ({
               ) : (
                 <FaChevronRight />
               )}
-            </IconButton>
-            <InputActions
-              editor={editor}
-              handleOpenApiModal={apiKeyDialog.handleOpen}
-              setUserInput={onContentChange}
-              setFileInput={setFileInput}
-              isFirstMessage={isFirstMessage}
-            />
+            </IconButton> */}
+            <ToolDial editor={editor} />
           </Box>
-
-          <IconButton
-            onClick={() => {
-              if (!sessionStorage.getItem('apiKey')) {
-                console.log('No API Key');
-                apiKeyDialog.handleOpen();
-              } else if (disabled) {
-                console.log('Already Sending');
-              } else {
-                console.log('Sending');
-                handleSendMessageWrapper();
-              }
-            }}
-          >
-            {!disabled ? (
-              <SendIcon
-                style={{ color: theme.palette.primary.main, fontSize: 20 }}
-              />
-            ) : (
-              <StopCircleIcon
-                style={{ color: theme.palette.primary.main, fontSize: 20 }}
-              />
-            )}
-          </IconButton>
         </ChatMessageActionsContainer>
       </CardActions>
-      <CardContent>
+      <CardContent
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          padding: '8px',
+          paddingBottom: '8px !important',
+        }}
+      >
         <ChatMessageActionsContainer>
-          <Box
-            sx={{
-              pr: 2,
-              alignItems: 'center',
-            }}
-          >
-            <FileUploadButton />
-          </Box>
           <ChatMessageEditorContentsContainer>
-            <EditorContent editor={editor} />
+            <Box
+              sx={{
+                alignItems: 'center',
+                flexGrow: 1,
+              }}
+            >
+              <IconButton
+                onClick={() => setShowFilesDisplay(!showFilesDisplay)}
+                sx={{
+                  p: 2,
+                  borderRadius: '50%',
+                  width: 40,
+                  height: 40,
+                  my: 'auto',
+                  py: 'auto',
+                }}
+                aria-expanded={showFilesDisplay}
+                aria-label={showFilesDisplay ? 'Hide files' : 'Show files'}
+              >
+                {showFilesDisplay && files.length > 0 ? (
+                  <FaChevronLeft />
+                ) : (
+                  <FaChevronRight />
+                )}
+              </IconButton>
+            </Box>
+            <Box
+              sx={{
+                px: 2,
+                alignItems: 'center',
+                flexGrow: 1,
+              }}
+            >
+              <FileUploadButton />
+            </Box>
+            <Box
+              sx={{
+                px: 2,
+                flexGrow: 1,
+                display: 'flex',
+                width: '100%',
+                '& > div': {
+                  // This targets immediate child div elements
+                  flexGrow: 1,
+                },
+                // If you need to target a specific child div, you can use nth-child
+                '& > div:nth-of-type(1)': {
+                  // This targets the first child div
+                  flexGrow: 1,
+                },
+                // flexGrow: 2,
+                // justifyContent: 'flex-start',
+                // display: 'flex',
+                // width: '100%',
+                // backgroundColor: '#2E2C34', // Adjust this to better fill the area
+                // borderRadius: '8px',
+                // p: 1,
+              }}
+            >
+              {' '}
+              <EditorContent editor={editor} />
+            </Box>{' '}
+            <Box
+              sx={{
+                px: 2,
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <DarkIconBox
+                icon={
+                  <IconButton
+                    onClick={() => {
+                      if (
+                        !JSON.parse(localStorage.getItem('baseChatStore'))
+                          .apiKey
+                      ) {
+                        console.log('No API Key');
+                        apiKeyDialog.handleOpen();
+                      } else if (disabled) {
+                        console.log('Already Sending');
+                      } else {
+                        console.log('Sending');
+                        handleSendMessageWrapper();
+                      }
+                    }}
+                  >
+                    {!disabled ? (
+                      <SendIcon
+                        style={{
+                          color: theme.palette.primary.main,
+                          fontSize: 20,
+                        }}
+                      />
+                    ) : (
+                      <StopCircleIcon
+                        style={{
+                          color: theme.palette.primary.main,
+                          fontSize: 20,
+                        }}
+                      />
+                    )}
+                  </IconButton>
+                }
+              />
+            </Box>
           </ChatMessageEditorContentsContainer>
         </ChatMessageActionsContainer>
       </CardContent>

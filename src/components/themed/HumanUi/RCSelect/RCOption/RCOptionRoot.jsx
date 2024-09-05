@@ -1,4 +1,4 @@
-import { optionClasses } from '@mui/base/Option';
+import { Option } from '@mui/base';
 import { styled } from '@mui/system';
 
 const RCOptionRoot = styled('li')(({ theme }) => {

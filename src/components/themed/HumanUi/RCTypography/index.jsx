@@ -21,6 +21,7 @@ import RCTypographyRoot from './RCTypographyRoot';
 export const RCTypography = React.forwardRef(
   (
     {
+      variant = 'body1',
       color = 'primary',
       fontWeight = false,
       textTransform = 'none',
@@ -32,10 +33,13 @@ export const RCTypography = React.forwardRef(
     },
     ref
   ) => {
+    const MUI_VARIANT = variant === 'darkModeFormLabel' ? 'h6' : variant;
+
     return (
       <RCTypographyRoot
         {...rest}
         ref={ref}
+        variant={MUI_VARIANT}
         ownerState={{
           color,
           textTransform,
@@ -43,6 +47,7 @@ export const RCTypography = React.forwardRef(
           fontWeight,
           opacity,
           textGradient,
+          variant,
         }}
       >
         {children}
@@ -55,6 +60,22 @@ RCTypography.displayName = 'RCTypography';
 
 // Typechecking props for the RCTypography
 RCTypography.propTypes = {
+  variant: PropTypes.oneOf([
+    'body1',
+    'body2',
+    'button',
+    'caption',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'subtitle1',
+    'subtitle2',
+    'darkModeFormLabel',
+    // 'subtitle2DarkMode',
+  ]),
   color: PropTypes.oneOf([
     'inherit',
     'primary',

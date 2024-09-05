@@ -23,11 +23,9 @@ import {
 import { StyledIconContainer } from 'components/styled';
 import { RCBox, RCButton, RCTypography } from 'components/themed';
 import { authConfigs } from 'config/form-configs';
-import { useAuthStore } from 'contexts/AuthProvider';
-import { useMode } from 'hooks';
-import { dispatch } from 'store/index';
-import { toggleDialogState } from 'store/Slices/appSlice';
-import LoadingIndicator from 'utils/app/LoadingIndicator';
+import { useUserStore } from 'contexts';
+import { useDialog, useMode } from 'hooks';
+
 const StyledInfoPanel = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1),
   backgroundColor: theme.palette.background.paper,
@@ -72,16 +70,13 @@ const GuestInfoPanel = () => {
   );
 };
 export const AuthPages = () => {
-  const { state, actions } = useAuthStore();
-  const { handleAuthSubmit } = actions;
-  const { formDisabled, isAuthenticated } = state;
+  const {
+    state: { isAuthenticated, userRequest },
+    actions: { handleAuthSubmit },
+  } = useUserStore();
   const navigate = useNavigate();
   const { theme } = useMode();
-  const pageRef = React.createRef();
-  const formRef = React.createRef();
-  const searchParams = {};
-  // const { navigate } = useRouter();
-
+  const authDialog = useDialog();
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -91,6 +86,9 @@ export const AuthPages = () => {
     },
     onSubmit: values => handleAuthSubmit(values),
   });
+  const pageRef = React.createRef();
+  const formRef = React.createRef();
+  const searchParams = {};
 
   const renderFormFields = () => {
     const formFieldsConfigs = {
@@ -125,30 +123,24 @@ export const AuthPages = () => {
     });
   };
 
-  const initDialogToggle = () =>
-    dispatch(toggleDialogState('initAddContentVisible'));
+  const initDialogToggle = () => {
+    authDialog.toggle();
+  };
   const onClose = () => {
-    formDisabled
-      ? alert('Please sign in or add a draft as a guest')
-      : console.log('Form closed'); // Adjust this as needed
+    console.log('Form closed'); // Adjust this as needed
   };
 
   const handleContinueAsGuest = () => {
     initDialogToggle();
     onClose();
   };
-  const storedUserData = JSON.parse(localStorage.getItem('userStore'));
   useEffect(() => {
     if (isAuthenticated) {
+      console.log('User is authenticated');
       return navigate('/admin/dashboard');
     }
-  }, [isAuthenticated]); // Add dependencies as needed
+  }, [isAuthenticated, navigate]); // Add dependencies as needed
 
-  useEffect(() => {
-    if (state.status === 'pending') {
-      return <LoadingIndicator />;
-    }
-  }, [state.status]); // Add dependencies as needed
   return (
     <div>
       <GuestInfoPanel />

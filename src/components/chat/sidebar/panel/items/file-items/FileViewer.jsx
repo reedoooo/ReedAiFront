@@ -1,6 +1,17 @@
 // src/components/FileViewer.js
 import React, { useState, useEffect } from 'react';
-import fetchFile from 'api/utils';
+
+const fetchFile = async filePath => {
+  try {
+    const response = await fetch(filePath, {
+      responseType: 'blob',
+    });
+    const fileBlobUrl = URL.createObjectURL(response.data);
+    return fileBlobUrl;
+  } catch (error) {
+    throw new Error('Failed to fetch file');
+  }
+};
 
 export const FileViewer = ({ filePath }) => {
   const [fileUrl, setFileUrl] = useState('');

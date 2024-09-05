@@ -1,5 +1,5 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import appSlice from './appSlice';
+import { appReducer } from './app';
 import {
   assistantReducer,
   baseChatReducer,
@@ -13,20 +13,11 @@ import {
   toolReducer,
   workspaceReducer,
 } from './chat';
-import colorModeSlice from './colorModeSlice';
-import { authReducer, profileReducer, userReducer } from './user';
+import { userReducer } from './user';
 
-export const rootReducer = combineReducers({
-  // passiveChat: passiveChatReducer,
-  // generalChat: generalChatReducer,
-  // activeChat: activeChatReducer,
-  // chatInputCommand: chatInputCommandReducer,
-  // retrieval: retrievalReducer,
-  app: appSlice,
-  colorMode: colorModeSlice,
-  auth: authReducer,
+const reedAiReducer = combineReducers({
+  app: appReducer,
   user: userReducer,
-  profile: profileReducer,
   workspace: workspaceReducer,
   baseChat: baseChatReducer,
   chatSession: chatSessionReducer,
@@ -39,5 +30,12 @@ export const rootReducer = combineReducers({
   prompt: promptReducer,
   tool: toolReducer,
 });
+
+export const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT') {
+    state = undefined;
+  }
+  return reedAiReducer(state, action);
+};
 
 export default rootReducer;

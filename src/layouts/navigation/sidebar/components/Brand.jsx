@@ -1,11 +1,11 @@
 import { Box, Typography } from '@mui/material';
 import React, { Suspense } from 'react';
 import { CustomLogoIcon } from 'assets/humanIcons/custom-logo';
-import { RCFlex, StyledLogoIcon } from 'components/index';
+import { RCFlex } from 'components';
 import { useMode } from 'hooks';
-import { LoadingIndicator } from 'utils/app/LoadingIndicator';
+import { LoadingIndicator } from 'utils';
 
-const NavbarLogo = () => (
+export const NavbarLogo = () => (
   <Suspense fallback={<LoadingIndicator />}>
     {/* <StyledLogoIcon hval="2rem"> */}
     <CustomLogoIcon />
@@ -13,7 +13,7 @@ const NavbarLogo = () => (
   </Suspense>
 );
 
-const HSeparator = props => {
+export const HSeparator = props => {
   const { variant, children, ...rest } = props;
   return (
     <Box
@@ -52,7 +52,7 @@ export function SidebarBrand() {
   );
 }
 
-const Brand = props => {
+export const Brand = props => {
   return <SidebarBrand />;
 };
 

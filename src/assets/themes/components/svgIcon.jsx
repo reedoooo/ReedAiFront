@@ -1,9 +1,9 @@
 import { pxToRem } from 'assets/themes/functions';
 
 export default {
-  defaultProps: {
-    fontSize: 'inherit',
-  },
+  // defaultProps: {
+  //   fontSize: 'inherit',
+  // },
   styleOverrides: {
     fontSizeInherit: {
       fontSize: 'inherit !important',

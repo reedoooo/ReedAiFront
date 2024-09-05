@@ -1,6 +1,6 @@
 // src/redux/fileSlice.js
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { chatFiles } from 'api/chat';
+import { attachmentsApi } from 'api/Ai/chat-sessions';
 import { getLocalData, getNewPromptId, setLocalData } from '../helpers';
 import { setPrompts } from './promptSlice';
 
@@ -13,11 +13,17 @@ function setLocalFileData(data) {
   setLocalData(LOCAL_NAME, data);
 }
 
+// Async thunk to fetch all images, with a check to prevent refetching if already in state
 export const fetchAllImages = createAsyncThunk(
   'files/fetchAllImages',
-  async (_, { rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
+    const state = getState();
+    // Check if images are already in state
+    if (state.files.images && state.files.images.length > 0) {
+      return state.files.images;
+    }
     try {
-      const data = await chatFiles.getAllImages();
+      const data = await attachmentsApi.getAllImages();
       console.log('[fetchAllImages]', data);
       return data;
     } catch (error) {
@@ -25,12 +31,11 @@ export const fetchAllImages = createAsyncThunk(
     }
   }
 );
-
 export const fetchAllFiles = createAsyncThunk(
   'files/fetchAllFiles',
   async (_, { rejectWithValue }) => {
     try {
-      const data = await chatFiles.getAllFiles();
+      const data = await attachmentsApi.getAllFiles();
       console.log('[fetchAllFiles]', data);
       return data;
     } catch (error) {
@@ -38,8 +43,6 @@ export const fetchAllFiles = createAsyncThunk(
     }
   }
 );
-
-// Async thunk for fetching file data using apiUtils
 export const fetchFileData = createAsyncThunk(
   'files/fetchData',
   async (_, { getState, rejectWithValue }) => {
@@ -47,7 +50,7 @@ export const fetchFileData = createAsyncThunk(
       // Get the existing prompts from the prompt reducer state
       const state = getState();
       const existingPrompts = state.prompts;
-      const fileList = await chatFiles.fetchChatFileData();
+      const fileList = await attachmentsApi.fetchChatFileData();
       console.log('[fetchFileData]', fileList);
       // Step 2: Parse each JSON file
       // Parse each JSON file
@@ -55,7 +58,7 @@ export const fetchFileData = createAsyncThunk(
         fileList.map(async fileName => {
           if (fileName.endsWith('.json')) {
             const fileContent =
-              await chatFiles.fetchChatFileDataByType(fileName);
+              await attachmentsApi.fetchChatFileDataByType(fileName);
             return fileContent;
           }
           return null;
@@ -105,8 +108,6 @@ export const fetchFileData = createAsyncThunk(
     }
   }
 );
-
-// File slice with reducers
 export const fileSlice = createSlice({
   name: REDUX_NAME,
   initialState,
@@ -123,20 +124,6 @@ export const fileSlice = createSlice({
         const file = action.payload;
         state.files[file.id] = file;
       }
-    },
-    setPreviewFiles: (state, action) => {
-      console.log('previewFiles:', action.payload);
-      state.previewFiles = action.payload;
-    },
-    setPreviewUrls: (state, action) => {
-      console.log('previewUrls:', action.payload);
-      state.previewUrls = action.payload;
-    },
-    setSelectedFiles: (state, action) => {
-      state.selectedFiles = action.payload;
-    },
-    setUploadedFiles: (state, action) => {
-      state.uploadedFiles = action.payload;
     },
     setChatFiles: (state, action) => {
       state.chatFiles = action.payload;
@@ -200,10 +187,6 @@ export const {
   setNewMessageFiles,
   setNewMessageImages,
   setShowFilesDisplay,
-  setPreviewFiles,
-  setSelectedFiles,
-  setPreviewUrls,
-  setUploadedFiles,
 } = fileSlice.actions;
 
 export default fileSlice.reducer;

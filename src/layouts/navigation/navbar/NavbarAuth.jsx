@@ -14,11 +14,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import routes from '@/routes/index';
-import { LogoIcon } from 'components/index';
+import { RCBox } from 'components/themed';
 import { SidebarContext } from 'contexts/SidebarProvider';
 import { useMode } from 'hooks';
+import { Brand } from '../sidebar/components';
 
-export default function AuthNavbar(props) {
+export const AuthNavbar = props => {
   const { logoText, secondary } = props;
   const { theme } = useMode();
   const matches = useMediaQuery(theme.breakpoints.up('lg'));
@@ -50,18 +51,18 @@ export default function AuthNavbar(props) {
     return createLinks(route?.items);
   };
 
-  const brand = (
-    <Box
-      component={NavLink}
-      to="/"
-      sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
-    >
-      <LogoIcon />
-      <Typography variant="h6" ml={1}>
-        {logoText}
-      </Typography>
-    </Box>
-  );
+  // const brand = (
+  //   <Box
+  //     component={NavLink}
+  //     to="/"
+  //     sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
+  //   >
+  //     <LogoIcon />
+  //     <Typography variant="h6" ml={1}>
+  //       {logoText}
+  //     </Typography>
+  //   </Box>
+  // );
 
   return (
     <SidebarContext.Provider value={{ sidebarWidth: 250 }}>
@@ -75,7 +76,9 @@ export default function AuthNavbar(props) {
       >
         <Container maxWidth="lg">
           <Toolbar>
-            {brand}
+            <RCBox theme={theme} variant="card">
+              <Brand />
+            </RCBox>
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: 'none', lg: 'flex' } }}>
               <Button
@@ -160,9 +163,11 @@ export default function AuthNavbar(props) {
       </AppBar>
     </SidebarContext.Provider>
   );
-}
+};
 
 AuthNavbar.propTypes = {
   logoText: PropTypes.string.isRequired,
   // secondary: PropTypes.bool,
 };
+
+export default AuthNavbar;

@@ -12,11 +12,12 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
+import { settingsApi } from 'api/Ai/chat-items';
 import {
   EditIcon,
   FileCopyIcon,
-  KeyboardArrowUpIcon,
   KeyboardArrowDownIcon,
+  KeyboardArrowUpIcon,
 } from 'assets/humanIcons';
 import PromptRecommend from 'assets/recommend.json';
 import {
@@ -26,10 +27,11 @@ import {
   StyledTextareaAutosize,
   StyledTextField,
 } from 'components/chat/styled';
+import { useChatStore } from 'contexts/ChatProvider';
 import { useCopyToClipboard, useMode } from 'hooks';
 
 const addCustomPrompt = async (name, content) => {
-  const url = 'http://localhost:3001/api/files/add/prompt'; // Replace with your actual endpoint
+  const url = 'http://localhost:3001/api/chat/files/add/prompt'; // Replace with your actual endpoint
 
   try {
     const response = await fetch(url, {
@@ -125,30 +127,17 @@ const CurrentPromptRenderer = ({ prompt, isOpen, onToggle }) => {
     </motion.div>
   );
 };
-export const Prompts = () => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [animationKey, setAnimationKey] = useState(0);
+
+export const Prompts = props => {
+  const { folders = [], data = {}, title = '' } = props;
   const { theme } = useMode();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [promptList, setPromptList] = useState(
-    JSON.parse(localStorage.getItem('promptStore')?.prompts) || [
-      {
-        id: 1,
-        title: 'Prompt 1',
-        content: 'This is the description for Prompt 1.',
-      },
-      {
-        id: 2,
-        title: 'Prompt 2',
-        content: 'This is the description for Prompt 2.',
-      },
-      {
-        id: 3,
-        title: 'Prompt 3',
-        content: 'This is the description for Prompt 3.',
-      },
-    ]
-  );
+  const {
+    state: { prompts },
+    actions: { setPrompts },
+  } = useChatStore();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [animationKey, setAnimationKey] = useState(0);
   const [tempPromptKey, setTempPromptKey] = useState('');
   const [tempPromptValue, setTempPromptValue] = useState('');
   const [modalMode, setModalMode] = useState('');
@@ -173,14 +162,11 @@ export const Prompts = () => {
   };
   // Fetch data from local storage
   useEffect(() => {
-    const fetchData = () => {
+    const fetchData = async () => {
       try {
-        const files =
-          JSON.parse(localStorage.getItem('promptStore').prompts) || [];
-        console.log('FILES', files);
-        setRows(files);
-        setPromptList(removeDuplicateTitles(files));
-        setLoading(false);
+        const jsonPromptFile =
+          await settingsApi.getFileByName('prompt_files.json');
+        setPrompts(jsonPromptFile);
       } catch (error) {
         console.error('Error fetching data:', error);
         setLoading(false);
@@ -211,7 +197,7 @@ export const Prompts = () => {
   // Function to add a prompt
   const handleAddPrompt = async () => {
     if (newPrompt.title && newPrompt.content) {
-      for (const i of promptList) {
+      for (const i of prompts) {
         if (i.key === tempPromptKey) {
           alert('Duplicate title, please re-enter');
           return;
@@ -221,8 +207,8 @@ export const Prompts = () => {
           return;
         }
       }
-      const updatedPrompts = [...promptList, newPrompt];
-      setPromptList(updatedPrompts);
+      const updatedPrompts = [...prompts, newPrompt];
+      setPrompts(updatedPrompts);
       localStorage.setItem('customPrompts', JSON.stringify(updatedPrompts));
       addCustomPrompt(newPrompt.title, newPrompt.content);
       setNewPrompt({ title: '', content: '' });
@@ -230,10 +216,10 @@ export const Prompts = () => {
   };
   // Function to edit an existing prompt
   const handleEditPrompt = (index, updatedPrompt) => {
-    const updatedPrompts = promptList.map((prompt, i) =>
+    const updatedPrompts = prompts.map((prompt, i) =>
       i === index ? updatedPrompt : prompt
     );
-    const tempList = promptList.filter((_, i) => i !== index);
+    const tempList = prompts.filter((_, i) => i !== index);
 
     for (const i of tempList) {
       if (i.key === tempPromptKey) {
@@ -246,25 +232,22 @@ export const Prompts = () => {
       }
     }
 
-    setPromptList([
-      { key: tempPromptKey, value: tempPromptValue },
-      ...tempList,
-    ]);
+    setPrompts([{ key: tempPromptKey, value: tempPromptValue }, ...tempList]);
     alert('Prompt modified successfully');
     changeShowModal('');
-    setPromptList(updatedPrompts);
+    setPrompts(updatedPrompts);
     localStorage.setItem('customPrompts', JSON.stringify(updatedPrompts));
   };
   // Function to delete a prompt
   const handleDeletePrompt = index => {
-    const updatedPrompts = promptList.filter((_, i) => i !== index);
-    setPromptList(updatedPrompts);
+    const updatedPrompts = prompts.filter((_, i) => i !== index);
+    setPrompts(updatedPrompts);
     localStorage.setItem('customPrompts', JSON.stringify(updatedPrompts));
     alert('Prompt deleted successfully');
   };
   // Function to clear prompt list
   const handleClearPrompts = () => {
-    setPromptList([]);
+    setPrompts([]);
     localStorage.removeItem('customPrompts');
     alert('All prompts cleared successfully');
   };
@@ -313,7 +296,7 @@ export const Prompts = () => {
       const jsonData = JSON.parse(tempPromptValue);
       for (const i of jsonData) {
         let safe = true;
-        for (const j of promptList) {
+        for (const j of prompts) {
           if (j.key === i.key) {
             alert(`Skipped due to duplicate title: ${i.key}`);
             safe = false;
@@ -325,8 +308,7 @@ export const Prompts = () => {
             break;
           }
         }
-        if (safe)
-          setPromptList([{ key: i.key, value: i.value }, ...promptList]);
+        if (safe) setPrompts([{ key: i.key, value: i.value }, ...prompts]);
       }
       alert('Import successful');
       changeShowModal('');
@@ -336,7 +318,7 @@ export const Prompts = () => {
     }
   };
   const exportPromptTemplate = () => {
-    const jsonDataStr = JSON.stringify(promptList);
+    const jsonDataStr = JSON.stringify(prompts);
     const blob = new Blob([jsonDataStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -528,7 +510,7 @@ export const Prompts = () => {
               <Typography variant="h6" sx={{ mt: 2, color: '#fff' }}>
                 Current Prompts
               </Typography>
-              {promptList?.map((prompt, index) => (
+              {prompts?.map((prompt, index) => (
                 <CurrentPromptRenderer
                   key={index}
                   prompt={prompt}
@@ -539,7 +521,7 @@ export const Prompts = () => {
             </TabPanel>
             <TabPanel>
               <Typography variant="h6">Edit Prompts</Typography>
-              {promptList.map((prompt, index) => (
+              {prompts.map((prompt, index) => (
                 <Box key={index} sx={{ mt: 2 }}>
                   <Typography>{prompt.title}</Typography>
                   <StyledButton

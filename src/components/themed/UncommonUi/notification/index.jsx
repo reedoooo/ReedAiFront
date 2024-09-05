@@ -1,26 +1,24 @@
 import { Snackbar } from '@mui/base/Snackbar';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/system';
 import * as React from 'react';
 import { Transition } from 'react-transition-group';
+import { CheckCircleRoundedIcon, CloseIcon } from 'assets/humanIcons';
 
-export const NotificationBox = () => {
-  const [open, setOpen] = React.useState(false);
+export const NotificationBox = ({ open, message, severity, onClose }) => {
   const [exited, setExited] = React.useState(true);
   const nodeRef = React.useRef(null);
 
-  const handleClose = (_, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
+  // const handleClose = (_, reason) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
 
-    setOpen(false);
-  };
+  //   setOpen(false);
+  // };
 
-  const handleClick = () => {
-    setOpen(true);
-  };
+  // const handleClick = () => {
+  //   setOpen(true);
+  // };
 
   const handleOnEnter = () => {
     setExited(false);
@@ -31,56 +29,48 @@ export const NotificationBox = () => {
   };
 
   return (
-    <React.Fragment>
-      <TriggerButton type="button" onClick={handleClick}>
-        Open snackbar
-      </TriggerButton>
-      <StyledSnackbar
-        autoHideDuration={5000}
-        open={open}
-        onClose={handleClose}
-        exited={exited}
+    <StyledSnackbar
+      autoHideDuration={5000}
+      open={open}
+      onClose={onClose}
+      exited={exited}
+    >
+      <Transition
+        timeout={{ enter: 400, exit: 400 }}
+        in={open}
+        appear
+        unmountOnExit
+        onEnter={handleOnEnter}
+        onExited={handleOnExited}
+        nodeRef={nodeRef}
       >
-        <Transition
-          timeout={{ enter: 400, exit: 400 }}
-          in={open}
-          appear
-          unmountOnExit
-          onEnter={handleOnEnter}
-          onExited={handleOnExited}
-          nodeRef={nodeRef}
-        >
-          {status => (
-            <SnackbarContent
-              style={{
-                transform: positioningStyles[status],
-                transition: 'transform 300ms ease',
+        {status => (
+          <SnackbarContent
+            style={{
+              transform: positioningStyles[status],
+              transition: 'transform 300ms ease',
+            }}
+            ref={nodeRef}
+          >
+            <CheckCircleRoundedIcon
+              sx={{
+                color: severity === 'success' ? 'success.main' : 'error.main',
+                flexShrink: 0,
+                width: '1.25rem',
+                height: '1.5rem',
               }}
-              ref={nodeRef}
-            >
-              <CheckRoundedIcon
-                sx={{
-                  color: 'success.main',
-                  flexShrink: 0,
-                  width: '1.25rem',
-                  height: '1.5rem',
-                }}
-              />
-              <div className="snackbar-message">
-                <p className="snackbar-title">Notifications sent</p>
-                <p className="snackbar-description">
-                  Everything was sent to the desired address.
-                </p>
-              </div>
-              <CloseIcon
-                onClick={handleClose}
-                className="snackbar-close-icon"
-              />
-            </SnackbarContent>
-          )}
-        </Transition>
-      </StyledSnackbar>
-    </React.Fragment>
+            />
+            <div className="snackbar-message">
+              <p className="snackbar-title">
+                {severity === 'success' ? 'Success' : 'Error'}
+              </p>
+              <p className="snackbar-description">{message}</p>
+            </div>
+            <CloseIcon onClick={onClose} className="snackbar-close-icon" />
+          </SnackbarContent>
+        )}
+      </Transition>
+    </StyledSnackbar>
   );
 };
 

@@ -1,93 +1,98 @@
-import { Box, Tab, Tabs, Typography } from '@mui/material';
-import { styled } from '@mui/system';
+import { UserIcon } from '@heroicons/react/24/outline';
+import { Box, IconButton, Tab, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { FaSignOutAlt } from 'react-icons/fa';
+import { StyledButton } from 'components/chat/styled';
 import {
-  StyledButton,
-  StyledTextareaAutosize,
-  StyledTextField,
-  StyledMuiTabs,
-} from 'components/chat/styled';
+  RCTabs,
+  TextAreaAutosizeSection,
+  TextFieldSection,
+} from 'components/themed';
+import { useUserStore } from 'contexts';
 import { useMode } from 'hooks';
 
-const User = () => {
+export const User = props => {
   const { theme } = useMode();
+  const {
+    state: { profile },
+    actions: { setProfile },
+  } = useUserStore();
+
   const [tab, setTab] = useState(0);
-  const [username, setUsername] = useState('user6edad39745ba');
   const [chatDisplayName, setChatDisplayName] = useState('thaHuman');
   const [profileContext, setProfileContext] = useState('');
-
+  const [displayName, setDisplayName] = useState(profile?.displayName || '');
+  const [username, setUsername] = useState(profile?.username || '');
+  const [usernameAvailable, setUsernameAvailable] = useState(true);
+  const [loadingUsername, setLoadingUsername] = useState(false);
+  const [profileImageSrc, setProfileImageSrc] = useState(
+    profile?.image_url || ''
+  );
+  const [profileImageFile, setProfileImageFile] = useState(null);
+  const [profileInstructions, setProfileInstructions] = useState(
+    profile?.profile_context || ''
+  );
+  const [googleGeminiAPIKey, setGoogleGeminiAPIKey] = useState(
+    profile?.google_gemini_api_key || ''
+  );
+  const tabs = [
+    { label: 'Profile' },
+    { label: 'Api Keys' },
+    { label: 'Account' },
+  ];
   return (
     <>
-      <Typography variant="h6" style={{ color: '#fff' }}>
-        User Settings
-        <FaSignOutAlt style={{ float: 'right', cursor: 'pointer' }} />
-      </Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '1rem',
-          color: 'white',
-          borderRadius: '14px',
-          background: '#1c1c1c', // Slightly different background for the panel to distinguish it
-        }}
-      >
-        <StyledMuiTabs
-          value={tab}
-          onChange={(e, newValue) => setTab(newValue)}
-          indicatorColor="#fff"
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography
+          variant="h6"
+          sx={{
+            color: 'white',
+            mx: '12px',
+          }}
         >
-          <Tab label="Profile" style={{ color: '#fff', borderRadius: '5px' }} />
-          <Tab
-            label="API Keys"
-            style={{ color: '#fff', borderRadius: '5px' }}
-          />
-          <Tab label="Account" style={{ color: '#fff', borderRadius: '5px' }} />
-        </StyledMuiTabs>
+          User
+        </Typography>
+        <IconButton>
+          <UserIcon style={{ float: 'right', cursor: 'pointer' }} />
+        </IconButton>
       </Box>
+      <RCTabs
+        value={tab}
+        onChange={(e, newValue) => setTab(newValue)}
+        tabs={tabs}
+        variant="darkMode"
+      />
       {tab === 0 && (
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            // alignItems: 'center',
             justifyContent: 'space-between',
           }}
         >
-          <StyledTextField
+          <TextFieldSection
             label="Username"
             value={username}
             onChange={e => setUsername(e.target.value)}
+            variant="darkMode"
             fullWidth
-            margin="normal"
           />
           <StyledButton variant="outlined" component="label">
             Choose File <input type="file" hidden />
           </StyledButton>
-          <StyledTextField
+          <TextFieldSection
             label="Chat Display Name"
             value={chatDisplayName}
             onChange={e => setChatDisplayName(e.target.value)}
+            variant="darkMode"
             fullWidth
-            margin="normal"
           />
-          {/* <RCInput
-            variant="base"
-            label="Chat Display Name"
-            value={chatDisplayName}
-            onChange={e => setChatDisplayName(e.target.value)}
-            fullWidth
-            margin="normal"
-          /> */}
-          <StyledTextareaAutosize
+          <TextAreaAutosizeSection
             minRows={3}
             placeholder="Profile context... (optional)"
             value={profileContext}
             onChange={e => setProfileContext(e.target.value)}
-            theme={theme}
+            variant="darkMode"
           />
           <Box>
             <StyledButton variant="outlined" style={{ marginRight: '10px' }}>

@@ -1,6 +1,6 @@
 import { Box, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
-import { RCFlex } from 'components/themed/HumanUi/RCFlex';
+import { RCFlex } from 'components';
 import { useMode } from 'hooks';
 import Brand from './Brand';
 import Links from './Links';
@@ -31,6 +31,6 @@ Content.propTypes = {
   routes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-const SidebarContent = ({ routes }) => Content({ routes });
+export const SidebarContent = ({ routes }) => Content({ routes });
 
 export default SidebarContent;

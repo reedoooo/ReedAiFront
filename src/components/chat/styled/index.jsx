@@ -35,7 +35,7 @@ export const SidebarPanel = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '1rem',
+  padding: '0.5rem',
   backgroundColor: '#1C1C1C',
   color: 'white',
   borderRadius: '14px',
@@ -85,9 +85,19 @@ export const WorkspaceCreatorContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  padding: '20px',
+  pt: 2,
+  // padding: '10px',
   borderRadius: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.12)',
+  width: '100%',
+  // border: '1px solid rgba(255, 255, 255, 0.12)',
+}));
+export const PanelContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  padding: '10px',
+  borderRadius: '8px',
+  // border: '1px solid rgba(255, 255, 255, 0.12)',
 }));
 /* --- CHAT - FORMS --- */
 export const StyledSelect = styled(Select)({
@@ -210,7 +220,6 @@ export const StyledTextareaAutosize = styled(TextareaAutosize)(({ theme }) => ({
   '& .MuiInputUnderline:after': {
     borderBottomColor: 'grey',
   },
-
   '& .MuiInputBaseInput': {
     color: '#fff',
     background: '#000',
@@ -230,6 +239,9 @@ export const StyledButton = styled(Button)(({ theme }) => ({
   color: '#fff',
   borderColor: '#fff',
   margin: '10px 0',
+  ' &.MuiButton-root': {
+    p: 'unset !important',
+  },
 }));
 /* --- CHAT - TABS --- */
 export const TabContentHeaderContainer = styled(Box)({
@@ -430,6 +442,7 @@ export const ChatMessageActionsContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between',
   alignItems: 'center', // Align items vertically
   width: '100%', // Make sure it takes the full width
+  flexGrow: 1,
 }));
 export const ChatMessageIconContainer = styled(IconButton)(({ theme }) => ({
   color: theme.palette.primary.main,
@@ -447,11 +460,16 @@ export const ChatMessageIconContainer = styled(IconButton)(({ theme }) => ({
 }));
 export const ChatMessageEditorContentsContainer = styled(Box)(({ theme }) => ({
   backgroundColor: '#333',
-  borderRadius: 1,
-  p: 2,
+  borderRadius: '0.25rem',
+  // p: 2,
   m: 1,
   color: 'white',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
   width: '100%',
+  height: '100%',
+  flexGrow: 1,
 }));
 /*  --- CHAT - FILES --- */
 export const FileItemsPreviewContainer = styled(Box)(({ theme }) => ({

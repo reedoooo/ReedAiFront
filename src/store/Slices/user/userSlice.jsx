@@ -1,7 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { useNavigate } from 'react-router-dom';
+import staticDataApi from 'api/static/staticData';
+import { authApi, userApi } from 'api/user';
 import avatar5 from 'assets/img/avatars/avatar5.png'; // Fallback avatar
 import {
-  setActiveWorkspace,
   setAssistants,
   setChatSessions,
   setCollections,
@@ -28,50 +30,188 @@ const REDUX_NAME = 'user';
 
 const initialState = getLocalData(LOCAL_NAME, REDUX_NAME);
 
-// Async action to fetch user profile image
+function setLocalUserData(data) {
+  setLocalData(LOCAL_NAME, data);
+}
+
+function dispatchUserUpdates(dispatch, updatedUserData) {
+  console.log('Dispatching user updates:', updatedUserData);
+  dispatch(setUser(updatedUserData));
+  dispatch(setProfile(updatedUserData.profile));
+  dispatch(setWorkspaces(updatedUserData.workspaces));
+  dispatch(setSelectedWorkspace(updatedUserData.workspaces[0]));
+  dispatch(setChatSessions(updatedUserData.chatSessions));
+  dispatch(setUserId(updatedUserData._id));
+  dispatch(
+    setAuthTokens(
+      updatedUserData.authSession.accessToken,
+      updatedUserData.authSession.refreshToken,
+      updatedUserData.authSession.expiresIn.toString()
+    )
+  );
+  dispatch(setIsAuthenticated(true));
+}
+
+export const handleAuthSubmit = createAsyncThunk(
+  'auth/handleAuthSubmit',
+  async (values, { dispatch, rejectWithValue }) => {
+    const { username, password, email, isSignup } = values;
+    try {
+      const data = isSignup
+        ? await authApi.signup(username, email, password)
+        : await authApi.login(email || username, password);
+
+      if (data?.accessToken) {
+        const updatedUserData = {
+          ...data.user,
+          userId: data.user._id,
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+          expiresIn: data.expiresIn,
+          authSession: {
+            token: data.accessToken,
+            tokenType: 'Bearer',
+            accessToken: data.accessToken,
+            refreshToken: data.refreshToken,
+            expiresIn: data.expiresIn,
+          },
+          isAuthenticated: true,
+        };
+
+        if (isSignup) {
+          updatedUserData.authUserRegisterData = {
+            hasOnboarded: true,
+            dateJoined: new Date().toISOString(),
+          };
+        }
+
+        dispatchUserUpdates(dispatch, updatedUserData);
+        sessionStorage.setItem(
+          'workspaceId',
+          updatedUserData.workspaces[0]._id
+        );
+        sessionStorage.setItem(
+          'sessionId',
+          updatedUserData.workspaces[0].chatSessions[0]?._id
+        );
+        window.location.href = '/admin/dashboard';
+        return {
+          user: updatedUserData,
+          token: data.accessToken,
+          userId: data.user._id,
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+          expiresIn: data.expiresIn,
+          isAuthenticated: true,
+        };
+      }
+    } catch (error) {
+      console.error(isSignup ? 'Signup failed:' : 'Login failed:', error);
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const validateToken = createAsyncThunk(
+  'auth/validateToken',
+  async (token, { rejectWithValue }) => {
+    try {
+      await authApi.validateToken(token);
+      return true;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const refreshAccessToken = createAsyncThunk(
+  'auth/refresh-token',
+  async (token, { getState, rejectWithValue }) => {
+    const navigate = useNavigate();
+
+    try {
+      const data = await authApi.refreshToken(token);
+      console.log('DATA', data);
+      setAuthTokens(data.accessToken, data.refreshToken, data.expiresIn);
+      return data.accessToken;
+    } catch (error) {
+      console.error('Failed to refresh token:', error);
+      setAuthTokens(null, null, null);
+      navigate('/auth/sign-in');
+      return rejectWithValue(error.response.data);
+      // window.location.href = '/auth/sign-in';
+    }
+  }
+);
+
+export const logout = createAsyncThunk(
+  'auth/logout',
+  async (_, { dispatch, getState, rejectWithValue }) => {
+    const token = getState().user.accessToken;
+    console.log('LOGOUT TOKEN', token);
+    try {
+      await authApi.logout(token);
+      localStorage.clear();
+      sessionStorage.clear();
+      dispatch(setUser({}));
+      dispatch(setUserToken(null));
+      dispatch(setUserId(''));
+      return true;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const fetchUserProfileImage = createAsyncThunk(
   'user/fetchUserProfileImage',
   async (username, { rejectWithValue }) => {
     try {
       const imagename = username ? 'avatar1' : 'avatar5';
       const imgWithExt = `${imagename}.png`;
-      const response = await fetch(
-        `http://localhost:3001/static/files/${imgWithExt}`
-      );
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.url;
+
+      // Request the image as a buffer
+      const response = await staticDataApi.getProfileImage(imgWithExt, {
+        responseType: 'arraybuffer', // or 'blob'
+      });
+
+      // Convert the buffer to a base64 string if needed
+      const buffer = Buffer.from(response.data, 'binary').toString('base64');
+      const imageSrc = `data:image/png;base64,${buffer}`;
+
+      return imageSrc;
     } catch (error) {
       console.error('Error fetching profile image:', error);
       return rejectWithValue(error.message);
     }
   }
 );
-// Fetch and update user-related data like workspaces, presets, prompts, etc.
-export const fetchAndSetUserData = createAsyncThunk(
-  'user/fetchAndSetUserData',
+
+export const setAuthUserData = createAsyncThunk(
+  'user/setAuthUserData',
   async (_, { dispatch, rejectWithValue }) => {
     try {
       const storedUserData = JSON.parse(localStorage.getItem(LOCAL_NAME));
 
       if (!storedUserData) {
-        throw new Error('No user data found in local storage');
+        // throw new Error('No user data found in local storage');
+        console.log('No user data found in local storage');
+        return;
       }
 
-      // Fetch and set the profile image
       const { username } = storedUserData.user;
-      let profileImageUrl = null;
-      if (!storedUserData.user.profileImage) {
+      let imageUrl = null;
+      let imageRetrievalStatus = false;
+      if (!storedUserData?.userInfo?.profileImage) {
         const profileImageAction = await dispatch(
           fetchUserProfileImage(username)
         );
-        profileImageUrl = profileImageAction.payload || avatar5;
+        imageUrl = profileImageAction.payload || avatar5;
+        imageRetrievalStatus = true;
       }
-      // Assuming userData has properties like presets, workspaces, prompts, etc.
+      const { workspaces, folders } = storedUserData;
       const {
         presets,
-        workspaces,
         prompts,
         models,
         chatSessions,
@@ -80,36 +220,42 @@ export const fetchAndSetUserData = createAsyncThunk(
         assistants,
         tools,
       } = storedUserData.user;
+      if (!workspaces || workspaces.length === 0) {
+        // console.error('No workspaces available or workspaces array is empty');
+        // return rejectWithValue('No workspaces available');
+        return;
+      }
+      const { accessToken, refreshToken, userId } = storedUserData;
+      const homeWorkSpace = workspaces?.find(
+        workspace => workspace.isHome === true
+      );
+      // if (!homeWorkSpace) {
+      //   console.error('Home workspace not found');
+      //   return rejectWithValue('Home workspace not found');
+      // }
+      console.log('HOME_WORKSPACE', homeWorkSpace);
       const updatedHomeWorkSpace = {
-        ...workspaces.find(workspace => workspace.isHome === true),
-        presets: presets,
-        prompts: prompts,
-        models: models,
-        chatSessions: chatSessions,
-        collections: collections,
-        files: files,
-        assistants: assistants,
-        tools: tools,
+        ...homeWorkSpace,
+        folders,
+        files,
+        chatSessions,
+        assistants,
+        prompts,
+        tools,
+        models,
+        presets,
+        collections,
         active: true,
       };
-      dispatch(setWorkspaceId(updatedHomeWorkSpace._id));
-      dispatch(setSessionId(updatedHomeWorkSpace.chatSessions[0]._id));
+      dispatch(setWorkspaces(workspaces));
       dispatch(setHomeWorkSpace(updatedHomeWorkSpace));
-      dispatch(setActiveWorkspace(updatedHomeWorkSpace));
       dispatch(setSelectedWorkspace(updatedHomeWorkSpace));
-      dispatch(setChatSessions(chatSessions));
-      dispatch(
-        setSelectedChatSession(
-          chatSessions.find(session => session.active === true)
-        )
-      );
-      // dispatch
-      // dispatch(
-      //   setSessionId(chatSessions.find(session => session.active === true)._id)
-      // );
+      dispatch(setWorkspaceId(updatedHomeWorkSpace._id));
+      dispatch(setChatSessions(workspaces[0].chatSessions));
+      dispatch(setSelectedChatSession(workspaces[0].chatSessions[0]));
+      dispatch(setSessionId(workspaces[0].chatSessions[0]?._id));
       dispatch(setPresets(presets));
       dispatch(setSelectedPreset(presets[0]));
-      dispatch(setWorkspaces(workspaces));
       dispatch(setPrompts(prompts));
       dispatch(setSelectedPrompt(prompts[0]));
       dispatch(setModels(models));
@@ -119,8 +265,21 @@ export const fetchAndSetUserData = createAsyncThunk(
       dispatch(setSelectedAssistant(assistants[0]));
       dispatch(setTools(tools));
       dispatch(setSelectedTools(tools));
-
-      return { ...storedUserData.user, profileImage: profileImageUrl };
+      sessionStorage.setItem('userToken', JSON.stringify(accessToken));
+      sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
+      sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));
+      sessionStorage.setItem('userId', JSON.stringify(userId));
+      sessionStorage.setItem('expiresIn', '1d');
+      return {
+        ...storedUserData.user,
+        profileImage: imageUrl,
+        isImageRetrieved: imageRetrievalStatus,
+        userInfo: {
+          ...storedUserData.userInfo,
+          profileImage: imageUrl,
+          isImageRetrieved: imageRetrievalStatus,
+        },
+      };
     } catch (error) {
       console.error('Error fetching user data from local storage:', error);
       return rejectWithValue(error.message);
@@ -128,11 +287,28 @@ export const fetchAndSetUserData = createAsyncThunk(
   }
 );
 
-function setLocalUserData(data) {
-  setLocalData(LOCAL_NAME, data);
-}
+export const addEnvToUser = createAsyncThunk(
+  `${REDUX_NAME}/addEnvToUser`,
+  async ({ apiKey }, { rejectWithValue }) => {
+    try {
+      console.log('Adding API key:', apiKey);
+      const response = await userApi.addEnvToUser(
+        JSON.parse(sessionStorage.getItem('userId')),
+        apiKey
+      );
+      // dispatch(setApiKey(apiKey));
+      // dispatch(setChatRequestData(response.message));
+      return response;
+      // await dispatch(addApiKey(apiKey));
+      // dispatch(setChatRequestData({ message: 'Added API key successfully' }));
+    } catch (error) {
+      rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const userSlice = createSlice({
-  name: 'user',
+  name: REDUX_NAME,
   initialState,
   reducers: {
     updateUserInfo: (state, action) => {
@@ -201,54 +377,60 @@ export const userSlice = createSlice({
       sessionStorage.setItem('userId', action.payload);
       setLocalUserData({ ...state, userId: action.payload });
     },
+    setProfile: (state, action) => {
+      state.profile = action.payload;
+      state.userInfo = {
+        ...state.userInfo,
+        profileImage: action.payload.imagePath,
+        isImageRetrieved: true,
+      };
+      setLocalUserData(action.payload);
+    },
+    setEnvKeyMap: (state, action) => {
+      state.envKeyMap = action.payload;
+    },
+    setSelectedProfileImage: (state, action) => {
+      state.selectedProfileImage = action.payload;
+      setLocalUserData({ ...state, selectedProfileImage: action.payload });
+    },
     setIsAuthenticated: (state, action) => {
       state.isAuthenticated = action.payload;
       setLocalUserData({ ...state, isAuthenticated: action.payload });
     },
-  },
-  extraReducers: builder => {
-    builder.addCase(fetchUserProfileImage.fulfilled, (state, action) => {
-      state.userInfo.profileImage = action.payload;
-      state.profileImage = action.payload;
-      state.userInfo.isImageRetrieved = true;
+    setIsRedirectToSignin: state => {
+      state.isRedirectToSignin = !state.isRedirectToSignin;
       setLocalUserData({
         ...state,
-        userInfo: { ...state.userInfo, profileImage: action.payload },
+        isRedirectToSignin: state.isRedirectToSignin,
       });
-    });
-    builder.addCase(fetchAndSetUserData.fulfilled, (state, action) => {
-      console.log('Fetched and set user data:', action.payload);
-      const {
-        workspaces,
-        presets,
-        prompts,
-        models,
-        chatSessions,
-        collections,
-        files,
-        assistants,
-        tools,
-      } = action.payload;
-      // state.userInfo.chat.workspaces = workspaces;
-      // state.userInfo.chat.presets = presets;
-      // state.userInfo.chat.prompts = prompts;
-      // state.userInfo.chat.models = models;
-      // state.userInfo.chat.chatSessions = chatSessions;
-      // state.userInfo.chat.collections = collections;
-      // state.userInfo.chat.files = files;
-      // state.userInfo.chat.assistants = assistants;
-      // state.userInfo.chat.tools = tools;
-      // setLocalUserData({
-      //  ...state,
-      //   user: {
-      //    ...state.user,
-      //    ...action.payload,
-      //   },
-      // });
-    });
-    builder.addCase(fetchAndSetUserData.rejected, (state, action) => {
-      console.error('Failed to fetch and set user data:', action.payload);
-    });
+    },
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(handleAuthSubmit.pending, state => {
+        state.loading = true;
+      })
+      .addCase(handleAuthSubmit.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+      })
+      .addCase(handleAuthSubmit.rejected, state => {
+        state.loading = false;
+      })
+      .addCase(refreshAccessToken.pending, state => {
+        state.loading = true;
+      })
+      .addCase(refreshAccessToken.fulfilled, (state, action) => {
+        state.loading = false;
+        state.accessToken = action.payload;
+      })
+      .addCase(refreshAccessToken.rejected, state => {
+        state.loading = false;
+      })
+      .addCase(logout.fulfilled, state => {
+        state.user = {};
+        state.isAuthenticated = false;
+      });
   },
 });
 
@@ -261,9 +443,137 @@ export const {
   setAuthTokens,
   setIsAuthenticated,
   setUserOpenAiSettings,
+  setIsRedirectToSignin,
+  setProfile,
+  setSelectedProfileImage,
+  setEnvKeyMap,
 } = userSlice.actions;
 
 export default userSlice.reducer;
+// extraReducers: builder => {
+// builder.addCase(fetchUserProfileImage.fulfilled, (state, action) => {
+//   state.userInfo.profileImage = action.payload;
+//   state.profileImage = action.payload;
+//   state.userInfo.isImageRetrieved = true;
+//   setLocalUserData({
+//     ...state,
+//     userInfo: { ...state.userInfo, profileImage: action.payload },
+//   });
+// });
+//     builder
+//       .addCase(handleAuthSubmit.pending, state => {
+//         state.userRequest.isFetching = true;
+//         state.userRequest.status = 'pending';
+//       })
+//       .addCase(handleAuthSubmit.fulfilled, (state, action) => {
+//         console.log('Handle auth user data:', action.payload);
+//         state.userRequest.isFetching = false;
+//         state.userRequest.status = 'fulfilled';
+//         state.isAuthenticated = true;
+//         state.user = action.payload;
+//       })
+//       .addCase(handleAuthSubmit.rejected, (state, action) => {
+//         state.userRequest.isFetching = false;
+//         state.userRequest.status = 'rejected';
+//         state.userRequest.error = action.payload;
+//       })
+//       .addCase(refreshAccessToken.pending, state => {
+//         state.userRequest.isFetching = true;
+//         state.userRequest.status = 'pending';
+//       })
+//       .addCase(refreshAccessToken.fulfilled, (state, action) => {
+//         state.userRequest.isFetching = false;
+//         state.userRequest.status = 'fulfilled';
+//         state.token = action.payload;
+//       })
+//       .addCase(refreshAccessToken.rejected, state => {
+//         state.userRequest.isFetching = false;
+//         state.userRequest.status = 'rejected';
+//         localStorage.clear();
+//       })
+//       .addCase(logout.pending, state => {
+//         state.userRequest.isFetching = true;
+//         state.userRequest.status = 'pending';
+//       })
+//       .addCase(logout.fulfilled, state => {
+//         state.userRequest.isFetching = false;
+//         state.userRequest.status = 'fulfilled';
+//         state.isAuthenticated = false;
+//       })
+//       .addCase(addEnvToUser.pending, state => {
+//         state.userRequest.status = 'loading';
+//       })
+//       .addCase(addEnvToUser.fulfilled, (state, action) => {
+//         console.log('addEnvToUser.fulfilled:', action.payload);
+//         state.userRequest.status = 'succeeded';
+//         state.userRequest.success = action.payload;
+//         state.userRequest.message = 'Added API key successfully';
+//       })
+//       .addCase(addEnvToUser.rejected, (state, action) => {
+//         state.userRequest.status = 'failed';
+//         state.userRequest.error = action.error.message;
+//       })
+//       .addCase(logout.rejected, (state, action) => {
+//         state.userRequest.isFetching = false;
+//         state.userRequest.status = 'rejected';
+//         state.userRequest.error = action.payload;
+//       })
+//       .addCase(fetchAndSetUserData.fulfilled, (state, action) => {
+//         console.log('Fetched and set user data:', action.payload);
+//         const {
+//           workspaces,
+//           presets,
+//           prompts,
+//           models,
+//           chatSessions,
+//           collections,
+//           files,
+//           assistants,
+//           tools,
+//         } = action.payload;
+//         // state.userInfo.chat.workspaces = workspaces;
+//         // state.userInfo.chat.presets = presets;
+//         // state.userInfo.chat.prompts = prompts;
+//         // state.userInfo.chat.models = models;
+//         // state.userInfo.chat.chatSessions = chatSessions;
+//         // state.userInfo.chat.collections = collections;
+//         // state.userInfo.chat.files = files;
+//         // state.userInfo.chat.assistants = assistants;
+//         // state.userInfo.chat.tools = tools;
+//         // setLocalUserData({
+//         //  ...state,
+//         //   user: {
+//         //    ...state.user,
+//         //    ...action.payload,
+//         //   },
+//         // });
+//       })
+//       .addCase(fetchAndSetUserData.rejected, (state, action) => {
+//         console.error('Failed to fetch and set user data:', action.payload);
+//       });
+//   },
+// });
+
+// export const {
+//   updateUserInfo,
+//   resetUserInfo,
+//   setUser,
+//   setUserToken,
+//   setUserId,
+//   setAuthTokens,
+//   setIsAuthenticated,
+//   setUserOpenAiSettings,
+//   setIsRedirectToSignin,
+//   setProfile,
+//   setSelectedProfileImage,
+//   setEnvKeyMap,
+// } = userSlice.actions;
+
+// export default userSlice.reducer;
+// window.addEventListener('storage', () => {
+//   const store = require('../store').default;
+//   store.dispatch(updateAuthStateFromLocalStorage());
+// });
 // function defaultSetting() {
 //   return {
 //     user: {},

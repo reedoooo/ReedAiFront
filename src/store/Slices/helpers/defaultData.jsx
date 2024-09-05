@@ -1,5 +1,11 @@
 import mongoose from 'mongoose';
-
+const REQUEST_STATE = {
+  status: 'idle' | 'loading' | 'success' | 'error',
+  message: '',
+  error: null,
+  success: null,
+  data: null,
+};
 // export const defaultPromptList = [
 export function defaultPromptList() {
   return [
@@ -83,47 +89,9 @@ export function defaultPromptList() {
     },
   ];
 }
-export function defaultAuthStoreData() {
-  return {
-    isFormDisabled: false,
-    isRedirectToSignin: false,
-    authRequest: {
-      isFetching: false,
-      error: null,
-      message: '',
-      status: '',
-    },
-  };
-}
-export function defaultProfileData() {
-  return {
-    profile: {
-      img: '',
-      profileImage: '',
-      bio: '',
-      displayName: '',
-      email: '',
-      username: '',
-      social: {},
-      stats: {},
-      dashboard: {},
-      openai: {
-        apiKey: '',
-        organizationId: '',
-        apiVersion: '',
-        projects: [],
-      },
-      settings: {
-        user: {},
-        chat: {},
-      },
-      // other profile properties and reducers...
-    },
-    selectedProfileImage: '',
-  };
-}
 export function defaultUserSessionData() {
   return {
+    userRequest: REQUEST_STATE,
     user: {
       username: '',
       email: '',
@@ -148,6 +116,23 @@ export function defaultUserSessionData() {
         createdAt: null,
       },
       profile: {
+        img: 'path/to/default/image',
+        imagePath: 'path/to/default/image',
+        profileImages: [],
+        selectedProfileImage: 'path/to/default/image',
+        filename: 'avatar1.png',
+        bio: '',
+        displayName: '',
+        hasOnboarded: false,
+        envKeyMap: {
+          openaiApiKey: '',
+          openaiOrgId: '',
+          anthropicApiKey: '',
+          googleGeminiApiKey: '',
+          mistralApiKey: '',
+          groqAPIKey: '',
+          perplexityApiKey: '',
+        },
         stats: {
           totalMessages: 0,
           totalTokenCount: 0,
@@ -194,14 +179,6 @@ export function defaultUserSessionData() {
             },
           },
         },
-        img: 'path/to/default/image',
-        imagePath: 'path/to/default/image',
-        profileImages: [],
-        selectedProfileImage: 'path/to/default/image',
-        filename: 'avatar1.png',
-        bio: '',
-        displayName: '',
-        hasOnboarded: false,
         identity: {
           identityData: {
             email: '',
@@ -293,6 +270,8 @@ export function defaultUserSessionData() {
           prompt: "Let's start our first conversation.",
           active: true,
           activeSessionId: null,
+          summary: null,
+          apiKey: '',
           settings: {
             maxTokens: 500,
             temperature: 0.7,
@@ -302,13 +281,79 @@ export function defaultUserSessionData() {
             debug: false,
             summarizeMode: false,
           },
+          langChainSettings: {
+            maxTokens: 2000, // max length of the completion
+            temperature: 0.7,
+            modelName: '',
+            // streamUsage: true,
+            streaming: true,
+            openAIApiKey: '',
+            organization: 'reed_tha_human',
+            tools: [
+              {
+                type: 'function',
+                function: {
+                  name: 'summarize_messages',
+                  description:
+                    'Summarize a list of chat messages with an overall summary and individual message summaries including their IDs',
+                  parameters: {
+                    type: 'object',
+                    properties: {
+                      overallSummary: {
+                        type: 'string',
+                        description: 'An overall summary of the chat messages',
+                      },
+                      individualSummaries: {
+                        type: 'array',
+                        items: {
+                          type: 'object',
+                          properties: {
+                            id: {
+                              type: 'string',
+                              description: 'The ID of the chat message',
+                            },
+                            summary: {
+                              type: 'string',
+                              description:
+                                'A summary of the individual chat message',
+                            },
+                          },
+                          required: ['id', 'summary'],
+                        },
+                      },
+                    },
+                    required: ['overallSummary', 'individualSummaries'],
+                  },
+                },
+              },
+              {
+                type: 'function',
+                function: {
+                  name: 'fetchSearchResults',
+                  description:
+                    'Fetch search results for a given query using SERP API used to aid in being  PRIVATE INVESTIGATOR',
+                  parameters: {
+                    type: 'object',
+                    properties: {
+                      query: {
+                        type: 'string',
+                        description: 'Query string to search for',
+                      },
+                    },
+                    required: ['query'],
+                  },
+                },
+              },
+            ],
+            code_interpreter: 'auto',
+            function_call: 'auto',
+          },
           messages: [],
           tuning: {
             debug: false,
             summary: '',
             summarizeMode: false,
           },
-          __v: 0,
         },
       ],
       folders: [],
@@ -389,6 +434,9 @@ export function defaultUserSessionData() {
       updatedAt: new Date().toISOString(),
       __v: 1,
     },
+    profile: {},
+    envKeyMap: {},
+    authSession: {},
     userId: null,
     token: null,
     accessToken: null,
@@ -397,6 +445,8 @@ export function defaultUserSessionData() {
     expiresAt: null,
     createdAt: null,
     isAuthenticated: false,
+    isRedirectToSignin: false,
+    isImageRetrieved: false,
     userInfo: {
       name: '',
       email: '',
@@ -407,19 +457,8 @@ export function defaultUserSessionData() {
 }
 export function defaultWorkspaceStoreData() {
   return {
+    workspaceRequest: REQUEST_STATE,
     workspaceId: '',
-    activeWorkspace: {
-      _id: null,
-      userId: null,
-      name: '',
-      description: '',
-      image: null,
-      chatSessions: [],
-      folders: [],
-      activeChatSession: null,
-      selectedChatSession: null,
-      systemPrompt: '',
-    },
     workspaces: [],
     selectedWorkspace: null,
     homeWorkSpace: null,
@@ -446,18 +485,115 @@ export function defaultChatSessionStoreData() {
       stats: {},
       setting: {},
     },
-
     chatSessions: [],
     selectedChatSession: {},
-    chatSession: {},
-    envKeyMap: {
-      openai: 'OPENAI_API_KEY',
-      openai_organization_id: 'OPENAI_ORGANIZATION_ID',
+    chatSession: {
+      stats: {
+        tokenUsage: 0,
+        messageCount: 0,
+      },
+      name: 'First Chat',
+      topic: 'Getting Started',
+      model: 'gpt-4-turbo-preview',
+      prompt: "Let's start our first conversation.",
+      active: true,
+      activeSessionId: null,
+      summary: null,
+      apiKey: '',
+      settings: {
+        maxTokens: 500,
+        temperature: 0.7,
+        model: 'gpt-4-turbo-preview',
+        topP: 1,
+        n: 1,
+        debug: false,
+        summarizeMode: false,
+      },
+      langChainSettings: {
+        maxTokens: 2000, // max length of the completion
+        temperature: 0.7,
+        modelName: '',
+        // streamUsage: true,
+        streaming: true,
+        openAIApiKey: '',
+        organization: 'reed_tha_human',
+        tools: [
+          {
+            type: 'function',
+            function: {
+              name: 'summarize_messages',
+              description:
+                'Summarize a list of chat messages with an overall summary and individual message summaries including their IDs',
+              parameters: {
+                type: 'object',
+                properties: {
+                  overallSummary: {
+                    type: 'string',
+                    description: 'An overall summary of the chat messages',
+                  },
+                  individualSummaries: {
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      properties: {
+                        id: {
+                          type: 'string',
+                          description: 'The ID of the chat message',
+                        },
+                        summary: {
+                          type: 'string',
+                          description:
+                            'A summary of the individual chat message',
+                        },
+                      },
+                      required: ['id', 'summary'],
+                    },
+                  },
+                },
+                required: ['overallSummary', 'individualSummaries'],
+              },
+            },
+          },
+          {
+            type: 'function',
+            function: {
+              name: 'fetchSearchResults',
+              description:
+                'Fetch search results for a given query using SERP API used to aid in being  PRIVATE INVESTIGATOR',
+              parameters: {
+                type: 'object',
+                properties: {
+                  query: {
+                    type: 'string',
+                    description: 'Query string to search for',
+                  },
+                },
+                required: ['query'],
+              },
+            },
+          },
+        ],
+        code_interpreter: 'auto',
+        function_call: 'auto',
+      },
+      messages: [],
+      tuning: {
+        debug: false,
+        summary: '',
+        summarizeMode: false,
+      },
+    },
+    chatSessionRequest: {
+      isFetching: false,
+      error: null,
+      message: '',
+      status: '',
     },
   };
 }
 export function defaultAssistantStoreData() {
   return {
+    assistantRequest: REQUEST_STATE,
     assistants: [
       {
         name: 'ChatBot Assistant',
@@ -477,13 +613,27 @@ export function defaultAssistantStoreData() {
       },
     ],
     selectedAssistant: null,
+    assistantId: null,
     assistantImages: [],
     openaiAssistants: [],
-    assistantRequest: {
-      status: 'idle',
-      error: null,
-      success: null,
-      message: '',
+    list: [],
+    threadIds: [],
+    assistantIds: [],
+    threads: [],
+    assistantSession: {
+      sessionId: '',
+      topic: '',
+      id: '',
+      name: '',
+      summary: '',
+      systemPrompt: '',
+      assisstantPrompt: '',
+      isFirstPromptName: true,
+      messages: [],
+      files: [],
+      tools: [],
+      stats: {},
+      setting: {},
     },
   };
 }
@@ -519,52 +669,89 @@ export function defaultModelStoreData() {
 }
 export function defaultPresetStoreData() {
   return {
+    presetRequest: REQUEST_STATE,
     presets: [],
     selectedPreset: null,
-    presetRequest: {
-      status: 'idle',
-      error: null,
-      success: null,
-      message: '',
-    },
   };
 }
 export function defaultCollectionStoreData() {
   return {
+    collectionRequest: REQUEST_STATE,
     collections: [],
-    chatInputCommandRequest: {
-      status: 'idle',
-      error: null,
-      success: null,
-      message: '',
-    },
   };
 }
 export function defaultFileStoreData() {
   return {
+    fileRequest: REQUEST_STATE,
+    files: [],
+    selectedFiles: [],
     byId: {},
     allIds: [],
-    files: [],
     chatFiles: [],
     chatImages: [],
     newMessageFiles: [],
     newMessageImages: [],
     previewFiles: [],
     previewUrls: [],
-    selectedFiles: [],
     uploadedFiles: [],
     showFilesDisplay: false,
-    fileRequest: {
-      status: 'idle',
-      error: null,
-      success: null,
-      message: '',
-    },
   };
 }
 export function defaultFolderStoreData() {
   return {
-    folders: [],
+    folderRequest: REQUEST_STATE,
+    folders: [
+      {
+        name: 'src',
+        description: 'source code folder',
+        type: 'folder',
+        items: [
+          {
+            type: 'file',
+            name: 'index.js',
+            description: 'default file',
+            content: null,
+          },
+          {
+            type: 'file',
+            name: 'App.js',
+            description: 'default file',
+            content: null,
+          },
+          {
+            name: 'components',
+            description: 'source code folder',
+            type: 'folder',
+            items: [
+              {
+                type: 'file',
+                name: 'Header.js',
+                description: 'default file',
+                content: null,
+              },
+              {
+                type: 'file',
+                name: 'Footer.js',
+                description: 'default file',
+                content: null,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'file',
+        name: 'package.json',
+        description: 'default file',
+        content: null,
+      },
+      {
+        type: 'file',
+        name: 'README.md',
+        description: 'default file',
+        content: null,
+      },
+    ],
     selectedFolder: null,
   };
 }
@@ -611,12 +798,9 @@ export function defaultPromptStoreData() {
 }
 export function defaultBaseChatStoreData() {
   return {
+    mode: 'chat', // chat or assistant
     apiKey: '',
     isApiKeySet: false,
-    envKeyMap: {
-      openai: 'OPENAI_API_KEY',
-      openai_organization_id: 'OPENAI_ORGANIZATION_ID',
-    },
     isGenerating: false,
     firstTokenReceived: false,
     isMessagesUpdated: false,
@@ -666,11 +850,16 @@ function defaultAppStoreData() {
     theme: 'light',
   };
 }
+function defaultApiStoreData() {
+  return {
+    isSidebarOpen: false,
+    theme: 'light',
+  };
+}
 export const DEFAULTS = {
+  api: defaultApiStoreData(),
   app: defaultAppStoreData(),
-  auth: defaultAuthStoreData(),
   user: defaultUserSessionData(),
-  profile: defaultProfileData(),
   workspaces: defaultWorkspaceStoreData(),
   baseChat: defaultBaseChatStoreData(),
   chatSessions: defaultChatSessionStoreData(),

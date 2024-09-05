@@ -25,6 +25,35 @@ export function includeCode(text) {
 }
 
 /**
+ * Formats the given text by replacing certain patterns with HTML tags.
+ *
+ * @param {string} text - The text to be formatted.
+ * @returns {React.ReactNode} - The formatted text wrapped in a Typography component.
+ */
+export const formatText = text => {
+  const formattedText = text
+    .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') // Bold
+    .replace(/\*(.*?)\*/g, '<i>$1</i>') // Italic
+    .replace(/`(.*?)`/g, '<code>$1</code>'); // Code
+
+  return <Typography dangerouslySetInnerHTML={{ __html: formattedText }} />;
+};
+
+/**
+ * Removes code wrapping from a string.
+ *
+ * @param {string} str - The string to remove code wrapping from.
+ * @returns {string} - The string without code wrapping.
+ */
+export function removeCodeWrapping(str) {
+  if (str.startsWith('```') && str.endsWith('```')) {
+    return str.slice(3, -3);
+  } else {
+    return str.replace('```', '');
+  }
+}
+
+/**
  * Copy text to clipboard
  * @param options
  */
@@ -44,20 +73,6 @@ export function copyText(options) {
   document.body.removeChild(input);
 }
 
-export const formatCodeResponse = data =>
-  `### Code\n\n\`\`\`${data.language}\n${data.content}\n\`\`\`\n\n`;
-
-export const formatMarkdownResponse = data =>
-  `### Markdown\n\n${data.content}\n\n`;
-
-export const formatTextResponse = data => `### Text\n\n${data.content}\n\n`;
-
-export const formatImageResponse = data =>
-  `### Image\n\n![${data.title}](${data.url})\n\n`;
-
-export const formatJSONResponse = data =>
-  `### JSON\n\n\`\`\`json\n${JSON.stringify(data, null, 2)}\n\`\`\`\n\n`;
-
 /**
  * Safely parses a JSON string into an object.
  * @param {string} jsonString - The JSON string to parse.
@@ -66,6 +81,7 @@ export const formatJSONResponse = data =>
  */
 export const safeParse = (jsonString, defaultValue = null) => {
   try {
+    console.log(`Type: ${typeof jsonString}, Value: ${jsonString}`);
     return JSON.parse(jsonString);
   } catch (error) {
     console.error('Failed to parse JSON string:', error);
@@ -73,19 +89,24 @@ export const safeParse = (jsonString, defaultValue = null) => {
   }
 };
 
+/**
+ * Formats the response based on the type of data received.
+ *
+ * @param {Object} json - The JSON object containing the response data.
+ * @returns {string} - The formatted response.
+ */
 export const formatResponse = json => {
   let formatted = '';
-  // const jsonObjects = inputString.match(/{[^}]*"type"[^}]*}/g);
 
   switch (json.type) {
     case 'code':
-      formatted = formatCodeResponse(json.data);
+      formatted = `### Code\n\n\`\`\`${json.data.language}\n${json.data.content}\n\`\`\`\n\n`;
       break;
     case 'markdown':
-      formatted = formatMarkdownResponse(json.data);
+      formatted = `### Markdown\n\n${json.data.content}\n\n`;
       break;
     case 'text':
-      formatted = formatTextResponse(json.data);
+      formatted = `### Text\n\n${json.data.content}\n\n`;
       break;
     default:
       // formatted = formatTextResponse(json.data);
@@ -93,6 +114,41 @@ export const formatResponse = json => {
   }
 
   return formatted;
+};
+
+/**
+ * Extracts code blocks from a string.
+ *
+ * @param {string} message - The input string containing code blocks.
+ * @returns {string[]} - An array of code blocks extracted from the input string.
+ */
+export const extractCodeFromString = message => {
+  if (message.includes('```')) {
+    const blocks = message.split('```');
+    return blocks;
+  }
+};
+
+/**
+ * Checks if a string contains any code block indicators.
+ *
+ * @param {string} str - The string to check.
+ * @returns {boolean} - Returns true if the string contains any code block indicators, otherwise returns false.
+ */
+export const isCodeBlock = str => {
+  if (
+    str.includes('=') ||
+    str.includes(';') ||
+    str.includes('[') ||
+    str.includes(']') ||
+    str.includes('{') ||
+    str.includes('}') ||
+    str.includes('#') ||
+    str.includes('//')
+  ) {
+    return true;
+  }
+  return false;
 };
 
 export function extractHTMLContent(data) {
@@ -211,20 +267,3 @@ export const organizeMessages = messages => {
 
   return organizedMessages;
 };
-
-export const formatText = text => {
-  const formattedText = text
-    .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') // Bold
-    .replace(/\*(.*?)\*/g, '<i>$1</i>') // Italic
-    .replace(/`(.*?)`/g, '<code>$1</code>'); // Code
-
-  return <Typography dangerouslySetInnerHTML={{ __html: formattedText }} />;
-};
-
-export function removeCodeWrapping(str) {
-  if (str.startsWith('```') && str.endsWith('```')) {
-    return str.slice(3, -3);
-  } else {
-    return str.replace('```', '');
-  }
-}

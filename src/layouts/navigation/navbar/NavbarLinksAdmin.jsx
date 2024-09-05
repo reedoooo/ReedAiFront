@@ -8,12 +8,12 @@ import {
   ListItemText,
   Menu,
   MenuItem,
-  useMediaQuery,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { MdInfoOutline, MdNotificationsNone } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import routes from '@/routes/index';
 import {
   CheckCircleRoundedIcon,
@@ -24,25 +24,37 @@ import {
   PersonIcon,
   SettingsIcon,
 } from 'assets/humanIcons';
-import { ReusableDropdownMenu } from 'components/themed';
-import { useAuthStore, useChatStore, useUserStore } from 'contexts';
+import { ReusableDropdownMenu, SearchBar } from 'components/themed';
+import { useUserStore } from 'contexts';
 import { useMode } from 'hooks';
-import { SearchBar } from '../../../components/themed/UncommonUi/searchBar/SearchBar';
-import Sidebar from '../sidebar';
+import { Sidebar } from '../sidebar';
 
-export default function HeaderLinks(props) {
+export const HeaderLinks = props => {
   const { secondary } = props;
-  const { theme } = useMode();
-  const matches = useMediaQuery(theme.breakpoints.up('md'));
-  const authstore = useAuthStore(); // Use the useAuthStore hook to get state
-  const chatStore = useChatStore();
-  const userStore = useUserStore(); // Use the useChatStore hook to get state
-  const { isAuthenticated, user } = authstore.state; // Destructure isAuthenticated from state
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {
+    state: { profileImage, isAuthenticated, user },
+    actions: { setIsAuthenticated },
+  } = useUserStore(); // Use the useChatStore hook to get state
+  const {
+    theme: {
+      palette: { common, grey },
+    },
+  } = useMode();
   const [anchorEl2, setAnchorEl2] = useState(null);
-  const iconColor = theme.palette.grey[400];
-  const textColor = theme.palette.text.primary;
-  const textColorSecondary = theme.palette.text.secondary;
-  const profileImage = userStore.state.profileImage;
+  const iconColor = grey[400];
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    // clear session storage
+    sessionStorage.clear();
+    // clear local storage
+    localStorage.clear();
+    // refresh the page
+    window.location.reload();
+    dispatch({ type: 'LOGOUT' }); // Dispatch the logout action
+    navigate('/auth/sign-in'); // Navigate to the sign-in page
+  };
   const notificationsMenuItems = [
     {
       icon: <NotificationsNoneIcon color={iconColor} />,
@@ -55,7 +67,6 @@ export default function HeaderLinks(props) {
       onClick: () => {},
     },
   ];
-
   const infoMenuItems = [
     {
       icon: <Info color={iconColor} />,
@@ -68,7 +79,6 @@ export default function HeaderLinks(props) {
       onClick: () => {},
     },
   ];
-
   const mainMenuItems = [
     {
       icon: <PersonIcon color={iconColor} />,
@@ -86,16 +96,14 @@ export default function HeaderLinks(props) {
       onClick: () => {},
     },
   ];
-
   const handleClick2 = event => {
     setAnchorEl2(event.currentTarget);
   };
-
   const handleClose2 = () => {
     setAnchorEl2(null);
   };
   const shadow = '14px 17px 40px 4px rgba(112, 144, 176, 0.18)';
-  const menuBg = theme.palette.common.white;
+  const menuBg = common.white;
   // const borderButton = '#8F9BBA';
 
   return (
@@ -123,24 +131,18 @@ export default function HeaderLinks(props) {
       />
       <Sidebar routes={routes} />
       <ReusableDropdownMenu
-        triggerIcon={
-          <MdNotificationsNone style={{ color: theme.palette.grey[400] }} />
-        }
+        triggerIcon={<MdNotificationsNone style={{ color: grey[400] }} />}
         items={notificationsMenuItems}
         title="Notifications"
         type="non-link"
       />
       <ReusableDropdownMenu
-        triggerIcon={
-          <MdInfoOutline style={{ color: theme.palette.grey[400] }} />
-        }
+        triggerIcon={<MdInfoOutline style={{ color: grey[400] }} />}
         items={infoMenuItems}
         title="Information"
       />
       <ReusableDropdownMenu
-        triggerIcon={
-          <SettingsIcon style={{ color: theme.palette.grey[400] }} />
-        }
+        triggerIcon={<SettingsIcon style={{ color: grey[400] }} />}
         items={mainMenuItems}
         title="Settings"
       />
@@ -220,10 +222,11 @@ export default function HeaderLinks(props) {
           <Box mt={1} py={1} px={2}>
             {isAuthenticated ? (
               <Button
-                to="/auth/sign-in"
+                onClick={handleLogout}
+                // "/auth/logout"
                 variant="outlined"
                 color="primary"
-                component={Link}
+                // component={Link}
                 fullWidth
               >
                 Logout
@@ -264,8 +267,10 @@ export default function HeaderLinks(props) {
       {/* </StyledAppBar> */}
     </Box>
   );
-}
+};
 
 HeaderLinks.propTypes = {
   secondary: PropTypes.bool,
 };
+
+export default HeaderLinks;

@@ -125,6 +125,7 @@ const renderButtonStack = ({ buttonsData }) => {
 };
 const NotFoundPage = props => {
   const { theme } = useMode();
+  console.log('NotFoundPage props:', props);
   // const navigation = useNavigation();
   const navigate = useNavigate();
   const clickHandlers = {

@@ -13,19 +13,105 @@ export const findCurrentRoute = (routes, pathname) => {
     }
   }
 };
-export const getActiveRoute = (routes, pathname) => {
+export const getCurrentRoute = (routes, pathname) => {
   const route = findCurrentRoute(routes, pathname);
   return route?.name || 'Default Brand Text';
 };
-export const getActiveNavbar = (routes, pathname) => {
-  const route = findCurrentRoute(routes, pathname);
-  if (route?.secondary) return route?.secondary;
-  else return false;
+// export const getActiveNavbar = (routes, pathname) => {
+//   const route = findCurrentRoute(routes, pathname);
+//   if (route?.secondary) return route?.secondary;
+//   else return false;
+// };
+// export const getActiveNavbarText = (routes, pathname) => {
+//   return getActiveRoute(routes, pathname) || false;
+// };
+export const getLayoutRoute = props => {
+  const { layoutName } = props;
+  return window.location.pathname !== `/${layoutName}/full-screen-maps`;
 };
-export const getActiveNavbarText = (routes, pathname) => {
-  return getActiveRoute(routes, pathname) || false;
+export const getActiveRoute = routes => {
+  let activeRoute = 'Default Brand Text';
+  for (let i = 0; i < routes.length; i++) {
+    if (routes[i].collapse) {
+      console.log('ROUTES', routes[i].items);
+      let collapseActiveRoute = getActiveRoute(routes[i].items);
+      if (collapseActiveRoute !== activeRoute) {
+        return collapseActiveRoute;
+      }
+    } else if (routes[i].category) {
+      let categoryActiveRoute = getActiveRoute(routes[i].items);
+      if (categoryActiveRoute !== activeRoute) {
+        return categoryActiveRoute;
+      }
+    } else {
+      if (
+        window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+      ) {
+        return routes[i].name;
+      }
+    }
+  }
+  return activeRoute;
 };
-
+export const getActiveNavbar = routes => {
+  let activeNavbar = false;
+  for (let i = 0; i < routes.length; i++) {
+    if (routes[i].collapse) {
+      let collapseActiveNavbar = getActiveNavbar(routes[i].items);
+      if (collapseActiveNavbar !== activeNavbar) {
+        return collapseActiveNavbar;
+      }
+    } else if (routes[i].category) {
+      let categoryActiveNavbar = getActiveNavbar(routes[i].items);
+      if (categoryActiveNavbar !== activeNavbar) {
+        return categoryActiveNavbar;
+      }
+    } else {
+      if (
+        window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+      ) {
+        return routes[i].secondary;
+      }
+    }
+  }
+  return activeNavbar;
+};
+export const getActiveNavbarText = routes => {
+  let activeNavbar = false;
+  for (let i = 0; i < routes.length; i++) {
+    if (routes[i].collapse) {
+      let collapseActiveNavbar = getActiveNavbarText(routes[i].items);
+      if (collapseActiveNavbar !== activeNavbar) {
+        return collapseActiveNavbar;
+      }
+    } else if (routes[i].category) {
+      let categoryActiveNavbar = getActiveNavbarText(routes[i].items);
+      if (categoryActiveNavbar !== activeNavbar) {
+        return categoryActiveNavbar;
+      }
+    } else {
+      if (
+        window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+      ) {
+        return routes[i].messageNavbar;
+      }
+    }
+  }
+  return activeNavbar;
+};
+export const getMenuItems = routes => {
+  let menuItems = [];
+  for (let i = 0; i < routes.length; i++) {
+    if (routes[i].collapse) {
+      menuItems.push(...getMenuItems(routes[i].items));
+    } else if (routes[i].category) {
+      menuItems.push(...getMenuItems(routes[i].items));
+    } else {
+      menuItems.push(routes[i]);
+    }
+  }
+  return menuItems;
+};
 export const extractPaths = (routes, basePath = '') => {
   const paths = [];
   routes.forEach(route => {
@@ -50,14 +136,6 @@ export const extractPaths = (routes, basePath = '') => {
   });
   return paths;
 };
-
-// export const checkARouterValue = () => {
-//   const linkPaths = extractPaths(rootRoutes);
-//   console.log(linkPaths);
-//   console.log('ROUTES', routes);
-//   console.log('ROUTER', Router);
-// };
-
 export const validateLinkPath = path => {
   const correctPaths = [
     '/',
@@ -83,9 +161,7 @@ export const validateLinkPath = path => {
     return false;
   }
 };
-
-const extractValues = (rts, key) => {
-  console.log('ROUTESSB', rts);
+export const extractValues = (rts, key) => {
   console.log(`RT TYPE, ${typeof rts}`);
   const values = [];
   const traverseRoutes = rts => {
@@ -99,7 +175,69 @@ const extractValues = (rts, key) => {
   traverseRoutes(rts);
   return values;
 };
+export const extractValuesWithFilter = (rts, key, path) => {
+  console.log(`RT, ${typeof rts}`, rts);
+  const traverseRoutes = rts => {
+    rts.forEach(route => {
+      console.log(`RT, ${typeof route}`, route);
+      if (route.path === path) {
+        const routeValue = { [key]: route[key] };
+        return routeValue;
+      }
+      if (route.children) {
+        traverseRoutes(route.children);
+      }
+    });
+  };
+  return traverseRoutes(rts);
+};
+export const extractValueForPath = (routes, path, key) => {
+  const routeValue = extractValuesWithFilter(routes, key, path);
+  console.log(`Route ${key}.`, routeValue);
 
+  if (routeValue) {
+    return routeValue;
+  } else {
+    console.log(`Route ${path} not found.`);
+    return null;
+  }
+};
+export const findBreadcrumbs = (pathName, linkPaths) => {
+  const pathParts = pathName.split('/').filter(Boolean);
+  let fullPath = '';
+  return pathParts?.map(part => {
+    fullPath += `/${part}`;
+    const matchingPath = linkPaths.find(p => p === fullPath);
+    return { text: part, link: matchingPath || fullPath };
+  });
+};
+export const formatCrumbsAndHeader = props => {
+  const { pathName, linkPaths } = props;
+  // const findPaths = (path, linkPaths) => {
+  //   const pathParts = path.split('/').filter(Boolean);
+  //   let fullPath = '';
+  //   return pathParts?.map(part => {
+  //     fullPath += `/${part}`;
+  //     const matchingPath = linkPaths.find(p => p === fullPath);
+  //     return { text: part, link: matchingPath || fullPath };
+  //   });
+  // };
+  const crumbPaths = findBreadcrumbs(pathName, linkPaths);
+  const formatPathsToCrumbs = () => {
+    let crumbs = [];
+    let header = '';
+    crumbPaths?.forEach((crumb, index) => {
+      if (index === crumbPaths.length - 1) {
+        header = crumb.text;
+      } else {
+        crumbs.push(crumb);
+      }
+    });
+    return { crumbs, header };
+  };
+  const { crumbs, header } = formatPathsToCrumbs();
+  return { crumbs, header };
+};
 // Function to create an array of objects each possessing a single value for the name of the route
 const fn1 = routes => extractValues(routes, 'name');
 

@@ -1,15 +1,16 @@
+import { Box } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { FaUser } from 'react-icons/fa';
 import { AiIcon } from 'assets/humanIcons';
 import { useMode } from 'hooks';
-import { ChatBubbleAvatarWrapper, ChatBubbleWrapper } from '../styled';
+import { ChatBubbleAvatarWrapper } from '../styled';
 import MessageOptions from './MessageOptions';
 import RenderContent from './RenderContent';
 
 export const ChatBubble = ({ message, sender }) => {
   const { theme } = useMode();
   const bubbleRef = useRef(null);
-  const [maxWidth, setMaxWidth] = useState('100%');
+  const [maxWidth, setMaxWidth] = useState('90%');
 
   useEffect(() => {
     if (bubbleRef.current) {
@@ -31,11 +32,20 @@ export const ChatBubble = ({ message, sender }) => {
   const icon = sender === 'user' ? <FaUser /> : <AiIcon />;
 
   return (
-    <ChatBubbleWrapper
+    <Box
       ref={bubbleRef}
       sender={sender}
       theme={theme}
-      className={`chat-bubble-wrapper-${sender}`}
+      sx={{
+        width: '100%',
+        backgroundColor: sender === 'user' ? '#26242C' : '#26242C',
+        padding: '10px',
+        margin: '10px',
+        borderRadius: '12px',
+        // alignSelf: sender === 'user' ? 'flex-end' : 'flex-start',
+        // display: 'flex',
+      }}
+      // className={`chat-bubble-wrapper-${sender}`}
     >
       <ChatBubbleAvatarWrapper sx={avatarStyle} theme={theme} sender={sender}>
         {icon}
@@ -62,7 +72,7 @@ export const ChatBubble = ({ message, sender }) => {
           />
         )}
       </div>
-    </ChatBubbleWrapper>
+    </Box>
   );
 };
 

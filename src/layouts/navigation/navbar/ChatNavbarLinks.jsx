@@ -1,7 +1,7 @@
 // ChatNavbarLinks.js
 import { Box, Button } from '@mui/material';
 import PropTypes from 'prop-types';
-import ChatHeader from 'components/chat/ChatHeader';
+import { ChatHeader } from 'components/chat';
 
 export const ChatNavbarLinks = ({
   onOpen,

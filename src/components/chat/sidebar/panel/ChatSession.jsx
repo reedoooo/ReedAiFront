@@ -1,16 +1,14 @@
 import {
-  Tab,
-  Button,
-  Typography,
   Box,
+  Button,
   IconButton,
   Menu,
   MenuItem,
+  Tab,
+  Typography,
 } from '@mui/material';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
-import { MdInfoOutline } from 'react-icons/md';
-import { sessions } from 'api/chat';
 import {
   ConversationCard,
   ExportOptions,
@@ -18,6 +16,11 @@ import {
   StyledMuiTabs,
   StyledTextField,
 } from 'components/chat/styled';
+import { RCTabs } from 'components/themed';
+import { useChatStore } from 'contexts/ChatProvider';
+import { useChatHandler } from 'hooks/chat';
+import { ConversationTab, SessionSettings } from './items';
+
 const ConversationMenu = ({
   anchorEl,
   handleMenuClose,
@@ -30,7 +33,14 @@ const ConversationMenu = ({
     <MenuItem onClick={handleDeleteConversation}>Delete</MenuItem>
   </Menu>
 );
-const ChatSession = () => {
+export const ChatSession = props => {
+  const { folders = [], data = {}, title = '' } = props;
+  const chatStore = useChatStore();
+  const {
+    state: { messages },
+    actions: { setMessages },
+  } = chatStore;
+  const { handleGetSessionMessages } = useChatHandler(messages, setMessages);
   const [tab, setTab] = useState(0);
   const [conversations, setConversations] = useState(null);
   const [conversationMessages, setConversationMessages] = useState(null);
@@ -42,27 +52,6 @@ const ChatSession = () => {
   const chatSessionStore = JSON.parse(localStorage.getItem('chatSessionStore'));
   const activeSessionId = chatSessionStore?.sessionId;
   const chatSessions = userSession?.user?.chatSessions;
-
-  const handleGetSessionMessages = useCallback(async () => {
-    try {
-      // const currentSession = await sessionApi.getById(sessionId);
-      // console.log('CURRENT SESSION:', currentSession);
-      const response = await sessions.getMessages(activeSessionId);
-      console.log('RESPONSE:', response);
-      setConversationMessages([...response]);
-      setConversations(
-        chatSessions.map(session => ({
-          ...session,
-          messages: [...response],
-        }))
-      );
-      console.log('conversationMessages', conversationMessages);
-      console.log('conversations', conversations);
-      // setConversationMessages(response);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [activeSessionId]);
 
   useEffect(() => {
     handleGetSessionMessages();
@@ -113,6 +102,10 @@ const ChatSession = () => {
   const handleDeleteConversation = id => {
     setConversations(conversations?.filter(conv => conv.id !== id));
   };
+  const tabs = [
+    { label: 'Conversations', value: 0 },
+    { label: 'Settings', value: 1 },
+  ];
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
@@ -120,95 +113,25 @@ const ChatSession = () => {
         Conversation History
         <FaSignOutAlt style={{ float: 'right', cursor: 'pointer' }} />
       </Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '1rem',
-          color: 'white',
-          borderRadius: '14px',
-          background: '#1c1c1c',
-        }}
-      >
-        <StyledMuiTabs
-          value={tab}
-          onChange={handleTabChange}
-          indicatorColor="#fff"
-        >
-          <Tab
-            label="Conversations"
-            style={{ color: '#fff', borderRadius: '5px' }}
-          />
-          <Tab
-            label="Settings"
-            style={{ color: '#fff', borderRadius: '5px' }}
-          />
-        </StyledMuiTabs>
-      </Box>
+      <RCTabs
+        value={tab}
+        onChange={(e, newValue) => setTab(newValue)}
+        tabs={tabs}
+        variant="darkMode"
+      />
       {tab === 0 && (
-        <Box sx={{ padding: '1rem', flexGrow: 1, overflowY: 'auto' }}>
-          {conversations.map(conversation => (
-            <ConversationCard
-              key={conversation._id}
-              onClick={() => setSelectedConversation(conversation)}
-            >
-              <Typography variant="h6">{conversation.name}</Typography>
-              <IconButton
-                onClick={event => handleMenuClick(event, conversation)}
-              >
-                <MdInfoOutline style={{ color: '#fff' }} />
-              </IconButton>
-            </ConversationCard>
-          ))}
-          <ConversationMenu
-            anchorEl={anchorEl}
-            handleMenuClose={handleMenuClose}
-            handleExportJSON={handleExportJSON}
-            handleDeleteConversation={() =>
-              handleDeleteConversation(selectedConversation?._id)
-            }
-          />
-          {selectedConversation && (
-            <Box>
-              <Typography variant="h6" sx={{ color: '#fff' }}>
-                {selectedConversation.name}
-              </Typography>
-              <Box
-                sx={{
-                  padding: '10px',
-                  background: '#000',
-                  borderRadius: '5px',
-                }}
-              >
-                {selectedConversation.messages?.map((message, index) => (
-                  <Typography key={index} sx={{ color: '#fff' }}>
-                    {message.content}
-                  </Typography>
-                ))}
-              </Box>
-            </Box>
-          )}
-          <ExportOptions>
-            <Button variant="contained" onClick={handleExportJSON}>
-              Export All as JSON
-            </Button>
-          </ExportOptions>
-        </Box>
+        <ConversationTab
+          conversations={conversations}
+          selectedConversation={selectedConversation}
+          setSelectedConversation={setSelectedConversation}
+          handleMenuClick={handleMenuClick}
+          anchorEl={anchorEl}
+          handleMenuClose={handleMenuClose}
+          handleExportJSON={handleExportJSON}
+          handleDeleteConversation={handleDeleteConversation}
+        />
       )}
-      {tab === 1 && (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            padding: '1rem',
-          }}
-        >
-          <StyledTextField label="API Key" variant="outlined" fullWidth />
-          <StyledButton variant="outlined">Save Settings</StyledButton>
-        </Box>
-      )}
+      {tab === 1 && <SessionSettings />}
     </Box>
   );
 };

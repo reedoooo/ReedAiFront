@@ -18,6 +18,9 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  Card,
+  Link,
+  Modal,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import {
@@ -30,9 +33,10 @@ import {
   MdPerson,
   MdTag,
   MdVpnKey,
+  MdLock,
 } from 'react-icons/md';
-import { getGeneralChatResponse } from 'api/index';
-import { APIModal } from 'components/chat/inputs/toolbar';
+import { ApiIcon } from 'assets/humanIcons';
+import { ApiModal } from 'components/chat';
 import { MessageBox } from 'components/chat/messages';
 import constants from 'config/constants';
 import { useMode } from 'hooks';
@@ -108,7 +112,8 @@ export default function Chat(props) {
       formData.append('modelData', modelData);
       formData.append('apiKey', apiKey);
 
-      const data = await getGeneralChatResponse(formData);
+      // const data = await getGeneralChatResponse(formData);
+      const data = {};
       setResponse(data);
     } catch (error) {
       console.error('Error fetching chat response:', error);
@@ -223,17 +228,6 @@ export default function Chat(props) {
             position: 'relative',
           }}
         >
-          {/* <Box
-        component="img"
-        src={Bg}
-        sx={{
-          position: 'absolute',
-          width: '350px',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%)',
-        }}
-      /> */}
           <Box
             sx={{
               mx: 'auto',
@@ -507,7 +501,7 @@ export default function Chat(props) {
           </Box>
         </Box>
       </Box>
-      <APIModal
+      <ApiModal
         open={isApiModalOpen}
         onClose={handleApiModalClose}
         setApiKey={setApiKey}

@@ -11,10 +11,15 @@ export const useDialog = () => {
     setOpen(false);
   };
 
+  const toggle = () => {
+    setOpen(!open);
+  };
+
   return {
     open,
     handleOpen,
     handleClose,
+    toggle,
   };
 };
 

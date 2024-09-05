@@ -1,0 +1,24 @@
+.split-screen {
+  display: flex;
+  height: 100vh;
+}
+
+.left-panel,
+.right-panel {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.left-panel {
+  background-color: #f0f0f0;
+}
+
+.right-panel {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.code-editor {
+  height: calc(100% - 40px);
+}

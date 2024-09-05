@@ -1,34 +1,55 @@
-import { useEffect } from 'react';
-import { Outlet, useNavigation } from 'react-router-dom';
-import { setupInterceptors } from '@/lib/api';
-import { useAuthStore } from 'contexts/AuthProvider';
-import { useUserStore } from 'contexts/UserProvider';
+import React, { useEffect } from 'react';
+import {
+  Outlet,
+  useLocation,
+  useNavigation,
+  useParams,
+} from 'react-router-dom';
+import { toast, Toaster } from 'sonner';
+import { LoadingIndicator } from 'utils/app';
 
 export const RouterLayout = props => {
   const { ...rest } = props;
-  const {
-    state: {
-      accessToken,
-      refreshToken,
-      expiresIn,
-      // authSession: { accessToken, refreshToken, expiresIn },
-    },
-  } = useUserStore();
-  const {
-    actions: { handleRefreshAccessToken },
-  } = useAuthStore();
+  const prevPathRef = React.useRef(null);
+  const navigation = useNavigation();
+  const location = useLocation();
+  const params = useParams();
+  const HistoryTracker = () => {
+    React.useEffect(() => {
+      const previousPath = prevPathRef.current;
+      prevPathRef.current = previousPath;
+      const currentPath = location.pathname;
+      console.log(
+        `Navigated to ${currentPath}, previous path: ${previousPath}`
+      );
+      toast.success(`Navigated to ${currentPath}`);
+    }, [location]);
 
-  useEffect(() => {
-    setupInterceptors(
-      () => accessToken,
-      () => refreshToken,
-      () => expiresIn,
-      handleRefreshAccessToken
-    );
-  }, [accessToken, refreshToken, expiresIn, handleRefreshAccessToken]);
+    return null;
+  };
+  if (navigation.state === 'loading') {
+    console.log('navigation:', navigation);
+    localStorage.setItem('NavHistory', JSON.stringify(navigation.history));
+    return <LoadingIndicator />;
+  }
+  // const {
+  //   state: {
+  //     accessToken,
+  //     refreshToken,
+  //     expiresIn,
+  //     // authSession: { accessToken, refreshToken, expiresIn },
+  //   },
+  //   actions: { handleRefreshAccessToken },
+  // } = useUserStore();
+
+  // useEffect(() => {
+  //   setupInterceptors();
+  // }, []);
 
   return (
     <>
+      <HistoryTracker />
+      <Toaster />
       <Outlet {...rest} />
     </>
   );

@@ -1,160 +1,45 @@
-import {
-  Box,
-  Button,
-  FormControlLabel,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  MenuItem,
-  Select,
-  Slider,
-  Switch,
-  Tab,
-  TextField,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
-import { FaSignOutAlt, FaTrashAlt } from 'react-icons/fa';
-import {
-  StyledButton,
-  StyledMotionTabs,
-  StyledTextField,
-  TabContentContainer,
-} from 'components/chat/styled';
+import { Box, IconButton, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { AssistantIcon } from 'assets/humanIcons';
+import { RCTabs } from 'components/themed';
 import { useMode } from 'hooks';
+import { AssistantDisplay } from './items/assistant-items/AssistantDisplay';
+import { AssistantTemplates } from './items/assistant-items/AssistantTemplates';
+import { AssistantTools } from './items/assistant-items/AssistantTools';
 
-const Assistants = () => {
+export const Assistants = props => {
+  const { folders = [], data = {}, title = '' } = props;
   const [tab, setTab] = useState(0);
-  const [defaultAssistant, setDefaultAssistant] = useState({
-    name: '',
-    role: '',
-  });
-  const [defaultTemplate, setDefaultTemplate] = useState({
-    name: '',
-    content: '',
-  });
+  const { assistants } = data;
   const { theme } = useMode();
-  useEffect(() => {
-    setDefaultAssistant({ name: 'Default Assistant', role: 'Default Role' });
-    setDefaultTemplate({
-      name: 'Default Template',
-      content: 'Default Content',
-    });
-  }, []);
-
-  const handleTabChange = (event, newValue) => {
-    setTab(newValue);
-  };
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [selectedTab, setSelectedTab] = useState('main');
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [instructions, setInstructions] = useState('');
-  const itemRef = useRef(null);
-  const [isHovering, setIsHovering] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
-  const handleSave = () => {
-    console.log('Workspace updated!');
-  };
-
-  const handleChangeTab = (event, newValue) => {
-    setTab(newValue);
-  };
-  const handleKeyDown = e => {
-    if (e.key === 'Enter') {
-      e.stopPropagation();
-      itemRef.current?.click();
-    }
-  };
-
-  const assistantList = [
-    { name: 'Assistant 1', _id: '1' },
-    { name: 'Assistant 2', _id: '2' },
-    // Add more assistants as needed
+  const tabs = [
+    { label: 'Display', value: 0 },
+    { label: 'Templates', value: 1 },
+    { label: 'Tools', value: 2 },
   ];
-
-  const templateList = [
-    { templateName: 'Template 1', templateText: 'Content 1', _id: '1' },
-    { templateName: 'Template 2', templateText: 'Content 2', _id: '2' },
-    // Add more templates as needed
-  ];
-
-  const handleAssistantChange = e => {
-    const { name, value } = e.target;
-    setDefaultAssistant(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleCreateAssistant = () => {
-    console.log('New Assistant Created:', defaultAssistant);
-    // Add logic to create a new assistant
-  };
-
-  const deleteAssistant = id => {
-    console.log('Delete Assistant with ID:', id);
-    // Add logic to delete an assistant
-  };
-
-  const handleTemplateChange = e => {
-    const { name, value } = e.target;
-    setDefaultTemplate(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleCreateTemplate = () => {
-    console.log('New Template Created:', defaultTemplate);
-    // Add logic to create a new template
-  };
-
-  const deleteTemplate = id => {
-    console.log('Delete Template with ID:', id);
-    // Add logic to delete a template
-  };
-
   return (
     <>
-      <Box
-        ref={itemRef}
-        sx={{
-          '&:hover': {
-            backgroundColor: 'accent.main',
-            opacity: 0.5,
-          },
-          display: 'flex',
-          width: '100%',
-          cursor: 'pointer',
-          alignItems: 'center',
-          borderRadius: '4px',
-          padding: '8px',
-          outline: 'none',
-        }}
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      >
-        <FaSignOutAlt sx={{ fontSize: 30 }} />{' '}
+      <Box display="flex" alignItems="center" justifyContent="space-between">
         <Typography
+          variant="h6"
           sx={{
-            marginLeft: '12px',
-            flex: 1,
-            textOverflow: 'ellipsis',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            fontSize: '14px',
-            fontWeight: '600',
+            color: 'white',
+            mx: '12px',
           }}
         >
-          Assistant and Template Manager
+          Assistants
         </Typography>
+        <IconButton>
+          <AssistantIcon style={{ float: 'right', cursor: 'pointer' }} />
+        </IconButton>
       </Box>
-      <Box
+      <RCTabs
+        value={tab}
+        onChange={(e, newValue) => setTab(newValue)}
+        tabs={tabs}
+        variant="darkMode"
+      />
+      {/* <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -175,174 +60,16 @@ const Assistants = () => {
             style={{ color: '#fff', borderRadius: '5px' }}
           />
           <Tab
-            label="Assistant Templates"
+            label="Templates"
             style={{ color: '#fff', borderRadius: '5px' }}
           />
+          <Tab label="Tools" style={{ color: '#fff', borderRadius: '5px' }} />
         </StyledMotionTabs>
-      </Box>
+      </Box> */}
 
-      {tab === 0 && (
-        <TabContentContainer>
-          <List>
-            {assistantList.map((assistant, index) => (
-              <ListItem key={index}>
-                <ListItemText primary={assistant.name} />
-                <IconButton
-                  edge="end"
-                  onClick={() => deleteAssistant(assistant._id)}
-                >
-                  <FaTrashAlt style={{ color: '#fff' }} />
-                </IconButton>
-              </ListItem>
-            ))}
-          </List>
-          <Box sx={{ mt: 2 }}>
-            <StyledTextField
-              label="Name"
-              name="name"
-              value={defaultAssistant.name}
-              onChange={handleAssistantChange}
-              fullWidth
-            />
-            <StyledTextField
-              label="Role"
-              name="role"
-              value={defaultAssistant.role}
-              onChange={handleAssistantChange}
-              fullWidth
-              sx={{ mt: 2 }}
-            />
-            {/* Instructions Section */}
-            <Box>
-              <Typography variant="h6">Instructions</Typography>
-              <TextField
-                variant="outlined"
-                fullWidth
-                multiline
-                rows={4}
-                margin="dense"
-                InputProps={{ style: { color: 'white' } }}
-              />
-            </Box>
-
-            {/* Model Section */}
-            <Box>
-              <Typography variant="h6">Model</Typography>
-              <Select
-                fullWidth
-                variant="outlined"
-                margin="dense"
-                defaultValue="gpt-4.0"
-                sx={{ color: 'white', '.MuiSelect-icon': { color: 'white' } }}
-              >
-                <MenuItem value="gpt-4.0">gpt-4.0</MenuItem>
-              </Select>
-            </Box>
-
-            {/* Tools Section */}
-            <Box>
-              <Typography variant="h6">Tools</Typography>
-              <FormControlLabel
-                control={<Switch defaultChecked />}
-                label="File search"
-                sx={{ color: 'white' }}
-              />
-              <FormControlLabel
-                control={<Switch defaultChecked />}
-                label="Code interpreter"
-                sx={{ color: 'white' }}
-              />
-              <Button variant="contained">+ Files</Button>
-            </Box>
-
-            {/* Functions Section */}
-            <Box>
-              <Typography variant="h6">Functions</Typography>
-              <Button variant="contained">GenerateComponentCode</Button>
-            </Box>
-
-            {/* Model Configuration Section */}
-            <Box>
-              <Typography variant="h6">Model Configuration</Typography>
-              <FormControlLabel
-                control={<Switch />}
-                label="Response format"
-                sx={{ color: 'white' }}
-              />
-              <Typography gutterBottom>Temperature</Typography>
-              <Slider
-                defaultValue={1}
-                min={0}
-                max={1}
-                step={0.01}
-                sx={{ color: 'white' }}
-              />
-              <Typography gutterBottom>Top P</Typography>
-              <Slider
-                defaultValue={1}
-                min={0}
-                max={1}
-                step={0.01}
-                sx={{ color: 'white' }}
-              />
-              <Button variant="contained">Switch to v1</Button>
-            </Box>
-            <StyledButton
-              variant="contained"
-              color="primary"
-              onClick={handleCreateAssistant}
-              sx={{ mt: 2 }}
-            >
-              Add Assistant
-            </StyledButton>
-          </Box>
-        </TabContentContainer>
-      )}
-      {tab === 1 && (
-        <TabContentContainer>
-          <List>
-            {templateList.map((template, index) => (
-              <ListItem key={index}>
-                <ListItemText
-                  primary={template.templateName}
-                  secondary={template.templateText}
-                />
-                <IconButton
-                  edge="end"
-                  onClick={() => deleteTemplate(template._id)}
-                >
-                  <FaTrashAlt style={{ color: '#fff' }} />
-                </IconButton>
-              </ListItem>
-            ))}
-          </List>
-          <Box sx={{ mt: 2 }}>
-            <StyledTextField
-              label="Template Name"
-              name="templateName"
-              value={defaultTemplate.name}
-              onChange={handleTemplateChange}
-              fullWidth
-            />
-            <StyledTextField
-              label="Template Text"
-              name="templateText"
-              value={defaultTemplate.content}
-              onChange={handleTemplateChange}
-              fullWidth
-              sx={{ mt: 2 }}
-            />
-            <StyledButton
-              variant="contained"
-              color="primary"
-              onClick={handleCreateTemplate}
-              sx={{ mt: 2 }}
-            >
-              Add Template
-            </StyledButton>
-          </Box>
-        </TabContentContainer>
-      )}
+      {tab === 0 && <AssistantDisplay />}
+      {tab === 1 && <AssistantTemplates />}
+      {tab === 2 && <AssistantTools />}
     </>
   );
 };

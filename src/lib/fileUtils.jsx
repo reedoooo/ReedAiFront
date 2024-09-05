@@ -315,7 +315,7 @@ export const processFile = async file => {
   const acceptedType = flattenArrays(data.OPENAI_ACCEPTED_FILE_TYPES);
   try {
     if (file.type.startsWith('image/')) {
-      await handleImageFile(file, fileDataRef, setUploadedFiles);
+      await handleImageFile(file, fileDataRef, setFiles);
     } else if (file.type === 'application/pdf') {
       await handlePDFFile(file, editor);
     } else if (
@@ -362,7 +362,7 @@ export const handleTextFile = async (file, editor) => {
   }
 };
 
-export const handleImageFile = async (file, fileDataRef, setUploadedFiles) => {
+export const handleImageFile = async (file, fileDataRef, setFiles) => {
   if (fileDataRef.current.length >= 5) {
     console.warn('Maximum number of images reached');
     return;
@@ -378,7 +378,7 @@ export const handleImageFile = async (file, fileDataRef, setUploadedFiles) => {
       path: file.path,
     };
     fileDataRef.current = [...fileDataRef.current, fileData];
-    setUploadedFiles(prevFiles => [...prevFiles, fileData]);
+    setFiles(prevFiles => [...prevFiles, fileData]);
   } catch (error) {
     console.error('Error processing image file:', error);
   }

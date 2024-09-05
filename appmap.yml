@@ -1,7 +1,0 @@
-name: MyApp
-language: node
-appmap_dir: tmp/appmap
-packages:
-  - path: src/
-    exclude:
-      - test/
