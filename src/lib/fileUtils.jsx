@@ -417,6 +417,8 @@ export const FileIcon = ({ type, size = 32, iconColor = '#BDBDBD' }) => {
     return <FaFileCode size={size} color={iconColor} />;
   } else if (type.includes('markdown')) {
     return <FaRegFile size={size} color={iconColor} />;
+  } else if (type.includes('txt')) {
+    return <FaRegFile size={size} color={iconColor} />;
   } else {
     return <FaFile size={size} />;
   }

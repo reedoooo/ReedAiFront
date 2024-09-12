@@ -4,7 +4,8 @@ import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv } from 'vite';
 import svgr from 'vite-plugin-svgr';
 import { VitePWA } from 'vite-plugin-pwa';
-
+import monacoEditorPluginModule from 'vite-plugin-monaco-editor';
+const monacoEditorPlugin = monacoEditorPluginModule.default;
 // --- FILE PATHS --- //
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -12,9 +13,6 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, __dirname, '');
   return {
     // --- PLUGINS --- //
-    // react() -- For React JSX
-    // svgr() -- For importing SVGs as React components
-    // tsconfigPaths() -- For resolving paths in tsconfig.json
     plugins: [
       react({
         jsxRuntime: 'automatic',
@@ -35,19 +33,14 @@ export default defineConfig(({ mode }) => {
           enabled: true,
         },
       }),
+      monacoEditorPlugin({
+        languageWorkers: ['json', 'css', 'html', 'typescript'],
+      }),
     ],
     // --- CONFIG --- //
-    // root -- The root directory of the project
-    // base -- The base URL of the project
-    // root: path.resolve(__dirname, 'src'),
-    // base: '/',
-    // --- RESOLVE --- //
-    // alias -- Aliases for paths
-    // resolve.alias -- Aliases for paths
     resolve: {
       alias: {
         '@': path.resolve(__dirname, 'src'),
-        // '@/': path.resolve(__dirname, 'src'),
         '@/humanIcons': path.resolve(__dirname, 'src/assets/humanIcons'),
         '@/routes': path.resolve(__dirname, 'src/routes'),
         '@/config': path.resolve(__dirname, 'src/config'),
@@ -69,9 +62,6 @@ export default defineConfig(({ mode }) => {
       },
     },
     // --- DEFINE --- //
-    // define -- Define global variables
-    // define.process.env -- Define global variables
-    // define.process.env.NODE_ENV -- Define global variables
     define: {
       ...Object.keys(env).reduce((prev, key) => {
         prev[`process.env.${key}`] = JSON.stringify(env[key]);
@@ -79,11 +69,12 @@ export default defineConfig(({ mode }) => {
       }, {}),
       // 'process.env.NODE_ENV': JSON.stringify('production'), // Corrected line
     },
+    build: {
+      rollupOptions: {
+        external: ['monaco-editor'],
+      },
+    },
     // --- SERVER --- //
-    // port -- The port to run the server on
-    // open -- Open the browser on server start
-    // proxy -- Proxy requests to the API
-    // hmr.overlay -- Disable the HMR overlay
     server: {
       port: 3000,
       open: true,

@@ -83,8 +83,16 @@ import {
   updateAssistant,
   updateFolder,
   uploadFile,
+  getAllStoredFiles,
+  getStoredFilesByType,
+  getStoredFilesBySpace,
+  getStoredFileByName,
+  getStoredFileById,
   setSelectedFolder,
   syncChatMessages,
+  addNewMessageFile,
+  updateNewMessageFile,
+  uploadAssistantFile,
 } from 'store/Slices'; // Assuming you can import all slices from a single entry point
 
 export const selectWorkspace = createSelector(
@@ -179,6 +187,14 @@ export const ChatProvider = ({ children }) => {
     setWorkspaceImages: images => dispatch(setWorkspaceImages(images)),
     setWorkspaceId: workspaceId => dispatch(setWorkspaceId(workspaceId)),
     // ===========================================
+    // [FOLDER STORE]
+    // ===========================================
+    setFolders: folders => dispatch(setFolders(folders)),
+    setSelectedFolder: folder => dispatch(setSelectedFolder(folder)),
+    createFolder: folder => dispatch(createFolder(folder)),
+    deleteFolder: folder => dispatch(deleteFolder(folder)),
+    updateFolder: folder => dispatch(updateFolder(folder)),
+    // ===========================================
     // [CHAT SESSION STORE]
     // ===========================================
     setMode: mode => dispatch(setMode(mode)),
@@ -209,7 +225,7 @@ export const ChatProvider = ({ children }) => {
     createAssistant: assistantData => dispatch(createAssistant(assistantData)),
     updateAssistant: assistantData => dispatch(updateAssistant(assistantData)),
     deleteAssistant: assistantData => dispatch(deleteAssistant(assistantData)),
-    uploadFile: filePath => dispatch(uploadFile(filePath)),
+    uploadAssistantFile: filePath => dispatch(uploadAssistantFile(filePath)),
     createThread: threadData => dispatch(createThread(threadData)),
     createMessage: (threadId, messageData) =>
       dispatch(createMessage({ threadId, messageData })),
@@ -236,14 +252,6 @@ export const ChatProvider = ({ children }) => {
     // ===========================================
     setCollections: collections => dispatch(setCollections(collections)),
     // ===========================================
-    // [FOLDER STORE]
-    // ===========================================
-    setFolders: folders => dispatch(setFolders(folders)),
-    setSelectedFolder: folder => dispatch(setSelectedFolder(folder)),
-    createFolder: folder => dispatch(createFolder(folder)),
-    deleteFolder: folder => dispatch(deleteFolder(folder)),
-    updateFolder: folder => dispatch(updateFolder(folder)),
-    // ===========================================
     // [FILE STORE]
     // ===========================================
     setFiles: files => dispatch(setFiles(files)),
@@ -253,6 +261,14 @@ export const ChatProvider = ({ children }) => {
     setNewMessageFiles: files => dispatch(setNewMessageFiles(files)),
     setNewMessageImages: images => dispatch(setNewMessageImages(images)),
     setShowFilesDisplay: show => dispatch(setShowFilesDisplay(show)),
+    addNewMessageFile: file => dispatch(addNewMessageFile(file)),
+    updateNewMessageFile: file => dispatch(updateNewMessageFile(file)),
+    uploadFile: file => dispatch(uploadFile(file)),
+    getAllStoredFiles: () => dispatch(getAllStoredFiles()),
+    getStoredFilesByType: type => dispatch(getStoredFilesByType(type)),
+    getStoredFilesBySpace: space => dispatch(getStoredFilesBySpace(space)),
+    getStoredFileByName: name => dispatch(getStoredFileByName(name)),
+    getStoredFileById: id => dispatch(getStoredFileById(id)),
     // ===========================================
     // [PROFILE STORE]
     // ===========================================

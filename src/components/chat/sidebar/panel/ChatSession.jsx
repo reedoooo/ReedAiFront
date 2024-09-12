@@ -1,25 +1,13 @@
-import {
-  Box,
-  Button,
-  IconButton,
-  Menu,
-  MenuItem,
-  Tab,
-  Typography,
-} from '@mui/material';
+import { Box, Menu, MenuItem, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { FaSignOutAlt } from 'react-icons/fa';
-import {
-  ConversationCard,
-  ExportOptions,
-  StyledButton,
-  StyledMuiTabs,
-  StyledTextField,
-} from 'components/chat/styled';
+import { ExportOptions } from 'components/chat/styled';
 import { RCTabs } from 'components/themed';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useChatHandler } from 'hooks/chat';
 import { ConversationTab, SessionSettings } from './items';
+import FileManagementSidebar from './items/sidebar-items/FileManager';
 
 const ConversationMenu = ({
   anchorEl,
@@ -34,7 +22,7 @@ const ConversationMenu = ({
   </Menu>
 );
 export const ChatSession = props => {
-  const { folders = [], data = {}, title = '' } = props;
+  const { folders = [], data = {}, title = '', files = [] } = props;
   const chatStore = useChatStore();
   const {
     state: { messages },
@@ -103,10 +91,16 @@ export const ChatSession = props => {
     setConversations(conversations?.filter(conv => conv.id !== id));
   };
   const tabs = [
-    { label: 'Conversations', value: 0 },
-    { label: 'Settings', value: 1 },
+    { label: 'List', value: 0 },
+    { label: 'Conversations', value: 1 },
+    { label: 'Settings', value: 2 },
   ];
-
+  const ErrorFallback = ({ error }) => (
+    <div>
+      <h2>Something went wrong:</h2>
+      <pre>{error.message}</pre>
+    </div>
+  );
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <Typography variant="h6" style={{ color: '#fff' }}>
@@ -119,7 +113,19 @@ export const ChatSession = props => {
         tabs={tabs}
         variant="darkMode"
       />
-      {tab === 0 && (
+      <Box mt={2} display="flex" alignItems="center">
+        {/* <SidebarCreateButtons contentType={'files'} hasData={data.length > 0} /> */}
+        {tab === 0 && (
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <FileManagementSidebar
+              initialFolders={folders}
+              initialFiles={files}
+              space={title}
+            />
+          </ErrorBoundary>
+        )}
+      </Box>
+      {tab === 1 && (
         <ConversationTab
           conversations={conversations}
           selectedConversation={selectedConversation}
@@ -131,7 +137,7 @@ export const ChatSession = props => {
           handleDeleteConversation={handleDeleteConversation}
         />
       )}
-      {tab === 1 && <SessionSettings />}
+      {tab === 2 && <SessionSettings />}
     </Box>
   );
 };

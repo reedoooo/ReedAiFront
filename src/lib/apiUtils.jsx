@@ -2,83 +2,77 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import axiosInstance from './api';
 import { toast } from 'sonner';
+const saveErrorToLocalStorage = (error, method) => {
+  const errors = JSON.parse(localStorage.getItem('apiErrors') || '[]');
+  errors.push({
+    timestamp: new Date().toISOString(),
+    method,
+    message: error.message,
+    stack: error.stack,
+    config: error.config,
+    response: error.response ? {
+      status: error.response.status,
+      data: error.response.data
+    } : null
+  });
+  localStorage.setItem('apiErrors', JSON.stringify(errors.slice(-10))); // Keep only last 10 errors
+};
 
+const handleApiError = (error, method) => {
+  console.error(`${method} request error:`, error);
+  saveErrorToLocalStorage(error, method);
+  const errorMessage = error.response?.data?.message || error.message;
+  const statusCode = error.response?.status;
+  toast.error(
+    `${method} request failed: ${errorMessage}${statusCode ? ` (${statusCode})` : ''}`,
+    { className: 'error-toast' }
+  );
+  throw error;
+};
 export const apiUtils = {
-  async get(url) {
+  async get(url, config) {
     try {
-      const response = await axiosInstance.get(url);
+      const response = await axiosInstance.get(url, config);
       return response.data;
     } catch (error) {
-      console.error('GET request error:', error);
-      toast.error(
-        `GET request failed: ${error.message} ${error.response.status}` +
-          ': ' +
-          error.response.statusText,
-        { className: 'error-toast' }
-      );
-
-      throw error;
+      handleApiError(error, 'GET');
     }
   },
 
   async post(url, data, config) {
-    console.log('config', config);
-    const headers = {
-      'Content-Type': 'application/json',
-      ...config?.headers,
-    };
     try {
-      const response = await axiosInstance.post(url, data, { headers });
+      let finalConfig = config;
+      if (data instanceof FormData) {
+        finalConfig = {
+          ...config,
+          headers: {
+            ...config?.headers,
+            'Content-Type': 'multipart/form-data',
+          },
+        };
+      }
+      const response = await axiosInstance.post(url, data, finalConfig);
       return response.data;
     } catch (error) {
-      console.error('POST request error:', error);
-      toast.error(
-        `POST request failed: ${error.message} ${error.response.status}` +
-          ': ' +
-          error.response.statusText,
-        { className: 'error-toast' }
-      );
-      throw error;
+      handleApiError(error, 'POST');
     }
   },
 
   async put(url, data, config) {
-    const headers = {
-      'Content-Type': 'application/json',
-      ...config?.headers,
-    };
     try {
-      const response = await axiosInstance.put(url, data, { headers });
+      const response = await axiosInstance.put(url, data, config);
       return response.data;
     } catch (error) {
-      console.error('PUT request error:', error);
-      toast.error(
-        `PUT request failed: ${error.message} ${error.response.status}` +
-          ': ' +
-          error.response.statusText,
-        { className: 'error-toast' }
-      );
-      throw error;
+      handleApiError(error, 'PUT');
     }
   },
 
   async delete(url, config) {
-    const headers = {
-      'Content-Type': 'application/json',
-      ...config?.headers,
-    };
     try {
-      const response = await axiosInstance.delete(url, { headers });
+      const response = await axiosInstance.delete(url, config);
       return response.data;
     } catch (error) {
-      console.error('DELETE request error:', error);
-      toast.error(
-        `DELETE request failed: ${error.message} ${error.response.status}` +
-          ': ' +
-          error.response.statusText,
-        { className: 'error-toast' }
-      );
-      throw error;
+      handleApiError(error, 'DELETE');
     }
   },
 };

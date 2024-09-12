@@ -21,6 +21,22 @@ export const foldersApi = {
     }
   },
 
+  getFoldersBySpace: async props => {
+    const { space } = props;
+    try {
+      const response = await apiUtils.get(
+        `/chat/folders/space/${encodeURIComponent(space)}`
+      );
+      console.log('RES', response);
+      console.log('FOLDERS', response.folders);
+      return response.folders;
+      // const data = await apiUtils.get(`/chat/spaces/${space}/folders`);
+    } catch (error) {
+      console.error(`Error fetching chat folders for space ${space}:`, error);
+      throw error;
+    }
+  },
+
   getFolderItemsByFolderId: async id => {
     try {
       const data = await apiUtils.get(`/chat/folders/${id}`);

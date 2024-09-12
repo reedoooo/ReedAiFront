@@ -15,7 +15,7 @@ import assistantReducer, {
   setOpenaiAssistants,
   setSelectedAssistant,
   updateAssistant,
-  uploadFile,
+  uploadAssistantFile,
 } from './assistantSlice';
 import baseChatReducer, {
   // addEnvToUser,
@@ -71,6 +71,14 @@ import fileReducer, {
   setNewMessageFiles,
   setNewMessageImages,
   setShowFilesDisplay,
+  addNewMessageFile,
+  updateNewMessageFile,
+  uploadFile,
+  getAllStoredFiles,
+  getStoredFilesByType,
+  getStoredFilesBySpace,
+  getStoredFileByName,
+  getStoredFileById,
 } from './fileSlice';
 import folderReducer, {
   createFolder,
@@ -103,6 +111,8 @@ import workspaceReducer, {
 
 export {
   // addEnvToUser,
+  addNewMessageFile,
+  updateNewMessageFile,
   syncChatMessages,
   clearChatSessions,
   createAssistant,
@@ -188,7 +198,13 @@ export {
   setWorkspaces,
   updateAssistant,
   updateFolder,
+  uploadAssistantFile,
   uploadFile,
+  getAllStoredFiles,
+  getStoredFilesByType,
+  getStoredFilesBySpace,
+  getStoredFileByName,
+  getStoredFileById,
 };
 
 export {

@@ -7,9 +7,7 @@ import { LoadingIndicator } from 'utils';
 
 export const NavbarLogo = () => (
   <Suspense fallback={<LoadingIndicator />}>
-    {/* <StyledLogoIcon hval="2rem"> */}
     <CustomLogoIcon />
-    {/* </StyledLogoIcon> */}
   </Suspense>
 );
 

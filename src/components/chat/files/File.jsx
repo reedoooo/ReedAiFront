@@ -22,13 +22,13 @@ export const File = React.memo(props => {
 
   // Memoize the handleRemove function
   const handleRemove = useCallback(() => {
-    handleRemoveFile(file.id);
-  }, [handleRemoveFile, file.id]);
+    handleRemoveFile(file._id);
+  }, [handleRemoveFile, file._id]);
 
   // Check if file object is valid
-  if (!file || !file.id || !file.name || !file.data) {
+  if (!file || !file.name || !file.data) {
     console.error('Invalid file object:', file);
-    return null;
+    return <Typography variant="body2">Invalid file</Typography>;
   }
 
   return (

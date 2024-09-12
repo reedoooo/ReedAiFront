@@ -6,22 +6,23 @@ import { useChatStore } from 'contexts';
 import { useFileProcesser } from 'hooks';
 import { ChatMessageIconContainer } from '../styled';
 
-export const FileUploadButton = () => {
+export const FileUploadButton = props => {
   const theme = useTheme();
   const chatStore = useChatStore();
-  const { files, showFilesDisplay } = chatStore.state;
-  const { setFiles, setShowFilesDisplay } = chatStore.actions;
-  const { handleSelectDeviceFile, fileInputRef } = useFileProcesser();
-
-  const handleOpenFileSelector = () => {
-    fileInputRef.current?.click();
-  };
+  const { handleSelectDeviceFile, fileInputRef, filesToAccept } =
+    useFileProcesser();
 
   const handleFileChange = async event => {
     if (!event.target.files) return;
     const file = event.target.files[0];
-    if (file && !files.find(f => f.name === file.name)) {
-      await handleSelectDeviceFile(file);
+    if (file && !props.files.find(f => f.name === file.name)) {
+      await handleSelectDeviceFile(file, true);
+    }
+  };
+
+  const handleIconClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
     }
   };
 
@@ -29,10 +30,7 @@ export const FileUploadButton = () => {
     <>
       <DarkIconBox
         icon={
-          <ChatMessageIconContainer
-            onClick={handleOpenFileSelector}
-            theme={theme}
-          >
+          <ChatMessageIconContainer onClick={handleIconClick} theme={theme}>
             <AttachFileIcon />
           </ChatMessageIconContainer>
         }
@@ -44,7 +42,10 @@ export const FileUploadButton = () => {
         multiple
         style={{ display: 'none' }}
         onChange={handleFileChange}
-        accept=".json,.txt,.jsx,.js,.png,text/jsx,application/javascript"
+        inputProps={{
+          accept:
+            '.pdf,.doc,.docx,.txt,.json,.jsx,.js,.png,text/jsx,application/javascript',
+        }}
       />
     </>
   );

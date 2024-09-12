@@ -170,22 +170,22 @@ const Folders = ({ folder, contentType, children, onUpdateFolder }) => {
   };
 
   const handleUpdateFolder = async () => {
-    const updatedFolder = await updateFolder(folder.id, { name }, API_KEY);
+    const updatedFolder = await updateFolder(folder._id, { name }, API_KEY);
     setFolders(prevState =>
-      prevState.map(c => (c.id === folder.id ? updatedFolder : c))
+      prevState.map(c => (c._id === folder._id ? updatedFolder : c))
     );
     setShowFolderDialog(false);
   };
 
   const handleDeleteFolderOnly = async () => {
-    await deleteFolder(folder.id, API_KEY);
-    setFolders(prevState => prevState.filter(c => c.id !== folder.id));
+    await deleteFolder(folder._id, API_KEY);
+    setFolders(prevState => prevState.filter(c => c._id !== folder._id));
     setShowFolderDialog(false);
     const setStateFunction = stateUpdateFunctions[contentType];
     if (!setStateFunction) return;
     setStateFunction(prevItems =>
       prevItems.map(item => {
-        if (item.folder_id === folder.id) {
+        if (item.folder_id === folder._id) {
           return { ...item, folder_id: null };
         }
         return item;

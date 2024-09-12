@@ -4,6 +4,7 @@ export const userApi = {
   getUserById: async id => {
     try {
       const data = await apiUtils.get(`/user/${id}`);
+      console.log('User data:', data);
       return data;
     } catch (error) {
       console.error('Error fetching user:', error);

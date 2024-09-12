@@ -26,7 +26,7 @@ export const RCTabs = React.forwardRef(
         variant={MUI_VARIANT}
         scrollButtons="auto" // Enables scroll buttons to appear when needed
         allowScrollButtonsMobile
-        centered
+        // centered
         aria-label="wrapped label tabs example"
         {...rest} // Spread other props to avoid passing unnecessary props to the DOM
       >

@@ -1,6 +1,8 @@
 // src/libs/api.js
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import constants from '@/config';
+const { BASE_URL } = constants;
 
 /**
  * Axios instance for making API requests.
@@ -16,16 +18,74 @@ const axiosInstance = axios.create({
   },
 });
 
+// Function to save error to localStorage
+const saveErrorToLocalStorage = error => {
+  const errors = JSON.parse(localStorage.getItem('apiErrors') || '[]');
+  errors.push({
+    timestamp: new Date().toISOString(),
+    message: error.message,
+    stack: error.stack,
+    config: error.config,
+    response: error.response
+      ? {
+          status: error.response.status,
+          data: error.response.data,
+        }
+      : null,
+  });
+  localStorage.setItem('apiErrors', JSON.stringify(errors.slice(-10))); // Keep only last 10 errors
+};
+
+// Function to refresh the token
+const refreshToken = async () => {
+  try {
+    const refreshToken = sessionStorage.getItem('refreshToken');
+    const response = await axios.post(
+      `http://localhost:3001/api/user/refresh-token`,
+      {
+        refreshToken,
+      }
+    );
+    const { accessToken, newRefreshToken } = response.data;
+    sessionStorage.setItem('accessToken', accessToken);
+    sessionStorage.setItem('refreshToken', newRefreshToken);
+    return accessToken;
+  } catch (error) {
+    console.error('Error refreshing token:', error);
+    // If refresh token is invalid, log out the user
+    sessionStorage.clear();
+    window.location.href = `${window.location.origin}/auth/sign-in`;
+    throw error;
+  }
+};
+
 axiosInstance.interceptors.request.use(
-  config => {
-    const accessToken = sessionStorage.getItem('accessToken');
+  async config => {
+    let accessToken = sessionStorage.getItem('accessToken');
     if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+      try {
+        // Check if the token is expired
+        const tokenExpiration =
+          JSON.parse(atob(accessToken.split('.')[1])).exp * 1000;
+        if (Date.now() >= tokenExpiration) {
+          // Token is expired, try to refresh it
+          accessToken = await refreshToken();
+        }
+        // Set the token in the request headers
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        saveErrorToLocalStorage(error);
+        sessionStorage.removeItem('accessToken');
+        window.location.href = `${window.location.origin}/auth/sign-in`;
+        return Promise.reject(error);
+      }
     }
     return config;
   },
   error => {
-    console.error('[AXIOS_ERROR]', error);
+    console.error('[AXIOS_REQUEST_ERROR]', error);
+    saveErrorToLocalStorage(error);
     return Promise.reject(error);
   }
 );
@@ -35,25 +95,43 @@ axiosInstance.interceptors.response.use(
     console.log('Response:', response.status, response.data);
     return response;
   },
-  error => {
-    if (error.response.data.message === 'jwt expired') {
-      window.location.href = `${window.location.origin}/auth/sign-in`;
+  async error => {
+    console.error('[AXIOS_RESPONSE_ERROR]', error);
+    saveErrorToLocalStorage(error);
+
+    if (!error.response) {
+      toast.error('Network error. Please check your connection.');
+      return Promise.reject(error);
     }
-    if (error.response.status === 401) {
-      console.error('[AXIOS_ERROR] Unauthorized access - maybe redirect to login');
-      // clear local storage and redirect to login
-      localStorage.clear();
-      window.location.href = `${window.location.origin}/auth/sign-in`;
+
+    const { status, data } = error.response;
+
+    switch (status) {
+      case 401:
+        if (data.message === 'jwt expired') {
+          sessionStorage.clear();
+          window.location.href = `${window.location.origin}/auth/sign-in`;
+        } else {
+          toast.error('Unauthorized access. Please log in again.');
+          localStorage.clear();
+          window.location.href = `${window.location.origin}/auth/sign-in`;
+        }
+        break;
+      case 403:
+        toast.error(
+          'Access forbidden. You do not have permission to perform this action.'
+        );
+        break;
+      case 404:
+        toast.error('Resource not found.');
+        break;
+      case 500:
+        toast.error('Server error. Please try again later.');
+        break;
+      default:
+        toast.error(data.message || 'An unexpected error occurred.');
     }
-    if (error.response.status === 404) {
-      console.error('[AXIOS_ERROR] Resource not found');
-    }
-    if (error.response.status === 500) {
-      console.error('[AXIOS_ERROR] Server error');
-    }
-    if (!error.response.data.message) {
-      console.error('[AXIOS_ERROR] Unknown error');
-    }
+
     return Promise.reject(error);
   }
 );

@@ -29,7 +29,7 @@ export const MessageInput = ({
   const chatStore = useChatStore();
   const { theme } = useMode();
   const {
-    state: { files, showFilesDisplay, isFirstMessage },
+    state: { showFilesDisplay, isFirstMessage, chatFiles },
     actions: { setShowFilesDisplay, setUserInput },
   } = chatStore;
   const {
@@ -75,38 +75,17 @@ export const MessageInput = ({
       >
         <Box
           sx={{
-            display: !showFilesDisplay || files?.length === 0 ? 'none' : 'flex',
+            display:
+              !showFilesDisplay || chatFiles?.length === 0 ? 'none' : 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: '100%',
           }}
         >
-          <FileDisplay
-            files={files}
-            hidden={!showFilesDisplay || files.length === 0}
-          />
+          <FileDisplay files={chatFiles} hidden={!showFilesDisplay} />
         </Box>
         <ChatMessageActionsContainer>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            {/* <IconButton
-              onClick={() => setShowFilesDisplay(!showFilesDisplay)}
-              sx={{
-                p: 2,
-                borderRadius: '50%',
-                width: 40,
-                height: 40,
-                my: 'auto',
-                py: 'auto',
-              }}
-              aria-expanded={showFilesDisplay}
-              aria-label={showFilesDisplay ? 'Hide files' : 'Show files'}
-            >
-              {showFilesDisplay && files.length > 0 ? (
-                <FaChevronLeft />
-              ) : (
-                <FaChevronRight />
-              )}
-            </IconButton> */}
             <ToolDial editor={editor} />
           </Box>
         </ChatMessageActionsContainer>
@@ -141,7 +120,7 @@ export const MessageInput = ({
                 aria-expanded={showFilesDisplay}
                 aria-label={showFilesDisplay ? 'Hide files' : 'Show files'}
               >
-                {showFilesDisplay && files.length > 0 ? (
+                {showFilesDisplay && chatFiles.length > 0 ? (
                   <FaChevronLeft />
                 ) : (
                   <FaChevronRight />
@@ -155,7 +134,7 @@ export const MessageInput = ({
                 flexGrow: 1,
               }}
             >
-              <FileUploadButton />
+              <FileUploadButton files={chatFiles} />
             </Box>
             <Box
               sx={{
@@ -164,21 +143,11 @@ export const MessageInput = ({
                 display: 'flex',
                 width: '100%',
                 '& > div': {
-                  // This targets immediate child div elements
                   flexGrow: 1,
                 },
-                // If you need to target a specific child div, you can use nth-child
                 '& > div:nth-of-type(1)': {
-                  // This targets the first child div
                   flexGrow: 1,
                 },
-                // flexGrow: 2,
-                // justifyContent: 'flex-start',
-                // display: 'flex',
-                // width: '100%',
-                // backgroundColor: '#2E2C34', // Adjust this to better fill the area
-                // borderRadius: '8px',
-                // p: 1,
               }}
             >
               {' '}
@@ -195,10 +164,7 @@ export const MessageInput = ({
                 icon={
                   <IconButton
                     onClick={() => {
-                      if (
-                        !JSON.parse(localStorage.getItem('baseChatStore'))
-                          .apiKey
-                      ) {
+                      if (!sessionStorage.getItem('apiKey')) {
                         console.log('No API Key');
                         apiKeyDialog.handleOpen();
                       } else if (disabled) {

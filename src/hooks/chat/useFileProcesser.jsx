@@ -1,25 +1,34 @@
 import mammoth from 'mammoth';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { flattenArrays } from '@/lib/fileUtils';
 import constants from 'config/constants';
 import { useChatStore } from 'contexts';
 import { useTipTapEditor } from 'hooks';
-
+export const ACCEPTED_FILE_TYPES = [
+  'text/csv',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/json',
+  'text/markdown',
+  'application/pdf',
+  'text/plain',
+].join(',');
 const { OPENAI_ACCEPTED_FILE_TYPES, OPENAI_ACCEPTED_FILE_EXTENSIONS } =
   constants;
 
 export const useFileProcesser = () => {
   const {
-    state: { files, newMessageFiles },
+    state: { files, chatFiles, newMessageFiles },
     actions: {
       setNewMessageImages,
       setNewMessageFiles,
       setShowFilesDisplay,
       setFiles,
+      setChatFiles,
       setUseRetrieval,
     },
   } = useChatStore();
+  const [filesToAccept, setFilesToAccept] = useState(ACCEPTED_FILE_TYPES);
   const fileInputRef = useRef();
   const { editor } = useTipTapEditor();
   // Memoized function to read files
@@ -104,10 +113,14 @@ export const useFileProcesser = () => {
 
   // Memoized function to handle file selection
   const handleSelectDeviceFile = useCallback(
-    async file => {
+    async (file, isChatMessageFile = false) => {
       setShowFilesDisplay(true);
+      if (isChatMessageFile) {
+        setShowFilesDisplay(true);
+      } else {
+        setShowFilesDisplay(false);
+      }
       setUseRetrieval(true);
-
       if (file) {
         try {
           const fileType = handleAcceptedFileType(file);
@@ -126,6 +139,7 @@ export const useFileProcesser = () => {
             type: fileType,
             size: fileSize,
             originalFileType: originalFileType,
+            // file: file,
           };
 
           setNewMessageFiles([...newMessageFiles, newFile]);
@@ -141,23 +155,43 @@ export const useFileProcesser = () => {
             ...newFile,
             data: content,
           };
-
-          setFiles([...files, processedFile]);
-          setNewMessageFiles(
-            newMessageFiles.map(file =>
-              file.id === 'loading' ? processedFile : file
-            )
-          );
+          console.log('Processed file:', processedFile);
+          // setFiles([...files, processedFile]);
+          // setChatFiles([...chatFiles, processedFile]);
+          if (isChatMessageFile) {
+            setChatFiles([...chatFiles, processedFile]);
+            setNewMessageFiles(
+              newMessageFiles.map(file =>
+                file.id === 'loading' ? processedFile : file
+              )
+            );
+          } else {
+            setFiles([...files, processedFile]);
+          }
+          // setNewMessageFiles(
+          //   newMessageFiles.map(file =>
+          //     file.id === 'loading' ? processedFile : file
+          //   )
+          // );
         } catch (error) {
           toast.error(`Failed to upload. ${error.message}`, {
             duration: 10000,
           });
-          setNewMessageImages(prev =>
-            prev.filter(img => img.messageId !== 'temp')
-          );
-          setNewMessageFiles(prev =>
-            prev.filter(file => file.id !== 'loading')
-          );
+
+          // Handle error and rollback based on isChatMessageFile
+          if (isChatMessageFile) {
+            setNewMessageImages(prev =>
+              prev.filter(img => img.messageId !== 'temp')
+            );
+            setChatFiles(prev => prev.filter(file => file.id !== 'loading'));
+          } else {
+            setNewMessageImages(prev =>
+              prev.filter(img => img.messageId !== 'temp')
+            );
+            setNewMessageFiles(prev =>
+              prev.filter(file => file.id !== 'loading')
+            );
+          }
         }
       }
     },
@@ -170,6 +204,8 @@ export const useFileProcesser = () => {
       setNewMessageImages,
       files,
       setFiles,
+      setChatFiles, // Add the setChatFiles function here
+      chatFiles, // Add the chatFiles array here
       handleFileType,
       editor,
     ]
@@ -177,20 +213,22 @@ export const useFileProcesser = () => {
   // Memoized function to handle file removal
   const handleRemoveFile = useCallback(
     fileId => {
-      setFiles(prevFiles => prevFiles.filter(file => file.id !== fileId));
+      setFiles(prevFiles => prevFiles.filter(file => file._id !== fileId));
+      setChatFiles(prevFiles => prevFiles.filter(file => file._id !== fileId));
       setNewMessageFiles(prevFiles =>
-        prevFiles.filter(file => file.id !== fileId)
+        prevFiles.filter(file => file._id !== fileId)
       );
       setNewMessageImages(prevImages =>
         prevImages.filter(image => image.messageId !== fileId)
       );
     },
-    [setFiles, setNewMessageFiles, setNewMessageImages]
+    [setFiles, setChatFiles, setNewMessageFiles, setNewMessageImages]
   );
   return {
     handleSelectDeviceFile,
     handleRemoveFile,
     fileInputRef,
+    filesToAccept,
   };
 };
 

@@ -42,10 +42,7 @@ export const ChatBubble = ({ message, sender }) => {
         padding: '10px',
         margin: '10px',
         borderRadius: '12px',
-        // alignSelf: sender === 'user' ? 'flex-end' : 'flex-start',
-        // display: 'flex',
       }}
-      // className={`chat-bubble-wrapper-${sender}`}
     >
       <ChatBubbleAvatarWrapper sx={avatarStyle} theme={theme} sender={sender}>
         {icon}
@@ -77,7 +74,3 @@ export const ChatBubble = ({ message, sender }) => {
 };
 
 export default React.memo(ChatBubble);
-
-// const MemoizedChatBubble = React.memo(ChatBubble);
-
-// export default MemoizedChatBubble;

@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import React, { useCallback } from 'react';
 import { MdLock } from 'react-icons/md';
+import { useUserStore } from 'contexts/UserProvider';
 import { useMode } from 'hooks';
 
 export const ApiModal = ({
@@ -20,7 +21,11 @@ export const ApiModal = ({
   onSubmit,
 }) => {
   const { theme } = useMode();
-
+  const {
+    state: {
+      user: { openai },
+    },
+  } = useUserStore();
   const handleBackdropClick = useCallback(
     event => {
       if (event.target === event.currentTarget) {

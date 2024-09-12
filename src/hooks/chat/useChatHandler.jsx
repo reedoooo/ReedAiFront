@@ -62,21 +62,20 @@ export const useChatHandler = (messages, setMessages) => {
 
   const { editor, insertContentAndSync } = useTipTapEditor(userInput);
 
-  // const handleContentChange = useCallback(
-  //   content => setUserInput(content),
-  //   [setUserInput]
-  // );
   const clearInput = useCallback(() => setUserInput(''), [setUserInput]);
   const handleGetSessionMessages = useCallback(async () => {
     try {
       // const response = await chatApi.getMessages(sessionId);
-      const response = syncChatMessages(sessionId);
+      const response = await syncChatMessages(sessionId);
+      if (!response) {
+        return;
+      }
       console.log('RESPONSE:', response);
       setMessages([...response]);
     } catch (error) {
       console.error(error);
     }
-  }, [sessionId]);
+  }, [sessionId, setMessages, syncChatMessages]);
   const handleGetSession = useCallback(async () => {
     try {
       const response = await chatApi.getById(sessionId);
@@ -202,7 +201,9 @@ export const useChatHandler = (messages, setMessages) => {
 
     const decoder = new TextDecoder('utf-8');
     try {
-      const streamResponse = new Response(await chatApi.getStream(payload));
+      const streamResponse = new Response(
+        await chatApi.getStreamCompletion(payload)
+      );
       const reader = streamResponse.body.getReader();
       let assistantMessage = { role: 'assistant', content: '' };
 

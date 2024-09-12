@@ -56,8 +56,8 @@ export const updateAssistant = createAsyncThunk(
   }
 );
 
-export const uploadFile = createAsyncThunk(
-  'assistants/uploadFile',
+export const uploadAssistantFile = createAsyncThunk(
+  'assistants/uploadAssistantFile',
   async (filePath, { rejectWithValue }) => {
     try {
       const data = await assistantsApi.uploadFile(filePath);
@@ -186,7 +186,7 @@ export const assistantSlice = createSlice({
       .addCase(updateAssistant.fulfilled, (state, action) => {
         state.selectedAssistant = action.payload;
       })
-      .addCase(uploadFile.fulfilled, (state, action) => {
+      .addCase(uploadAssistantFile.fulfilled, (state, action) => {
         state.files = state.files || [];
         state.files.push(action.payload);
       })

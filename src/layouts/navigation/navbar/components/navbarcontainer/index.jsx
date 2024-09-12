@@ -93,9 +93,7 @@ export const NavbarContainer = ({
               mr: '8px',
             }}
           >
-            {/* <StyledLogoIcon hval="120px"> */}
             <CustomLogoIcon />
-            {/* </StyledLogoIcon> */}
           </Box>
           <BreadcrumbsComponent
             pathName={pathName}

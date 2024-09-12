@@ -16,7 +16,7 @@ export const FileDisplay = props => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
       {validFiles.map(file => (
-        <File key={file.name} file={file} hidden={hidden} />
+        <File key={file._id} file={file} hidden={hidden} />
       ))}
     </Box>
   );

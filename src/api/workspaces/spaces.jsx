@@ -21,6 +21,23 @@ export const workspacesApi = {
     }
   },
 
+  getWorkspaceFoldersBySpace: async props => {
+    const { workspaceId, space } = props;
+    try {
+      const response = await apiUtils.get(
+        `/chat/workspaces/${encodeURIComponent(workspaceId)}/folders/space/${encodeURIComponent(space)}`
+      );
+      console.log('RES', response);
+      console.log('FOLDERS', response.folders);
+      console.log('WORKSPACE', response.workspace);
+      return response.folders;
+      // const data = await apiUtils.get(`/chat/spaces/${space}/folders`);
+    } catch (error) {
+      console.error(`Error fetching chat folders for space ${space}:`, error);
+      throw error;
+    }
+  },
+
   /** Create a new workspace.
    * @param {Object} workspaceData - The workspace data to create (includes: name, description, profileContext, defaultSystemPrompt, defaultAssistantPrompt, defaultModel)
    * @returns {Promise<Object>} - The created workspace data

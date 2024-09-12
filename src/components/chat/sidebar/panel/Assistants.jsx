@@ -1,22 +1,31 @@
 import { Box, IconButton, Typography } from '@mui/material';
 import React, { useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { AssistantIcon } from 'assets/humanIcons';
 import { RCTabs } from 'components/themed';
 import { useMode } from 'hooks';
 import { AssistantDisplay } from './items/assistant-items/AssistantDisplay';
 import { AssistantTemplates } from './items/assistant-items/AssistantTemplates';
 import { AssistantTools } from './items/assistant-items/AssistantTools';
+import FileManagementSidebar from './items/sidebar-items/FileManager';
 
 export const Assistants = props => {
-  const { folders = [], data = {}, title = '' } = props;
+  const { folders = [], data = {}, title = '', files = [] } = props;
   const [tab, setTab] = useState(0);
   const { assistants } = data;
   const { theme } = useMode();
   const tabs = [
-    { label: 'Display', value: 0 },
-    { label: 'Templates', value: 1 },
-    { label: 'Tools', value: 2 },
+    { label: 'List', value: 0 },
+    { label: 'Display', value: 1 },
+    { label: 'Templates', value: 2 },
+    { label: 'Tools', value: 3 },
   ];
+  const ErrorFallback = ({ error }) => (
+    <div>
+      <h2>Something went wrong:</h2>
+      <pre>{error.message}</pre>
+    </div>
+  );
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -39,37 +48,21 @@ export const Assistants = props => {
         tabs={tabs}
         variant="darkMode"
       />
-      {/* <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '1rem',
-          color: 'white',
-          borderRadius: '14px',
-          background: '#1c1c1c',
-        }}
-      >
-        <StyledMotionTabs
-          value={tab}
-          onChange={(e, newValue) => setTab(newValue)}
-          indicatorColor="#fff"
-        >
-          <Tab
-            label="Assistants"
-            style={{ color: '#fff', borderRadius: '5px' }}
-          />
-          <Tab
-            label="Templates"
-            style={{ color: '#fff', borderRadius: '5px' }}
-          />
-          <Tab label="Tools" style={{ color: '#fff', borderRadius: '5px' }} />
-        </StyledMotionTabs>
-      </Box> */}
-
-      {tab === 0 && <AssistantDisplay />}
-      {tab === 1 && <AssistantTemplates />}
-      {tab === 2 && <AssistantTools />}
+      <Box mt={2} display="flex" alignItems="center">
+        {/* <SidebarCreateButtons contentType={'files'} hasData={data.length > 0} /> */}
+        {tab === 0 && (
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <FileManagementSidebar
+              initialFolders={folders}
+              initialFiles={files}
+              space={title}
+            />
+          </ErrorBoundary>
+        )}
+      </Box>
+      {tab === 1 && <AssistantDisplay />}
+      {tab === 2 && <AssistantTemplates />}
+      {tab === 3 && <AssistantTools />}
     </>
   );
 };

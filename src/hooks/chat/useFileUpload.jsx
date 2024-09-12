@@ -1,9 +1,6 @@
 // useFileUpload.js
 import { useRef } from 'react';
-import {
-  IMAGE_MIME_TYPES,
-  TEXT_MIME_TYPES,
-} from 'components/chat/files/constants.jsx';
+import { IMAGE_MIME_TYPES, TEXT_MIME_TYPES } from 'config/data-configs';
 
 export const useFileUpload = handleFiles => {
   const fileInputRef = useRef(null);
