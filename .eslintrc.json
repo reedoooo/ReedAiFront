@@ -61,6 +61,18 @@
       }
     ],
     "import/no-anonymous-default-export": "off",
+    "import/no-unresolved": [
+      "error",
+      {
+        "ignore": [
+          "monaco-editor/esm/vs/language/json/json.worker\\?worker",
+          "monaco-editor/esm/vs/language/css/css.worker\\?worker",
+          "monaco-editor/esm/vs/language/html/html.worker\\?worker",
+          "monaco-editor/esm/vs/language/typescript/ts.worker\\?worker",
+          "monaco-editor/esm/vs/editor/editor.worker\\?worker"
+        ]
+      }
+    ],
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
@@ -96,6 +108,12 @@
         ],
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
+      // "custom": {
+      //   "alias": {
+      //     "@mui/material": "@mui/material/esm",
+      //     "@mui/icons-material": "@mui/icons-material/esm"
+      //   }
+      // }
     }
   }
 }

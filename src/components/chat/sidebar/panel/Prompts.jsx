@@ -182,7 +182,11 @@ export const Prompts = props => {
         {/* <SidebarCreateButtons contentType={'files'} hasData={data.length > 0} /> */}
         {tab === 0 && (
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <FileManagementSidebar folders={folders} files={prompts} />
+            <FileManagementSidebar
+              initialFolders={folders}
+              initialFiles={prompts}
+              space={title}
+            />
           </ErrorBoundary>
         )}
         {tab === 1 && (

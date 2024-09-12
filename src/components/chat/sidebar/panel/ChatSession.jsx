@@ -1,11 +1,11 @@
 import { Box, Menu, MenuItem, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import { FaSignOutAlt } from 'react-icons/fa';
 import { ExportOptions } from 'components/chat/styled';
 import { RCTabs } from 'components/themed';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useChatHandler } from 'hooks/chat';
-import React, { useEffect, useState } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
-import { FaSignOutAlt } from 'react-icons/fa';
 import { ConversationTab, SessionSettings } from './items';
 import FileManagementSidebar from './items/sidebar-items/FileManager';
 
@@ -117,7 +117,11 @@ export const ChatSession = props => {
         {/* <SidebarCreateButtons contentType={'files'} hasData={data.length > 0} /> */}
         {tab === 0 && (
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <FileManagementSidebar folders={folders} files={files} />
+            <FileManagementSidebar
+              initialFolders={folders}
+              initialFiles={files}
+              space={title}
+            />
           </ErrorBoundary>
         )}
       </Box>

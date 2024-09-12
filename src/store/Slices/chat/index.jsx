@@ -78,8 +78,7 @@ import fileReducer, {
   getStoredFilesByType,
   getStoredFilesBySpace,
   getStoredFileByName,
-  getAllStorageFiles,
-  getStorageFile,
+  getStoredFileById,
 } from './fileSlice';
 import folderReducer, {
   createFolder,
@@ -205,8 +204,7 @@ export {
   getStoredFilesByType,
   getStoredFilesBySpace,
   getStoredFileByName,
-  getAllStorageFiles,
-  getStorageFile,
+  getStoredFileById,
 };
 
 export {

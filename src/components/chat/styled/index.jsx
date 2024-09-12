@@ -80,6 +80,58 @@ export const PanelContainer = styled(Box)(({ theme }) => ({
   borderRadius: '8px',
   // border: '1px solid rgba(255, 255, 255, 0.12)',
 }));
+export const AnimatedList = styled(motion.ul)({
+  listStyle: 'none',
+  padding: 0,
+  margin: 0,
+});
+
+export const AnimatedListItem = styled(motion.li)({
+  margin: 0,
+  padding: 0,
+});
+export const SidebarManagerContainer = styled('div')(({ theme }) => ({
+  backgroundColor: '#000000',
+  height: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  // width: '250px',
+  [theme.breakpoints.down('sm')]: {
+    width: '100%',
+  },
+}));
+
+export const TopBar = styled('div')({
+  display: 'flex',
+  padding: '10px',
+  borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+});
+
+export const NewFileButton = styled(Button)({
+  backgroundColor: '#FFFFFF',
+  color: '#000000',
+  borderRadius: '4px',
+  flexGrow: 1,
+  marginRight: '10px',
+  '&:hover': {
+    backgroundColor: '#F0F0F0',
+  },
+});
+
+export const FolderButton = styled(IconButton)({
+  backgroundColor: '#FFFFFF',
+  color: '#000000',
+  borderRadius: '4px',
+  '&:hover': {
+    backgroundColor: '#F0F0F0',
+  },
+});
+
+export const ContentArea = styled('div')({
+  flexGrow: 1,
+  overflowY: 'auto',
+});
 /* --- CHAT - FORMS --- */
 export const StyledSelect = styled(Select)({
   color: '#ffffff',

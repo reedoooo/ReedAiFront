@@ -101,6 +101,7 @@
     "marked": "^14.0.0",
     "memoize-one": "^5.2.1",
     "mermaid": "^10.9.1",
+    "monaco-editor": "^0.51.0",
     "mongoose": "^8.6.1",
     "mui-image": "^1.0.7",
     "mui-tiptap": "^1.9.0",
@@ -185,7 +186,9 @@
     "lint-staged": "^15.2.2",
     "prettier": "^3.3.3",
     "storybook": "^8.1.1",
-    "vite": "^5.2.12"
+    "vite": "^5.2.12",
+    "vite-plugin-monaco-editor": "^1.1.0",
+    "worker-loader": "^3.0.8"
   },
   "scripts": {
     "dev": "vite",

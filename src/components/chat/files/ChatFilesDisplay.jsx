@@ -88,7 +88,7 @@ export const ChatFilesDisplay = () => {
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const res = await attachmentsApi.getAllStorageFiles();
+        const res = await attachmentsApi.getAllStoredFiles();
         setFiles(prev => [...prev, ...res.data]);
       } catch (err) {
         console.error('Error fetching files:', err);

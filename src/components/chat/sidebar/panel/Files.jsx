@@ -18,8 +18,6 @@ export const Files = props => {
     { label: 'File Info', value: 2 },
     { label: 'File Upsert', value: 3 },
   ];
-  // console.log('folders', folders);
-  // console.log('files', files);
   const ErrorFallback = ({ error }) => (
     <div>
       <h2>Something went wrong:</h2>
@@ -53,8 +51,8 @@ export const Files = props => {
         {tab === 0 && (
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <FileManagementSidebar
-              folders={folders}
-              files={files}
+              initialFolders={folders}
+              initialFiles={files}
               space={title}
             />
           </ErrorBoundary>

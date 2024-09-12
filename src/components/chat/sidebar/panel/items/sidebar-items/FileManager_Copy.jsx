@@ -29,20 +29,61 @@ import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { attachmentsApi } from 'api/Ai/chat-sessions';
 import { foldersApi, workspacesApi } from 'api/workspaces';
-import {
-  AnimatedList,
-  AnimatedListItem,
-  ContentArea,
-  FolderButton,
-  NewFileButton,
-  SidebarManagerContainer,
-  TopBar,
-} from 'components/chat/styled';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useFileProcesser } from 'hooks/chat';
-import useFileStructure from 'hooks/chat/useFileStructure';
-import { useDialog } from 'hooks/ui';
-import { NewFileDialog, NewFolderDialog } from './file-manager-components';
+
+const AnimatedList = styled(motion.ul)({
+  listStyle: 'none',
+  padding: 0,
+  margin: 0,
+});
+
+const AnimatedListItem = styled(motion.li)({
+  margin: 0,
+  padding: 0,
+});
+const SidebarContainer = styled('div')(({ theme }) => ({
+  backgroundColor: '#000000',
+  height: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  // width: '250px',
+  [theme.breakpoints.down('sm')]: {
+    width: '100%',
+  },
+}));
+
+const TopBar = styled('div')({
+  display: 'flex',
+  padding: '10px',
+  borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+});
+
+const NewFileButton = styled(Button)({
+  backgroundColor: '#FFFFFF',
+  color: '#000000',
+  borderRadius: '4px',
+  flexGrow: 1,
+  marginRight: '10px',
+  '&:hover': {
+    backgroundColor: '#F0F0F0',
+  },
+});
+
+const FolderButton = styled(IconButton)({
+  backgroundColor: '#FFFFFF',
+  color: '#000000',
+  borderRadius: '4px',
+  '&:hover': {
+    backgroundColor: '#F0F0F0',
+  },
+});
+
+const ContentArea = styled('div')({
+  flexGrow: 1,
+  overflowY: 'auto',
+});
 
 const StyledListItem = styled(
   ({ isHovered, isFocused, isSelected, ...other }) => <ListItem {...other} />
@@ -119,56 +160,58 @@ const DraggableItem = ({
   );
 };
 
-// const FileUploadTextField = ({
-//   value,
-//   onChange,
-//   fileInputRef,
-//   existingNames,
-//   handleFileUpload,
-// }) => {
-//   const handleTextFieldClick = () => {
-//     if (fileInputRef.current) {
-//       fileInputRef.current.click();
-//     }
-//   };
+const FileUploadTextField = ({
+  value,
+  onChange,
+  fileInputRef,
+  existingNames,
+  handleFileUpload,
+}) => {
+  // const fileInputRef = useRef(null);
 
-//   return (
-//     <>
-//       <TextField
-//         fullWidth
-//         value={value}
-//         onClick={handleTextFieldClick}
-//         placeholder="Select a file"
-//         InputProps={{
-//           readOnly: true,
-//           endAdornment: (
-//             <Button
-//               variant="contained"
-//               component="span"
-//               onClick={handleTextFieldClick}
-//             >
-//               Upload
-//             </Button>
-//           ),
-//         }}
-//       />
-//       <input
-//         type="file"
-//         ref={fileInputRef}
-//         onChange={handleFileUpload}
-//         style={{ display: 'none' }}
-//       />
-//     </>
-//   );
-// };
+  const handleTextFieldClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  return (
+    <>
+      <TextField
+        fullWidth
+        value={value}
+        onClick={handleTextFieldClick}
+        placeholder="Select a file"
+        InputProps={{
+          readOnly: true,
+          endAdornment: (
+            <Button
+              variant="contained"
+              component="span"
+              onClick={handleTextFieldClick}
+            >
+              Upload
+            </Button>
+          ),
+        }}
+      />
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileUpload}
+        style={{ display: 'none' }}
+      />
+    </>
+  );
+};
 
 export const FileManagementSidebar = props => {
   const { initialFolders, initialFiles, space } = props;
-  const newFileDialog = useDialog();
-  const newFolderDialog = useDialog();
+  const [openNewFileDialog, setOpenNewFileDialog] = useState(false);
+  const [openNewFolderDialog, setOpenNewFolderDialog] = useState(false);
   const [newFileName, setNewFileName] = useState('');
   const [newFolderName, setNewFolderName] = useState('');
-  // const [fileStructure, setFileStructure] = useState([]);
+  const [fileStructure, setFileStructure] = useState([]);
   const [expandedFolders, setExpandedFolders] = useState({});
   const [hoveredItem, setHoveredItem] = useState(null);
   const [focusedItem, setFocusedItem] = useState(null);
@@ -185,13 +228,7 @@ export const FileManagementSidebar = props => {
   } = useChatStore();
   const [fileNameError, setFileNameError] = useState('');
   const [folderNameError, setFolderNameError] = useState('');
-  const {
-    fileStructure,
-    isLoading,
-    error,
-    refreshFileStructure,
-    setFileStructure,
-  } = useFileStructure(space);
+
   const validateName = useCallback(
     (name, type) => {
       const existingNames = fileStructure.map(item => item.name.toLowerCase());
@@ -214,6 +251,86 @@ export const FileManagementSidebar = props => {
     setNewFolderName(value);
     setFolderNameError(validateName(value, 'folder'));
   };
+
+  const ErrorMessage = ({ error }) => (
+    <AnimatePresence>
+      {error && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3 }}
+          style={{ color: 'red', marginTop: '5px' }}
+        >
+          {error}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+  useEffect(() => {
+    const fetchWorkspaceFolders = async () => {
+      const currentSpace = space.toLowerCase();
+      const workspaceFolders = await workspacesApi.getWorkspaceFoldersBySpace({
+        workspaceId: JSON.parse(sessionStorage.getItem('workspaceId')),
+        space: currentSpace,
+      });
+      console.log('workspaceFolders', workspaceFolders);
+      setFolders(workspaceFolders);
+    };
+    fetchWorkspaceFolders();
+  }, [space]);
+  useEffect(() => {
+    const fetchStoredFiles = async () => {
+      const currentSpace = space.toLowerCase();
+      const storedFiles = await attachmentsApi.getStoredFilesBySpace({
+        space: currentSpace,
+      });
+      console.log('storedFiles', storedFiles);
+      setFilesFromStorage(storedFiles);
+    };
+    fetchStoredFiles();
+  }, [space]);
+  useEffect(() => {
+    function organizeFilesIntoFileDirectory(folders, files) {
+      const fileDirectory = folders.map(folder => {
+        const folderFiles = files
+          .filter(file => file.folderId === folder._id)
+          .map(file => ({
+            id: file._id,
+            name: file.name,
+            type: 'file',
+          }));
+        console.log('folderFiles', folderFiles);
+        return {
+          id: folder._id,
+          name: folder.name,
+          type: 'folder',
+          children: folderFiles,
+        };
+      });
+      console.log('fileDirectory', fileDirectory);
+
+      const rootFiles = files
+        .filter(file => !file.folderId)
+        .map(file => ({
+          id: file._id,
+          name: file.name,
+          type: 'file',
+        }));
+      console.log('rootFiles', rootFiles);
+
+      return [...fileDirectory, ...rootFiles];
+    }
+
+    if (folders.length > 0 || files.length > 0) {
+      const organizedFileDirectory = organizeFilesIntoFileDirectory(
+        folders,
+        files
+      );
+      console.log('organizedFileDirectory', organizedFileDirectory);
+      setFileStructure(organizedFileDirectory);
+    }
+  }, [folders, files]);
 
   const toggleFolder = useCallback(folderId => {
     setExpandedFolders(prev => ({
@@ -265,22 +382,22 @@ export const FileManagementSidebar = props => {
   }, []);
 
   const handleNewFile = () => {
-    newFileDialog.handleOpen();
+    setOpenNewFileDialog(true);
     setNewFileName('');
     setFileToUpload(null);
   };
 
   const handleNewFolder = () => {
-    newFolderDialog.handleOpen();
+    setOpenNewFolderDialog(true);
   };
 
   const handleCloseNewFileDialog = () => {
-    newFileDialog.handleClose();
+    setOpenNewFileDialog(false);
     setNewFileName('');
   };
 
   const handleCloseNewFolderDialog = () => {
-    newFolderDialog.handleClose();
+    setOpenNewFolderDialog(false);
     setNewFolderName('');
   };
   const handleFileUpload = async event => {
@@ -294,7 +411,10 @@ export const FileManagementSidebar = props => {
   const handleCreateNewFile = async () => {
     if (newFileName && fileToUpload) {
       try {
+        // Find the first folder in the fileStructure, if any
         const firstFolder = fileStructure.find(item => item.type === 'folder');
+
+        // Use selectedFolderId if it's set, otherwise use the first folder's id, or null if no folders exist
         const folderId =
           selectedFolderId || (firstFolder ? firstFolder.id : null);
         const uploadedFile = await attachmentsApi.uploadFile(fileToUpload, {
@@ -325,7 +445,7 @@ export const FileManagementSidebar = props => {
           { id: createdFile._id, name: createdFile.name, type: 'file' },
         ]);
 
-        newFolderDialog.handleClose();
+        setOpenNewFileDialog(false);
         setNewFileName('');
         setFileToUpload(null);
       } catch (error) {
@@ -406,17 +526,9 @@ export const FileManagementSidebar = props => {
     [expandedFolders, toggleFolder]
   );
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
   return (
     <DndProvider backend={HTML5Backend}>
-      <SidebarManagerContainer>
-        {/* Top Bar */}
+      <SidebarContainer>
         <TopBar>
           <NewFileButton
             variant="contained"
@@ -437,34 +549,70 @@ export const FileManagementSidebar = props => {
             />
           </FolderButton>
         </TopBar>
-        {/* File Structure */}
         <ContentArea>
           <AnimatedList>{renderFileStructure(fileStructure)}</AnimatedList>
         </ContentArea>
         {/* File Creation Dialog */}
-        <NewFileDialog
-          newFileDialog={newFileDialog}
-          handleCloseNewFileDialog={handleCloseNewFileDialog}
-          newFileName={newFileName}
-          setNewFileName={setNewFileName}
-          fileInputRef={fileInputRef}
-          existingNames={files.map(f => f.name)}
-          handleFileUpload={handleFileUpload}
-          handleNewFileNameChange={handleNewFileNameChange}
-          fileNameError={fileNameError}
-          handleCreateNewFile={handleCreateNewFile}
-          fileToUpload={fileToUpload}
-        />
-        {/* Folder Creation Dialog */}
-        <NewFolderDialog
-          newFolderDialog={newFolderDialog}
-          handleCloseNewFolderDialog={handleCloseNewFolderDialog}
-          newFolderName={newFolderName}
-          handleNewFolderNameChange={handleNewFolderNameChange}
-          folderNameError={folderNameError}
-          handleCreateNewFolder={handleCreateNewFolder}
-        />
-      </SidebarManagerContainer>
+        <Dialog
+          open={openNewFileDialog}
+          onClose={() => setOpenNewFileDialog(false)}
+        >
+          <DialogTitle>Create New File</DialogTitle>
+          <DialogContent>
+            <FileUploadTextField
+              value={newFileName}
+              onChange={setNewFileName}
+              fileInputRef={fileInputRef}
+              existingNames={files.map(f => f.name)}
+              handleFileUpload={handleFileUpload} // Pass the handleFileUpload function
+            />
+            <TextField
+              fullWidth
+              margin="dense"
+              label="File Name"
+              value={newFileName}
+              onChange={handleNewFileNameChange}
+              error={!!fileNameError}
+              helperText={fileNameError}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenNewFileDialog(false)}>Cancel</Button>
+            <Button
+              onClick={handleCreateNewFile}
+              disabled={!newFileName || !!fileNameError}
+            >
+              {fileToUpload ? 'Upload' : 'Create'}
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog open={openNewFolderDialog} onClose={handleCloseNewFolderDialog}>
+          <DialogTitle>Create New Folder</DialogTitle>
+          <DialogContent>
+            <TextField
+              // autoFocus
+              margin="dense"
+              label="Folder Name"
+              fullWidth
+              value={newFolderName}
+              onChange={handleNewFolderNameChange}
+              error={!!folderNameError}
+              helperText={folderNameError}
+            />
+            <ErrorMessage error={folderNameError} />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseNewFolderDialog}>Cancel</Button>
+            <Button
+              onClick={handleCreateNewFolder}
+              disabled={!!folderNameError || !newFolderName}
+            >
+              Create
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </SidebarContainer>
     </DndProvider>
   );
 };

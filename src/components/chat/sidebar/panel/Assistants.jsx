@@ -1,9 +1,9 @@
 import { Box, IconButton, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { AssistantIcon } from 'assets/humanIcons';
 import { RCTabs } from 'components/themed';
 import { useMode } from 'hooks';
-import React, { useState } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
 import { AssistantDisplay } from './items/assistant-items/AssistantDisplay';
 import { AssistantTemplates } from './items/assistant-items/AssistantTemplates';
 import { AssistantTools } from './items/assistant-items/AssistantTools';
@@ -52,7 +52,11 @@ export const Assistants = props => {
         {/* <SidebarCreateButtons contentType={'files'} hasData={data.length > 0} /> */}
         {tab === 0 && (
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <FileManagementSidebar folders={folders} files={files} />
+            <FileManagementSidebar
+              initialFolders={folders}
+              initialFiles={files}
+              space={title}
+            />
           </ErrorBoundary>
         )}
       </Box>

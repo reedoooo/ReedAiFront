@@ -87,8 +87,7 @@ import {
   getStoredFilesByType,
   getStoredFilesBySpace,
   getStoredFileByName,
-  getAllStorageFiles,
-  getStorageFile,
+  getStoredFileById,
   setSelectedFolder,
   syncChatMessages,
   addNewMessageFile,
@@ -269,8 +268,7 @@ export const ChatProvider = ({ children }) => {
     getStoredFilesByType: type => dispatch(getStoredFilesByType(type)),
     getStoredFilesBySpace: space => dispatch(getStoredFilesBySpace(space)),
     getStoredFileByName: name => dispatch(getStoredFileByName(name)),
-    getAllStorageFiles: () => dispatch(getAllStorageFiles()),
-    getStorageFile: id => dispatch(getStorageFile(id)),
+    getStoredFileById: id => dispatch(getStoredFileById(id)),
     // ===========================================
     // [PROFILE STORE]
     // ===========================================

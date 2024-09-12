@@ -77,25 +77,12 @@ export const getStoredFileByName = createAsyncThunk(
   }
 );
 
-// New thunk for getting all storage files
-export const getAllStorageFiles = createAsyncThunk(
-  'files/getAllStorage',
-  async (_, { rejectWithValue }) => {
-    try {
-      const data = await attachmentsApi.getAllStorageFiles();
-      return data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
-
 // New thunk for getting a single storage file
-export const getStorageFile = createAsyncThunk(
+export const getStoredFileById = createAsyncThunk(
   'files/getStorage',
   async (fileId, { rejectWithValue }) => {
     try {
-      const data = await attachmentsApi.getStorageFile(fileId);
+      const data = await attachmentsApi.getStoredFileById(fileId);
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -334,10 +321,7 @@ export const fileSlice = createSlice({
       .addCase(getStoredFileByName.fulfilled, (state, action) => {
         state.storedFileByName = action.payload;
       })
-      .addCase(getAllStorageFiles.fulfilled, (state, action) => {
-        state.allStorageFiles = action.payload;
-      })
-      .addCase(getStorageFile.fulfilled, (state, action) => {
+      .addCase(getStoredFileById.fulfilled, (state, action) => {
         state.currentStorageFile = action.payload;
       });
   },

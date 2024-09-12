@@ -47,12 +47,12 @@ export const attachmentsApi = {
       });
 
       // Check if the response is valid and contains a file path
-      if (!response || !response.data || !response.data.filePath) {
+      if (!response || !response.message || !response.file) {
         throw new Error('No response or file path received from the server');
       }
-      console.log(`File uploaded successfully: ${response.data}`);
+      console.log(`File uploaded successfully: ${response.message}`);
       // Return the file path if the upload is successful
-      return response.data;
+      return response.file;
     } catch (error) {
       // Log and rethrow the error for higher-level handling
       console.error('Error uploading file:', error.message || error);
@@ -61,7 +61,7 @@ export const attachmentsApi = {
   },
   getAllStoredFiles: async () => {
     try {
-      const response = await apiUtils.get('/chat/files/storage');
+      const response = await apiUtils.get('/chat/files');
       return response.data;
     } catch (error) {
       console.error('Error fetching all stored files:', error);
@@ -70,45 +70,48 @@ export const attachmentsApi = {
   },
   getStoredFilesByType: async type => {
     try {
-      const response = await apiUtils.get(`/chat/files/storage/type/${type}`);
+      const response = await apiUtils.get(`/chat/files/type/${type}`);
       return response.data;
     } catch (error) {
       console.error(`Error fetching stored files of type ${type}:`, error);
       throw error;
     }
   },
-  getStoredFilesBySpace: async space => {
+  getStoredFilesBySpace: async props => {
+    const { space } = props;
     try {
-      const response = await apiUtils.get(`/chat/files/storage/space/${space}`);
-      return response.data;
+      const response = await apiUtils.get(
+        `/chat/files/space/${encodeURIComponent(space)}`
+      );
+      console.log('RES', response);
+      console.log('FILES', response.files);
+      return response.files;
     } catch (error) {
       console.error(`Error fetching stored files for space ${space}:`, error);
       throw error;
     }
   },
+  getStoredFilesById: async fileIds => {
+    try {
+      const response = await apiUtils.get(`/chat/files/${fileIds}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching stored files by ID:', error);
+      throw error;
+    }
+  },
   getStoredFileByName: async filename => {
     try {
-      const response = await apiUtils.get(
-        `/chat/files/storage/filename/${filename}`
-      );
+      const response = await apiUtils.get(`/chat/files/name/${filename}`);
       return response.data;
     } catch (error) {
       console.error(`Error fetching stored file ${filename}:`, error);
       throw error;
     }
   },
-  getAllStorageFiles: async () => {
+  getStoredFileById: async fileId => {
     try {
-      const response = await apiUtils.get('/chat/files/storage');
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching files:', error.message || error);
-      throw error;
-    }
-  },
-  getStorageFile: async fileId => {
-    try {
-      const response = await apiUtils.get(`/chat/files/storage/${fileId}`);
+      const response = await apiUtils.get(`/chat/files/${fileId}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching file:', error.message || error);
@@ -117,12 +120,9 @@ export const attachmentsApi = {
   },
   streamStorageFile: async fileId => {
     try {
-      const response = await apiUtils.get(
-        `/chat/files/storage/stream/${fileId}`,
-        {
-          responseType: 'blob',
-        }
-      );
+      const response = await apiUtils.get(`/chat/files/stream/${fileId}`, {
+        responseType: 'blob',
+      });
       return URL.createObjectURL(response.data);
     } catch (error) {
       console.error('Error streaming file:', error.message || error);
@@ -131,7 +131,7 @@ export const attachmentsApi = {
   },
   downloadFileFromStorage: async fileId => {
     try {
-      const response = await apiUtils.get(`/bucket/download/${fileId}`, {
+      const response = await apiUtils.get(`/chat/files/download/${fileId}`, {
         responseType: 'blob',
       });
 
@@ -154,19 +154,10 @@ export const attachmentsApi = {
   },
   deleteFileFromStorage: async fileId => {
     try {
-      const response = await apiUtils.delete(`/bucket/${fileId}`);
+      const response = await apiUtils.delete(`/chat/files/storage/${fileId}`);
       return response.data;
     } catch (error) {
       console.error('Error deleting file:', error);
-      throw error;
-    }
-  },
-  listFilesInStorage: async () => {
-    try {
-      const response = await apiUtils.get('/bucket/files');
-      return response.data;
-    } catch (error) {
-      console.error('Error listing files:', error);
       throw error;
     }
   },
