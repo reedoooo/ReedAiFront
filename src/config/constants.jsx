@@ -60,6 +60,18 @@ export const constants = {
     'application/pdf',
     'text/plain',
   ].join(','),
+  FILE_DESCRIPTION_MAX: 100,
+  FILE_NAME_MAX: 25,
+  PROMPT_NAME_MAX: 100,
+  PROMPT_CONTENT_MAX: 100000,
+  // Assistant
+  ASSISTANT_NAME_MAX: 100,
+  ASSISTANT_DESCRIPTION_MAX: 500,
+  ASSISTANT_PROMPT_MAX: 100000,
+
+  // Tools
+  TOOL_NAME_MAX: 100,
+  TOOL_DESCRIPTION_MAX: 500,
   LOCAL_STORAGE_KEYS: {
     USER_SESSION: 'userSession',
     CUSTOMS_PROMPTS: 'customPrompts',

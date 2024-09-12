@@ -28,19 +28,3 @@ AssistantMessage.propTypes = {
     role: PropTypes.string.isRequired,
   }).isRequired,
 };
-
-// export const AssistantMessage = React.memo(({ message }) => {
-//   const memoizedExtractMarkdownContent = useMemo(
-//     () => memoizeOne(extractMarkdownContent),
-//     []
-//   );
-//   return (
-//     <ChatBubble
-//       message={{
-//         ...message,
-//         content: memoizedExtractMarkdownContent(message.content),
-//       }}
-//       sender="assistant"
-//     />
-//   );
-// });

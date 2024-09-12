@@ -36,6 +36,9 @@ const MainDashboard = Loadable(lazy(() => import('views/admin/default')));
 const UserProfile = Loadable(lazy(() => import('views/admin/profile')));
 
 const ChatMain = lazy(() => import('views/admin/chat'));
+const CodeEditor = Loadable(
+  lazy(() => import('views/admin/editor/EditorEnvironment.jsx'))
+);
 const Templates = Loadable(lazy(() => import('views/admin/templates')));
 
 export const customHistory = createBrowserHistory();
@@ -169,42 +172,33 @@ const adminRoutes = [
         ],
       },
       {
-        name: ':workspaceId',
-        title: ':workspaceId',
-        path: ':workspaceId',
-        breadcrumb: ':workspaceId',
+        name: 'CodeEditor',
+        title: 'CodeEditor',
+        path: 'codeEditor',
+        breadcrumb: 'CodeEditor',
         element: (
           <Suspense fallback={<LoadingIndicator />}>
-            <ChatLayout />
+            <BlankLayout />
           </Suspense>
         ),
         icon: <AiIcon />,
         collapse: true,
         children: [
           {
-            // index: true,
-            name: 'Chat',
-            title: 'Chat',
-            path: 'chat',
-            breadcrumb: 'Chat',
-            element: <ChatMain />,
+            index: true,
+            name: 'CodeEditor Home',
+            title: 'CodeEditorHome',
+            path: 'codeEditor-home',
+            breadcrumb: 'CodeEditor Home',
+            element: (
+              <Suspense fallback={<LoadingIndicator />}>
+                <CodeEditor />
+              </Suspense>
+            ),
             icon: <HomeIcon />,
-            description: 'Chat Bot',
+            description: 'Code Editor',
             functionalStatus: true,
-            collapse: true,
-            children: [
-              {
-                name: ':sessionId',
-                title: ':sessionId',
-                path: ':sessionId', // Dynamic route for chat session
-                breadcrumb: ':sessionId',
-                element: <ChatMain />, // Replace with the component handling the chat session
-                icon: <DocumentScannerRoundedIcon />,
-                description: 'Chat Sessions',
-                functionalStatus: true,
-                collapse: false,
-              },
-            ],
+            collapse: false,
           },
         ],
       },

@@ -163,7 +163,7 @@ export const WorkspaceCreatorForm = () => {
     >
       {/* <FormTitle label="Workspaces" /> */}
       {/* <Divider sx={{ color: '#ffffff', marginBottom: '5px' }} /> */}
-      <TextFieldSection
+      <x
         label="Name"
         value={name}
         onChange={setName}

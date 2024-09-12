@@ -1,8 +1,10 @@
+/* eslint-disable no-constant-condition */
 import { createParser } from 'eventsource-parser';
+import { useState } from 'react';
 import { apiUtils } from '@/lib/apiUtils';
 
 export const chatApi = {
-  getStream: async function fetchMessageStream({
+  getStreamCompletion: async function fetchMessageStream({
     sessionId,
     workspaceId,
     regenerate,
@@ -113,6 +115,53 @@ export const chatApi = {
       },
     });
   },
+
+  // getStreamCompletionWithFile: async function fetchMessageStream({
+  //   sessionId,
+  //   workspaceId,
+  //   regenerate,
+  //   prompt,
+  //   file,
+  //   userId,
+  //   clientApiKey,
+  //   role = 'assistant',
+  //   signal,
+  //   count,
+  //   // filePath,
+  // }) {
+  //   const formData = new FormData();
+  //   formData.append('prompt', prompt);
+  //   formData.append('file', file);
+
+  //   // Send the request to the backend
+  //   try {
+  //     const responseStream = await apiUtils.post(
+  //       '/api/upload-with-prompt',
+  //       formData,
+  //       {
+  //         headers: {
+  //           'Content-Type': 'multipart/form-data',
+  //         },
+  //         responseType: 'stream',
+  //       }
+  //     );
+
+  //     // Set up a reader to handle the streamed response
+  //     const reader = responseStream.data.getReader();
+  //     const decoder = new TextDecoder('utf-8');
+  //     let text = '';
+
+  //     // Read the streamed response chunk by chunk
+  //     while (true) {
+  //       const { done, value } = await reader.read();
+  //       if (done) break;
+  //       text += decoder.decode(value, { stream: true });
+  //       setResponse(prevResponse => prevResponse + text); // Update the response as it streams
+  //     }
+  //   } catch (error) {
+  //     console.error('Error uploading prompt and file:', error);
+  //   }
+  // },
 
   getAll: async () => {
     try {

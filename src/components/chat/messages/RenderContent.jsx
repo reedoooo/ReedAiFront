@@ -1,16 +1,36 @@
 /* eslint-disable react/no-children-prop */
-import { Box, Typography, IconButton } from '@mui/material';
+import { Box, Typography, IconButton, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { FaCopy } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { FaCopy, FaSave } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-// import { coldarkDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import gfm from 'remark-gfm';
-
 export const RenderContent = ({ content, sender, maxWidth }) => {
   const [copied, setCopied] = useState(false);
+  const [snippets, setSnippets] = useState([]);
+  const [snippetName, setSnippetName] = useState('');
+
+  useEffect(() => {
+    const storedSnippets = localStorage.getItem('codeSnippets');
+    if (storedSnippets) {
+      setSnippets(JSON.parse(storedSnippets));
+    }
+  }, []);
+  const saveSnippet = (code, language) => {
+    if (snippetName.trim() === '') {
+      alert('Please enter a name for the snippet');
+      return;
+    }
+
+    const newSnippet = { name: snippetName, code, language };
+    const updatedSnippets = [...snippets, newSnippet];
+    setSnippets(updatedSnippets);
+    localStorage.setItem('codeSnippets', JSON.stringify(updatedSnippets));
+    setSnippetName('');
+    alert('Snippet saved successfully!');
+  };
 
   function codeBlock({ node, inline, className, children, ...props }) {
     if (!children) {
@@ -35,7 +55,6 @@ export const RenderContent = ({ content, sender, maxWidth }) => {
           fontSize: { xs: '0.875rem', sm: '1rem', md: '1.125rem' },
           lineHeight: 1.5,
           wordBreak: 'break-word',
-          // position: 'relative', overflowX: 'auto', maxWidth: '100%'
         }}
       >
         <Box
@@ -54,15 +73,31 @@ export const RenderContent = ({ content, sender, maxWidth }) => {
           <Typography variant="caption" sx={{ fontWeight: 'bold', ml: 2 }}>
             {match[1]}
           </Typography>
-          {copied ? (
-            <Typography variant="caption" color="success.main">
-              Copied!
-            </Typography>
-          ) : (
-            <IconButton size="small" onClick={handleCopy}>
-              <FaCopy />
+          <Box>
+            <TextField
+              size="small"
+              variant="outlined"
+              placeholder="Snippet name"
+              value={snippetName}
+              onChange={e => setSnippetName(e.target.value)}
+              sx={{ mr: 1, input: { color: '#fff' } }}
+            />
+            <IconButton
+              size="small"
+              onClick={() => saveSnippet(value, match[1])}
+            >
+              <FaSave />
             </IconButton>
-          )}
+            {copied ? (
+              <Typography variant="caption" color="success.main">
+                Copied!
+              </Typography>
+            ) : (
+              <IconButton size="small" onClick={handleCopy}>
+                <FaCopy />
+              </IconButton>
+            )}
+          </Box>
         </Box>
         <Box sx={{ overflowY: 'auto' }}>
           <SyntaxHighlighter
@@ -99,15 +134,10 @@ export const RenderContent = ({ content, sender, maxWidth }) => {
       className="markdown-body"
       sx={{
         overflowX: 'auto',
-        // maxWidth: '90%',
         '& pre': {
           maxWidth: '100%',
           overflowX: 'auto',
-          // padding: '1rem',
           borderRadius: 4,
-          // margin: '0.5rem 0',
-          // backgroundColor: '#f6f6f6',
-          // fontFamily: 'Consolas, "Liberation Mono", Menlo, Courier, monospace',
         },
       }}
     >

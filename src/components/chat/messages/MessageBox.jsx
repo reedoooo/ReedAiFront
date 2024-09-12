@@ -23,10 +23,6 @@ export const MessageBox = props => {
         width: '90%',
         maxWidth: '90%',
         mx: 'auto',
-        // borderRadius: 'theme.shape.borderRadius',
-        // marginTop: 4,
-        // overflowY: 'auto',
-        // flexGrow: 1,
       }}
     >
       <Container
@@ -38,13 +34,6 @@ export const MessageBox = props => {
           width: '90%',
           maxWidth: '90%',
           mx: 'auto',
-          // width: { sm: 550, md: 650, xl: 700 },
-          // maxWidth: { sm: 550, md: 650, xl: 700 },
-          // p: 2,
-          // flexGrow: 1,
-          // overflowY: 'auto',
-          // display: 'flex',
-          // flexDirection: 'column',
         }}
       >
         {groupedMessages.map((group, index) => (
@@ -55,7 +44,6 @@ export const MessageBox = props => {
               flexDirection: 'column',
               alignItems: group[0]?.role === 'user' ? 'flex-end' : 'flex-start',
               mb: 2,
-              // maxWidth: '100%',
               width: '100%',
               maxWidth: '100%',
               mx: 'auto',
@@ -70,10 +58,6 @@ export const MessageBox = props => {
                   padding: { xs: '10px', sm: '15px', md: '20px' },
                   height: '100%',
                   maxWidth: '100%',
-                  // overflowX: 'auto',
-                  // display: 'flex',
-                  // flexDirection:
-                  //   message.role === 'user' ? 'row-reverse' : 'row',
                   flexGrow: 1,
                 }}
               >

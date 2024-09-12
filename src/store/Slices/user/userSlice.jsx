@@ -8,6 +8,7 @@ import {
   setChatSessions,
   setCollections,
   setFiles,
+  setFolders,
   setHomeWorkSpace,
   setModels,
   setPresets,
@@ -46,7 +47,7 @@ function dispatchUserUpdates(dispatch, updatedUserData) {
     setAuthTokens(
       updatedUserData.authSession.accessToken,
       updatedUserData.authSession.refreshToken,
-      updatedUserData.authSession.expiresIn.toString()
+      updatedUserData.authSession.expiresIn
     )
   );
   dispatch(setIsAuthenticated(true));
@@ -62,22 +63,25 @@ export const handleAuthSubmit = createAsyncThunk(
         : await authApi.login(email || username, password);
 
       if (data?.accessToken) {
+        console.log('res data:', data);
+
         const updatedUserData = {
           ...data.user,
           userId: data.user._id,
           accessToken: data.accessToken,
           refreshToken: data.refreshToken,
           expiresIn: data.expiresIn,
-          authSession: {
-            token: data.accessToken,
-            tokenType: 'Bearer',
-            accessToken: data.accessToken,
-            refreshToken: data.refreshToken,
-            expiresIn: data.expiresIn,
-          },
+          authSession: data.user.authSession,
           isAuthenticated: true,
         };
-
+        sessionStorage.setItem(
+          'accessToken',
+          updatedUserData.authSession.accessToken
+        );
+        sessionStorage.setItem(
+          'refreshToken',
+          updatedUserData.authSession.refreshToken
+        );
         if (isSignup) {
           updatedUserData.authUserRegisterData = {
             hasOnboarded: true,
@@ -86,6 +90,13 @@ export const handleAuthSubmit = createAsyncThunk(
         }
 
         dispatchUserUpdates(dispatch, updatedUserData);
+        // setInitialItemStorage({
+        //   chatSessions: [updatedUserData.workspaces[0].chatSessions],
+        //   folders: [updatedUserData.workspaces[0].folders],
+        //   files: [updatedUserData.workspaces[0].files],
+        //   tools: [updatedUserData.workspaces[0].tools],
+        //   prompts: [updatedUserData.workspaces[0].prompts],
+        // });
         sessionStorage.setItem(
           'workspaceId',
           updatedUserData.workspaces[0]._id
@@ -209,8 +220,10 @@ export const setAuthUserData = createAsyncThunk(
         imageUrl = profileImageAction.payload || avatar5;
         imageRetrievalStatus = true;
       }
-      const { workspaces, folders } = storedUserData;
+      // const { workspaces, folders } = storedUserData;
       const {
+        workspaces,
+        folders,
         presets,
         prompts,
         models,
@@ -220,11 +233,11 @@ export const setAuthUserData = createAsyncThunk(
         assistants,
         tools,
       } = storedUserData.user;
-      if (!workspaces || workspaces.length === 0) {
-        // console.error('No workspaces available or workspaces array is empty');
-        // return rejectWithValue('No workspaces available');
-        return;
-      }
+      // if (!workspaces || workspaces.length === 0) {
+      //   // console.error('No workspaces available or workspaces array is empty');
+      //   // return rejectWithValue('No workspaces available');
+      //   return;
+      // }
       const { accessToken, refreshToken, userId } = storedUserData;
       const homeWorkSpace = workspaces?.find(
         workspace => workspace.isHome === true
@@ -260,6 +273,7 @@ export const setAuthUserData = createAsyncThunk(
       dispatch(setSelectedPrompt(prompts[0]));
       dispatch(setModels(models));
       dispatch(setCollections(collections));
+      dispatch(setFolders(folders));
       dispatch(setFiles(files));
       dispatch(setAssistants(assistants));
       dispatch(setSelectedAssistant(assistants[0]));
@@ -450,174 +464,3 @@ export const {
 } = userSlice.actions;
 
 export default userSlice.reducer;
-// extraReducers: builder => {
-// builder.addCase(fetchUserProfileImage.fulfilled, (state, action) => {
-//   state.userInfo.profileImage = action.payload;
-//   state.profileImage = action.payload;
-//   state.userInfo.isImageRetrieved = true;
-//   setLocalUserData({
-//     ...state,
-//     userInfo: { ...state.userInfo, profileImage: action.payload },
-//   });
-// });
-//     builder
-//       .addCase(handleAuthSubmit.pending, state => {
-//         state.userRequest.isFetching = true;
-//         state.userRequest.status = 'pending';
-//       })
-//       .addCase(handleAuthSubmit.fulfilled, (state, action) => {
-//         console.log('Handle auth user data:', action.payload);
-//         state.userRequest.isFetching = false;
-//         state.userRequest.status = 'fulfilled';
-//         state.isAuthenticated = true;
-//         state.user = action.payload;
-//       })
-//       .addCase(handleAuthSubmit.rejected, (state, action) => {
-//         state.userRequest.isFetching = false;
-//         state.userRequest.status = 'rejected';
-//         state.userRequest.error = action.payload;
-//       })
-//       .addCase(refreshAccessToken.pending, state => {
-//         state.userRequest.isFetching = true;
-//         state.userRequest.status = 'pending';
-//       })
-//       .addCase(refreshAccessToken.fulfilled, (state, action) => {
-//         state.userRequest.isFetching = false;
-//         state.userRequest.status = 'fulfilled';
-//         state.token = action.payload;
-//       })
-//       .addCase(refreshAccessToken.rejected, state => {
-//         state.userRequest.isFetching = false;
-//         state.userRequest.status = 'rejected';
-//         localStorage.clear();
-//       })
-//       .addCase(logout.pending, state => {
-//         state.userRequest.isFetching = true;
-//         state.userRequest.status = 'pending';
-//       })
-//       .addCase(logout.fulfilled, state => {
-//         state.userRequest.isFetching = false;
-//         state.userRequest.status = 'fulfilled';
-//         state.isAuthenticated = false;
-//       })
-//       .addCase(addEnvToUser.pending, state => {
-//         state.userRequest.status = 'loading';
-//       })
-//       .addCase(addEnvToUser.fulfilled, (state, action) => {
-//         console.log('addEnvToUser.fulfilled:', action.payload);
-//         state.userRequest.status = 'succeeded';
-//         state.userRequest.success = action.payload;
-//         state.userRequest.message = 'Added API key successfully';
-//       })
-//       .addCase(addEnvToUser.rejected, (state, action) => {
-//         state.userRequest.status = 'failed';
-//         state.userRequest.error = action.error.message;
-//       })
-//       .addCase(logout.rejected, (state, action) => {
-//         state.userRequest.isFetching = false;
-//         state.userRequest.status = 'rejected';
-//         state.userRequest.error = action.payload;
-//       })
-//       .addCase(fetchAndSetUserData.fulfilled, (state, action) => {
-//         console.log('Fetched and set user data:', action.payload);
-//         const {
-//           workspaces,
-//           presets,
-//           prompts,
-//           models,
-//           chatSessions,
-//           collections,
-//           files,
-//           assistants,
-//           tools,
-//         } = action.payload;
-//         // state.userInfo.chat.workspaces = workspaces;
-//         // state.userInfo.chat.presets = presets;
-//         // state.userInfo.chat.prompts = prompts;
-//         // state.userInfo.chat.models = models;
-//         // state.userInfo.chat.chatSessions = chatSessions;
-//         // state.userInfo.chat.collections = collections;
-//         // state.userInfo.chat.files = files;
-//         // state.userInfo.chat.assistants = assistants;
-//         // state.userInfo.chat.tools = tools;
-//         // setLocalUserData({
-//         //  ...state,
-//         //   user: {
-//         //    ...state.user,
-//         //    ...action.payload,
-//         //   },
-//         // });
-//       })
-//       .addCase(fetchAndSetUserData.rejected, (state, action) => {
-//         console.error('Failed to fetch and set user data:', action.payload);
-//       });
-//   },
-// });
-
-// export const {
-//   updateUserInfo,
-//   resetUserInfo,
-//   setUser,
-//   setUserToken,
-//   setUserId,
-//   setAuthTokens,
-//   setIsAuthenticated,
-//   setUserOpenAiSettings,
-//   setIsRedirectToSignin,
-//   setProfile,
-//   setSelectedProfileImage,
-//   setEnvKeyMap,
-// } = userSlice.actions;
-
-// export default userSlice.reducer;
-// window.addEventListener('storage', () => {
-//   const store = require('../store').default;
-//   store.dispatch(updateAuthStateFromLocalStorage());
-// });
-// function defaultSetting() {
-//   return {
-//     user: {},
-//     userId: null,
-//     token: null,
-//     accessToken: null,
-//     refreshToken: null,
-//     expiresIn: null,
-//     expiresAt: null,
-//     createdAt: null,
-//     isAuthenticated: false,
-//     profileImage: avatar5, // Add default profile image to state
-//     userInfo: {
-// name: '',
-// email: '',
-// profileImage: avatar5, // Add default profile image to state
-// isImageRetrieved: false,
-//       chat: {
-//         chatSessions: [],
-//         assistants: [],
-//         chatHistory: [],
-//         workspaces: [],
-//         presets: [],
-//         prompts: [],
-//         models: [],
-//         collections: [],
-//         files: [],
-//         tools: [],
-//       },
-//     },
-//     authSession: {
-//       token: '',
-//       tokenType: '',
-//       accessToken: '',
-//       refreshToken: '',
-//       expiresIn: '',
-//       expiresAt: '',
-//       createdAt: '',
-//     },
-//     openAiSettings: {},
-//   };
-// }
-// function getLocalState() {
-//   const localSetting = JSON.parse(localStorage.getItem(LOCAL_NAME) || '{}');
-//   return { ...defaultSetting(), ...localSetting };
-// }
-// const initialState = getLocalData(LOCAL_NAME, REDUX_NAME);

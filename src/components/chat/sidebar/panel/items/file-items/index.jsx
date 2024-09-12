@@ -1,4 +1,5 @@
-export * from './FileViewer';
-export * from './EditFile';
-export * from './FileInfo';
-export * from './FileUpsert';
+// export * from './FileViewer';
+export * from './file-create';
+export * from './file-info';
+export * from './file-edit';
+export * from './file-upsert';

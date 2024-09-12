@@ -69,7 +69,7 @@ export const MainDashboard = () => {
     { id: 'README.md', label: 'README.md' },
   ];
   return (
-    <Box paddingTop={{ xs: '130px', sm: '80px' }}>
+    <Box marginTop={{ xs: '260px', sm: '160px' }}>
       {/* <----- Mini Statistics Section -----> */}
       <Grid container spacing={3} mb={3}>
         <Grid item xs={6} md={4} lg={2}>

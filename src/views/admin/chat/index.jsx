@@ -38,7 +38,6 @@ export const MainChat = () => {
   } = useAppStore();
   const [marginLeft, setMarginLeft] = useState('50px');
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is mobile
-  // Update marginLeft based on isMobile
   useEffect(() => {
     if (isMobile) {
       console.log('isMobile:', isMobile);
@@ -204,31 +203,15 @@ export const MainChat = () => {
   }
   return (
     <Box
-      // sx={{
-      //   flexGrow: 1,
-      //   marginLeft: '60px', // Adjust to match the sidebar padding
-      //   display: 'flex',
-      //   flexDirection: 'column',
-      //   width: 'calc(100% - 40px)', // Assuming the sidebar width is 240px + 16px padding
-      // }}
       id="chat-view-container"
       sx={{
         flexGrow: 1,
         marginLeft: marginLeft, // Use the marginLeft state variable
-        // marginLeft: isMobile && !isSidebarOpen ? '0px' : '50px', // Adjust margin based on sidebar visibility
-        // marginLeft: isMobile && !isSidebarOpen ? '0px' : '50px', // Adjust margin based on sidebar visibility
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
         maxWidth: !isMobile ? 'calc(100% - 24px)' : null,
-        // width: isMobile && !isSidebarOpen ? '100%' : 'calc(100% - 24px)', // Expand width when sidebar is closed
-        // width: isMobile && !isSidebarOpen ? '100%' : 'calc(100% - 24px)', // Expand to 100% when isMobile
-        // minWidth: isMobile && !isSidebarOpen ? '100%' : 'calc(100% - 24px)', // Ensure minimum width
         transition: 'margin-left 0.3s ease-in-out, width 0.3s ease-in-out', // Smooth transition
-        // '& MuiBox-root': {
-        //   width: isMobile ? '100%' : 'calc(100% - 24px)', // Expand width when sidebar is closed
-        //   flexGrow: 1,
-        // },
       }}
     >
       <Box
@@ -238,10 +221,6 @@ export const MainChat = () => {
           flexDirection: 'column',
           height: '100vh',
           width: '100%', // Ensure width is 100%
-          // '& MuiBox-root': {
-          //   width: isMobile ? '100%' : 'calc(100% - 24px)', // Expand width when sidebar is closed
-          //   flexGrow: 1,
-          // },
         }}
       >
         <Paper
@@ -270,11 +249,9 @@ export const MainChat = () => {
               flexDirection: 'column',
               backgroundColor: '#1C1C1C',
               width: '100%',
-              // minWidth: 'max-content',
               height: '100%',
               borderRadius: '14px',
               overflow: 'auto', // Allow scrolling
-              // maxWidth: '100%',
               flexGrow: 1,
             }}
           >

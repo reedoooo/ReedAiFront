@@ -31,16 +31,6 @@ export const SidebarContainer = styled('div')({
   borderRadius: '14px',
   maxHeight: 'calc(100% - 16px)',
 });
-export const SidebarPanel = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  padding: '0.5rem',
-  backgroundColor: '#1C1C1C',
-  color: 'white',
-  borderRadius: '14px',
-  height: 'calc(100vh - 8px)',
-});
 export const PanelHeader = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -52,12 +42,6 @@ export const PanelHeader = styled(Box)(({ theme }) => ({
   },
 }));
 export const PanelHeaderRow = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  marginBottom: theme.spacing(2),
-}));
-export const ActionRow = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -77,9 +61,6 @@ export const FolderHeader = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: theme.spacing(1),
-}));
-export const StyledPanelHeaderButton = styled(Button)(({ theme }) => ({
-  textTransform: 'none',
 }));
 export const WorkspaceCreatorContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -244,19 +225,6 @@ export const StyledButton = styled(Button)(({ theme }) => ({
   },
 }));
 /* --- CHAT - TABS --- */
-export const TabContentHeaderContainer = styled(Box)({
-  '&:hover': {
-    backgroundColor: 'accent.main',
-    opacity: 0.5,
-  },
-  display: 'flex',
-  width: '100%',
-  cursor: 'pointer',
-  alignItems: 'center',
-  borderRadius: '4px',
-  padding: '8px',
-  outline: 'none',
-});
 export const TabContentContainer = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
@@ -265,12 +233,6 @@ export const TabContentContainer = styled(Box)({
   color: 'white',
   borderRadius: '14px',
   background: '#1c1c1c', // Slightly different background for the panel to distinguish it
-});
-export const TabSectionContainer = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-  justifyContent: 'space-between',
 });
 export const StyledTabs = styled(RadixUiTabList)(({ theme }) => ({
   background: '#808080',
@@ -293,15 +255,6 @@ export const StyledMuiTabs = styled(Tabs)({
     backgroundColor: '#000',
     color: '#fff',
     // padding: '10px',
-    margin: '5px',
-  },
-});
-export const StyledMotionTabs = styled(motion(Tabs))({
-  background: '#808080',
-  borderRadius: '5px',
-  '& .Mui-selected': {
-    backgroundColor: '#000',
-    color: '#fff',
     margin: '5px',
   },
 });
@@ -372,26 +325,6 @@ export const ExportOptions = styled(Box)({
   margin: '10px 0',
 });
 /* --- CHAT - MAIN CHAT COMPONENT --- */
-export const StyledChatContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  backgroundColor: '#1C1C1C',
-  width: '100%',
-  height: '100%',
-  borderRadius: '14px',
-  overflow: 'auto', // Allow scrolling
-}));
-export const ChatWindow = styled(Paper)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  height: 'calc(100vh - 8px)',
-  width: `calc(100% - 60px)`,
-  margin: 'auto',
-  [theme.breakpoints.down('sm')]: {
-    height: '100vh',
-    width: '100%',
-  },
-}));
 export const Header = styled(Box)(({ theme }) => ({
   backgroundColor: 'transparent',
   borderBottom: `1px solid ${theme.palette.primary.main}`,
@@ -402,24 +335,6 @@ export const Header = styled(Box)(({ theme }) => ({
   flexGrow: 1,
 }));
 /* --- CHAT - MESSAGE COMPONENTS --- */
-export const MessageContainer = styled(Box)(({ theme }) => ({
-  flexGrow: 1,
-  overflowY: 'auto',
-  padding: theme.spacing(2),
-  maxWidth: '100%',
-}));
-export const ChatBubbleWrapper = styled(Box)(({ theme, sender }) => ({
-  backgroundColor: sender === 'user' ? '#26242C' : '#26242C',
-  margin: '10px',
-  padding: '10px',
-  borderRadius: '12px',
-  alignSelf: sender === 'user' ? 'flex-end' : 'flex-start',
-  display: 'flex',
-  ml: sender === 'user' ? 'auto' : 0,
-  justifyContent: sender === 'user' ? 'flex-end' : 'flex-start',
-  flexDirection: sender === 'user' ? 'row-reverse' : 'row',
-  flexGrow: 1,
-}));
 export const ChatBubbleAvatarWrapper = styled(Avatar)(({ theme, sender }) => ({
   width: 40,
   height: 40,
@@ -430,12 +345,6 @@ export const ChatBubbleAvatarWrapper = styled(Avatar)(({ theme, sender }) => ({
       ? theme.palette.primary.main
       : theme.palette.secondary.main,
 }));
-export const ChatBubbleTypographyWrapper = styled(Typography)({
-  color: '#6b7280',
-  fontSize: '0.875rem',
-  flexGrow: 1,
-  overflowWrap: 'break-word',
-});
 export const ChatMessageActionsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
@@ -470,33 +379,4 @@ export const ChatMessageEditorContentsContainer = styled(Box)(({ theme }) => ({
   width: '100%',
   height: '100%',
   flexGrow: 1,
-}));
-/*  --- CHAT - FILES --- */
-export const FileItemsPreviewContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  cursor: 'pointer',
-  alignItems: 'center',
-  borderRadius: theme.shape.borderRadius,
-  padding: theme.spacing(2),
-  '&:hover, &:focus': {
-    backgroundColor: theme.palette.action.hover,
-    outline: 'none',
-  },
-}));
-export const SelectedFileItemsContainer = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(1),
-  borderRadius: theme.shape.borderRadius,
-  border: `2px solid ${theme.palette.divider}`,
-  padding: theme.spacing(2),
-  fontSize: theme.typography.fontSize,
-}));
-export const FileContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: theme.spacing(1),
-  borderBottom: '1px solid #eee',
 }));

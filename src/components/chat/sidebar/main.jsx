@@ -21,7 +21,7 @@ import {
   SettingsIcon,
 } from 'assets/humanIcons';
 import { IconButtonWithTooltip } from 'components/compositions';
-import ValidationIcon from 'components/styled/ValidationIcon';
+import ValidationIcon from 'components/themed/ValidationIcon';
 import { useAppStore, useChatStore, useUserStore } from 'contexts';
 import { useMode } from 'hooks';
 import {
@@ -53,11 +53,9 @@ export const ChatSidebar = () => {
       files,
       assistants,
       tools,
-      selectedWorkspace,
       collections,
       models,
       presets,
-      modelNames,
     },
   } = useChatStore();
   const assistantFolders = folders?.filter(
@@ -117,6 +115,7 @@ export const ChatSidebar = () => {
             title="ChatSessions"
             data={chatSessions}
             folders={chatSessionFolders}
+            files={files}
           />
         );
       case 2:
@@ -125,14 +124,28 @@ export const ChatSidebar = () => {
             title="Assistants"
             data={assistants}
             folders={assistantFolders}
+            files={files}
           />
         );
       case 3:
         return (
-          <Prompts title="Prompts" data={prompts} folders={promptFolders} />
+          <Prompts
+            title="Prompts"
+            data={prompts}
+            folders={promptFolders}
+            files={files}
+          />
         );
       case 4:
-        return <Files title="Files" data={files} folders={fileFolders} />;
+        return (
+          <Files
+            title="Files"
+            data={files}
+            folerId={fileFolders._id}
+            folders={fileFolders}
+            files={files}
+          />
+        );
       case 5:
         return <User title="User" data={user} />;
       default:
@@ -252,7 +265,7 @@ export const ChatSidebar = () => {
               <IconButton onClick={() => handleSidebarOpen(6)}>
                 <ValidationIcon
                   IconComponent={KeyIcon}
-                  isValid={isValidApiKey}
+                  isValid={isValidApiKey || user.openai.apiKey ? true : false}
                 />{' '}
               </IconButton>
             </Tooltip>

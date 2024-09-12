@@ -1,57 +1,40 @@
 import { ExpandLessRounded, ExpandMoreRounded } from '@mui/icons-material';
 import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  TextField,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Collapse,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+  TextField,
 } from '@mui/material';
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import {
-  FaFolder,
-  FaFile,
-  FaPlus,
-  FaSearch,
-  FaHome,
-  FaCog,
-} from 'react-icons/fa';
-import { TextFieldSection } from 'components/themed';
+import { FaFolder, FaFile } from 'react-icons/fa';
 
 export const ReusableFolder = ({
-  folders = [],
+  folder = {},
   files = {},
   onFolderSelect,
   onItemCreate,
-  onItemDelete,
-  onFolderUpdate,
   searchPlaceholder = 'Search',
   panelTitle = 'File Explorer',
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [expandedFolders, setExpandedFolders] = useState({});
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newItemName, setNewItemName] = useState('');
   const [newItemType, setNewItemType] = useState('file');
-  const [search, setSearch] = useState('');
+  const [selectedFolder, setSelectedFolder] = useState(null);
 
-  const toggleFolder = folderId => {
+  const toggleFolder = () => {
     setIsExpanded(prev => !prev);
-    setExpandedFolders(prev => ({
-      ...prev,
-      [folderId]: !prev[folderId],
-    }));
-    onFolderSelect && onFolderSelect(folderId);
+    if (onFolderSelect) {
+      onFolderSelect(folder._id);
+    }
   };
 
   const onDragEnd = result => {
@@ -60,26 +43,68 @@ export const ReusableFolder = ({
   };
 
   const handleNewItem = () => {
-    if (!newItemName || !newItemType) {
-      // Handle empty fields, maybe show a warning
+    if (!selectedFolder) {
+      alert('Please select a folder first');
+      setIsDialogOpen(false);
       return;
     }
 
-    onItemCreate && onItemCreate(newItemName, newItemType);
+    if (!newItemName) {
+      alert('Please enter a name for the new item');
+      return;
+    }
+
+    if (newItemType === 'file') {
+      const newFileId = Date.now().toString();
+      const newFile = {
+        _id: newFileId,
+        userId: 'newUserId',
+        workspaceId: 'newWorkspaceId',
+        sessionId: 'newSessionId',
+        folderId: selectedFolder,
+        name: newItemName,
+        size: 0,
+        type: 'unknown',
+        filePath: `/files/${newFileId}`,
+        mimeType: 'application/octet-stream',
+        tokens: 0,
+      };
+
+      setFiles(prevFiles => ({ ...prevFiles, [newFileId]: newFile }));
+      setFolders(prevFolders =>
+        prevFolders.map(folder =>
+          folder._id === selectedFolder
+            ? { ...folder, items: [...folder.items, newFileId] }
+            : folder
+        )
+      );
+    } else {
+      const newFolderId = Date.now().toString();
+      const newFolder = {
+        _id: newFolderId,
+        userId: 'newUserId',
+        workspaceId: 'newWorkspaceId',
+        name: newItemName,
+        items: [],
+        subfolders: [],
+        createdAt: new Date().toISOString(),
+      };
+
+      setFolders(prevFolders => [...prevFolders, newFolder]);
+    }
+
     setIsDialogOpen(false);
     setNewItemName('');
-    setNewItemType('file');
   };
 
-  const renderFiles = folderId => {
-    const folder = folders.find(f => f._id === folderId);
-    if (!folder) return null;
+  const renderFiles = () => {
+    if (!folder || !folder.items) return null;
 
     return (
       <List component="div" disablePadding>
         {folder.items.map((itemId, index) => {
           const file = files[itemId];
-          if (!file) return null; // Safeguard against undefined files
+          if (!file) return null;
 
           return (
             <Draggable key={itemId} draggableId={itemId} index={index}>
@@ -105,88 +130,50 @@ export const ReusableFolder = ({
 
   return (
     <>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
-            <FaHome />
-          </IconButton>
-          <Typography variant="h6" style={{ flexGrow: 1 }}>
-            {panelTitle}
-          </Typography>
-          <TextField
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder={searchPlaceholder}
-            InputProps={{
-              startAdornment: <FaSearch />,
-            }}
-          />
-          <IconButton color="inherit" onClick={() => setIsDialogOpen(true)}>
-            <FaPlus />
-          </IconButton>
-          <IconButton color="inherit">
-            <FaCog />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="folders">
+        <Droppable droppableId="folder">
           {provided => (
             <List {...provided.droppableProps} ref={provided.innerRef}>
-              {folders.map((folder, index) => (
-                <React.Fragment key={folder._id}>
-                  <Draggable draggableId={folder._id} index={index}>
-                    {provided => (
-                      <ListItem
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        button
-                        onClick={() => toggleFolder(folder._id)}
-                      >
-                        <ListItemIcon>
-                          <FaFolder />
-                        </ListItemIcon>
-                        <ListItemText primary={folder.name} />
-                        {expandedFolders[folder._id] ? (
-                          <ExpandLessRounded />
-                        ) : (
-                          <ExpandMoreRounded />
-                        )}
-                      </ListItem>
-                    )}
-                  </Draggable>
-                  <Collapse
-                    in={expandedFolders[folder._id]}
-                    timeout="auto"
-                    unmountOnExit
-                  >
-                    {renderFiles(folder._id)}
-                  </Collapse>
-                </React.Fragment>
-              ))}
+              <ListItem button onClick={toggleFolder}>
+                <ListItemIcon>
+                  <FaFolder />
+                </ListItemIcon>
+                <ListItemText primary={folder.name} />
+                {isExpanded ? <ExpandLessRounded /> : <ExpandMoreRounded />}
+              </ListItem>
+              <Collapse in={isExpanded} timeout="auto" unmountOnExit>
+                {renderFiles()}
+              </Collapse>
               {provided.placeholder}
             </List>
           )}
         </Droppable>
       </DragDropContext>
+
       <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
         <DialogTitle>Add New Item</DialogTitle>
         <DialogContent>
-          <TextFieldSection
+          <TextField
             label="Name"
             value={newItemName}
             onChange={e => setNewItemName(e.target.value)}
-            variant="darkMode"
             fullWidth
+            margin="dense"
           />
-          <TextFieldSection
+          <TextField
             label="Type"
+            select
             value={newItemType}
             onChange={e => setNewItemType(e.target.value)}
-            variant="darkMode"
             fullWidth
-          />
+            margin="dense"
+            SelectProps={{
+              native: true,
+            }}
+          >
+            <option value="file">File</option>
+            <option value="folder">Folder</option>
+          </TextField>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setIsDialogOpen(false)} color="primary">

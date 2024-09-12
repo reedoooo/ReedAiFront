@@ -222,20 +222,6 @@ export const ChatHeader = props => {
           <MenuItem onClick={handleOpenSessionDialog}>
             <EditIcon sx={{ mr: 1 }} /> New Session
           </MenuItem>
-          {/* <PresetSelect
-            presets={presets}
-            selectedPreset={selectedPreset}
-            handlePresetChange={handlePresetChange}
-          />
-          <MenuItem onClick={saveDialog.handleOpen}>
-            <SaveIcon sx={{ mr: 1 }} /> Save
-          </MenuItem>
-          <MenuItem onClick={codeDialog.handleOpen}>
-            <CodeIcon sx={{ mr: 1 }} /> View Code
-          </MenuItem>
-          <MenuItem onClick={shareDialog.handleOpen}>
-            <ShareIcon sx={{ mr: 1 }} /> Share
-          </MenuItem> */}
         </MenuList>
       </Popover>
       <DialogBox

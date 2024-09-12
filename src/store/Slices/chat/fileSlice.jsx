@@ -12,8 +12,107 @@ const initialState = getLocalData(LOCAL_NAME, REDUX_NAME);
 function setLocalFileData(data) {
   setLocalData(LOCAL_NAME, data);
 }
+// New thunk for uploading a file
+export const uploadFile = createAsyncThunk(
+  'files/upload',
+  async ({ file, payload }, { rejectWithValue }) => {
+    try {
+      const filePath = await attachmentsApi.uploadFile(file, payload);
+      return filePath;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
-// Async thunk to fetch all images, with a check to prevent refetching if already in state
+// New thunk for getting all stored files
+export const getAllStoredFiles = createAsyncThunk(
+  'files/getAllStored',
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await attachmentsApi.getAllStoredFiles();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// New thunk for getting stored files by type
+export const getStoredFilesByType = createAsyncThunk(
+  'files/getStoredByType',
+  async (type, { rejectWithValue }) => {
+    try {
+      const data = await attachmentsApi.getStoredFilesByType(type);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// New thunk for getting stored files by space
+export const getStoredFilesBySpace = createAsyncThunk(
+  'files/getStoredBySpace',
+  async (space, { rejectWithValue }) => {
+    try {
+      const data = await attachmentsApi.getStoredFilesBySpace(space);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// New thunk for getting stored file by filename
+export const getStoredFileByName = createAsyncThunk(
+  'files/getStoredByName',
+  async (filename, { rejectWithValue }) => {
+    try {
+      const data = await attachmentsApi.getStoredFileByName(filename);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// New thunk for getting all storage files
+export const getAllStorageFiles = createAsyncThunk(
+  'files/getAllStorage',
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await attachmentsApi.getAllStorageFiles();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// New thunk for getting a single storage file
+export const getStorageFile = createAsyncThunk(
+  'files/getStorage',
+  async (fileId, { rejectWithValue }) => {
+    try {
+      const data = await attachmentsApi.getStorageFile(fileId);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+export const createFile = createAsyncThunk(
+  'files/create',
+  async (fileData, { rejectWithValue }) => {
+    try {
+      const data = await attachmentsApi.createFile(fileData);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 export const fetchAllImages = createAsyncThunk(
   'files/fetchAllImages',
   async (_, { getState, rejectWithValue }) => {
@@ -114,29 +213,64 @@ export const fileSlice = createSlice({
   reducers: {
     setFiles: (state, action) => {
       console.log('Setting files:', action.payload);
-      if (Array.isArray(action.payload)) {
-        state.files = action.payload;
-        setLocalFileData({ ...state, files: action.payload });
-      } else if (
-        typeof action.payload === 'object' &&
-        action.payload !== null
-      ) {
-        const file = action.payload;
-        state.files[file.id] = file;
-      }
+      state.files = action.payload;
+      setLocalFileData({ ...state, files: action.payload });
+      // state.files = state.files.filter(file => file.id !== action.payload);
+      // setLocalFileData({ ...state, files: state.files });
+      // if (Array.isArray(action.payload)) {
+      //   state.files = action.payload;
+      //   setLocalFileData({ ...state, files: action.payload });
+      // } else if (
+      //   typeof action.payload === 'object' &&
+      //   action.payload !== null
+      // ) {
+      //   const file = action.payload;
+      //   state.files[file.id] = file;
+      // }
+    },
+    setNewMessageFiles: (state, action) => {
+      console.log('Setting newMessageFiles:', action.payload);
+      state.newMessageFiles = action.payload;
+      setLocalFileData({ ...state, newMessageFiles: action.payload });
+      // state.newMessageFiles = state.newMessageFiles.filter(
+      //   file => file.id !== action.payload
+      // );
+    },
+    setNewMessageImages: (state, action) => {
+      console.log('Setting newMessageImages:', action.payload);
+      state.newMessageFiles = action.payload;
+      setLocalFileData({ ...state, newMessageImages: action.payload });
+      // state.newMessageImages = state.newMessageImages.filter(
+      //   image => image.messageId !== action.payload
+      // );
     },
     setChatFiles: (state, action) => {
+      console.log('Setting chatFiles:', action.payload);
       state.chatFiles = action.payload;
+      setLocalFileData({ ...state, chatFiles: action.payload });
     },
     setChatImages: (state, action) => {
       state.chatImages = action.payload;
+      setLocalFileData({ ...state, chatImages: action.payload });
     },
-    setNewMessageFiles: (state, action) => {
-      state.newMessageFiles = action.payload;
+    addNewMessageFile: (state, action) => {
+      console.log('Adding newMessageFile:', action.payload);
+      state.newMessageFiles.push(action.payload);
     },
-    setNewMessageImages: (state, action) => {
-      state.newMessageImages = action.payload;
+    updateNewMessageFile: (state, action) => {
+      const index = state.newMessageFiles.findIndex(
+        file => file.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.newMessageFiles[index] = action.payload;
+      }
     },
+    // setNewMessageFiles: (state, action) => {
+    //   state.newMessageFiles = action.payload;
+    // },
+    // setNewMessageImages: (state, action) => {
+    //   state.newMessageImages = action.payload;
+    // },
     setShowFilesDisplay: (state, action) => {
       state.showFilesDisplay = action.payload;
     },
@@ -176,6 +310,35 @@ export const fileSlice = createSlice({
       .addCase(fetchAllFiles.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
+      })
+      .addCase(uploadFile.pending, state => {
+        state.uploadStatus = 'loading';
+      })
+      .addCase(uploadFile.fulfilled, (state, action) => {
+        state.uploadStatus = 'succeeded';
+        state.files.push(action.payload);
+      })
+      .addCase(uploadFile.rejected, (state, action) => {
+        state.uploadStatus = 'failed';
+        state.uploadError = action.payload;
+      })
+      .addCase(getAllStoredFiles.fulfilled, (state, action) => {
+        state.storedFiles = action.payload;
+      })
+      .addCase(getStoredFilesByType.fulfilled, (state, action) => {
+        state.storedFilesByType = action.payload;
+      })
+      .addCase(getStoredFilesBySpace.fulfilled, (state, action) => {
+        state.storedFilesBySpace = action.payload;
+      })
+      .addCase(getStoredFileByName.fulfilled, (state, action) => {
+        state.storedFileByName = action.payload;
+      })
+      .addCase(getAllStorageFiles.fulfilled, (state, action) => {
+        state.allStorageFiles = action.payload;
+      })
+      .addCase(getStorageFile.fulfilled, (state, action) => {
+        state.currentStorageFile = action.payload;
       });
   },
 });
@@ -187,6 +350,8 @@ export const {
   setNewMessageFiles,
   setNewMessageImages,
   setShowFilesDisplay,
+  addNewMessageFile,
+  updateNewMessageFile,
 } = fileSlice.actions;
 
 export default fileSlice.reducer;
