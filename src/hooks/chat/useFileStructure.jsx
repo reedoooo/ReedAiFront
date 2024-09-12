@@ -31,7 +31,8 @@ const useFileStructure = space => {
         children: storedFiles
           .filter(file => file.metadata.folderId === folder._id)
           .map(file => ({
-            id: file._id,
+            ...file,
+            // id: file._id,
             name: file.name || file.filename,
             type: 'file',
           })),
@@ -40,7 +41,8 @@ const useFileStructure = space => {
       const rootFiles = storedFiles
         .filter(file => !file.folderId)
         .map(file => ({
-          id: file._id,
+          ...file,
+          // id: file._id,
           name: file.name || file.filename,
           type: 'file',
         }));

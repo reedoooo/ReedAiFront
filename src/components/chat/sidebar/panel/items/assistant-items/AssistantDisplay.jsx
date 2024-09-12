@@ -1,22 +1,18 @@
-import { Box, Button, MenuItem, Select } from '@mui/material';
+import { Box, Button, FormControl, MenuItem, Select } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { PanelContainer } from 'components/chat/styled';
 import {
-  PanelContainer,
-  StyledButton,
-  StyledTextareaAutosize,
-  StyledTextField,
-  TabContentContainer,
-} from 'components/chat/styled';
+  RCFileInputButton,
+  SliderFieldSection,
+  TextAreaAutosizeSection,
+  TextFieldSection,
+} from 'components/themed';
+import { FormSectionLabel } from 'components/themed/HumanUi/RCComposables/container-components';
 import { useChatStore } from 'contexts/ChatProvider';
-import {
-  FormSection,
-  ReusableSliderField,
-  ReusableSwitchControl,
-} from '../shared-items';
-
+import { FormSection, ReusableSwitchControl } from '../shared-items';
 export const AssistantDisplay = props => {
   const {
-    state: { assistants, selectedAssistant },
+    state: { assistants, selectedAssistant, modelNames },
     actions: { deleteAssistant, setSelectedAssistant, createAssistant },
   } = useChatStore();
 
@@ -81,43 +77,72 @@ export const AssistantDisplay = props => {
   return (
     <PanelContainer>
       <Box sx={{ mt: 2 }}>
-        <StyledTextField
+        <TextFieldSection
           label="Name"
-          name="name"
           value={formObject.name}
           onChange={handleChange}
+          variant="darkMode"
           fullWidth
         />
-        <StyledTextField
+        <TextFieldSection
           label="Role"
-          name="role"
           value={formObject.role}
           onChange={handleChange}
+          variant="darkMode"
           fullWidth
-          sx={{ mt: 2 }}
         />
-        <FormSection label="Instructions">
-          <StyledTextareaAutosize
-            minRows={4}
-            name="instructions"
-            value={formObject.instructions}
-            onChange={handleChange}
-            style={{ width: '100%', color: 'white', backgroundColor: '#333' }}
-          />
-        </FormSection>
+        <TextAreaAutosizeSection
+          label="Instructions"
+          minRows={3}
+          maxRows={5}
+          placeholder="Instructions content..."
+          variant="darkMode"
+          value={formObject.instructions}
+          onChange={handleChange}
+        />
 
-        <FormSection label="Model">
+        <FormSectionLabel label="Model Name" />
+        <FormControl fullWidth>
           <Select
-            fullWidth
-            variant="outlined"
-            name="model"
             value={formObject.model}
             onChange={handleChange}
-            sx={{ color: 'white', '.MuiSelect-icon': { color: 'white' } }}
+            label="Model"
+            sx={{
+              color: '#ffffff',
+              '&.Mui-focused': {
+                opacity: 1,
+                transform: 'scale(1, 1)',
+                transition:
+                  'opacity 100ms ease-out, transform 100ms cubic-bezier(0.43, 0.29, 0.37, 1.48)',
+              },
+            }}
+            MenuProps={{
+              anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'right',
+              },
+              transformOrigin: {
+                vertical: 'top',
+                horizontal: 'right',
+              },
+              PaperProps: {
+                sx: {
+                  maxHeight: 200,
+                  mt: '10px',
+                },
+              },
+            }}
           >
-            <MenuItem value="gpt-4.0">gpt-4.0</MenuItem>
+            <MenuItem value="" disabled>
+              Select a model...
+            </MenuItem>
+            {modelNames?.map(name => (
+              <MenuItem key={name} value={name}>
+                {name}
+              </MenuItem>
+            ))}
           </Select>
-        </FormSection>
+        </FormControl>
 
         <FormSection label="Tools">
           <ReusableSwitchControl
@@ -162,43 +187,41 @@ export const AssistantDisplay = props => {
               }))
             }
           />
-          <ReusableSliderField
+          <SliderFieldSection
             label="Temperature"
-            value={formObject.temperature}
-            onChange={newValue =>
-              setFormObject(prevState => ({
-                ...prevState,
-                temperature: newValue,
-              }))
-            }
+            valueLabelDisplay="auto"
+            value={formObject.model_configuration.temperature}
+            onChange={handleChange}
             min={0}
             max={1}
             step={0.01}
           />
-          <ReusableSliderField
+          <SliderFieldSection
             label="Top P"
-            value={formObject.top_p}
-            onChange={newValue =>
-              setFormObject(prevState => ({
-                ...prevState,
-                top_p: newValue,
-              }))
-            }
+            valueLabelDisplay="auto"
+            value={formObject.model_configuration.top_p}
+            onChange={handleChange}
             min={0}
             max={1}
             step={0.01}
           />
           <Button variant="contained">Switch to v1</Button>
         </FormSection>
-
-        <StyledButton
+        <Button
           variant="contained"
-          color="primary"
           onClick={handleSubmit}
-          sx={{ mt: 2 }}
+          sx={{
+            bgcolor: 'rgba(255, 255, 255, 0.1)',
+            color: '#ffffff',
+            '&:hover': {
+              bgcolor: 'rgba(255, 255, 255, 0.2)',
+            },
+            marginTop: '20px',
+            alignSelf: 'center',
+          }}
         >
-          Save Changes
-        </StyledButton>
+          Save Assistant
+        </Button>
       </Box>
     </PanelContainer>
   );

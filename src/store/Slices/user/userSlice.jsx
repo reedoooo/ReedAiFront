@@ -265,8 +265,8 @@ export const setAuthUserData = createAsyncThunk(
       dispatch(setSelectedWorkspace(updatedHomeWorkSpace));
       dispatch(setWorkspaceId(updatedHomeWorkSpace._id));
       dispatch(setChatSessions(workspaces[0].chatSessions));
-      dispatch(setSelectedChatSession(workspaces[0].chatSessions[0]));
-      dispatch(setSessionId(workspaces[0].chatSessions[0]?._id));
+      dispatch(setSelectedChatSession(updatedHomeWorkSpace.chatSessions[0]));
+      dispatch(setSessionId(workspaces[0].chatSessions[0]));
       dispatch(setPresets(presets));
       dispatch(setSelectedPreset(presets[0]));
       dispatch(setPrompts(prompts));

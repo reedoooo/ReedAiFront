@@ -1,7 +1,6 @@
 import { PencilIcon } from '@heroicons/react/24/outline';
 import IconButton from '@mui/material/IconButton';
-import TextField from '@mui/material/TextField';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { TextFieldSection } from 'components/themed';
 import SidebarItem from '../sidebar-items/sidebar-display-item';
 

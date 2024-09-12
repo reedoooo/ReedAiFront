@@ -144,6 +144,18 @@ export const settingsApi = {
   },
 
   // Prompts
+  getPromptFiles: async () => {
+    try {
+      const response = await apiUtils.get('/chat/prompts?name=prompt_files');
+      // const response = await apiUtils.get('/chat/prompts');
+      console.log(response);
+      // const data = await apiUtils.get('/chat/prompts/prompt-files');
+      return response.prompts;
+    } catch (error) {
+      console.error('Error fetching chat prompts:', error);
+      throw error;
+    }
+  },
   getAllPrompts: async () => {
     try {
       const data = await apiUtils.get('/chat/prompts');
@@ -162,8 +174,10 @@ export const settingsApi = {
       throw error;
     }
   },
-  createPrompt: async promptData => {
+  createPrompt: async props => {
+    const { promptData } = props;
     try {
+      console.log('Creating chat prompt:', promptData);
       const data = await apiUtils.post('/chat/prompts', promptData);
       return data;
     } catch (error) {
@@ -171,7 +185,8 @@ export const settingsApi = {
       throw error;
     }
   },
-  updatePrompt: async (id, promptData) => {
+  updatePrompt: async props => {
+    const { id, promptData } = props;
     try {
       const data = await apiUtils.put(`/chat/prompts/${id}`, promptData);
       return data;
@@ -186,6 +201,56 @@ export const settingsApi = {
       return data;
     } catch (error) {
       console.error(`Error deleting chat prompt with id ${id}:`, error);
+      throw error;
+    }
+  },
+  downloadPromptTemplate: async downloadURL => {
+    try {
+      const response = await fetch(downloadURL);
+
+      const blob = await response.blob();
+      const file = new File([blob], 'prompt_template.txt', { type: blob.type });
+      return file;
+    } catch (error) {
+      console.error('Error downloading prompt template:', error);
+      throw error;
+    }
+  },
+  addPromptTemplate: async (id, file) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const response = await apiUtils.post(
+        `/chat/prompts/${id}/template`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error adding prompt template:', error);
+      throw error;
+    }
+  },
+  modifyPromptTemplate: async (id, file) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const response = await apiUtils.put(
+        `/chat/prompts/${id}/template`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error modifying prompt template:', error);
       throw error;
     }
   },

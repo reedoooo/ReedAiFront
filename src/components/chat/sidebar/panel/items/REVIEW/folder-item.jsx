@@ -3,8 +3,7 @@ import { Box, IconButton, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import React, { useRef, useState } from 'react';
 import { IoChevronDownCircleOutline } from 'react-icons/io5';
-import { DeleteFolder } from './delete-folder';
-import { UpdateFolder } from '../folders/update-folder';
+import { DeleteFolder, UpdateFolder } from '../workspace-items';
 
 const FolderContainer = styled(Box)(({ theme, isDragOver }) => ({
   borderRadius: theme.shape.borderRadius,

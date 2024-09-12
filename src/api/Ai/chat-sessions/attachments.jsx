@@ -161,6 +161,45 @@ export const attachmentsApi = {
       throw error;
     }
   },
+  /**
+   * Upserts (creates or updates) file data in the database.
+   *
+   * @param {Object} vectorDocData - The file data to be upserted.
+   * @param {string} vectorDocData.fileId - The unique identifier of the file.
+   * @param {string} vectorDocData.fileName - The name of the file.
+   * @param {string} vectorDocData.fileType - The type of the file.
+   * @param {string} vectorDocData.fileContent - The content of the file.
+   * @param {string} vectorDocData.userId - The unique identifier of the user who uploaded the file.
+   * @param {string} vectorDocData.workspaceId - The unique identifier of the workspace where the file is associated.
+   * @param {string} vectorDocData.folderId - The unique identifier of the folder where the file is located.
+   *
+   * @returns {Promise<Object>} - A promise that resolves to the upserted file data.
+   * @throws {Error} - If there is an error fetching or upserting the file data.
+   */
+  upsertFileData: async vectorDocData => {
+    try {
+      const data = await apiUtils.post(
+        `/chat/files/upsert-docs`,
+        vectorDocData
+      );
+      return data;
+    } catch (error) {
+      console.error('Error fetching chat file data:', error);
+      throw error;
+    }
+  },
+  getStaticFileByName: async props => {
+    const { filename } = props;
+    try {
+      const data = await apiUtils.get(
+        `/chat/files/static/${encodeURIComponent(filename)}`
+      );
+      return data;
+    } catch (error) {
+      console.error('Error fetching chat presets:', error);
+      throw error;
+    }
+  },
   // --- OLDER ---
   getAllFiles: async () => {
     try {
@@ -213,33 +252,6 @@ export const attachmentsApi = {
   getFileByName: async filename => {
     try {
       const data = await apiUtils.get(`/chat/files/static/${filename}`);
-      return data;
-    } catch (error) {
-      console.error('Error fetching chat file data:', error);
-      throw error;
-    }
-  },
-  /**
-   * Upserts (creates or updates) file data in the database.
-   *
-   * @param {Object} vectorDocData - The file data to be upserted.
-   * @param {string} vectorDocData.fileId - The unique identifier of the file.
-   * @param {string} vectorDocData.fileName - The name of the file.
-   * @param {string} vectorDocData.fileType - The type of the file.
-   * @param {string} vectorDocData.fileContent - The content of the file.
-   * @param {string} vectorDocData.userId - The unique identifier of the user who uploaded the file.
-   * @param {string} vectorDocData.workspaceId - The unique identifier of the workspace where the file is associated.
-   * @param {string} vectorDocData.folderId - The unique identifier of the folder where the file is located.
-   *
-   * @returns {Promise<Object>} - A promise that resolves to the upserted file data.
-   * @throws {Error} - If there is an error fetching or upserting the file data.
-   */
-  upsertFileData: async vectorDocData => {
-    try {
-      const data = await apiUtils.post(
-        `/chat/files/upsert-docs`,
-        vectorDocData
-      );
       return data;
     } catch (error) {
       console.error('Error fetching chat file data:', error);

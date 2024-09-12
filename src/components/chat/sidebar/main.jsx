@@ -141,7 +141,7 @@ export const ChatSidebar = () => {
           <Files
             title="Files"
             data={files}
-            folerId={fileFolders._id}
+            folderId={fileFolders._id}
             folders={fileFolders}
             files={files}
           />

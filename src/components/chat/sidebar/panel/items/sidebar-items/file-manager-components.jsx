@@ -90,6 +90,8 @@ export const NewFileDialog = ({
             fullWidth
             margin="dense"
             label="File Name"
+            placeholder="Enter file name"
+            // defaultValue={fileToUpload ? fileToUpload.name : ''}
             value={newFileName}
             onChange={handleNewFileNameChange}
             error={!!fileNameError}
@@ -130,6 +132,7 @@ export const NewFolderDialog = ({
           <TextField
             margin="dense"
             label="Folder Name"
+            placeholder="Enter folder name"
             fullWidth
             value={newFolderName}
             onChange={handleNewFolderNameChange}

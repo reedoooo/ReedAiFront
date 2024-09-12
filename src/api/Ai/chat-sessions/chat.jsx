@@ -37,21 +37,6 @@ export const chatApi = {
         }),
         signal,
       });
-      // response = await fetch(
-      //   'http://localhost:3001/api/chat/v1/stream',
-      //   {
-      //     sessionId,
-      //     chatId,
-      //     prompt,
-      //     userId,
-      //     clientApiKey,
-      //     role,
-      //     stream: true,
-      //   },
-      //   signal
-      //   // filePath
-      // );
-      // console.log('data', response.body);
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
         console.log('Request aborted:', error.message);
@@ -98,6 +83,7 @@ export const chatApi = {
             try {
               const json = JSON.parse(data);
               const text = json.content;
+              console.log('Received message:', text);
               const queue = encoder.encode(text);
               // console.log('received queue', queue);
               controller.enqueue(queue);
@@ -115,7 +101,17 @@ export const chatApi = {
       },
     });
   },
-
+  getChatSessionMessages: async props => {
+    const { sessionId } = props;
+    console.log('SESSION ID:', sessionId);
+    try {
+      const data = await apiUtils.get(`/chat/sessions/${sessionId}/messages`);
+      return data;
+    } catch (error) {
+      console.error(`Error fetching messages for chat session with id:`, error);
+      throw error;
+    }
+  },
   // getStreamCompletionWithFile: async function fetchMessageStream({
   //   sessionId,
   //   workspaceId,

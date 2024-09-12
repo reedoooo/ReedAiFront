@@ -13,8 +13,8 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import RCDialogRoot from './RCDialogRoot';
+
 /**
  * A customizable dialog component.
  *
@@ -85,12 +85,43 @@ export const RCDialog = React.forwardRef(
         onClose={onClose}
         // onEnter={onOpen}
         TransitionComponent={transition === 'slide' ? Slide : undefined}
+        sx={{
+          '& .MuiDialog-paper': {
+            backgroundColor: '#1a1a1a',
+            color: '#fff',
+            borderRadius: '8px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          },
+          '& .MuiDialogTitle-root': {
+            borderBottom: '1px solid #333',
+          },
+          '& .MuiDialogContentText-root': {
+            color: '#ccc',
+          },
+          '& .MuiTextField-root': {
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#555',
+              },
+              '&:hover fieldset': {
+                borderColor: '#777',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#999',
+              },
+              '& input': {
+                color: '#fff',
+              },
+            },
+          },
+        }}
         {...rest}
       >
         {title && (
           <DialogTitle
             sx={{
-              color: 'text.primary',
+              // color: 'text.primary',
+              color: '#ccc',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
@@ -108,7 +139,13 @@ export const RCDialog = React.forwardRef(
             </IconButton>
           </DialogTitle>
         )}
-        <DialogContent sx={{ color: 'text.primary' }}>
+        <DialogContent
+          sx={{
+            color: 'text.primary',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
           {subtitle && (
             <>
               <DialogContentText>{subtitle}</DialogContentText>
@@ -118,7 +155,20 @@ export const RCDialog = React.forwardRef(
           {content && <Box>{content}</Box>}
           {children}
         </DialogContent>
-        <DialogActions>{actions}</DialogActions>
+        <DialogActions
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            gap: '10px',
+            '& button': {
+              padding: '10px 15px',
+              cursor: 'pointer',
+              color: '#fff',
+            },
+          }}
+        >
+          {actions}
+        </DialogActions>
       </Dialog>
     </RCDialogRoot>
   )
@@ -126,7 +176,13 @@ export const RCDialog = React.forwardRef(
 RCDialog.displayName = 'RCDialog';
 // Typechecking props for the RCDialog
 RCDialog.propTypes = {
-  variant: PropTypes.oneOf(['contained', 'gradient', 'dashboard', 'none']),
+  variant: PropTypes.oneOf([
+    'contained',
+    'gradient',
+    'dashboard',
+    'none',
+    'darkMode',
+  ]),
   bgColor: PropTypes.string,
   color: PropTypes.string,
   borderRadius: PropTypes.string,

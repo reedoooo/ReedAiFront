@@ -1,5 +1,15 @@
 /* eslint-disable react/no-children-prop */
-import { Box, Typography, IconButton, TextField } from '@mui/material';
+import {
+  Box,
+  Typography,
+  IconButton,
+  TextField,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FaCopy, FaSave } from 'react-icons/fa';
@@ -7,10 +17,75 @@ import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import gfm from 'remark-gfm';
+import { RCDialog } from 'components/themed';
+export function SaveSnippetDialog({
+  openDialog,
+  handleCloseDialog,
+  snippetName,
+  setSnippetName,
+  saveSnippet,
+}) {
+  return (
+    <RCDialog
+      open={openDialog}
+      onClose={handleCloseDialog}
+      title="Save Code Snippet"
+      subtitle="Enter the name for your code snippet below."
+      actions={
+        <>
+          <Button onClick={handleCloseDialog} sx={{ color: '#fff' }}>
+            Cancel
+          </Button>
+          <Button
+            onClick={saveSnippet}
+            variant="contained"
+            sx={{ backgroundColor: '#555', color: '#fff' }}
+          >
+            Save
+          </Button>
+        </>
+      }
+    >
+      <TextField
+        margin="dense"
+        id="name"
+        label="Snippet Name"
+        type="text"
+        fullWidth
+        variant="outlined"
+        value={snippetName}
+        onChange={e => setSnippetName(e.target.value)}
+        sx={{
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: '#555',
+            },
+            '&:hover fieldset': {
+              borderColor: '#777',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: '#999',
+            },
+            '& input': {
+              color: '#fff',
+            },
+            '& input::placeholder': {
+              color: '#888',
+              opacity: 1,
+            },
+          },
+        }}
+      />
+    </RCDialog>
+  );
+}
 export const RenderContent = ({ content, sender, maxWidth }) => {
   const [copied, setCopied] = useState(false);
   const [snippets, setSnippets] = useState([]);
   const [snippetName, setSnippetName] = useState('');
+  const [openDialog, setOpenDialog] = useState(false);
+  const [currentCode, setCurrentCode] = useState('');
+  const [currentLanguage, setCurrentLanguage] = useState('');
 
   useEffect(() => {
     const storedSnippets = localStorage.getItem('codeSnippets');
@@ -18,18 +93,34 @@ export const RenderContent = ({ content, sender, maxWidth }) => {
       setSnippets(JSON.parse(storedSnippets));
     }
   }, []);
-  const saveSnippet = (code, language) => {
+
+  const handleOpenDialog = (code, language) => {
+    setCurrentCode(code);
+    setCurrentLanguage(language);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSnippetName('');
+  };
+
+  const saveSnippet = () => {
     if (snippetName.trim() === '') {
       alert('Please enter a name for the snippet');
       return;
     }
-
-    const newSnippet = { name: snippetName, code, language };
+    const newSnippet = {
+      name: snippetName,
+      code: currentCode,
+      language: currentLanguage,
+    };
     const updatedSnippets = [...snippets, newSnippet];
     setSnippets(updatedSnippets);
     localStorage.setItem('codeSnippets', JSON.stringify(updatedSnippets));
     setSnippetName('');
     alert('Snippet saved successfully!');
+    handleCloseDialog();
   };
 
   function codeBlock({ node, inline, className, children, ...props }) {
@@ -74,17 +165,9 @@ export const RenderContent = ({ content, sender, maxWidth }) => {
             {match[1]}
           </Typography>
           <Box>
-            <TextField
-              size="small"
-              variant="outlined"
-              placeholder="Snippet name"
-              value={snippetName}
-              onChange={e => setSnippetName(e.target.value)}
-              sx={{ mr: 1, input: { color: '#fff' } }}
-            />
             <IconButton
               size="small"
-              onClick={() => saveSnippet(value, match[1])}
+              onClick={() => handleOpenDialog(value, match[1])}
             >
               <FaSave />
             </IconButton>
@@ -145,6 +228,13 @@ export const RenderContent = ({ content, sender, maxWidth }) => {
         children={content}
         remarkPlugins={[gfm]}
         components={renderers}
+      />
+      <SaveSnippetDialog
+        openDialog={openDialog}
+        handleCloseDialog={handleCloseDialog}
+        snippetName={snippetName}
+        setSnippetName={setSnippetName}
+        saveSnippet={saveSnippet}
       />
     </Box>
   );

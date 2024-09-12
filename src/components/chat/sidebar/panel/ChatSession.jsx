@@ -1,7 +1,9 @@
 import { Box, Menu, MenuItem, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { FaSignOutAlt } from 'react-icons/fa';
+import { chatApi } from 'api/Ai/chat-sessions';
+import { workspacesApi } from 'api/workspaces';
 import { ExportOptions } from 'components/chat/styled';
 import { RCTabs } from 'components/themed';
 import { useChatStore } from 'contexts/ChatProvider';
@@ -9,48 +11,76 @@ import { useChatHandler } from 'hooks/chat';
 import { ConversationTab, SessionSettings } from './items';
 import FileManagementSidebar from './items/sidebar-items/FileManager';
 
-const ConversationMenu = ({
-  anchorEl,
-  handleMenuClose,
-  handleExportJSON,
-  handleDeleteConversation,
-}) => (
-  <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-    <MenuItem onClick={handleMenuClose}>View Info</MenuItem>
-    <MenuItem onClick={handleExportJSON}>Export as JSON</MenuItem>
-    <MenuItem onClick={handleDeleteConversation}>Delete</MenuItem>
-  </Menu>
-);
 export const ChatSession = props => {
   const { folders = [], data = {}, title = '', files = [] } = props;
-  const chatStore = useChatStore();
   const {
-    state: { messages },
+    state: { messages, selectedChatSession },
     actions: { setMessages },
-  } = chatStore;
-  const { handleGetSessionMessages } = useChatHandler(messages, setMessages);
+  } = useChatStore();
+  const { handleGetSessionMessages, handleGetSession } = useChatHandler(
+    messages,
+    setMessages
+  );
   const [tab, setTab] = useState(0);
-  const [conversations, setConversations] = useState(null);
-  const [conversationMessages, setConversationMessages] = useState(null);
-  const [selectedConversation, setSelectedConversation] = useState(null);
+  const [sessions, setSessions] = useState(null);
+  const [selectedSession, setSelectedSession] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [infoAnchorEl, setInfoAnchorEl] = useState(null);
-  const userSession = JSON.parse(localStorage.getItem('userStore'));
-  const baseChat = JSON.parse(localStorage.getItem('baseChatStore'));
-  const chatSessionStore = JSON.parse(localStorage.getItem('chatSessionStore'));
-  const activeSessionId = chatSessionStore?.sessionId;
-  const chatSessions = userSession?.user?.chatSessions;
-
+  const workspaceId = JSON.parse(sessionStorage.getItem('workspaceId'));
+  const userId = JSON.parse(sessionStorage.getItem('userId'));
+  // Fetch folders and files concurrently
+  const fetchSessions = useCallback(async () => {
+    try {
+      const chatSessions =
+        await workspacesApi.getWorkspaceSessionsByWorkspaceId({
+          workspaceId,
+          userId,
+        });
+      console.log('chatSessions', chatSessions);
+      setSessions(
+        chatSessions?.map(session => ({
+          ...session,
+          name: session.name,
+          messages: session.messages,
+          summary: session.summary,
+          topic: session.topic,
+          model: session.model,
+          stats: session.stats,
+          settings: session.settings,
+          langChainSettings: session.langChainSettings,
+        }))
+      );
+      // setSelectedSession(chatSessions[0]);
+    } catch (error) {
+      console.error('Error fetching sessions:', error);
+    }
+  }, [workspaceId, userId]);
+  // const fetchSessionMessages = useCallback(
+  //   async sessionId => {
+  //     try {
+  //       const sessionMessages = await chatApi.getChatSessionMessages(sessionId);
+  //       setMessages(sessionMessages);
+  //     } catch (error) {
+  //       console.error('Error fetching session messages:', error);
+  //     }
+  //   },
+  //   [setMessages]
+  // );
   useEffect(() => {
-    handleGetSessionMessages();
-  }, [handleGetSessionMessages]);
+    fetchSessions();
+  }, [fetchSessions]);
+
+  // useEffect(() => {
+  //   if (selectedSession) {
+  //     fetchSessionMessages(selectedSession.id);
+  //   }
+  // }, [selectedSession, fetchSessionMessages]);
 
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
   };
 
-  const handleMenuClick = (event, conversation) => {
-    setSelectedConversation(conversation);
+  const handleMenuClick = (event, chat) => {
+    setSelectedSession(chat);
     setAnchorEl(event.currentTarget);
   };
 
@@ -58,37 +88,8 @@ export const ChatSession = props => {
     setAnchorEl(null);
   };
 
-  const handleExportCSV = () => {
-    const options = {
-      filename: 'conversation_history',
-      fieldSeparator: ',',
-      quoteStrings: '"',
-      decimalSeparator: '.',
-      showLabels: true,
-      showTitle: false,
-      title: 'Conversation History',
-      useTextFile: false,
-      useBom: true,
-      useKeysAsHeaders: true,
-    };
-
-    // const csvExporter = new Export(options);
-    const csvExporter = new ExportOptions(options);
-    csvExporter.generateCsv(conversations);
-  };
-
-  const handleExportJSON = () => {
-    const jsonStr = JSON.stringify(conversations, null, 2);
-    const blob = new Blob([jsonStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'conversation_history.json';
-    a.click();
-  };
-
   const handleDeleteConversation = id => {
-    setConversations(conversations?.filter(conv => conv.id !== id));
+    setSessions(sessions?.filter(conv => conv.id !== id));
   };
   const tabs = [
     { label: 'List', value: 0 },
@@ -127,13 +128,12 @@ export const ChatSession = props => {
       </Box>
       {tab === 1 && (
         <ConversationTab
-          conversations={conversations}
-          selectedConversation={selectedConversation}
-          setSelectedConversation={setSelectedConversation}
-          handleMenuClick={handleMenuClick}
           anchorEl={anchorEl}
+          sessions={sessions}
+          selectedSession={selectedSession}
+          setSelectedSession={setSelectedSession}
+          handleMenuClick={handleMenuClick}
           handleMenuClose={handleMenuClose}
-          handleExportJSON={handleExportJSON}
           handleDeleteConversation={handleDeleteConversation}
         />
       )}

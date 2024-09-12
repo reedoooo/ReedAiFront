@@ -78,6 +78,7 @@ export const useChatHandler = (messages, setMessages) => {
   }, [sessionId, setMessages, syncChatMessages]);
   const handleGetSession = useCallback(async () => {
     try {
+      console.log('Fetching session data...');
       const response = await chatApi.getById(sessionId);
       // response returns an array of sessions so we need to get the first one
       const lastSession = response[0];
@@ -158,6 +159,135 @@ export const useChatHandler = (messages, setMessages) => {
       // Optionally handle the error with a user notification or similar
     }
   };
+  // const handleSendMessage = useCallback(async () => {
+  //   if (!userId) {
+  //     setError('Please login to continue');
+  //     toast.error('Please login to continue');
+  //     return;
+  //   }
+  //   if (!userInput.trim()) {
+  //     setError('Please enter your message.');
+  //     toast.error('Please enter your message.');
+  //     return;
+  //   }
+
+  //   setError('');
+  //   setLoading(true);
+  //   const userMessage = { role: 'user', content: userInput };
+  //   setMessages([...messages, userMessage]);
+  //   if (controllerRef.current) {
+  //     controllerRef.current.abort();
+  //   }
+  //   controllerRef.current = new AbortController();
+
+  //   const payload = {
+  //     sessionId: sessionId || 'id not provided',
+  //     workspaceId:
+  //       workspaceId ||
+  //       JSON.parse(sessionStorage.getItem('workspaceId')) ||
+  //       'id not provided',
+  //     prompt: userInput || 'No prompt provided',
+  //     userId: userId || 'id not provided',
+  //     clientApiKey: sessionStorage.getItem('apiKey') || 'key not provided',
+  //     role: 'user',
+  //     regenerate: isRegenerating,
+  //     signal: controllerRef.current.signal,
+  //     length: messageCount,
+  //   };
+
+  //   // setMessages(prevMessages => [...prevMessages, userMessage]);
+  //   clearInput();
+
+  //   const decoder = new TextDecoder('utf-8');
+  //   try {
+  //     const streamResponse = new Response(
+  //       await chatApi.getStreamCompletion(payload)
+  //     );
+  //     const reader = streamResponse.body.getReader();
+  //     let assistantMessage = { role: 'assistant', content: '' };
+
+  //     while (true) {
+  //       const { done, value } = await reader.read();
+  //       if (done) break;
+
+  //       const decodedValue = decoder.decode(value, { stream: true });
+  //       jsonBuffer += decodedValue;
+
+  //       try {
+  //         // Attempt to parse the accumulated JSON
+  //         const jsonChunk = JSON.parse(jsonBuffer);
+  //         jsonBuffer = ''; // Clear the buffer after successful parse
+
+  //         if (jsonChunk.content) {
+  //           assistantMessage.content += jsonChunk.content;
+  //           console.log('CONTENT:', assistantMessage.content);
+
+  //           setMessages(prevMessages => {
+  //             const newMessages = [...prevMessages];
+  //             const lastMessage = newMessages[newMessages.length - 1];
+  //             if (lastMessage && lastMessage.role === 'assistant') {
+  //               newMessages[newMessages.length - 1] = {
+  //                 ...lastMessage,
+  //                 content: assistantMessage.content,
+  //               };
+  //             } else {
+  //               newMessages.push({ ...assistantMessage });
+  //             }
+  //             return newMessages;
+  //           });
+  //         }
+  //       } catch (parseError) {
+  //         // If parsing fails, continue accumulating in the buffer
+  //         if (parseError instanceof SyntaxError) {
+  //           console.log('Incomplete JSON chunk, continuing to buffer');
+  //         } else {
+  //           console.error('Error parsing JSON chunk:', parseError);
+  //         }
+  //       }
+  //     }
+
+  //     // Handle any remaining data in the buffer
+  //     if (jsonBuffer) {
+  //       try {
+  //         const finalChunk = JSON.parse(jsonBuffer);
+  //         if (finalChunk.content) {
+  //           assistantMessage.content += finalChunk.content;
+  //           setMessages(prevMessages => {
+  //             const newMessages = [...prevMessages];
+  //             newMessages[newMessages.length - 1] = assistantMessage;
+  //             return newMessages;
+  //           });
+  //         }
+  //       } catch (finalParseError) {
+  //         console.error('Error parsing final JSON chunk:', finalParseError);
+  //       }
+  //     }
+
+  //     console.log('Assistant message:', assistantMessage);
+  //     localStorage.setItem('chatMessages', JSON.stringify(messages));
+
+  //     setMessageCount(prevCount => prevCount + 1);
+  //     setIsMessagesUpdated(false);
+  //   } catch (error) {
+  //     console.error('Error sending message:', error);
+  //     setError('An error occurred while sending the message.');
+  //   } finally {
+  //     clearInput();
+  //     setLoading(false);
+  //     jsonBuffer = ''; // Clear the buffer
+  //   }
+  // }, [
+  //   userId,
+  //   userInput,
+  //   setMessages,
+  //   messages,
+  //   sessionId,
+  //   workspaceId,
+  //   isRegenerating,
+  //   messageCount,
+  //   clearInput,
+  //   setIsMessagesUpdated,
+  // ]);
   const handleSendMessage = useCallback(async () => {
     if (!userId) {
       setError('Please login to continue');
@@ -183,13 +313,11 @@ export const useChatHandler = (messages, setMessages) => {
       sessionId: sessionId || 'id not provided',
       workspaceId:
         workspaceId ||
-        sessionStorage.getItem('workspaceId') ||
+        JSON.parse(sessionStorage.getItem('workspaceId')) ||
         'id not provided',
       prompt: userInput || 'No prompt provided',
       userId: userId || 'id not provided',
-      clientApiKey:
-        JSON.parse(localStorage.getItem('baseChatStore')).apiKey ||
-        'key not provided',
+      clientApiKey: sessionStorage.getItem('apiKey') || 'key not provided',
       role: 'user',
       regenerate: isRegenerating,
       signal: controllerRef.current.signal,
@@ -212,13 +340,17 @@ export const useChatHandler = (messages, setMessages) => {
         const { done, value } = await reader.read();
         if (done) break;
         const decodedValue = decoder.decode(value, { stream: true });
-        console.log('Decoded value:', decodedValue);
         assistantMessage.content += decodedValue;
+        console.log('CONTENT:', assistantMessage.content);
+
         setMessages(prevMessages => {
           const newMessages = [...prevMessages];
           const lastMessage = newMessages[newMessages.length - 1];
-          if (lastMessage && lastMessage.role === 'assistant') {
-            newMessages[newMessages.length - 1] = assistantMessage;
+          if (lastMessage?.role === 'assistant') {
+            newMessages[newMessages.length - 1] = {
+              ...lastMessage,
+              content: assistantMessage.content,
+            };
           } else {
             newMessages.push(assistantMessage);
           }
@@ -234,19 +366,12 @@ export const useChatHandler = (messages, setMessages) => {
       assistantMessage.content = data.content;
       console.log('Assistant message:', assistantMessage);
       localStorage.setItem('chatMessages', JSON.stringify(messages));
-      // setChatMessages(messages);
-      // const data = safeParse(
-      //   assistantMessage.content,
-      //   assistantMessage.content
-      // );
-      // assistantMessage.content = data.content;
       setMessages(prevMessages => {
         const newMessages = [...prevMessages];
         newMessages[newMessages.length - 1] = assistantMessage;
         return newMessages;
       });
-      setMessageCount(prevCount => prevCount + 1);
-
+      setMessageCount(prev => prev + 1);
       setIsMessagesUpdated(false);
     } catch (error) {
       console.error('Error sending message:', error);

@@ -37,6 +37,24 @@ export const workspacesApi = {
       throw error;
     }
   },
+  getWorkspaceSessionsByWorkspaceId: async props => {
+    const { workspaceId, userId } = props;
+    try {
+      const response = await apiUtils.get(
+        `/chat/workspaces/${encodeURIComponent(workspaceId)}/chatSessions`
+      );
+      console.log('RES', response);
+      console.log('CHATSESSIONS', response.chatSessions);
+      console.log('WORKSPACE', response.workspace);
+      return response.chatSessions;
+    } catch (error) {
+      console.error(
+        `Error fetching chat sessions for workspace ${workspaceId}:`,
+        error
+      );
+      throw error;
+    }
+  },
 
   /** Create a new workspace.
    * @param {Object} workspaceData - The workspace data to create (includes: name, description, profileContext, defaultSystemPrompt, defaultAssistantPrompt, defaultModel)

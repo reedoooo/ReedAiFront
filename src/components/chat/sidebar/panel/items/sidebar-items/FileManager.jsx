@@ -6,29 +6,19 @@ import {
   ExpandMore,
 } from '@mui/icons-material';
 import {
-  Typography,
-  IconButton,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Collapse,
-  Input,
+  IconButton,
 } from '@mui/material';
 import { styled } from '@mui/system';
-import { motion, AnimatePresence } from 'framer-motion';
 import _ from 'lodash';
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { attachmentsApi } from 'api/Ai/chat-sessions';
-import { foldersApi, workspacesApi } from 'api/workspaces';
 import {
   AnimatedList,
   AnimatedListItem,
@@ -60,131 +50,94 @@ const StyledListItem = styled(
   outline: isFocused ? '1px solid #FFFFFF' : 'none',
 }));
 
-const DraggableItem = ({
-  item,
-  path,
-  moveItem,
-  onHover,
-  onFocus,
-  onSelect,
-  isHovered,
-  isFocused,
-  isSelected,
-}) => {
-  const [{ isDragging }, drag] = useDrag({
-    type: 'ITEM',
-    item: { ...item, path },
-    collect: monitor => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
+const DraggableItem = React.memo(
+  ({
+    item,
+    path,
+    moveItem,
+    onHover,
+    onFocus,
+    onSelect,
+    isHovered,
+    isFocused,
+    isSelected,
+    toggleFolder,
+    expandedFolders,
+  }) => {
+    const [{ isDragging }, drag] = useDrag({
+      type: 'ITEM',
+      item: { ...item, path },
+      collect: monitor => ({
+        isDragging: monitor.isDragging(),
+      }),
+    });
 
-  const [, drop] = useDrop({
-    accept: 'ITEM',
-    hover(draggedItem) {
-      if (draggedItem.path === path) {
-        return;
+    const [, drop] = useDrop({
+      accept: 'ITEM',
+      hover(draggedItem) {
+        if (draggedItem.path === path) {
+          return;
+        }
+        moveItem(draggedItem.path, path);
+      },
+    });
+
+    const handleKeyDown = event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        onSelect(path);
       }
-      moveItem(draggedItem.path, path);
-    },
-  });
+    };
 
-  const handleKeyDown = event => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      onSelect(path);
-    }
-  };
+    return (
+      <div
+        ref={node => drag(drop(node))}
+        style={{
+          opacity: isDragging ? 0.5 : 1,
+          cursor: 'move',
+          display: 'inline-block',
+          width: '100%',
+        }}
+        onMouseEnter={() => onHover(path)}
+        onMouseLeave={() => onHover(null)}
+        onFocus={() => onFocus(path)}
+        onBlur={() => onFocus(null)}
+        onClick={() =>
+          item.type === 'folder' ? toggleFolder(item.id) : onSelect(path)
+        }
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+        role="button"
+        aria-pressed={isSelected}
+      >
+        <StyledListItem
+          isHovered={isHovered}
+          isFocused={isFocused}
+          isSelected={isSelected}
+        >
+          <ListItemIcon>
+            {item.type === 'folder' ? <FolderIcon /> : <FileIcon />}
+          </ListItemIcon>
+          <ListItemText primary={item.name} />
+          {item.type === 'folder' && (
+            <IconButton
+              onClick={e => {
+                e.stopPropagation();
+                toggleFolder(item.id);
+              }}
+            >
+              {expandedFolders[item.id] ? <ExpandLess /> : <ExpandMore />}
+            </IconButton>
+          )}
+        </StyledListItem>
+      </div>
+    );
+  }
+);
 
-  return (
-    <span
-      ref={node => drag(drop(node))}
-      style={{
-        opacity: isDragging ? 0.5 : 1,
-        cursor: 'move',
-        display: 'inline-block',
-        width: '100%',
-      }}
-      onMouseEnter={() => onHover(path)}
-      onMouseLeave={() => onHover(null)}
-      onFocus={() => onFocus(path)}
-      onBlur={() => onFocus(null)}
-      onClick={() => onSelect(path)}
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-      role="button"
-      aria-pressed={isSelected}
-    >
-      {item.name}
-    </span>
-  );
-};
-
-// const FileUploadTextField = ({
-//   value,
-//   onChange,
-//   fileInputRef,
-//   existingNames,
-//   handleFileUpload,
-// }) => {
-//   const handleTextFieldClick = () => {
-//     if (fileInputRef.current) {
-//       fileInputRef.current.click();
-//     }
-//   };
-
-//   return (
-//     <>
-//       <TextField
-//         fullWidth
-//         value={value}
-//         onClick={handleTextFieldClick}
-//         placeholder="Select a file"
-//         InputProps={{
-//           readOnly: true,
-//           endAdornment: (
-//             <Button
-//               variant="contained"
-//               component="span"
-//               onClick={handleTextFieldClick}
-//             >
-//               Upload
-//             </Button>
-//           ),
-//         }}
-//       />
-//       <input
-//         type="file"
-//         ref={fileInputRef}
-//         onChange={handleFileUpload}
-//         style={{ display: 'none' }}
-//       />
-//     </>
-//   );
-// };
+DraggableItem.displayName = 'DraggableItem';
 
 export const FileManagementSidebar = props => {
   const { initialFolders, initialFiles, space } = props;
-  const newFileDialog = useDialog();
-  const newFolderDialog = useDialog();
-  const [newFileName, setNewFileName] = useState('');
-  const [newFolderName, setNewFolderName] = useState('');
-  // const [fileStructure, setFileStructure] = useState([]);
-  const [expandedFolders, setExpandedFolders] = useState({});
-  const [hoveredItem, setHoveredItem] = useState(null);
-  const [focusedItem, setFocusedItem] = useState(null);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [fileToUpload, setFileToUpload] = useState(null);
-  const [folders, setFolders] = useState(initialFolders || []);
-  const [files, setFiles] = useState(initialFiles || []);
-
-  const [selectedFolderId, setSelectedFolderId] = useState('');
-  const [filesFromStorage, setFilesFromStorage] = useState([]);
-  const { handleSelectDeviceFile, fileInputRef } = useFileProcesser();
-  const {
-    actions: { addNewMessageFile, updateNewMessageFile },
-  } = useChatStore();
-  const [fileNameError, setFileNameError] = useState('');
-  const [folderNameError, setFolderNameError] = useState('');
   const {
     fileStructure,
     isLoading,
@@ -192,13 +145,30 @@ export const FileManagementSidebar = props => {
     refreshFileStructure,
     setFileStructure,
   } = useFileStructure(space);
+  const [expandedFolders, setExpandedFolders] = useState({});
+  const [hoveredItem, setHoveredItem] = useState(null);
+  const [focusedItem, setFocusedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [newFileName, setNewFileName] = useState('');
+  const [newFolderName, setNewFolderName] = useState('');
+  const [fileToUpload, setFileToUpload] = useState(null);
+  const newFileDialog = useDialog();
+  const newFolderDialog = useDialog();
+  const [files, setFiles] = useState(initialFiles || []);
+
+  const [selectedFolderId, setSelectedFolderId] = useState('');
+  const { handleSelectDeviceFile, fileInputRef } = useFileProcesser();
+  const {
+    actions: { addNewMessageFile, updateNewMessageFile },
+  } = useChatStore();
+  const [fileNameError, setFileNameError] = useState('');
+  const [folderNameError, setFolderNameError] = useState('');
   const validateName = useCallback(
     (name, type) => {
       const existingNames = fileStructure.map(item => item.name.toLowerCase());
-      if (existingNames.includes(name.toLowerCase())) {
-        return `A ${type} with this name already exists.`;
-      }
-      return '';
+      return existingNames.includes(name.toLowerCase())
+        ? `A ${type} with this name already exists.`
+        : '';
     },
     [fileStructure]
   );
@@ -206,7 +176,9 @@ export const FileManagementSidebar = props => {
   const handleNewFileNameChange = e => {
     const value = e.target.value;
     setNewFileName(value);
-    setFileNameError(value ? '' : 'File name is required');
+    setFileNameError(
+      value ? validateName(value, 'file') : 'File name is required'
+    );
   };
 
   const handleNewFolderNameChange = e => {
@@ -242,6 +214,9 @@ export const FileManagementSidebar = props => {
         if (parent && Array.isArray(parent.children)) {
           const index = parseInt(path[path.length - 1]);
           parent.children.splice(index, 1);
+        } else if (Array.isArray(structure)) {
+          const index = parseInt(path[path.length - 1]);
+          structure.splice(index, 1);
         }
       };
 
@@ -251,6 +226,9 @@ export const FileManagementSidebar = props => {
           if (!parent.children) parent.children = [];
           const index = parseInt(path[path.length - 1]);
           parent.children.splice(index, 0, item);
+        } else if (Array.isArray(structure)) {
+          const index = parseInt(path[path.length - 1]);
+          structure.splice(index, 0, item);
         }
       };
 
@@ -325,7 +303,8 @@ export const FileManagementSidebar = props => {
           { id: createdFile._id, name: createdFile.name, type: 'file' },
         ]);
 
-        newFolderDialog.handleClose();
+        refreshFileStructure();
+        newFileDialog.handleClose();
         setNewFileName('');
         setFileToUpload(null);
       } catch (error) {
@@ -341,69 +320,68 @@ export const FileManagementSidebar = props => {
         type: 'folder',
         itemType: [],
         items: [],
+        children: [],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        userId: 'default_user_id',
-        workspaceId: 'default_workspace_id',
-        space: 'default_space',
+        userId: JSON.parse(sessionStorage.getItem('userId')),
+        workspaceId: JSON.parse(sessionStorage.getItem('workspaceId')),
+        space: space.toLowerCase(),
         path: `/${newFolderName}`,
         level: 0,
       };
       setFileStructure(prev => [...prev, newFolder]);
-      handleCloseNewFolderDialog();
+      newFolderDialog.handleClose();
+      setNewFolderName('');
     }
   };
   const renderFileStructure = useCallback(
     (items, path = []) => {
       return items.map((item, index) => {
         if (!item) return null;
+        const isFolder = item.type === 'folder';
+        const isFolderExpanded = expandedFolders[item.id];
 
         const currentPath = [...path, index];
         const stringPath = currentPath.join('.');
-        const isFolderExpanded = expandedFolders[item.id];
-        const isFolder = item.type === 'folder';
 
         return (
-          <AnimatedListItem
-            key={item.id}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-          >
-            <StyledListItem
-              button
-              onClick={() => isFolder && toggleFolder(item.id)}
-              style={{ paddingLeft: `${path.length * 16}px` }}
-            >
-              <ListItemIcon>
-                {isFolder ? (
-                  <FolderIcon style={{ color: '#FFFFFF' }} />
-                ) : (
-                  <FileIcon style={{ color: '#FFFFFF' }} />
-                )}
-              </ListItemIcon>
-              <ListItemText primary={item.name} />
-              {isFolder &&
-                (isFolderExpanded ? (
-                  <ExpandLess style={{ color: '#FFFFFF' }} />
-                ) : (
-                  <ExpandMore style={{ color: '#FFFFFF' }} />
-                ))}
-            </StyledListItem>
-
+          <React.Fragment key={item.id}>
+            <DraggableItem
+              item={item}
+              path={stringPath}
+              moveItem={moveItem}
+              onHover={setHoveredItem}
+              onFocus={setFocusedItem}
+              onSelect={setSelectedItem}
+              isHovered={hoveredItem === stringPath}
+              isFocused={focusedItem === stringPath}
+              isSelected={selectedItem === stringPath}
+              toggleFolder={toggleFolder}
+              expandedFolders={expandedFolders}
+            />
             {isFolder && isFolderExpanded && item.children && (
               <Collapse in={isFolderExpanded} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
+                <List
+                  component="div"
+                  disablePadding
+                  style={{ paddingLeft: 16 }}
+                >
                   {renderFileStructure(item.children, currentPath)}
                 </List>
               </Collapse>
             )}
-          </AnimatedListItem>
+          </React.Fragment>
         );
       });
     },
-    [expandedFolders, toggleFolder]
+    [
+      expandedFolders,
+      hoveredItem,
+      focusedItem,
+      selectedItem,
+      moveItem,
+      toggleFolder,
+    ]
   );
 
   if (isLoading) {

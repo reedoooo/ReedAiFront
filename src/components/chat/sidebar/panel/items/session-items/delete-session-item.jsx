@@ -4,25 +4,28 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  TextField,
 } from '@mui/material';
 import { useRef, useState } from 'react';
-import { sessions as sessionApi } from 'api/chat';
+import { chatApi } from 'api/Ai/chat-sessions';
 import { useChatStore } from 'contexts/ChatProvider';
+import { useChatLogic } from 'hooks/chat';
+import { useHotkey } from 'hooks/util';
 
-export const UpdateChat = ({ chat }) => {
+export const DeleteChat = ({ chatSession }) => {
+  useHotkey('Backspace', () => setShowChatDialog(true));
   const chatStore = useChatStore();
   const { setChatSessions } = chatStore.actions;
+  const { handleNewChat } = useChatLogic();
   const buttonRef = useRef(null);
   const [showChatDialog, setShowChatDialog] = useState(false);
-  const [name, setName] = useState(chat.name);
 
-  const handleUpdateChat = async () => {
-    const updatedChat = await sessionApi.update(chat.id, { name });
+  const handleDeleteChat = async () => {
+    await chatApi.delete(chatSession._id);
     setChatSessions(prevState =>
-      prevState.map(c => (c.id === chat.id ? updatedChat : c))
+      prevState.filter(c => c.id !== chatSession._id)
     );
     setShowChatDialog(false);
+    handleNewChat();
   };
 
   const handleKeyDown = e => {
@@ -33,23 +36,17 @@ export const UpdateChat = ({ chat }) => {
 
   return (
     <Dialog open={showChatDialog} onClose={() => setShowChatDialog(false)}>
-      <DialogTitle>Edit Chat</DialogTitle>
+      <DialogTitle>Delete {chatSession.name}</DialogTitle>
       <DialogContent onKeyDown={handleKeyDown}>
-        <TextField
-          label="Name"
-          value={name}
-          onChange={e => setName(e.target.value)}
-          fullWidth
-        />
+        <div>Are you sure you want to delete this chat?</div>
       </DialogContent>
       <DialogActions>
         <Button onClick={() => setShowChatDialog(false)}>Cancel</Button>
-        <Button ref={buttonRef} onClick={handleUpdateChat}>
-          Save
+        <Button ref={buttonRef} onClick={handleDeleteChat} color="error">
+          Delete
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
-
-export default UpdateChat;
+export default DeleteChat;

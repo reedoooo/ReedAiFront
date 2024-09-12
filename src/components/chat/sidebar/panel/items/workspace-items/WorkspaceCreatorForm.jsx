@@ -163,7 +163,7 @@ export const WorkspaceCreatorForm = () => {
     >
       {/* <FormTitle label="Workspaces" /> */}
       {/* <Divider sx={{ color: '#ffffff', marginBottom: '5px' }} /> */}
-      <x
+      <TextFieldSection
         label="Name"
         value={name}
         onChange={setName}
@@ -411,30 +411,6 @@ export const WorkspaceCreatorForm = () => {
               height: '50%', // Reducing height by 50%
             }}
           />
-          {/* <label htmlFor="file-input" style={{ marginLeft: '10px' }}>
-            <input
-              id="file-input"
-              type="file"
-              accept="*"
-              style={{
-                display: 'none',
-              }}
-              onChange={handleFileChange} // You can define this function to handle file selection
-            />
-            <Button
-              component="span"
-              variant="outlined"
-              sx={{
-                color: '#ffffff',
-                borderColor: '#ffffff',
-                height: '50%', // Reducing height by 50%
-                width: '100%', // Adjusting width to fit the reduced height
-                padding: '4px 10px', // Adjust padding to fit the reduced height
-              }}
-            >
-              + Code
-            </Button>
-          </label> */}
         </Box>
       </FormGroup>
       <Divider sx={{ bgcolor: 'rgba(255, 255, 255, 0.12)', width: '100%' }} />

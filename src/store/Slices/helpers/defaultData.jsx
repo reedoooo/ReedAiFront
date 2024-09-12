@@ -470,119 +470,120 @@ export function defaultChatSessionStoreData() {
     // apiKey: '',
     sessionId: '',
     sessionHeader: '',
-    activeSession: {
-      sessionId: '',
-      topic: '',
-      id: '',
-      name: '',
-      summary: '',
-      systemPrompt: '',
-      assisstantPrompt: '',
-      isFirstPromptName: true,
-      messages: [],
-      files: [],
-      tools: [],
-      stats: {},
-      setting: {},
-    },
+    // activeSession: {
+    //   sessionId: '',
+    //   topic: '',
+    //   id: '',
+    //   name: '',
+    //   summary: '',
+    //   systemPrompt: '',
+    //   assisstantPrompt: '',
+    //   isFirstPromptName: true,
+    //   messages: [],
+    //   files: [],
+    //   tools: [],
+    //   stats: {},
+    //   setting: {},
+    // },
     chatSessions: [],
     selectedChatSession: {},
-    chatSession: {
-      stats: {
-        tokenUsage: 0,
-        messageCount: 0,
-      },
-      name: 'First Chat',
-      topic: 'Getting Started',
-      model: 'gpt-4-turbo-preview',
-      prompt: "Let's start our first conversation.",
-      active: true,
-      activeSessionId: null,
-      summary: null,
-      apiKey: '',
-      settings: {
-        maxTokens: 500,
-        temperature: 0.7,
-        model: 'gpt-4-turbo-preview',
-        topP: 1,
-        n: 1,
-        debug: false,
-        summarizeMode: false,
-      },
-      langChainSettings: {
-        maxTokens: 2000, // max length of the completion
-        temperature: 0.7,
-        modelName: '',
-        // streamUsage: true,
-        streaming: true,
-        openAIApiKey: '',
-        organization: 'reed_tha_human',
-        tools: [
-          {
-            type: 'function',
-            function: {
-              name: 'summarize_messages',
-              description:
-                'Summarize a list of chat messages with an overall summary and individual message summaries including their IDs',
-              parameters: {
-                type: 'object',
-                properties: {
-                  overallSummary: {
-                    type: 'string',
-                    description: 'An overall summary of the chat messages',
-                  },
-                  individualSummaries: {
-                    type: 'array',
-                    items: {
-                      type: 'object',
-                      properties: {
-                        id: {
-                          type: 'string',
-                          description: 'The ID of the chat message',
-                        },
-                        summary: {
-                          type: 'string',
-                          description:
-                            'A summary of the individual chat message',
-                        },
-                      },
-                      required: ['id', 'summary'],
-                    },
-                  },
-                },
-                required: ['overallSummary', 'individualSummaries'],
-              },
-            },
-          },
-          {
-            type: 'function',
-            function: {
-              name: 'fetchSearchResults',
-              description:
-                'Fetch search results for a given query using SERP API used to aid in being  PRIVATE INVESTIGATOR',
-              parameters: {
-                type: 'object',
-                properties: {
-                  query: {
-                    type: 'string',
-                    description: 'Query string to search for',
-                  },
-                },
-                required: ['query'],
-              },
-            },
-          },
-        ],
-        code_interpreter: 'auto',
-        function_call: 'auto',
-      },
-      messages: [],
-      tuning: {
-        debug: false,
-        summary: '',
-        summarizeMode: false,
-      },
-    },
+    currentChatSession: {},
+    // chatSession: {
+    //   stats: {
+    //     tokenUsage: 0,
+    //     messageCount: 0,
+    //   },
+    //   name: 'First Chat',
+    //   topic: 'Getting Started',
+    //   model: 'gpt-4-turbo-preview',
+    //   prompt: "Let's start our first conversation.",
+    //   active: true,
+    //   activeSessionId: null,
+    //   summary: null,
+    //   apiKey: '',
+    //   settings: {
+    //     maxTokens: 500,
+    //     temperature: 0.7,
+    //     model: 'gpt-4-turbo-preview',
+    //     topP: 1,
+    //     n: 1,
+    //     debug: false,
+    //     summarizeMode: false,
+    //   },
+    //   langChainSettings: {
+    //     maxTokens: 2000, // max length of the completion
+    //     temperature: 0.7,
+    //     modelName: '',
+    //     // streamUsage: true,
+    //     streaming: true,
+    //     openAIApiKey: '',
+    //     organization: 'reed_tha_human',
+    //     tools: [
+    //       {
+    //         type: 'function',
+    //         function: {
+    //           name: 'summarize_messages',
+    //           description:
+    //             'Summarize a list of chat messages with an overall summary and individual message summaries including their IDs',
+    //           parameters: {
+    //             type: 'object',
+    //             properties: {
+    //               overallSummary: {
+    //                 type: 'string',
+    //                 description: 'An overall summary of the chat messages',
+    //               },
+    //               individualSummaries: {
+    //                 type: 'array',
+    //                 items: {
+    //                   type: 'object',
+    //                   properties: {
+    //                     id: {
+    //                       type: 'string',
+    //                       description: 'The ID of the chat message',
+    //                     },
+    //                     summary: {
+    //                       type: 'string',
+    //                       description:
+    //                         'A summary of the individual chat message',
+    //                     },
+    //                   },
+    //                   required: ['id', 'summary'],
+    //                 },
+    //               },
+    //             },
+    //             required: ['overallSummary', 'individualSummaries'],
+    //           },
+    //         },
+    //       },
+    //       {
+    //         type: 'function',
+    //         function: {
+    //           name: 'fetchSearchResults',
+    //           description:
+    //             'Fetch search results for a given query using SERP API used to aid in being  PRIVATE INVESTIGATOR',
+    //           parameters: {
+    //             type: 'object',
+    //             properties: {
+    //               query: {
+    //                 type: 'string',
+    //                 description: 'Query string to search for',
+    //               },
+    //             },
+    //             required: ['query'],
+    //           },
+    //         },
+    //       },
+    //     ],
+    //     code_interpreter: 'auto',
+    //     function_call: 'auto',
+    //   },
+    //   messages: [],
+    //   tuning: {
+    //     debug: false,
+    //     summary: '',
+    //     summarizeMode: false,
+    //   },
+    // },
     chatSessionRequest: {
       isFetching: false,
       error: null,

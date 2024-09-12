@@ -9,47 +9,22 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { motion } from 'framer-motion';
-import React, { useState, useEffect } from 'react';
-import { StyledButton } from 'components/chat/styled';
-import { TextFieldSection } from 'components/themed';
+import React, { useState } from 'react';
+import { settingsApi } from 'api/Ai/chat-items';
 
-export const PromptSuggest = ({ theme, prompts, setPrompts }) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [newPrompt, setNewPrompt] = useState({ title: '', content: '' });
-  const [openPromptIndex, setOpenPromptIndex] = useState(null);
+export const PromptSuggest = ({ theme, onImport, prompts, setPrompts }) => {
   const [downloadURL, setDownloadURL] = useState('');
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleInputChange = e => {
-    const { name, value } = e.target;
-    setNewPrompt(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleAddPrompt = () => {
-    if (newPrompt.title && newPrompt.content) {
-      setPrompts(prev => [...prev, newPrompt]);
-      setNewPrompt({ title: '', content: '' });
-    }
-  };
-
-  const handleToggle = index => {
-    setOpenPromptIndex(openPromptIndex === index ? null : index);
-  };
-
-  const changeShowModal = (action, prompt) => {
-    // Implement modal logic here
-  };
-
   const downloadPromptTemplate = async () => {
     try {
-      const response = await fetch(downloadURL);
-      const data = await response.json();
-      // Process the downloaded data
-      console.log(data);
-      // You might want to add the downloaded prompts to your existing prompts
-      // setPrompts(prev => [...prev, ...data]);
+      const response = await settingsApi.downloadPromptTemplate(downloadURL);
+      onImport(JSON.stringify(response));
     } catch (error) {
       console.error('Error downloading prompt template:', error);
+      alert(
+        'Error downloading prompt template. Please check the URL and try again.'
+      );
     }
   };
 
@@ -72,22 +47,17 @@ export const PromptSuggest = ({ theme, prompts, setPrompts }) => {
       url: '#',
       downloadUrl: '/prompts/writing.json',
     },
-    // Add more categories as needed
+    {
+      key: 'awesome-chatgpt-prompts-en',
+      desc: 'ChatGPT English Prompts',
+      downloadUrl: '/static/awesome-chatgpt-prompts-en.json',
+      url: 'https://github.com/f/awesome-chatgpt-prompts',
+    },
   ];
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        justifyContent: 'space-between',
-      }}
-    >
+    <Box>
       <Typography variant="h6">Suggested Prompts</Typography>
-      <StyledButton onClick={downloadPromptTemplate}>
-        Get Suggested Prompts
-      </StyledButton>
       <motion.div layout>
         <Box p={2}>
           <Typography variant="body2">
@@ -96,12 +66,11 @@ export const PromptSuggest = ({ theme, prompts, setPrompts }) => {
           </Typography>
           <Grid container spacing={2} alignItems="center" mt={2}>
             <Grid item xs={isMobile ? 12 : 10}>
-              <TextFieldSection
-                label="Download URL"
+              <TextField
+                fullWidth
                 value={downloadURL}
                 onChange={e => setDownloadURL(e.target.value)}
-                variant="darkMode"
-                fullWidth
+                placeholder="Enter a valid JSON URL"
               />
             </Grid>
             <Grid item xs={isMobile ? 12 : 2}>
@@ -129,10 +98,10 @@ export const PromptSuggest = ({ theme, prompts, setPrompts }) => {
             {PromptRecommend.map(info => (
               <Card
                 key={info.key}
-                title={info.key}
                 sx={{ flex: isMobile ? '1 0 100%' : '1 0 30%' }}
                 variant="outlined"
               >
+                <Typography variant="h6">{info.key}</Typography>
                 <Typography variant="body2">{info.desc}</Typography>
                 <Box display="flex" justifyContent="flex-end">
                   <Button

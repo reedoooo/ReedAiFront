@@ -83,11 +83,23 @@ export const MainChat = () => {
   const { scrollToBottom, setIsAtBottom } = useChatScroll();
   const [error, setError] = useState(chatError);
   const [loading, setLoading] = useState(chatLoading);
+  const [systemMessage, setSystemMessage] = useState(null);
   const initializationAttempted = useRef(false);
   const [isEditorActive, setIsEditorActive] = useState(false);
   const [isFirstMessage, setIsFirstMessage] = useState(true);
   const controllerRef = useRef(null);
   const editorActiveRef = useRef(false);
+  /* --- fn() to handle the system message --- */
+  useEffect(() => {
+    if (error) {
+      setSystemMessage({
+        role: 'system',
+        content: `Error: ${error}`,
+      });
+    } else {
+      setSystemMessage(null);
+    }
+  }, [error]);
   /* --- fn() to handle the focus of the chat input --- */
   useEffect(() => {
     if (promptsMenu.isOpen && sidebarItemRef.current) {
@@ -270,13 +282,26 @@ export const MainChat = () => {
             >
               <div ref={messagesStartRef} />
               <MessageBox messages={messages} />
+              {systemMessage && (
+                <MessageBox
+                  message={{
+                    role: 'system',
+                    content: systemMessage.content,
+                  }}
+                />
+              )}
+              {loading && (
+                <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
+                  <CircularProgress />
+                </Box>
+              )}
               <div ref={messagesEndRef} />
-              {error && (
+              {/* {error && (
                 <Typography color="error" variant="body2">
                   {error}
                 </Typography>
               )}
-              {loading && <CircularProgress />}
+              {loading && <CircularProgress />} */}
             </Box>
             <MessageInput
               theme={theme}
