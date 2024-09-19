@@ -18,24 +18,20 @@ import {
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { InfoOutlinedIcon, SettingsIcon } from 'assets/humanIcons';
-import { WorkspaceCreatorContainer } from 'components/chat/styled';
 import { IconButtonWithTooltip } from 'components/compositions';
 import {
+  FormSectionLabel,
   RCFileInputButton,
+  ReusableSwitchControl,
   SliderFieldSection,
   TextAreaAutosizeSection,
   TextFieldSection,
 } from 'components/themed';
-import {
-  FormSectionLabel,
-  FormTitle,
-} from 'components/themed/HumanUi/RCComposables/container-components';
 import { DEFAULT_APP_DATA } from 'config/app-data-configs';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useUserStore } from 'contexts/UserProvider';
 import { useChatHandler, useDialog, useMode } from 'hooks';
 import { PresetSelect } from '../preset-items';
-import { ReusableSwitchControl } from '../shared-items';
 
 const marks = [
   { value: 0, label: '0' },

@@ -2,17 +2,7 @@ import { Box } from '@mui/material';
 import { StyledButton } from 'components/chat/styled';
 import { TextAreaAutosizeSection, TextFieldSection } from 'components/themed';
 
-export const PromptForm = ({
-  fileName,
-  setFileName,
-  fileContent,
-  setFileContent,
-  fileRole,
-  setFileRole,
-  fileDescription,
-  setFileDescription,
-  isEdit = false,
-}) => (
+export const PromptForm = ({ promptData, setPromptData, isEdit = false }) => (
   <Box
     sx={{
       display: 'flex',
@@ -23,9 +13,11 @@ export const PromptForm = ({
   >
     <Box sx={{ mt: 2 }}>
       <TextFieldSection
-        label="File Name"
-        value={fileName}
-        onChange={e => setFileName(e.target.value)}
+        label="Name"
+        value={promptData.name}
+        onChange={e =>
+          setPromptData(prev => ({ ...prev, name: e.target.value }))
+        }
         variant="darkMode"
         fullWidth
       />
@@ -36,15 +28,19 @@ export const PromptForm = ({
         minRows={10}
         placeholder="Enter your prompt here..."
         variant="darkMode"
-        value={fileContent}
-        onChange={e => setFileContent(e.target.value)}
+        value={promptData.content}
+        onChange={e =>
+          setPromptData(prev => ({ ...prev, content: e.target.value }))
+        }
       />
     </Box>
     <Box sx={{ mt: 2 }}>
       <TextFieldSection
         label="Role"
-        value={fileRole}
-        onChange={e => setFileRole(e.target.value)}
+        value={promptData.role}
+        onChange={e =>
+          setPromptData(prev => ({ ...prev, role: e.target.value }))
+        }
         variant="darkMode"
         fullWidth
       />
@@ -55,8 +51,10 @@ export const PromptForm = ({
         minRows={10}
         placeholder="Enter a description for your prompt..."
         variant="darkMode"
-        value={fileDescription}
-        onChange={e => setFileDescription(e.target.value)}
+        value={promptData.description}
+        onChange={e =>
+          setPromptData(prev => ({ ...prev, description: e.target.value }))
+        }
       />
     </Box>
     {/* <Box>

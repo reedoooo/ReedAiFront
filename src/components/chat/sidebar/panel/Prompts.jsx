@@ -1,39 +1,16 @@
 import { Box, IconButton, Typography, useMediaQuery } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { FaSave } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 import { settingsApi } from 'api/Ai/chat-items';
 import { attachmentsApi } from 'api/Ai/chat-sessions';
 import { RCTabs } from 'components/themed';
 import { useChatStore } from 'contexts/ChatProvider';
-import { useCopyToClipboard, useMode } from 'hooks';
+import { useMode } from 'hooks';
+import useFileStructure from 'hooks/chat/useFileStructure';
+import { useTabManager } from 'hooks/chat/useTabManager';
 import { AddPrompt, EditPrompt, PromptSuggest } from './items';
 import FileManagementSidebar from './items/sidebar-items/FileManager';
-
-// const addCustomPrompt = async (name, content) => {
-//   const url = 'http://localhost:3001/api/chat/files/add/prompt'; // Replace with your actual endpoint
-
-//   try {
-//     const response = await fetch(url, {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify({ name, content }),
-//     });
-
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! Status: ${response.status}`);
-//     }
-
-//     const result = await response.json();
-//     console.log('Prompt added successfully:', result);
-//     // Optionally, you can update your state or local storage here if needed
-//   } catch (error) {
-//     console.error('Error adding custom prompt:', error);
-//   }
-// };
 
 export const Prompts = props => {
   const {
@@ -48,15 +25,19 @@ export const Prompts = props => {
   const {
     actions: { setPrompts, setSelectedPrompt },
   } = useChatStore();
+  const {
+    fileStructure,
+    isLoading: fileStructureLoading = false,
+    error,
+    refreshFileStructure,
+    setFileStructure,
+  } = useFileStructure(title.toLowerCase());
+  const { activeTabs, selectedTab, selectTab } = useTabManager('prompts');
+
   const [promptFiles, setPromptFiles] = useState(null);
   const [localPrompts, setLocalPrompts] = useState(data || []);
-  const [newPrompt, setNewPrompt] = useState({
-    name: '',
-    content: '',
-    role: '',
-    description: '',
-  });
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(fileStructureLoading);
+  const [editingPrompt, setEditingPrompt] = useState(null);
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
@@ -64,7 +45,19 @@ export const Prompts = props => {
       setIsLoading(true);
       try {
         const jsonPrompts = await settingsApi.getPromptFiles();
-        setPromptFiles(jsonPrompts);
+        setPromptFiles(
+          jsonPrompts.map(file => {
+            return {
+              userId: sessionStorage.getItem('userId'),
+              workspaceId: sessionStorage.getItem('workspaceId'),
+              folderId: folderId,
+              name: file.name,
+              content: file.content,
+              role: file.role,
+              description: file.description,
+            };
+          })
+        );
         setLocalPrompts(jsonPrompts);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -75,31 +68,94 @@ export const Prompts = props => {
     fetchData();
   }, []);
 
-  const handleAddPrompt = async () => {
-    if (
-      newPrompt.name &&
-      newPrompt.content &&
-      newPrompt.role &&
-      newPrompt.description
-    ) {
-      try {
-        const promptData = {
-          name: newPrompt.name,
-          content: newPrompt.content,
-          role: newPrompt.role,
-          description: newPrompt.description,
-        };
-        console.log('Adding prompt:', promptData);
-        const savedPrompt = await settingsApi.createPrompt(promptData);
-        const updatedPrompts = [...localPrompts, savedPrompt];
-        setLocalPrompts(updatedPrompts);
-        setPrompts(updatedPrompts);
-        localStorage.setItem('customPrompts', JSON.stringify(updatedPrompts));
-        setNewPrompt({ name: '', content: '', role: '', description: '' });
-      } catch (error) {
-        console.error('Failed to add prompt:', error);
+  const handleSavePrompt = async promptData => {
+    try {
+      let savedPrompt;
+      if (editingPrompt) {
+        savedPrompt = await settingsApi.updatePrompt({
+          id: editingPrompt.id,
+          userId: JSON.parse(sessionStorage.getItem('userId')),
+          workspaceId: JSON.parse(sessionStorage.getItem('workspaceId')),
+          folderId: folderId,
+          name: promptData.name,
+          content: promptData.content,
+          role: promptData.role,
+          description: promptData.description,
+        });
+      } else {
+        savedPrompt = await settingsApi.createPrompt({
+          // id: editingPrompt.id,
+          userId: JSON.parse(sessionStorage.getItem('userId')),
+          workspaceId: JSON.parse(sessionStorage.getItem('workspaceId')),
+          folderId: folders[0].id,
+          name: promptData.name,
+          content: promptData.content,
+          role: promptData.role,
+          description: promptData.description,
+        });
       }
+
+      const updatedPrompts = editingPrompt
+        ? localPrompts.map(p => (p.id === editingPrompt.id ? savedPrompt : p))
+        : [...localPrompts, savedPrompt];
+
+      setLocalPrompts(updatedPrompts);
+      setPrompts(updatedPrompts);
+      localStorage.setItem('customPrompts', JSON.stringify(updatedPrompts));
+
+      await uploadPromptAsFile(savedPrompt);
+
+      setEditingPrompt(null);
+      setTab(0); // Return to list view
+    } catch (error) {
+      console.error('Failed to save prompt:', error);
     }
+  };
+
+  const uploadPromptAsFile = async promptData => {
+    try {
+      const fileContent = JSON.stringify(promptData);
+      const fileName = `${promptData.name}.json`;
+      const fileBlob = new Blob([fileContent], { type: 'application/json' });
+      const fileToUpload = new File([fileBlob], fileName, {
+        type: 'application/json',
+      });
+      const firstFolder = fileStructure.find(item => item.type === 'folder');
+      const promptFolderId = firstFolder ? firstFolder.id : null;
+      const uploadedFile = await attachmentsApi.uploadFile(fileToUpload, {
+        name: fileName,
+        userId: JSON.parse(sessionStorage.getItem('userId')),
+        workspaceId: JSON.parse(sessionStorage.getItem('workspaceId')),
+        folderId: promptFolderId,
+        fileId: 'local',
+        space: 'prompts',
+        contentType: 'application/json',
+        size: fileToUpload.size,
+      });
+
+      const newFile = {
+        ...uploadedFile,
+        id: uploadedFile._id,
+        name: fileName,
+        type: 'prompts',
+        space: 'prompts',
+        path: uploadedFile.path,
+      };
+
+      const createdFile = await attachmentsApi.createFile(newFile);
+
+      console.log('Prompt uploaded as file:', createdFile);
+
+      // setFileStructure(prev => [...prev, { id: createdFile._id, name: createdFile.name, type: 'file' }]);
+      refreshFileStructure();
+    } catch (error) {
+      console.error('Error uploading prompt as file:', error);
+    }
+  };
+
+  const handleEditPrompt = prompt => {
+    setEditingPrompt(prompt);
+    setTab(2); // Switch to edit tab
   };
 
   const handleImportPromptTemplate = jsonData => {
@@ -138,29 +194,42 @@ export const Prompts = props => {
     URL.revokeObjectURL(url);
   };
 
-  const downloadPromptTemplate = async () => {
-    try {
-      const response = await fetch('/static/chatgpt-prompts-custom.json');
-      const jsonData = await response.json();
-      handleImportPromptTemplate(jsonData);
-    } catch (error) {
-      console.error('Error downloading prompt template:', error);
-      alert('Network error or invalid JSON file');
-    }
-  };
-
   const ErrorFallback = ({ error }) => (
     <div>
       <h2>Something went wrong:</h2>
       <pre>{error.message}</pre>
     </div>
   );
-  const tabs = [
-    { label: 'List', value: 0 },
-    { label: 'Add Prompt', value: 1 },
-    { label: 'Edit Prompt', value: 2 },
-    { label: 'Prompt Suggest', value: 3 },
-  ];
+
+  const renderContent = () => {
+    switch (selectedTab) {
+      case 0:
+        return (
+          <FileManagementSidebar
+            initialFolders={folders}
+            initialFiles={files}
+            space={title}
+            onEditPrompt={handleEditPrompt}
+          />
+        );
+      case 1:
+        return <AddPrompt onSave={handleSavePrompt} />;
+      case 2:
+        return (
+          <EditPrompt prompt={editingPrompt} onUpdate={handleSavePrompt} />
+        );
+      case 3:
+        return (
+          <PromptSuggest
+            prompts={localPrompts}
+            setPrompts={setLocalPrompts}
+            onImport={handleImportPromptTemplate}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <>
@@ -174,64 +243,15 @@ export const Prompts = props => {
       </Box>
 
       <RCTabs
-        value={tab}
-        onChange={(e, newValue) => setTab(newValue)}
-        tabs={tabs}
+        value={selectedTab}
+        onChange={(e, newValue) => selectTab(newValue)}
+        tabs={activeTabs}
         variant="darkMode"
       />
       <Box mt={2} display="flex" flexDirection={isMobile ? 'column' : 'row'}>
-        {' '}
-        {/* <SidebarCreateButtons contentType={'files'} hasData={data.length > 0} /> */}
-        {tab === 0 && (
-          <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <FileManagementSidebar
-              initialFolders={folders}
-              initialFiles={files}
-              space={title}
-            />
-          </ErrorBoundary>
-        )}
-        {tab === 1 && (
-          <AddPrompt
-            fileName={newPrompt.name}
-            fileContent={newPrompt.content}
-            fileRole={newPrompt.role}
-            fileDescription={newPrompt.description}
-            setFileName={name => setNewPrompt(prev => ({ ...prev, name }))}
-            setFileContent={content =>
-              setNewPrompt(prev => ({ ...prev, content }))
-            }
-            setFileRole={role => setNewPrompt(prev => ({ ...prev, role }))}
-            setFileDescription={description =>
-              setNewPrompt(prev => ({ ...prev, description }))
-            }
-            onSave={handleAddPrompt}
-          />
-        )}
-        {tab === 2 && (
-          <EditPrompt
-            fileName={newPrompt.name}
-            fileContent={newPrompt.content}
-            fileRole={newPrompt.role}
-            fileDescription={newPrompt.description}
-            setFileName={name => setNewPrompt(prev => ({ ...prev, name }))}
-            setFileContent={content =>
-              setNewPrompt(prev => ({ ...prev, content }))
-            }
-            setFileRole={role => setNewPrompt(prev => ({ ...prev, role }))}
-            setFileDescription={description =>
-              setNewPrompt(prev => ({ ...prev, description }))
-            }
-            onUpdate={handleAddPrompt}
-          />
-        )}
-        {tab === 3 && (
-          <PromptSuggest
-            prompts={localPrompts}
-            setPrompts={setLocalPrompts}
-            onImport={handleImportPromptTemplate}
-          />
-        )}
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          {renderContent()}
+        </ErrorBoundary>
       </Box>
     </>
   );

@@ -11,6 +11,7 @@ import {
 import { MdInfoOutline } from 'react-icons/md';
 import { InfoOutlinedIcon } from 'assets/humanIcons';
 import { ConversationCard, ExportOptions } from 'components/chat/styled';
+
 export const ConversationMenu = ({
   anchorEl,
   handleMenuClose,
@@ -142,8 +143,8 @@ export const ConversationTab = ({
         }
       />
       {selectedSession && (
-        <Box>
-          <Typography variant="h6" sx={{ color: '#fff' }}>
+        <Box sx={{ marginTop: '20px' }}>
+          <Typography variant="h6" sx={{ color: '#fff', marginBottom: '10px' }}>
             {selectedSession.name}
           </Typography>
           <Box
@@ -151,10 +152,20 @@ export const ConversationTab = ({
               padding: '10px',
               background: '#000',
               borderRadius: '5px',
+              maxHeight: '300px',
+              overflowY: 'auto',
             }}
           >
             {selectedSession?.messages?.map((message, index) => (
-              <Typography key={index} sx={{ color: '#fff' }}>
+              <Typography
+                key={index}
+                sx={{
+                  color: '#fff',
+                  fontSize: '0.9rem',
+                  marginBottom: '8px',
+                  lineHeight: 1.4,
+                }}
+              >
                 {message.content}
               </Typography>
             ))}

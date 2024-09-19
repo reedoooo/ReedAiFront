@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  IconButton,
-  Menu,
-  MenuItem,
-  MenuList,
-  Tab,
-} from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
@@ -15,29 +7,30 @@ import { PanelHeaderRow } from 'components/chat/styled';
 import { RCTabs, SelectMenu } from 'components/themed';
 import { useChatStore } from 'contexts';
 import { useMenu, useMode } from 'hooks';
+import { useTabManager } from 'hooks/chat/useTabManager';
 import { WorkspaceCreatorForm, WorkspaceFolders } from './items';
 
 export const Workspace = props => {
   const { folders = [], data = {}, title = '' } = props;
-  console.log('Workspace', { title, data, folders });
-  const [tab, setTab] = useState(0);
   const navigate = useNavigate();
   const { theme } = useMode();
-  const { state: chatState, actions: chatActions } = useChatStore();
   const {
-    workspaces,
-    chatSessions,
-    presets,
-    prompts,
-    files,
-    assistants,
-    tools,
-    selectedWorkspace,
-  } = chatState;
-  const { setSelectedWorkspace } = chatActions;
-  const itemRef = useRef(null);
-  const customMenu = useMenu();
+    state: {
+      workspaces,
+      chatSessions,
+      presets,
+      prompts,
+      files,
+      assistants,
+      tools,
+      selectedWorkspace,
+    },
+    actions: { setSelectedWorkspace },
+  } = useChatStore();
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const { activeTabs, selectedTab, selectTab } = useTabManager('workspace');
+
   const handleWorkspaceOpen = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -55,8 +48,17 @@ export const Workspace = props => {
     navigate(`/admin/${workspace._id}/chat`);
     handleWorkspaceClose();
   };
+  const renderContent = () => {
+    switch (selectedTab) {
+      case 0:
+        return <WorkspaceCreatorForm />;
+      case 1:
+        return <WorkspaceFolders folders={folders} />;
+      default:
+        return null;
+    }
+  };
 
-  const tabs = [{ label: 'Main' }, { label: 'Folders' }];
   return (
     <>
       <PanelHeaderRow theme={theme}>
@@ -78,13 +80,12 @@ export const Workspace = props => {
         </IconButton>
       </PanelHeaderRow>
       <RCTabs
-        value={tab}
-        onChange={(e, newValue) => setTab(newValue)}
-        tabs={tabs}
+        value={selectedTab}
+        onChange={(e, newValue) => selectTab(newValue)}
+        tabs={activeTabs}
         variant="darkMode"
       />
-      {tab === 0 && <WorkspaceCreatorForm />}
-      {tab === 1 && <WorkspaceFolders folders={folders} />}
+      {renderContent()}
     </>
   );
 };

@@ -7,7 +7,6 @@ export const FileDisplay = props => {
   const { files, hidden } = props;
   const [validFiles, setValidFiles] = useState([]);
 
-  // Effect to filter valid files
   useEffect(() => {
     const filteredFiles = files.filter(file => file && file.name && file.data);
     setValidFiles(filteredFiles);

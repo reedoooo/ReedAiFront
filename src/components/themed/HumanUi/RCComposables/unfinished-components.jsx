@@ -1,22 +1,15 @@
-import { Typography } from '@mui/material';
 import {
   StyledSlider,
   StyledSwitch,
   StyledSwitchFormControlLabel,
   StyledTextField,
 } from 'components/chat/styled';
+import { FormSection } from './container-components';
 const marks = [
   { value: 0, label: '0' },
   { value: 1, label: '1' },
 ];
-export const FormSection = ({ label, children }) => (
-  <>
-    <Typography variant="caption" sx={{ color: '#ffffff' }}>
-      {label}
-    </Typography>
-    {children}
-  </>
-);
+
 export const ReusableSliderField = ({
   label,
   value,
@@ -66,17 +59,9 @@ export const ReusableTextField = ({
     />
   </FormSection>
 );
-// export const ReusableIconButtonWithTooltip = ({
-//   icon,
-//   tooltipTitle,
-//   onClick,
-// }) => (
-//   <Tooltip title={tooltipTitle}>
-//     <IconButton
-//       onClick={onClick}
-//       sx={{ color: '#ffffff', height: '18px', width: '18px', ml: '12px' }}
-//     >
-//       {icon}
-//     </IconButton>
-//   </Tooltip>
-// );
+
+export default {
+  ReusableSliderField,
+  ReusableSwitchControl,
+  ReusableTextField,
+};

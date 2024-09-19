@@ -2,14 +2,16 @@ import { Box, Button, FormControl, MenuItem, Select } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { PanelContainer } from 'components/chat/styled';
 import {
+  FormSection,
+  FormSectionLabel,
   RCFileInputButton,
+  ReusableSwitchControl,
   SliderFieldSection,
   TextAreaAutosizeSection,
   TextFieldSection,
 } from 'components/themed';
-import { FormSectionLabel } from 'components/themed/HumanUi/RCComposables/container-components';
 import { useChatStore } from 'contexts/ChatProvider';
-import { FormSection, ReusableSwitchControl } from '../shared-items';
+
 export const AssistantDisplay = props => {
   const {
     state: { assistants, selectedAssistant, modelNames },

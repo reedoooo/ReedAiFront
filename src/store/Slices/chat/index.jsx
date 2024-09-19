@@ -20,7 +20,6 @@ import assistantReducer, {
 import baseChatReducer, {
   // addEnvToUser,
   setAbortController,
-  setActiveLocal,
   setApiKey,
   setAtCommand,
   setChatFileItems,
@@ -42,21 +41,21 @@ import baseChatReducer, {
   setIsMessagesUpdated,
   setIsPromptPickerOpen,
   setIsToolPickerOpen,
+  setStreamingMessageIndex,
   setLoading,
   setMode,
   setPayload,
-  setSelectedChat,
   setSlashCommand,
   setSourceCount,
   setToolCommand,
   setUseRetrieval,
   setUserInput,
   syncChatMessages,
+  setIsStreaming,
 } from './baseChatSlice';
 import chatSessionReducer, {
   clearChatSessions,
   createChatSession,
-  setActiveSessionId,
   setChatSessions,
   setSelectedChatSession,
   setSessionHeader,
@@ -111,6 +110,8 @@ import workspaceReducer, {
 
 export {
   // addEnvToUser,
+  setIsStreaming,
+  setStreamingMessageIndex,
   addNewMessageFile,
   updateNewMessageFile,
   syncChatMessages,
@@ -130,8 +131,6 @@ export {
   fetchFileData,
   retrieveRun,
   setAbortController,
-  setActiveLocal,
-  setActiveSessionId,
   setApiKey,
   setAssistantImages,
   setAssistants,
@@ -175,7 +174,6 @@ export {
   setPresets,
   setPrompts,
   setSelectedAssistant,
-  setSelectedChat,
   setSelectedChatSession,
   setSelectedFolder,
   setSelectedModel,
@@ -220,43 +218,3 @@ export {
   toolReducer,
   workspaceReducer,
 };
-// import generalChatReducer, {
-//   setEnvKeyMap,
-//   setChats,
-//   setChat,
-// } from './generalChatSlice';
-// import retrievalReducer, {
-//   setSourceCount,
-//   setUseRetrieval,
-// } from './retrievalSlice';
-// import chatInputCommandReducer, {
-//   setIsPromptPickerOpen,
-//   setSlashCommand,
-//   setFocusPrompt,
-//   setFocusFile,
-//   setFocusTool,
-//   setFocusAssistant,
-//   setAtCommand,
-//   setIsAssistantPickerOpen,
-//   setIsFilePickerOpen,
-//   setIsToolPickerOpen,
-//   setToolCommand,
-//   setHashtagCommand,
-// } from './chatInputCommandSlice';
-// import activeChatReducer, {
-//   setIsGenerating,
-//   setFirstTokenReceived,
-//   setAbortController,
-//   setIsDisabled,
-//   setActiveLocal,
-//   setIsMessagesUpdated,
-//   setFirstMessageReceived,
-// } from './activeChatSlice';
-// import passiveChatReducer, {
-//   setUserInput,
-//   setChatMessages,
-//   setChatSettings,
-//   setSelectedChat,
-//   setChatFileItems,
-//   setPayload,
-// } from './passiveChatSlice';

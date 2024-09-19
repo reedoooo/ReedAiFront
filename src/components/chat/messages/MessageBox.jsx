@@ -4,14 +4,15 @@ import React, { lazy, Suspense, useMemo } from 'react';
 import { UserMessage, AssistantMessage } from './MessagesMemoized';
 import 'styles/MarkdownBlockStyles.css';
 
-export const MessageBox = props => {
+export const MessageBox = React.memo(props => {
   const { messages } = props;
   const groupedMessages = useMemo(() => {
-    const groups = [];
-    for (let i = 0; i < messages.length; i += 2) {
-      groups.push(messages.slice(i, i + 2));
-    }
-    return groups;
+    return messages.reduce((acc, message, index) => {
+      if (index % 2 === 0) {
+        acc.push([message, messages[index + 1]].filter(Boolean));
+      }
+      return acc;
+    }, []);
   }, [messages]);
 
   return (
@@ -73,7 +74,9 @@ export const MessageBox = props => {
       </Container>
     </Container>
   );
-};
+});
+
+MessageBox.displayName = 'MessageBox';
 
 MessageBox.propTypes = {
   messages: PropTypes.arrayOf(

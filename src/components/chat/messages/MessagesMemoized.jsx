@@ -1,7 +1,5 @@
-import memoizeOne from 'memoize-one';
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
-import { extractMarkdownContent } from 'utils/format';
 import ChatBubble from './ChatBubble';
 
 export const UserMessage = React.memo(({ message }) => (

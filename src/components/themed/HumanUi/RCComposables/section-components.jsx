@@ -30,6 +30,11 @@ export const SliderFieldSection = ({ label, onChange, ...rest }) => (
 SliderFieldSection.propTypes = {
   label: PropTypes.string,
 };
+export default {
+  TextFieldSection,
+  TextAreaAutosizeSection,
+  SliderFieldSection,
+};
 // export const SwitchControl = ({ label, checked, onChange }) => (
 //   <StyledSwitchFormControlLabel
 //     control={<StyledSwitch checked={checked} onChange={onChange} />}

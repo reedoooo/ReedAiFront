@@ -3,27 +3,77 @@ import { useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { FaSave } from 'react-icons/fa';
 import { RCTabs } from 'components/themed';
+import { useTabManager } from 'hooks/chat/useTabManager';
 import { EditFile, FileInfo, FileUpsert } from './items';
 import FileManagementSidebar from './items/sidebar-items/FileManager';
 
 export const Files = props => {
   const { folders = [], folderId = '', title = '', files = [] } = props;
-  const [tab, setTab] = useState(0);
+  const { activeTabs, selectedTab, selectTab } = useTabManager('files');
+  const [editingFile, setEditingFile] = useState(null);
   const [fileName, setFileName] = useState('example.txt');
   const [fileContent, setFileContent] = useState('');
   const [fileDescription, setFileDescription] = useState('');
-  const tabs = [
-    { label: 'List', value: 0 },
-    { label: 'Edit File', value: 1 },
-    { label: 'File Info', value: 2 },
-    { label: 'File Upsert', value: 3 },
-  ];
   const ErrorFallback = ({ error }) => (
     <div>
       <h2>Something went wrong:</h2>
       <pre>{error.message}</pre>
     </div>
   );
+
+  const handleEditFile = file => {
+    setEditingFile(file);
+    setFileName(file.name);
+    setFileContent(file.content);
+    setFileDescription(file.description);
+    selectTab(1); // Switch to Edit File tab
+  };
+
+  const handleSaveFile = async () => {
+    console.log('Saving file:', { fileName, fileContent, fileDescription });
+    // After saving, you might want to refresh the file list or update the file in the list
+    setEditingFile(null);
+    selectTab(0); // Return to list view
+  };
+
+  const renderContent = () => {
+    switch (selectedTab) {
+      case 0:
+        return (
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <FileManagementSidebar
+              initialFolders={folders}
+              initialFiles={files}
+              space={title}
+              onEditFile={handleEditFile}
+            />
+          </ErrorBoundary>
+        );
+      case 1:
+        return (
+          <EditFile
+            fileName={fileName}
+            fileContent={fileContent}
+            setFileName={setFileName}
+            setFileContent={setFileContent}
+            onSave={handleSaveFile}
+          />
+        );
+      case 2:
+        return (
+          <FileInfo
+            fileDescription={fileDescription}
+            setFileDescription={setFileDescription}
+            file={editingFile}
+          />
+        );
+      case 3:
+        return <FileUpsert />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -36,44 +86,19 @@ export const Files = props => {
         >
           Files
         </Typography>
-        <IconButton>
+        <IconButton onClick={handleSaveFile}>
           <FaSave style={{ float: 'right', cursor: 'pointer' }} />
-        </IconButton>{' '}
+        </IconButton>
       </Box>
       <RCTabs
-        value={tab}
-        onChange={(e, newValue) => setTab(newValue)}
-        tabs={tabs}
+        value={selectedTab}
+        onChange={(e, newValue) => selectTab(newValue)}
+        tabs={activeTabs}
         variant="darkMode"
       />
       <Box mt={2} display="flex" alignItems="center">
-        {/* <SidebarCreateButtons contentType={'files'} hasData={data.length > 0} /> */}
-        {tab === 0 && (
-          <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <FileManagementSidebar
-              initialFolders={folders}
-              initialFiles={files}
-              space={title}
-            />
-          </ErrorBoundary>
-        )}
+        {renderContent()}
       </Box>
-
-      {tab === 1 && (
-        <EditFile
-          fileName={fileName}
-          fileContent={fileContent}
-          setFileName={setFileName}
-          setFileContent={setFileContent}
-        />
-      )}
-      {tab === 2 && (
-        <FileInfo
-          fileDescription={fileDescription}
-          setFileDescription={setFileDescription}
-        />
-      )}
-      {tab === 3 && <FileUpsert />}
     </>
   );
 };

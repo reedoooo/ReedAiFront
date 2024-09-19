@@ -143,32 +143,38 @@ const adminRoutes = [
               </Suspense>
             ),
             icon: <HomeIcon />,
-            description: 'Chat Bot',
-            functionalStatus: true,
+            description: 'Chat Home',
             collapse: false,
           },
           {
-            name: 'Chat Session',
-            title: 'ChatSession',
-            path: ':id', // Dynamic route for chat session
-            breadcrumb: 'Chat Session',
-            element: <ChatMain />, // Replace with the component handling the chat session
-            icon: <DocumentScannerRoundedIcon />,
-            description: 'Chat Sessions',
-            functionalStatus: true,
-            collapse: false,
+            name: 'Workspace',
+            title: 'Workspace',
+            path: ':workspaceId', // Dynamic route for workspace
+            breadcrumb: 'Workspace',
+            element: (
+              <Suspense fallback={<LoadingIndicator />}>
+                <ChatMain />
+              </Suspense>
+            ),
+            icon: <FolderRoundedIcon />,
+            collapse: true,
+            children: [
+              {
+                name: 'Chat Session',
+                title: 'ChatSession',
+                path: 'sessions/:sessionId', // Dynamic route for chat session
+                breadcrumb: 'Chat Session',
+                element: (
+                  <Suspense fallback={<LoadingIndicator />}>
+                    <ChatMain />
+                  </Suspense>
+                ),
+                icon: <DocumentScannerRoundedIcon />,
+                description: 'Chat Sessions',
+                collapse: false,
+              },
+            ],
           },
-          // {
-          //   name: 'Assistants',
-          //   title: 'Assistants',
-          //   path: 'chat-assistants',
-          //   breadcrumb: 'Chat Assistants',
-          //   element: <ChatMain />, // Replace with the component handling the chat session
-          //   icon: <DocumentScannerRoundedIcon />,
-          //   description: 'Assistants Api',
-          //   functionalStatus: true,
-          //   collapse: false,
-          // },
         ],
       },
       {

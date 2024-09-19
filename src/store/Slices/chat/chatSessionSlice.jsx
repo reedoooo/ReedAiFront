@@ -74,41 +74,6 @@ export const chatSessionsSlice = createSlice({
       state.sessionHeader = action.payload;
       setLocalSessionData({ ...state, sessionHeader: action.payload });
     },
-    setActiveSessionId: (state, action) => {
-      console.log('setActiveSessionId action payload', action.payload);
-      // const session = action.payload;
-      // const activeSessionObject = {
-      //   id: session._id,
-      //   title: session.name,
-      //   summary: session.summary,
-      //   systemPrompt: session.systemPrompt || '',
-      //   messages: session.messages || [],
-      //   files: session.files || [],
-      //   tools: session.tools || [],
-      //   stats: {
-      //     tokenUsage: 0,
-      //     messageCount: session.messages.length,
-      //   },
-      //   setting: session.setting || {},
-      // };
-      // state.activeSession = activeSessionObject;
-      state.sessionId = action.payload;
-      state.chatSession.activeSessionId = action.payload;
-      state.selectedChatSession.activeSessionId = action.payload;
-      setLocalSessionData({
-        ...state,
-        activeSession: action.payload,
-        sessionId: action.payload,
-        chatSession: {
-          ...state.chatSession,
-          activeSessionId: action.payload,
-        },
-        selectedChatSession: {
-          ...state.selectedChatSession,
-          activeSessionId: action.payload,
-        },
-      });
-    },
     setChatSessions: (state, action) => {
       state.chatSessions = action.payload;
       setLocalSessionData({ ...state, chatSessions: action.payload });
@@ -118,7 +83,6 @@ export const chatSessionsSlice = createSlice({
       setLocalSessionData({
         ...state,
         selectedChatSession: action.payload,
-        sessionId: action.payload._id,
       });
     },
     clearChatSessions: state => {
@@ -153,7 +117,6 @@ export const {
   setChatSessions,
   setSelectedChatSession,
   setSessionId,
-  setActiveSessionId,
   setSessionHeader,
   clearChatSessions,
 } = chatSessionsSlice.actions;

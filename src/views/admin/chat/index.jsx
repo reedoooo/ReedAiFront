@@ -1,5 +1,5 @@
-/* eslint-disable no-constant-condition */
 'use client';
+/* eslint-disable no-constant-condition */
 // =========================================================
 // [CHAT BOT] | React Chatbot
 // =========================================================
@@ -8,10 +8,15 @@ import {
   CircularProgress,
   Grid,
   Paper,
-  Typography,
   useMediaQuery,
 } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useActionData, useParams } from 'react-router-dom';
 import { ChatHeader, MessageInput } from 'components/chat';
 import { MessageBox } from 'components/chat/messages';
@@ -19,23 +24,15 @@ import { useAppStore } from 'contexts/AppProvider';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useChatHandler, useChatScroll, useMenu, useMode } from 'hooks';
 import 'styles/ChatStyles.css';
-import { organizeMessages } from 'utils/format';
-
-// const MessageInput = React.lazy(() => import(''));
+import { filterMessagesWithContent, organizeMessages } from 'utils/format';
 
 export const MainChat = () => {
   const { theme } = useMode();
-  // const functionCallHandler = async call => {
-  //   if (call?.function?.name !== 'get_weather') return;
-  //   const args = JSON.parse(call.function.arguments);
-  //   const data = getWeather(args.location);
-  //   setWeatherData(data);
-  //   return JSON.stringify(data);
-  // };
   const {
     state: { isSidebarOpen },
-    actions: { toggleSidebar },
   } = useAppStore();
+  const { params } = useParams(); // Extract the dynamic 'id' parameter from the URL
+
   const [marginLeft, setMarginLeft] = useState('50px');
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is mobile
   useEffect(() => {
@@ -51,9 +48,17 @@ export const MainChat = () => {
     const savedMessages = localStorage.getItem('chatMessages');
     return savedMessages ? JSON.parse(savedMessages) : [];
   });
+  const suggestedPrompts = [
+    'What is the weather like today?',
+    'Tell me a joke',
+    'Help me write a summary',
+    'What are some productivity tips?',
+  ];
   const {
     chatError,
     chatLoading,
+    chatStreaming,
+    controllerRef,
     handleSendMessage,
     handleRegenerateResponse,
     handleStop,
@@ -69,7 +74,6 @@ export const MainChat = () => {
   const sidebarItemRef = useRef(null);
   const { messagesStartRef, messagesEndRef, chatContainerRef, handleScroll } =
     useChatScroll();
-  const params = useParams(); // Extract the dynamic 'id' parameter from the URL
   const {
     state: {
       userInput,
@@ -81,32 +85,14 @@ export const MainChat = () => {
     actions: { setIsMessagesUpdated, setSessionHeader, setSessionId },
   } = useChatStore();
   const { scrollToBottom, setIsAtBottom } = useChatScroll();
-  const [error, setError] = useState(chatError);
-  const [loading, setLoading] = useState(chatLoading);
-  const [systemMessage, setSystemMessage] = useState(null);
-  const initializationAttempted = useRef(false);
-  const [isEditorActive, setIsEditorActive] = useState(false);
-  const [isFirstMessage, setIsFirstMessage] = useState(true);
-  const controllerRef = useRef(null);
   const editorActiveRef = useRef(false);
-  /* --- fn() to handle the system message --- */
-  useEffect(() => {
-    if (error) {
-      setSystemMessage({
-        role: 'system',
-        content: `Error: ${error}`,
-      });
-    } else {
-      setSystemMessage(null);
-    }
-  }, [error]);
   /* --- fn() to handle the focus of the chat input --- */
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (promptsMenu.isOpen && sidebarItemRef.current) {
       const sidebarItemRect = sidebarItemRef.current.getBoundingClientRect();
       const dialogRect = dialogRef.current.getBoundingClientRect();
 
-      const leftPosition = sidebarItemRect.right + 32; // 2rem margin
+      const leftPosition = sidebarItemRect.right + 32;
       const topPosition =
         sidebarItemRect.top -
         dialogRect.height / 2 +
@@ -117,58 +103,43 @@ export const MainChat = () => {
     }
   }, [promptsMenu.isOpen]);
   /* -- */
+  const initializeSession = useCallback(async () => {
+    if (!sessionId) {
+      try {
+        await handleCreateNewSession();
+      } catch (err) {
+        console.error('Failed to initialize session:', err);
+      }
+    }
+
+    const localChatMessages = JSON.parse(localStorage.getItem('chatMessages'));
+    if ((!localChatMessages || localChatMessages.length === 0) && sessionId) {
+      await handleGetSessionMessages();
+    }
+  }, [sessionId, handleCreateNewSession, handleGetSessionMessages]);
+
   useEffect(() => {
-    const initializeSession = async () => {
-      let currentSessionId = sessionId || sessionStorage.getItem('sessionId');
-
-      if (!currentSessionId) {
-        try {
-          console.log('No session found, initializing new session...');
-          await handleCreateNewSession();
-          // Assuming handleCreateNewSession updates sessionId in context
-          currentSessionId = sessionStorage.getItem('sessionId');
-        } catch (error) {
-          console.error('Failed to initialize session:', error);
-        }
-      } else {
-        console.log('Session found:', currentSessionId);
-        // await handleGetSession();
-      }
-      if (!JSON.parse(localStorage.getItem('chatMessages'))) {
-        await handleGetSessionMessages();
-      }
-      // await handleGetSessionMessages();
-
-      setLoading(false);
-    };
-
     initializeSession();
-  }, [
-    sessionId,
-    workspaceId,
-    handleCreateNewSession,
-    handleGetSessionMessages,
-    handleGetSession,
-  ]);
+  }, [initializeSession]);
+
   /* --- fn() to handle the scroll to bottom --- */
   useEffect(() => {
     const fetchData = async () => {
       await handleGetSessionMessages();
-      await handleGetSession();
-
       scrollToBottom();
       setIsAtBottom(true);
     };
 
-    if (params.workspaceId) {
-      fetchData().then(() => {
-        // handleFocusChatInput();
-        setLoading(false);
-      });
-    } else {
-      setLoading(false);
+    if (params?.workspaceId) {
+      fetchData();
     }
-  }, []);
+  }, [
+    params?.workspaceId,
+    handleGetSessionMessages,
+    scrollToBottom,
+    setIsAtBottom,
+  ]);
+
   /* --- fn() to handle the chat abort option --- */
   useEffect(() => {
     return () => {
@@ -176,39 +147,50 @@ export const MainChat = () => {
         controllerRef.current.abort();
       }
     };
-  }, []);
+  }, [controllerRef]);
+
   /* --- fn() to handle the chat messages --- */
   useEffect(() => {
-    const filterMessagesWithContent = messages => {
-      const seen = new Set();
-      return messages.filter(message => {
-        if (
-          message.content &&
-          !seen.has(message.content) &&
-          message.type !== 'start' &&
-          message.type !== 'end'
-        ) {
-          seen.add(message.content);
-          return true;
-        }
-        return false;
-      });
-    };
-
     const localMessages =
       JSON.parse(localStorage.getItem('chatMessages')) || [];
 
     const combinedMessages = [...localMessages, ...messages];
 
     const organizedMessages = organizeMessages(combinedMessages);
-    const uniqueMessages = filterMessagesWithContent(organizedMessages);
-    localStorage.setItem('chatMessages', JSON.stringify(uniqueMessages));
-    // setChatMessages(uniqueMessages);
+    let uniqueMessages = filterMessagesWithContent(organizedMessages);
+    console.log('uniqueMessages:', uniqueMessages);
+
+    if (!chatLoading && !chatStreaming) {
+      // Check if the second-to-last message needs to be filtered out
+      const secondLastIndex = uniqueMessages.length - 2;
+
+      if (
+        secondLastIndex >= 0 &&
+        uniqueMessages[secondLastIndex].isStreaming === true &&
+        uniqueMessages[secondLastIndex].role === 'assistant'
+      ) {
+        // Remove the second-to-last message
+        uniqueMessages.splice(secondLastIndex, 1);
+      }
+
+      // After potential removal, set isLastMessage on the last message
+      if (uniqueMessages.length > 0) {
+        uniqueMessages[uniqueMessages.length - 1].isLastMessage = true;
+      }
+
+      localStorage.setItem('chatMessages', JSON.stringify(uniqueMessages));
+    }
+
     if (workspaceId && sessionId && messages.length > 0 && !isMessagesUpdated) {
-      // handleSaveMessagesToSession();
       setIsMessagesUpdated(true);
     }
-  }, [sessionId, messages, setIsMessagesUpdated]);
+  }, [
+    sessionId,
+    messages,
+    setIsMessagesUpdated,
+    workspaceId,
+    isMessagesUpdated,
+  ]);
 
   if (!open) {
     return <CircularProgress />;
@@ -281,36 +263,43 @@ export const MainChat = () => {
               }}
             >
               <div ref={messagesStartRef} />
-              <MessageBox messages={messages} />
-              {systemMessage && (
-                <MessageBox
-                  message={{
-                    role: 'system',
-                    content: systemMessage.content,
-                  }}
-                />
+              {messages.length > 0 ? (
+                <MessageBox messages={messages} />
+              ) : (
+                <Box sx={{ textAlign: 'center', margin: '20px' }}>
+                  <h3>No messages yet, try one of these prompts:</h3>
+                  {suggestedPrompts.map((prompt, index) => (
+                    <Paper
+                      key={index}
+                      elevation={2}
+                      sx={{
+                        padding: '10px',
+                        margin: '10px',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => {
+                        handleContentChange(prompt);
+                        handleSendMessage();
+                      }}
+                    >
+                      {prompt}
+                    </Paper>
+                  ))}
+                </Box>
               )}
-              {loading && (
+              {chatLoading && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
                   <CircularProgress />
                 </Box>
               )}
               <div ref={messagesEndRef} />
-              {/* {error && (
-                <Typography color="error" variant="body2">
-                  {error}
-                </Typography>
-              )}
-              {loading && <CircularProgress />} */}
             </Box>
             <MessageInput
               theme={theme}
-              disabled={loading}
+              disabled={chatLoading}
               editorRef={editorActiveRef}
               initialContent={userInput}
               isFirstMessage={isFirstMessageReceived}
-              setIsEditorActive={setIsEditorActive}
-              setError={setError}
               onContentChange={handleContentChange}
               handleSendMessage={handleSendMessage}
               handleRegenerateResponse={handleRegenerateResponse}

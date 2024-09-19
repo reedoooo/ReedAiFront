@@ -11,9 +11,11 @@ import {
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { settingsApi } from 'api/Ai/chat-items';
+import { useMode } from 'hooks/app';
 
-export const PromptSuggest = ({ theme, onImport, prompts, setPrompts }) => {
+export const PromptSuggest = ({ onImport, prompts, setPrompts }) => {
   const [downloadURL, setDownloadURL] = useState('');
+  const { theme } = useMode();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const downloadPromptTemplate = async () => {

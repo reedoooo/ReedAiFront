@@ -21,7 +21,6 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import routes from '@/routes/index';
 import {
   CodeIcon,
@@ -81,12 +80,9 @@ const DialogBox = ({ dialog, title, subtitle, children, handleAction }) => (
 export const ChatHeader = props => {
   const { theme } = useMode();
   const chatStore = useChatStore();
-  const userStore = useUserStore();
-  const { userId } = userStore.state;
   const { selectedPreset, presets, sessionHeader, sessionId, workspaceId } =
     chatStore.state;
   const { setSelectedPreset, setSessionHeader } = chatStore.actions;
-  const { name } = props;
   const codeDialog = useDialog();
   const saveDialog = useDialog();
   const shareDialog = useDialog();

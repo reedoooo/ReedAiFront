@@ -31,6 +31,7 @@ import {
 import { useChatStore } from 'contexts/ChatProvider';
 import { useFileProcesser } from 'hooks/chat';
 import useFileStructure from 'hooks/chat/useFileStructure';
+import { useTabManager } from 'hooks/chat/useTabManager';
 import { useDialog } from 'hooks/ui';
 import { NewFileDialog, NewFolderDialog } from './file-manager-components';
 
@@ -145,6 +146,8 @@ export const FileManagementSidebar = props => {
     refreshFileStructure,
     setFileStructure,
   } = useFileStructure(space);
+  const { activeSpace, selectedTab, tabs, changeSpace, selectTab } =
+    useTabManager(space);
   const [expandedFolders, setExpandedFolders] = useState({});
   const [hoveredItem, setHoveredItem] = useState(null);
   const [focusedItem, setFocusedItem] = useState(null);
@@ -152,6 +155,7 @@ export const FileManagementSidebar = props => {
   const [newFileName, setNewFileName] = useState('');
   const [newFolderName, setNewFolderName] = useState('');
   const [fileToUpload, setFileToUpload] = useState(null);
+  const [editingFile, setEditingFile] = useState(null);
   const newFileDialog = useDialog();
   const newFolderDialog = useDialog();
   const [files, setFiles] = useState(initialFiles || []);
@@ -193,6 +197,15 @@ export const FileManagementSidebar = props => {
       [folderId]: !prev[folderId],
     }));
   }, []);
+
+  const handleFileClick = useCallback(
+    file => {
+      setEditingFile(file);
+      changeSpace(file.space);
+      selectTab(1); // Assuming 1 is the 'Edit' tab for all spaces
+    },
+    [changeSpace, selectTab]
+  );
 
   const moveItem = useCallback((fromPath, toPath) => {
     setFileStructure(prevStructure => {
@@ -334,6 +347,7 @@ export const FileManagementSidebar = props => {
       setNewFolderName('');
     }
   };
+
   const renderFileStructure = useCallback(
     (items, path = []) => {
       return items.map((item, index) => {

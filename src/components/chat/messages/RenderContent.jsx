@@ -1,15 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import {
-  Box,
-  Typography,
-  IconButton,
-  TextField,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-} from '@mui/material';
+import { Box, Typography, IconButton, TextField, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FaCopy, FaSave } from 'react-icons/fa';
@@ -18,6 +8,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import gfm from 'remark-gfm';
 import { RCDialog } from 'components/themed';
+
 export function SaveSnippetDialog({
   openDialog,
   handleCloseDialog,

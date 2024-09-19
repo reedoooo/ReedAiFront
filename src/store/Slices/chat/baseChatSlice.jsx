@@ -14,15 +14,18 @@ function setLocalBaseChatData(data) {
 
 export const syncChatMessages = createAsyncThunk(
   `${REDUX_NAME}/session/messages`,
-  async (id, { dispatch }) => {
-    if (id) {
-      const response = await chatApi.getMessages(id);
+  async (_, { dispatch }) => {
+    console.log('Syncing chat messages');
+    const sessionId = sessionStorage.getItem('sessionId');
+    if (!sessionId) return;
+    if (sessionId) {
+      const response = await chatApi.getChatSessionMessages(sessionId);
       dispatch(
         baseChatSlice.actions.setChatMessages({
-          id,
-          messages: response,
+          ...response.messages,
         })
       );
+      return response;
     }
   }
 );
@@ -73,14 +76,17 @@ export const baseChatSlice = createSlice({
     setAbortController: (state, action) => {
       state.abortController = action.payload;
     },
-    setActiveLocal: (state, action) => {
-      state.active = action.payload;
-    },
     setIsMessagesUpdated: (state, action) => {
       state.isMessagesUpdated = action.payload;
     },
     setUserInput: (state, action) => {
       state.userInput = action.payload;
+    },
+    setIsStreaming: (state, action) => {
+      state.isStreaming = action.payload;
+    },
+    setStreamingMessageIndex: (state, action) => {
+      state.streamingMessageIndex = action.payload;
     },
     setChatMessages: (state, action) => {
       state.chatMessages = action.payload;
@@ -88,9 +94,6 @@ export const baseChatSlice = createSlice({
     },
     setChatSettings: (state, action) => {
       state.chatSettings = action.payload;
-    },
-    setSelectedChat: (state, action) => {
-      state.selectedChat = action.payload;
     },
     setChatFileItems: (state, action) => {
       state.chatFileItems = action.payload;
@@ -188,21 +191,21 @@ export const {
   setFocusAssistant,
   setAtCommand,
   setIsAssistantPickerOpen,
+  setStreamingMessageIndex,
   setIsGenerating,
   setFirstTokenReceived,
   setAbortController,
   setIsDisabled,
-  setActiveLocal,
   setIsMessagesUpdated,
   setFirstMessageReceived,
   setUserInput,
   setChatMessages,
   setChatSettings,
-  setSelectedChat,
   setChatFileItems,
   setPayload,
   setUseRetrieval,
   setSourceCount,
+  setIsStreaming,
 } = baseChatSlice.actions;
 
 export default baseChatSlice.reducer;

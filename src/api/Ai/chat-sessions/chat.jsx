@@ -4,6 +4,56 @@ import { useState } from 'react';
 import { apiUtils } from '@/lib/apiUtils';
 
 export const chatApi = {
+  // getStreamCompletion: async function fetchMessageStream({
+  //   sessionId,
+  //   workspaceId,
+  //   regenerate,
+  //   prompt,
+  //   userId,
+  //   clientApiKey,
+  //   role = 'assistant',
+  //   signal,
+  //   count,
+  // }) {
+  //   let response;
+
+  //   try {
+  //     response = await fetch('http://localhost:3001/api/chat/v1/stream', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`,
+  //       },
+  //       body: JSON.stringify({
+  //         sessionId,
+  //         workspaceId,
+  //         regenerate,
+  //         prompt,
+  //         userId,
+  //         clientApiKey,
+  //         role,
+  //         count,
+  //       }),
+  //       signal,
+  //     });
+  //   } catch (error) {
+  //     if (error instanceof Error && error.name === 'AbortError') {
+  //       console.log('Request aborted:', error.message);
+  //     } else if (error instanceof Error) {
+  //       console.error('Error reading stream data:', error.message);
+  //     } else {
+  //       console.error('An unexpected error occurred');
+  //     }
+  //     throw error;
+  //   }
+
+  //   if (!response.ok) {
+  //     const err = await response.text();
+  //     throw new Error(`Error: ${err}`);
+  //   }
+
+  //   return response;
+  // },
   getStreamCompletion: async function fetchMessageStream({
     sessionId,
     workspaceId,
@@ -102,10 +152,13 @@ export const chatApi = {
     });
   },
   getChatSessionMessages: async props => {
-    const { sessionId } = props;
-    console.log('SESSION ID:', sessionId);
+    // const { sessionId } = props;
+    // console.log('SESSION ID:', sessionId);
+    const sessionId = JSON.parse(sessionStorage.getItem('sessionId'));
     try {
-      const data = await apiUtils.get(`/chat/sessions/${sessionId}/messages`);
+      const data = await apiUtils.get(
+        `/chat/sessions/${encodeURIComponent(sessionId)}/messages`
+      );
       return data;
     } catch (error) {
       console.error(`Error fetching messages for chat session with id:`, error);
@@ -224,15 +277,16 @@ export const chatApi = {
   },
 
   getMessages: async props => {
-    const { sessionId: id } = props;
-    console.log('GIVEN ID:', id);
+    const { sessionId } = props;
+    console.log('GIVEN ID:', sessionId);
     try {
-      const sessionId = JSON.parse(sessionStorage.getItem('sessionId'));
       console.log(
         'FETCHING messages for chat session with id ${newSessionId}:',
         sessionId
       );
-      const data = await apiUtils.get(`/chat/sessions/${sessionId}/messages`);
+      const data = await apiUtils.get(
+        `/chat/sessions/${encodeURIComponent(sessionId)}/messages`
+      );
       return data;
     } catch (error) {
       console.error(`Error fetching messages for chat session with id:`, error);

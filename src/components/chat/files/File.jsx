@@ -48,6 +48,7 @@ export const File = React.memo(props => {
           visibility: 'visible',
         },
         borderRadius: 2,
+        gap: 4,
         zIndex: hidden ? 1 : 'auto',
         border: '1px solid #BDBDBD',
       }}

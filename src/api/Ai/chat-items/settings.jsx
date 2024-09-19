@@ -175,23 +175,25 @@ export const settingsApi = {
     }
   },
   createPrompt: async props => {
-    const { promptData } = props;
+    console.log('Creating chat prompt:', props);
+    // const { promptData } = props;
     try {
-      console.log('Creating chat prompt:', promptData);
-      const data = await apiUtils.post('/chat/prompts', promptData);
-      return data;
+      console.log('Creating chat prompt:', props);
+      const response = await apiUtils.post('/chat/prompts', props);
+      console.log('Chat prompt created:', response.message);
+      return response.data;
     } catch (error) {
       console.error('Error creating chat prompt:', error);
       throw error;
     }
   },
   updatePrompt: async props => {
-    const { id, promptData } = props;
+    // const { id, promptData } = props;
     try {
-      const data = await apiUtils.put(`/chat/prompts/${id}`, promptData);
+      const data = await apiUtils.put(`/chat/prompts/${props.id}`, props);
       return data;
     } catch (error) {
-      console.error(`Error updating chat prompt with id ${id}:`, error);
+      console.error(`Error updating chat prompt with id ${props.id}:`, error);
       throw error;
     }
   },
@@ -256,6 +258,18 @@ export const settingsApi = {
   },
 
   // Tools
+  getToolFiles: async () => {
+    try {
+      const response = await apiUtils.get('/chat/tools?name=tool_files');
+      // const response = await apiUtils.get('/chat/prompts');
+      console.log(response);
+      // const data = await apiUtils.get('/chat/prompts/prompt-files');
+      return response.tools;
+    } catch (error) {
+      console.error('Error fetching chat prompts:', error);
+      throw error;
+    }
+  },
   getAllTools: async () => {
     try {
       const data = await apiUtils.get('/chat/tools');

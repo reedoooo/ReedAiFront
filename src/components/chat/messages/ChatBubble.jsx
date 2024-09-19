@@ -59,10 +59,7 @@ export const ChatBubble = ({ message, sender }) => {
           <MessageOptions
             message={message}
             onRegenerate={() => {
-              const messages = JSON.parse(
-                localStorage.getItem('chatMessages')
-                // localStorage.getItem('baseChatStore')?.chatMessages
-              );
+              const messages = JSON.parse(localStorage.getItem('chatMessages'));
               const mostRecentPrompt = messages[messages.length - 1].content;
               console.log(`Regenerating message: ${mostRecentPrompt}`);
             }}

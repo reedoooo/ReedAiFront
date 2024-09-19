@@ -304,11 +304,7 @@ export const ChatSidebar = () => {
               color: '#fff',
               padding: '20px',
               background: '#000',
-              // minWidth: 'fit-content',
               maxWidth: '350px', // Ensure maxWidth is set to 350px
-              // minWidth: isSidebarOpen ? (isMobile ? `100vw` : `320px`) : '0px',
-              // maxWidth: isSidebarOpen ? (isMobile ? `100vw` : `350px`) : '0px',
-              // width: isSidebarOpen ? (isMobile ? `100vw` : `350px`) : '0px',
               width: isMobile ? '100vw' : '350px', // Responsive width for mobile
               borderRight: '1px solid #333',
               transform:

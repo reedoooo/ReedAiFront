@@ -1,13 +1,13 @@
 import { TextareaAutosize } from '@mui/base';
 import {
   Box,
-  Typography,
-  TextField,
   Button,
+  Card,
   Divider,
   Grid,
   Popover,
-  Card,
+  TextField,
+  Typography,
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { motion } from 'framer-motion';
@@ -18,7 +18,7 @@ import {
   CurrentPromptRenderer,
   StyledButton,
   StyledTextField,
-} from '../CLEAN_UP/AnimatedTabComponents';
+} from '../../../../../../../cleanup/CLEAN_UP/AnimatedTabComponents';
 
 const CreateTab = ({
   newPrompt,

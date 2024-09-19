@@ -24,3 +24,10 @@ export const FormSection = ({ label, children }) => (
     {children}
   </>
 );
+
+export default {
+  FormTitle,
+  FormGroupLabel,
+  FormSectionLabel,
+  FormSection,
+};

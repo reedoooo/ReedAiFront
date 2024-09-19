@@ -247,6 +247,23 @@ export function parseJsonString(jsonString) {
   }
 }
 
+/**
+ * Organizes an array of messages by role.
+ *
+ * @param {Array} messages - The array of messages to be organized.
+ * @returns {Array} - The organized array of messages.
+ * @example organizeMessages([
+ *  { role: 'author', content: 'Hello, this is a message from the author.' },
+ * { role: 'author', content: 'This is a second message from the author.' },
+ * { role: 'user', content: 'Hi, this is a message from the user.' },
+ * { role: 'user', content: 'This is a third message from the user.' }
+ * ]) => [
+ * { type:'start', role: 'author' },
+ * { role: 'author', content: 'Hello, this is a message from the author.' },
+ * { type:'start', role: 'user' },
+ * { role: 'user', content: 'Hi, this is a message from the user.' },
+ * { role: 'user', content : 'This is a second message from the author.' },
+ */
 export const organizeMessages = messages => {
   const organizedMessages = [];
   let currentRole = null;
@@ -266,4 +283,25 @@ export const organizeMessages = messages => {
   });
 
   return organizedMessages;
+};
+
+/**
+ * Filters an array of messages, removing duplicates and messages with specific types.
+ * @param {Array} messages - The array of messages to filter.
+ * @returns {Array} - The filtered array of messages.
+ */
+export const filterMessagesWithContent = messages => {
+  const seen = new Set();
+  return messages.filter(message => {
+    if (
+      message.content &&
+      !seen.has(message.content) &&
+      message.type !== 'start' &&
+      message.type !== 'end'
+    ) {
+      seen.add(message.content);
+      return true;
+    }
+    return false;
+  });
 };

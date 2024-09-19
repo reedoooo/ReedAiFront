@@ -19,8 +19,6 @@ import {
   fetchAssistantList,
   retrieveRun,
   setAbortController,
-  setActiveLocal,
-  setActiveSessionId,
   setApiKey,
   setAssistantImages,
   setAssistants,
@@ -93,6 +91,8 @@ import {
   addNewMessageFile,
   updateNewMessageFile,
   uploadAssistantFile,
+  setStreamingMessageIndex,
+  setIsStreaming,
 } from 'store/Slices'; // Assuming you can import all slices from a single entry point
 
 export const selectWorkspace = createSelector(
@@ -160,7 +160,6 @@ export const ChatProvider = ({ children }) => {
     ...prompt,
     messages,
   };
-  const userStore = JSON.parse(localStorage.getItem('userStore'));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -199,13 +198,10 @@ export const ChatProvider = ({ children }) => {
     // ===========================================
     setMode: mode => dispatch(setMode(mode)),
     setChatSessions: chats => dispatch(setChatSessions(chats)),
-    setActiveSessionId: session => dispatch(setActiveSessionId(session)),
     setSelectedChatSession: session =>
       dispatch(setSelectedChatSession(session)),
     setSessionId: sessionId => dispatch(setSessionId(sessionId)),
     setSessionHeader: header => dispatch(setSessionHeader(header)),
-    setActive: id => dispatch(setActiveSessionId(id)),
-    setActiveLocal: id => dispatch(setActiveLocal(id)),
     createNewChatSession: sessionData =>
       dispatch(createChatSession(sessionData)),
     clearChatSessions: () => dispatch(clearChatSessions()),
@@ -308,6 +304,9 @@ export const ChatProvider = ({ children }) => {
     setFirstTokenReceived: received =>
       dispatch(setFirstTokenReceived(received)),
     setIsGenerating: generating => dispatch(setIsGenerating(generating)),
+    setStreamingMessageIndex: index =>
+      dispatch(setStreamingMessageIndex(index)),
+    setIsStreaming: streaming => dispatch(setIsStreaming(streaming)),
     setIsMessagesUpdated: updated => dispatch(setIsMessagesUpdated(updated)),
     setFirstMessageReceived: received =>
       dispatch(setFirstMessageReceived(received)),
