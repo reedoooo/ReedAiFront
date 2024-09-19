@@ -60,6 +60,7 @@ export function FileUpsert() {
         <form onSubmit={handleSubmit}>
           <TextFieldSection
             label="Library Component URL"
+            placeholder="https://example.com"
             value={url}
             onChange={e => setUrl(e.target.value)}
             variant="darkMode"

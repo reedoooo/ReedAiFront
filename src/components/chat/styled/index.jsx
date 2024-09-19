@@ -20,8 +20,12 @@ import {
   Select,
   Switch,
   Card,
+  ListItem,
 } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
+import PropTypes from 'prop-types';
+import { RCTooltip } from 'components/themed';
+import { FileInfoTooltip } from '../sidebar/panel/items/sidebar-items/FileInfoTooltip';
 /* --- CHAT - SIDEBAR --- */
 export const SidebarContainer = styled('div')({
   background: '#000',
@@ -48,6 +52,47 @@ export const PanelHeaderRow = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 /* --- CHAT - SIDEBAR - FOLDERS --- */
+/**
+ * A styled ListItem component that uses the reusable RCTooltip to display file information.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Object} props.file - The file object containing file details.
+ * @param {boolean} props.isHovered - Whether the list item is hovered.
+ * @param {boolean} props.isFocused - Whether the list item is focused.
+ * @param {boolean} props.isSelected - Whether the list item is selected.
+ * @returns {ReactNode} The styled list item component.
+ */
+export const StyledListItem = styled(
+  ({ isHovered, isFocused, isSelected, file, ...other }) => (
+    <RCTooltip
+      display={<FileInfoTooltip file={file} />}
+      trigger={<ListItem {...other} />}
+      delayDuration={300} // You can customize delay duration if needed
+      side="right" // Adjust the side of the tooltip if needed
+    />
+  )
+)(({ theme, isHovered, isFocused, isSelected }) => ({
+  cursor: 'pointer',
+  backgroundColor: isSelected
+    ? theme.palette.action.selected
+    : isHovered
+      ? theme.palette.action.hover
+      : 'transparent',
+  '&:hover': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  ...(isFocused && {
+    backgroundColor: theme.palette.action.focus,
+  }),
+}));
+
+StyledListItem.propTypes = {
+  file: PropTypes.object.isRequired,
+  isHovered: PropTypes.bool,
+  isFocused: PropTypes.bool,
+  isSelected: PropTypes.bool,
+};
 export const FolderContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',

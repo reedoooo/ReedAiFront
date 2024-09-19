@@ -132,7 +132,8 @@ export const chatApi = {
             }
             try {
               const json = JSON.parse(data);
-              const text = json.content;
+              console.log('Received message:', json);
+              const text = json;
               console.log('Received message:', text);
               const queue = encoder.encode(text);
               // console.log('received queue', queue);

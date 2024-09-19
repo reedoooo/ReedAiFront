@@ -1,8 +1,8 @@
 import { PencilIcon } from '@heroicons/react/24/outline';
 import IconButton from '@mui/material/IconButton';
-import { useState } from 'react';
 import { TextFieldSection } from 'components/themed';
-import SidebarItem from '../sidebar-items/sidebar-display-item';
+import { useState } from 'react';
+import SidebarItem from '../REVIEW/sidebar-display-item';
 
 const PromptItem = ({ prompt }) => {
   const [name, setName] = useState(prompt.name);

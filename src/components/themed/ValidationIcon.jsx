@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles';
 import { keyframes } from '@mui/system';
+import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 
 // Define keyframes for the background color animation
@@ -29,7 +30,7 @@ const AnimatedIconWrapper = styled('div')(({ theme, isLoggedIn }) => ({
   marginBottom: '0.5rem',
 }));
 
-const ValidationIcon = ({ IconComponent, isValid }) => {
+const ValidationIcon = ({ IconComponent, isValid, type }) => {
   const [animated, setAnimated] = useState(false);
 
   useEffect(() => {
@@ -46,6 +47,14 @@ const ValidationIcon = ({ IconComponent, isValid }) => {
       <IconComponent fontSize="inherit" />
     </AnimatedIconWrapper>
   );
+};
+
+ValidationIcon.displayName = 'ValidationIcon';
+
+ValidationIcon.propTypes = {
+  IconComponent: PropTypes.elementType.isRequired, // Should be a React component
+  isValid: PropTypes.bool.isRequired, // Should be a boolean
+  type: PropTypes.string, // Optional string for type
 };
 
 export default ValidationIcon;

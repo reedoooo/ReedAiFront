@@ -1,10 +1,10 @@
+import { FileIcon } from '@/lib/fileUtils';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
-import React, { useState } from 'react';
-import { FileIcon } from '@/lib/fileUtils';
 import constants from 'config';
-import SidebarItem from '../sidebar-items/sidebar-display-item';
+import React, { useState } from 'react';
+import SidebarItem from '../REVIEW/sidebar-display-item';
 import { getFileFromStorage } from '../storage/files';
 const { FILE_DESCRIPTION_MAX, FILE_NAME_MAX, ACCEPTED_FILE_TYPES } = constants;
 

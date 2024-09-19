@@ -2,6 +2,22 @@ import { TextField, Button } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import { RCDialog } from 'components/themed';
 
+export const ErrorMessage = ({ error }) => (
+  <AnimatePresence>
+    {error && (
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.3 }}
+        style={{ color: 'red', marginTop: '5px' }}
+      >
+        {error}
+      </motion.div>
+    )}
+  </AnimatePresence>
+);
+
 export const FileUploadTextField = ({
   value,
   onChange,
@@ -44,21 +60,49 @@ export const FileUploadTextField = ({
     </>
   );
 };
-export const ErrorMessage = ({ error }) => (
-  <AnimatePresence>
-    {error && (
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -10 }}
-        transition={{ duration: 0.3 }}
-        style={{ color: 'red', marginTop: '5px' }}
-      >
-        {error}
-      </motion.div>
-    )}
-  </AnimatePresence>
-);
+export const AssistantCreationContent = ({
+  assistantName,
+  setAssistantName,
+}) => {
+  return (
+    <TextField
+      fullWidth
+      margin="dense"
+      label="Assistant Name"
+      placeholder="Enter assistant name"
+      value={assistantName}
+      onChange={e => setAssistantName(e.target.value)}
+    />
+  );
+};
+export const PromptCreationContent = ({ promptText, setPromptText }) => {
+  return (
+    <TextField
+      fullWidth
+      margin="dense"
+      label="Prompt Text"
+      placeholder="Enter prompt text"
+      value={promptText}
+      onChange={e => setPromptText(e.target.value)}
+    />
+  );
+};
+export const ChatSessionCreationContent = ({
+  chatSessionName,
+  setChatSessionName,
+}) => {
+  return (
+    <TextField
+      fullWidth
+      margin="dense"
+      label="Chat Session Name"
+      placeholder="Enter chat session name"
+      value={chatSessionName}
+      onChange={e => setChatSessionName(e.target.value)}
+    />
+  );
+};
+
 export const NewFileDialog = ({
   newFileDialog,
   handleCloseNewFileDialog,
@@ -71,7 +115,67 @@ export const NewFileDialog = ({
   fileNameError,
   handleCreateNewFile,
   fileToUpload,
+  space,
 }) => {
+  console.log(`NEW ${space} DIALOG`);
+  let dialogTitle, content, actionText;
+
+  switch (space) {
+    case 'files':
+      dialogTitle = 'Create New File';
+      actionText = fileToUpload ? 'Upload' : 'Create';
+      content = (
+        <FileCreationContent
+          newFileName={newFileName}
+          setNewFileName={setNewFileName}
+          fileInputRef={fileInputRef}
+          existingNames={existingNames}
+          handleFileUpload={handleFileUpload}
+          handleNewFileNameChange={handleNewFileNameChange}
+          fileNameError={fileNameError}
+        />
+      );
+      break;
+
+    case 'assistants':
+      dialogTitle = 'Create Assistant';
+      actionText = 'Create Assistant';
+      content = (
+        <AssistantCreationContent
+          assistantName={assistantName}
+          setAssistantName={setAssistantName}
+        />
+      );
+      break;
+
+    case 'prompts':
+      dialogTitle = 'Create Prompt';
+      actionText = 'Create Prompt';
+      content = (
+        <PromptCreationContent
+          promptText={promptText}
+          setPromptText={setPromptText}
+        />
+      );
+      break;
+
+    case 'chat sessions':
+      dialogTitle = 'Create Chat Session';
+      actionText = 'Create Chat Session';
+      content = (
+        <ChatSessionCreationContent
+          chatSessionName={chatSessionName}
+          setChatSessionName={setChatSessionName}
+        />
+      );
+      break;
+
+    default:
+      dialogTitle = 'Create Item';
+      actionText = 'Create';
+      content = <p>Unknown space type.</p>;
+      break;
+  }
   return (
     <RCDialog
       open={newFileDialog.open}

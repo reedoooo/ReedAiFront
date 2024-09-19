@@ -37,6 +37,7 @@ const DashboardContainer = ({ children }) => {
     </Box>
   );
 };
+
 export const AdminLayout = props => {
   const { ...rest } = props;
   const [fixed] = useState(false);
@@ -47,8 +48,6 @@ export const AdminLayout = props => {
   const chatBotRoute =
     location.pathname.includes(`/admin/${params.workspaceId}`) ||
     location.pathname.includes(`/admin/chat`);
-  // ||
-  // location.pathname.includes(`/admin/codeEditor`);
   const isChatBotRoute = Boolean(chatBotRoute);
 
   return (

@@ -4,16 +4,32 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { FaSave } from 'react-icons/fa';
 import { RCTabs } from 'components/themed';
 import { useTabManager } from 'hooks/chat/useTabManager';
-import { EditFile, FileInfo, FileUpsert } from './items';
+import { EditFile, FileInfo, FileUpsert, useFileEditor } from './items';
 import FileManagementSidebar from './items/sidebar-items/FileManager';
 
 export const Files = props => {
   const { folders = [], folderId = '', title = '', files = [] } = props;
   const { activeTabs, selectedTab, selectTab } = useTabManager('files');
-  const [editingFile, setEditingFile] = useState(null);
-  const [fileName, setFileName] = useState('example.txt');
-  const [fileContent, setFileContent] = useState('');
-  const [fileDescription, setFileDescription] = useState('');
+  const {
+    fileName,
+    fileContent,
+    fileInfo,
+    fileDescription,
+    editingFile, // Method to set the file for editing
+    selectedItem,
+    setEditingFile,
+    setFileName,
+    setFileContent,
+    setFileDescription,
+    setFileInfo,
+    setSelectedItem,
+  } = useFileEditor();
+  // const [editingFile, setEditingFile] = useState(null);
+  // const [fileName, setFileName] = useState('example.txt');
+  // const [fileContent, setFileContent] = useState('');
+  // const [fileDescription, setFileDescription] = useState('');
+  // const [fileInfo, setFileInfo] = useState({});
+
   const ErrorFallback = ({ error }) => (
     <div>
       <h2>Something went wrong:</h2>
@@ -26,7 +42,12 @@ export const Files = props => {
     setFileName(file.name);
     setFileContent(file.content);
     setFileDescription(file.description);
-    selectTab(1); // Switch to Edit File tab
+    setFileInfo({
+      type: file.type,
+      size: file.size,
+      lastModified: file.lastModified,
+    });
+    selectTab(1); // Switch to the Edit tab
   };
 
   const handleSaveFile = async () => {
@@ -57,6 +78,7 @@ export const Files = props => {
             setFileName={setFileName}
             setFileContent={setFileContent}
             onSave={handleSaveFile}
+            selectedFile={editingFile}
           />
         );
       case 2:

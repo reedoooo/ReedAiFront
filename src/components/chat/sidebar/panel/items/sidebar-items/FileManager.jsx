@@ -1,19 +1,3 @@
-import {
-  Add as AddIcon,
-  Folder as FolderIcon,
-  InsertDriveFile as FileIcon,
-  ExpandLess,
-  ExpandMore,
-} from '@mui/icons-material';
-import {
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Collapse,
-  IconButton,
-} from '@mui/material';
-import { styled } from '@mui/system';
 import _ from 'lodash';
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
@@ -21,10 +5,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { attachmentsApi } from 'api/Ai/chat-sessions';
 import {
   AnimatedList,
-  AnimatedListItem,
   ContentArea,
-  FolderButton,
-  NewFileButton,
   SidebarManagerContainer,
   TopBar,
 } from 'components/chat/styled';
@@ -34,108 +15,10 @@ import useFileStructure from 'hooks/chat/useFileStructure';
 import { useTabManager } from 'hooks/chat/useTabManager';
 import { useDialog } from 'hooks/ui';
 import { NewFileDialog, NewFolderDialog } from './file-manager-components';
-
-const StyledListItem = styled(
-  ({ isHovered, isFocused, isSelected, ...other }) => <ListItem {...other} />
-)(({ theme, isHovered, isFocused, isSelected }) => ({
-  '&:hover': {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-  },
-  backgroundColor: isHovered
-    ? 'rgba(255, 255, 255, 0.05)'
-    : isFocused
-      ? 'rgba(255, 255, 255, 0.1)'
-      : isSelected
-        ? 'rgba(255, 255, 255, 0.15)'
-        : 'transparent',
-  outline: isFocused ? '1px solid #FFFFFF' : 'none',
-}));
-
-const DraggableItem = React.memo(
-  ({
-    item,
-    path,
-    moveItem,
-    onHover,
-    onFocus,
-    onSelect,
-    isHovered,
-    isFocused,
-    isSelected,
-    toggleFolder,
-    expandedFolders,
-  }) => {
-    const [{ isDragging }, drag] = useDrag({
-      type: 'ITEM',
-      item: { ...item, path },
-      collect: monitor => ({
-        isDragging: monitor.isDragging(),
-      }),
-    });
-
-    const [, drop] = useDrop({
-      accept: 'ITEM',
-      hover(draggedItem) {
-        if (draggedItem.path === path) {
-          return;
-        }
-        moveItem(draggedItem.path, path);
-      },
-    });
-
-    const handleKeyDown = event => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        onSelect(path);
-      }
-    };
-
-    return (
-      <div
-        ref={node => drag(drop(node))}
-        style={{
-          opacity: isDragging ? 0.5 : 1,
-          cursor: 'move',
-          display: 'inline-block',
-          width: '100%',
-        }}
-        onMouseEnter={() => onHover(path)}
-        onMouseLeave={() => onHover(null)}
-        onFocus={() => onFocus(path)}
-        onBlur={() => onFocus(null)}
-        onClick={() =>
-          item.type === 'folder' ? toggleFolder(item.id) : onSelect(path)
-        }
-        onKeyDown={handleKeyDown}
-        tabIndex={0}
-        role="button"
-        aria-pressed={isSelected}
-      >
-        <StyledListItem
-          isHovered={isHovered}
-          isFocused={isFocused}
-          isSelected={isSelected}
-        >
-          <ListItemIcon>
-            {item.type === 'folder' ? <FolderIcon /> : <FileIcon />}
-          </ListItemIcon>
-          <ListItemText primary={item.name} />
-          {item.type === 'folder' && (
-            <IconButton
-              onClick={e => {
-                e.stopPropagation();
-                toggleFolder(item.id);
-              }}
-            >
-              {expandedFolders[item.id] ? <ExpandLess /> : <ExpandMore />}
-            </IconButton>
-          )}
-        </StyledListItem>
-      </div>
-    );
-  }
-);
-
-DraggableItem.displayName = 'DraggableItem';
+import FileTree from './FileTree';
+import { FileTreeItem } from './FileTreeItem';
+import SidebarActions from './SidebarActions';
+import useFileEditor from './useFileEditor';
 
 export const FileManagementSidebar = props => {
   const { initialFolders, initialFiles, space } = props;
@@ -148,14 +31,31 @@ export const FileManagementSidebar = props => {
   } = useFileStructure(space);
   const { activeSpace, selectedTab, tabs, changeSpace, selectTab } =
     useTabManager(space);
+  const {
+    hoveredItem,
+    focusedItem,
+    selectedItem,
+    setHoveredItem,
+    setFocusedItem,
+    setSelectedItem,
+    onEditFile,
+    onHoverFile,
+    onFocusFile,
+    onSelectFile,
+    onStartDragging,
+    onEndDragging,
+    onDropItem,
+    isDragging,
+    draggedItem,
+  } = useFileEditor(); // Use the hook's state and function
+
   const [expandedFolders, setExpandedFolders] = useState({});
-  const [hoveredItem, setHoveredItem] = useState(null);
-  const [focusedItem, setFocusedItem] = useState(null);
-  const [selectedItem, setSelectedItem] = useState(null);
+  // const [hoveredItem, setHoveredItem] = useState(null);
+  // const [focusedItem, setFocusedItem] = useState(null);
+  // const [selectedItem, setSelectedItem] = useState(null);
   const [newFileName, setNewFileName] = useState('');
   const [newFolderName, setNewFolderName] = useState('');
   const [fileToUpload, setFileToUpload] = useState(null);
-  const [editingFile, setEditingFile] = useState(null);
   const newFileDialog = useDialog();
   const newFolderDialog = useDialog();
   const [files, setFiles] = useState(initialFiles || []);
@@ -198,14 +98,15 @@ export const FileManagementSidebar = props => {
     }));
   }, []);
 
-  const handleFileClick = useCallback(
-    file => {
-      setEditingFile(file);
-      changeSpace(file.space);
-      selectTab(1); // Assuming 1 is the 'Edit' tab for all spaces
-    },
-    [changeSpace, selectTab]
-  );
+  // When file is clicked, update file content and file info
+  // const handleFileClick = useCallback(
+  //   file => {
+  //     if (file.type === 'file') {
+  //       onEditFile(file); // Call the prop to edit file
+  //     }
+  //   },
+  //   [onEditFile]
+  // );
 
   const moveItem = useCallback((fromPath, toPath) => {
     setFileStructure(prevStructure => {
@@ -274,6 +175,7 @@ export const FileManagementSidebar = props => {
     newFolderDialog.handleClose();
     setNewFolderName('');
   };
+
   const handleFileUpload = async event => {
     const file = event.target.files[0];
     if (file && !files.find(f => f.name === file.name)) {
@@ -303,7 +205,7 @@ export const FileManagementSidebar = props => {
           ...uploadedFile,
           id: uploadedFile._id,
           name: newFileName,
-          type: 'file',
+          type: uploadedFile.type,
           path: uploadedFile.path,
         };
 
@@ -348,55 +250,13 @@ export const FileManagementSidebar = props => {
     }
   };
 
-  const renderFileStructure = useCallback(
-    (items, path = []) => {
-      return items.map((item, index) => {
-        if (!item) return null;
-        const isFolder = item.type === 'folder';
-        const isFolderExpanded = expandedFolders[item.id];
-
-        const currentPath = [...path, index];
-        const stringPath = currentPath.join('.');
-
-        return (
-          <React.Fragment key={item.id}>
-            <DraggableItem
-              item={item}
-              path={stringPath}
-              moveItem={moveItem}
-              onHover={setHoveredItem}
-              onFocus={setFocusedItem}
-              onSelect={setSelectedItem}
-              isHovered={hoveredItem === stringPath}
-              isFocused={focusedItem === stringPath}
-              isSelected={selectedItem === stringPath}
-              toggleFolder={toggleFolder}
-              expandedFolders={expandedFolders}
-            />
-            {isFolder && isFolderExpanded && item.children && (
-              <Collapse in={isFolderExpanded} timeout="auto" unmountOnExit>
-                <List
-                  component="div"
-                  disablePadding
-                  style={{ paddingLeft: 16 }}
-                >
-                  {renderFileStructure(item.children, currentPath)}
-                </List>
-              </Collapse>
-            )}
-          </React.Fragment>
-        );
-      });
-    },
-    [
-      expandedFolders,
-      hoveredItem,
-      focusedItem,
-      selectedItem,
-      moveItem,
-      toggleFolder,
-    ]
-  );
+  const updateFileTreeStructure = useCallback(updatedStructure => {
+    setFileStructure(prevStructure => {
+      const newStructure = _.cloneDeep(prevStructure);
+      _.merge(newStructure, updatedStructure);
+      return newStructure;
+    });
+  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -408,30 +268,37 @@ export const FileManagementSidebar = props => {
   return (
     <DndProvider backend={HTML5Backend}>
       <SidebarManagerContainer>
-        {/* Top Bar */}
-        <TopBar>
-          <NewFileButton
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={handleNewFile}
-          >
-            New File
-          </NewFileButton>
-          <FolderButton onClick={handleNewFolder}>
-            <FolderIcon />
-            <AddIcon
-              style={{
-                fontSize: '0.7em',
-                position: 'absolute',
-                right: '4px',
-                bottom: '4px',
-              }}
-            />
-          </FolderButton>
-        </TopBar>
+        <SidebarActions
+          handleNewFile={handleNewFile}
+          handleNewFolder={handleNewFolder}
+          space={space}
+        />
         {/* File Structure */}
         <ContentArea>
-          <AnimatedList>{renderFileStructure(fileStructure)}</AnimatedList>
+          <AnimatedList>
+            <FileTree
+              fileStructure={fileStructure}
+              expandedFolders={expandedFolders}
+              toggleFolder={folderId =>
+                setExpandedFolders(prev => ({
+                  ...prev,
+                  [folderId]: !prev[folderId],
+                }))
+              }
+              hoveredItem={hoveredItem}
+              focusedItem={focusedItem}
+              selectedItem={selectedItem}
+              moveItem={setFileStructure}
+              onHoverFile={onHoverFile}
+              onFocusFile={onFocusFile}
+              onSelectFile={onSelectFile}
+              setSelectedItem={setSelectedItem}
+              onStartDragging={onStartDragging} // Added dragging logic
+              onEndDragging={onEndDragging} // Added dragging logic
+              onDropItem={onDropItem} // Added dropping logic
+              isDragging={isDragging} // Added dragging state
+            />
+          </AnimatedList>
         </ContentArea>
         {/* File Creation Dialog */}
         <NewFileDialog

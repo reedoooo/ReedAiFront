@@ -6,7 +6,7 @@ import {
   Tooltip,
   useMediaQuery,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   AccountCircleRoundedIcon,
@@ -32,6 +32,8 @@ import {
   User,
   Workspace,
 } from './panel';
+import SidebarContent from './SidebarContent';
+import SidebarTabs from './SidebarTabs';
 
 const sidebarIconStyle = {
   width: '32px',
@@ -39,24 +41,23 @@ const sidebarIconStyle = {
   color: 'white',
 };
 
+const SIDEBAR_TABS = [
+  { id: 0, title: 'Workspaces', component: 'Workspace', icon: HomeIcon },
+  { id: 1, title: 'ChatSessions', component: 'ChatSession', icon: ChatIcon },
+  { id: 2, title: 'Assistants', component: 'Assistants', icon: AssistantIcon },
+  { id: 3, title: 'Prompts', component: 'Prompts', icon: EditIcon },
+  { id: 4, title: 'Files', component: 'Files', icon: FilePresentIcon },
+  { id: 5, title: 'User', component: 'User', icon: AccountCircleRoundedIcon },
+  { id: 6, title: 'Home', component: 'Home', icon: HomeIcon },
+];
+
 export const ChatSidebar = () => {
   const {
     state: { user, isAuthenticated },
   } = useUserStore();
   const { folders } = user;
   const {
-    state: {
-      apiKey,
-      chatSessions,
-      workspaces,
-      prompts,
-      files,
-      assistants,
-      tools,
-      collections,
-      models,
-      presets,
-    },
+    state: { apiKey, chatSessions, workspaces, prompts, files, assistants },
   } = useChatStore();
   const assistantFolders = folders?.filter(
     folder => folder.space === 'assistants'
@@ -66,12 +67,7 @@ export const ChatSidebar = () => {
   );
   const promptFolders = folders?.filter(folder => folder.space === 'prompts');
   const fileFolders = folders?.filter(folder => folder.space === 'files');
-  const toolFolders = folders?.filter(folder => folder.space === 'tools');
-  // const presetFolders = folders.filter(folder => folder.type === 'presets');
-  // const collectionFolders = folders.filter(
-  //   folder => folder.type === 'collections'
-  // );
-  // const modelFolders = folders.filter(folder => folder.type === 'models');
+
   const {
     state: { isSidebarOpen },
     actions: { setSidebarOpen },
@@ -84,16 +80,20 @@ export const ChatSidebar = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is mobile
   const isXs = useMediaQuery(theme.breakpoints.down('xs')); // Check if the screen size is mobile
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (sideBarWidthRef.current) {
       console.log('Sidebar width:', sideBarWidthRef.current.offsetWidth);
     }
   }, []);
-  React.useEffect(() => {
+  useEffect(() => {
     if (isXs && tab !== null) {
       setSidebarOpen(true); // Keep sidebar open in mobile view when a tab is selected
     }
   }, [isXs, tab, setSidebarOpen]);
+  const getFoldersBySpace = useCallback(
+    space => user.folders?.filter(folder => folder.space === space) || [],
+    [user.folders]
+  );
 
   const handleSidebarOpen = index => {
     setTab(index);
@@ -102,55 +102,6 @@ export const ChatSidebar = () => {
   const handleSidebarClose = () => {
     setSidebarOpen(false);
     setTab(null);
-  };
-  const renderContent = () => {
-    switch (tab) {
-      case 0:
-        return (
-          <Workspace title="Workspaces" data={workspaces} folders={folders} />
-        );
-      case 1:
-        return (
-          <ChatSession
-            title="ChatSessions"
-            data={chatSessions}
-            folders={chatSessionFolders}
-            files={files}
-          />
-        );
-      case 2:
-        return (
-          <Assistants
-            title="Assistants"
-            data={assistants}
-            folders={assistantFolders}
-            files={files}
-          />
-        );
-      case 3:
-        return (
-          <Prompts
-            title="Prompts"
-            data={prompts}
-            folders={promptFolders}
-            files={files}
-          />
-        );
-      case 4:
-        return (
-          <Files
-            title="Files"
-            data={files}
-            folderId={fileFolders._id}
-            folders={fileFolders}
-            files={files}
-          />
-        );
-      case 5:
-        return <User title="User" data={user} />;
-      default:
-        return <DefaultTab />;
-    }
   };
 
   return (
@@ -173,127 +124,18 @@ export const ChatSidebar = () => {
         }}
       >
         {/* -- SIDEBAR SECTION ICON BUTTONS -- */}
-        <Box
-          ref={sideBarWidthRef}
-          sx={{
-            transform:
-              isMobile && !isSidebarOpen ? 'translateX(-100%)' : 'none',
-            transition: 'transform 0.3s ease-in-out',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            padding: '0.5rem',
-            backgroundColor: '#1C1C1C',
-            color: 'white',
-            borderRadius: '14px',
-            height: 'calc(100vh - 8px)',
-          }}
-        >
-          <Avatar
-            sx={{
-              width: 40,
-              height: 40,
-              bgcolor: theme.palette.primary.main,
-              marginBottom: '0.5rem',
-            }}
-          >
-            <AiIcon sx={{ fontSize: 32, color: theme.palette.common.white }} />
-          </Avatar>
-          <IconButtonWithTooltip
-            tooltipTitle="Workspaces"
-            placement="right"
-            icon={SettingsIcon}
-            colorVariant="white"
-            sizeVariant="large"
-            variant="circle"
-            onClick={() => handleSidebarOpen(0)}
-          />
-          <IconButtonWithTooltip
-            tooltipTitle="ChatSessions"
-            placement="right"
-            icon={ChatIcon}
-            colorVariant="white"
-            sizeVariant="large"
-            variant="circle"
-            onClick={() => handleSidebarOpen(1)}
-          />
-          <IconButtonWithTooltip
-            tooltipTitle="Assistants"
-            placement="right"
-            icon={AssistantIcon}
-            colorVariant="white"
-            sizeVariant="large"
-            variant="circle"
-            onClick={() => handleSidebarOpen(2)}
-          />
-          <IconButtonWithTooltip
-            tooltipTitle="Prompts"
-            placement="right"
-            icon={EditIcon}
-            colorVariant="white"
-            sizeVariant="large"
-            variant="circle"
-            onClick={() => handleSidebarOpen(3)}
-          />
-          <IconButtonWithTooltip
-            tooltipTitle="Files"
-            placement="right"
-            icon={FilePresentIcon}
-            colorVariant="white"
-            sizeVariant="large"
-            variant="circle"
-            onClick={() => handleSidebarOpen(4)}
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              width: '100%',
-              backgroundColor: '#1C1C1C',
-            }}
-          >
-            <Tooltip title="UserId" placement="right">
-              <IconButton onClick={() => handleSidebarOpen(6)}>
-                <ValidationIcon
-                  IconComponent={FingerprintIcon}
-                  isValid={isAuthenticated}
-                />{' '}
-              </IconButton>
-            </Tooltip>{' '}
-            <Tooltip title="Api Key" placement="right">
-              <IconButton onClick={() => handleSidebarOpen(6)}>
-                <ValidationIcon
-                  IconComponent={KeyIcon}
-                  isValid={isValidApiKey || user.openai.apiKey ? true : false}
-                />{' '}
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              width: '100%',
-              backgroundColor: '#1C1C1C',
-              alignSelf: 'flex-end',
-              pt: '100%',
-              mt: 'auto',
-            }}
-          >
-            <Tooltip title="User" placement="right">
-              <IconButton onClick={() => handleSidebarOpen(5)}>
-                <AccountCircleRoundedIcon sx={sidebarIconStyle} />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Home" placement="right">
-              <IconButton onClick={() => navigate('/admin/dashboard')}>
-                <HomeIcon sx={sidebarIconStyle} />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        </Box>
+        <SidebarTabs
+          tab={tab}
+          handleSidebarOpen={handleSidebarOpen}
+          isXs={isXs}
+          isSidebarOpen={isSidebarOpen}
+          isValidApiKey={isValidApiKey || user.openai.apiKey ? true : false}
+          isAuthenticated={isAuthenticated}
+          isMobile={isMobile}
+          sideBarWidthRef={sideBarWidthRef}
+          theme={theme}
+        />
+
         {/* -- SIDEBAR DRAWER -- */}
         <Drawer
           anchor="left"
@@ -313,7 +155,19 @@ export const ChatSidebar = () => {
             },
           }}
         >
-          {renderContent()}
+          <SidebarContent
+            tab={tab}
+            user={user}
+            folders={folders}
+            isAuthenticated={isAuthenticated}
+            getFoldersBySpace={getFoldersBySpace}
+            chatSessions={chatSessions}
+            workspaces={workspaces}
+            prompts={prompts}
+            files={files}
+            assistants={assistants}
+            navigate={navigate}
+          />
         </Drawer>
       </div>
     </Box>

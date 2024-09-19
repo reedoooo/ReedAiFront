@@ -2,11 +2,11 @@ import AddIcon from '@mui/icons-material/Add';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import React, { useContext, useState } from 'react';
-import { foldersApi, workspacesApi } from 'api/workspaces';
+import React, { useState } from 'react';
+import { foldersApi } from 'api/workspaces';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useChatHandler } from 'hooks/chat';
-import CreateFile from '../file-items/file-create';
+import { AddFile } from '../file-items';
 
 const SidebarCreateButtons = ({ contentType, hasData }) => {
   const {
@@ -81,7 +81,7 @@ const SidebarCreateButtons = ({ contentType, hasData }) => {
       )} */}
 
       {isCreatingFile && (
-        <CreateFile isOpen={isCreatingFile} onOpenChange={setIsCreatingFile} />
+        <AddFile isOpen={isCreatingFile} onOpenChange={setIsCreatingFile} />
       )}
 
       {/* {isCreatingAssistant && (

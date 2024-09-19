@@ -97,7 +97,7 @@ export const safeParse = (jsonString, defaultValue = null) => {
  */
 export const formatResponse = json => {
   let formatted = '';
-
+  console.log(`Type: ${typeof json}, Value: ${json}`);
   switch (json.type) {
     case 'code':
       formatted = `### Code\n\n\`\`\`${json.data.language}\n${json.data.content}\n\`\`\`\n\n`;
