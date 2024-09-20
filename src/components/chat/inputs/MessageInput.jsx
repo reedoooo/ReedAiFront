@@ -7,6 +7,7 @@ import { SendIcon, StopCircleIcon } from 'assets/humanIcons';
 import { DarkIconBox } from 'assets/humanIcons/utils';
 import { useChatStore } from 'contexts';
 import {
+  useChatHandler,
   useChatHistoryHandler,
   useDialog,
   useMode,
@@ -20,13 +21,13 @@ import {
 import { ToolDial } from './ToolDial';
 
 export const MessageInput = React.memo(
-  ({ disabled, setIsEditorActive, editorRef, onSend, onChange }) => {
+  ({ disabled, inputContent, onSend, onRegenerate, onChange, onStop }) => {
     const apiKeyDialog = useDialog();
     const chatStore = useChatStore();
     const { theme } = useMode();
     const {
-      state: { showFilesDisplay, isFirstMessage, chatFiles },
-      actions: { setShowFilesDisplay, setUserInput },
+      state: { showFilesDisplay, isFirstMessage, chatFiles, chatMessages },
+      actions: { setShowFilesDisplay, setChatMessages },
     } = chatStore;
     const {
       setNewMessageContentToNextUserMessage,
@@ -35,8 +36,9 @@ export const MessageInput = React.memo(
     const { editor } = useTipTapEditor(
       isFirstMessage ? 'begin session' : 'continue session'
     );
+    const { handleSendMessage } = useChatHandler();
     const handleSendMessageWrapper = useCallback(async () => {
-      if (!JSON.parse(localStorage.getItem('baseChatStore')).apiKey) {
+      if (!sessionStorage.getItem('apiKey')) {
         apiKeyDialog.handleOpen();
         return;
       }
@@ -46,11 +48,41 @@ export const MessageInput = React.memo(
         return;
       }
 
-      console.log('Sending');
+      const content = editor.getText();
       editor.commands.clearContent();
-      await onSend();
-    }, [apiKeyDialog, disabled, editor, onSend]);
-    const handleIconButtonClick = useCallback(() => {
+
+      // Update chat messages state
+      // setChatMessages([...chatMessages, { role: 'user', content }]);
+      // chatStore.actions.setChatMessages( => [
+      //   ...prevMessages,
+      //   { role: 'user', content },
+      // ]);
+
+      await handleSendMessage(content);
+    }, [
+      disabled,
+      editor,
+      // setChatMessages,
+      // chatMessages,
+      handleSendMessage,
+      apiKeyDialog,
+    ]);
+    // const handleSendMessageWrapper = useCallback(async () => {
+    //   if (!sessionStorage.getItem('apiKey')) {
+    //     apiKeyDialog.handleOpen();
+    //     return;
+    //   }
+
+    //   if (disabled) {
+    //     console.log('Already Sending');
+    //     return;
+    //   }
+
+    //   console.log('Sending');
+    //   editor.commands.clearContent();
+    //   await onSend();
+    // }, [apiKeyDialog, disabled, editor, onSend]);
+    const handleIconButtonClick = useCallback(async () => {
       if (!sessionStorage.getItem('apiKey')) {
         console.log('No API Key');
         apiKeyDialog.handleOpen();
@@ -58,7 +90,7 @@ export const MessageInput = React.memo(
         console.log('Already Sending');
       } else {
         console.log('Sending');
-        handleSendMessageWrapper();
+        await handleSendMessageWrapper();
       }
     }, [apiKeyDialog, disabled, handleSendMessageWrapper]);
 

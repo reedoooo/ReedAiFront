@@ -192,8 +192,8 @@ export const FileManagementSidebar = props => {
           selectedFolderId || (firstFolder ? firstFolder.id : null);
         const uploadedFile = await attachmentsApi.uploadFile(fileToUpload, {
           name: newFileName,
-          userId: JSON.parse(sessionStorage.getItem('userId')),
-          workspaceId: JSON.parse(sessionStorage.getItem('workspaceId')),
+          userId: sessionStorage.getItem('userId'),
+          workspaceId: sessionStorage.getItem('workspaceId'),
           folderId: folderId,
           fileId: 'local',
           space: space.toLowerCase(),
@@ -238,8 +238,8 @@ export const FileManagementSidebar = props => {
         children: [],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        userId: JSON.parse(sessionStorage.getItem('userId')),
-        workspaceId: JSON.parse(sessionStorage.getItem('workspaceId')),
+        userId: sessionStorage.getItem('userId'),
+        workspaceId: sessionStorage.getItem('workspaceId'),
         space: space.toLowerCase(),
         path: `/${newFolderName}`,
         level: 0,

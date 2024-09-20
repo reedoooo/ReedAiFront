@@ -55,18 +55,9 @@ export const ChatSidebar = () => {
   const {
     state: { user, isAuthenticated },
   } = useUserStore();
-  const { folders } = user;
   const {
     state: { apiKey, chatSessions, workspaces, prompts, files, assistants },
   } = useChatStore();
-  const assistantFolders = folders?.filter(
-    folder => folder.space === 'assistants'
-  );
-  const chatSessionFolders = folders?.filter(
-    folder => folder.space === 'chatSessions'
-  );
-  const promptFolders = folders?.filter(folder => folder.space === 'prompts');
-  const fileFolders = folders?.filter(folder => folder.space === 'files');
 
   const {
     state: { isSidebarOpen },
@@ -90,10 +81,6 @@ export const ChatSidebar = () => {
       setSidebarOpen(true); // Keep sidebar open in mobile view when a tab is selected
     }
   }, [isXs, tab, setSidebarOpen]);
-  const getFoldersBySpace = useCallback(
-    space => user.folders?.filter(folder => folder.space === space) || [],
-    [user.folders]
-  );
 
   const handleSidebarOpen = index => {
     setTab(index);
@@ -126,7 +113,7 @@ export const ChatSidebar = () => {
         {/* -- SIDEBAR SECTION ICON BUTTONS -- */}
         <SidebarTabs
           tab={tab}
-          handleSidebarOpen={handleSidebarOpen}
+          handleSidebarOpen={index => handleSidebarOpen(index)}
           isXs={isXs}
           isSidebarOpen={isSidebarOpen}
           isValidApiKey={isValidApiKey || user.openai.apiKey ? true : false}
@@ -158,15 +145,12 @@ export const ChatSidebar = () => {
           <SidebarContent
             tab={tab}
             user={user}
-            folders={folders}
-            isAuthenticated={isAuthenticated}
-            getFoldersBySpace={getFoldersBySpace}
             chatSessions={chatSessions}
             workspaces={workspaces}
             prompts={prompts}
             files={files}
             assistants={assistants}
-            navigate={navigate}
+            folders={user.folders}
           />
         </Drawer>
       </div>

@@ -1,7 +1,5 @@
 import { Box, Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
 import { banner } from 'assets/img/auth';
-import { avatar5 } from 'assets/img/avatars';
 import { useUserStore } from 'contexts/UserProvider';
 import Banner from 'views/admin/profile/components/Banner';
 import General from 'views/admin/profile/components/General';
@@ -16,20 +14,20 @@ import Upload from 'views/admin/profile/components/Upload';
 
 export default function Overview() {
   const {
-    state: { user, isAuthenticated, userRequest },
-    actions: { handleAuthSubmit },
+    state: { user, selectedProfileImage },
   } = useUserStore();
 
   const userData = {
     name: user.username,
     email: user.email,
     bio: user.profile.bio || 'No bio provided',
-    image: JSON.parse(localStorage.getItem('userStore')).profileImage,
+    image: selectedProfileImage,
     job: user.profile.job || 'No job provided',
     posts: '17',
     followers: '9700',
     following: '274',
   };
+
   return (
     <Box pt={{ xs: '130px', sm: '80px' }}>
       <Grid

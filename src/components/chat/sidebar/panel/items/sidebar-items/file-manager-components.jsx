@@ -60,6 +60,23 @@ export const FileUploadTextField = ({
     </>
   );
 };
+export const FileCreationContent = ({
+  existingNames,
+  setExistingNames,
+  handleFileUpload,
+  handleNameChange,
+}) => {
+  return (
+    <TextField
+      fullWidth
+      margin="dense"
+      label="File Name"
+      placeholder="Enter file name"
+      value={existingNames[0]}
+      onChange={e => handleNameChange(e.target.value)}
+    />
+  );
+};
 export const AssistantCreationContent = ({
   assistantName,
   setAssistantName,
@@ -102,7 +119,16 @@ export const ChatSessionCreationContent = ({
     />
   );
 };
-
+const ContentTextField = ({ label, value, onChange, placeholder }) => (
+  <TextField
+    fullWidth
+    margin="dense"
+    label={label}
+    placeholder={placeholder}
+    value={value}
+    onChange={e => onChange(e.target.value)}
+  />
+);
 export const NewFileDialog = ({
   newFileDialog,
   handleCloseNewFileDialog,
@@ -118,64 +144,126 @@ export const NewFileDialog = ({
   space,
 }) => {
   console.log(`NEW ${space} DIALOG`);
-  let dialogTitle, content, actionText;
-
-  switch (space) {
-    case 'files':
-      dialogTitle = 'Create New File';
-      actionText = fileToUpload ? 'Upload' : 'Create';
-      content = (
-        <FileCreationContent
-          newFileName={newFileName}
-          setNewFileName={setNewFileName}
-          fileInputRef={fileInputRef}
-          existingNames={existingNames}
-          handleFileUpload={handleFileUpload}
-          handleNewFileNameChange={handleNewFileNameChange}
-          fileNameError={fileNameError}
+  const dialogConfig = {
+    files: {
+      title: 'Create New File',
+      actionText: fileToUpload ? 'Upload' : 'Create',
+      content: (
+        <>
+          <FileUploadTextField
+            value={newFileName}
+            onChange={setNewFileName}
+            fileInputRef={fileInputRef}
+            existingNames={existingNames}
+            handleFileUpload={handleFileUpload}
+          />
+          <ContentTextField
+            label="File Name"
+            value={newFileName}
+            onChange={handleNewFileNameChange}
+            placeholder="Enter file name"
+          />
+        </>
+      ),
+    },
+    assistants: {
+      title: 'Create Assistant',
+      actionText: 'Create Assistant',
+      content: (
+        <ContentTextField
+          label="Assistant Name"
+          value={newFileName}
+          onChange={setNewFileName}
+          placeholder="Enter assistant name"
         />
-      );
-      break;
-
-    case 'assistants':
-      dialogTitle = 'Create Assistant';
-      actionText = 'Create Assistant';
-      content = (
-        <AssistantCreationContent
-          assistantName={assistantName}
-          setAssistantName={setAssistantName}
+      ),
+    },
+    prompts: {
+      title: 'Create Prompt',
+      actionText: 'Create Prompt',
+      content: (
+        <ContentTextField
+          label="Prompt Text"
+          value={newFileName}
+          onChange={setNewFileName}
+          placeholder="Enter prompt text"
         />
-      );
-      break;
-
-    case 'prompts':
-      dialogTitle = 'Create Prompt';
-      actionText = 'Create Prompt';
-      content = (
-        <PromptCreationContent
-          promptText={promptText}
-          setPromptText={setPromptText}
+      ),
+    },
+    'chat sessions': {
+      title: 'Create Chat Session',
+      actionText: 'Create Chat Session',
+      content: (
+        <ContentTextField
+          label="Chat Session Name"
+          value={newFileName}
+          onChange={setNewFileName}
+          placeholder="Enter chat session name"
         />
-      );
-      break;
+      ),
+    },
+  };
+  const { title, actionText, content } = dialogConfig[space] || {
+    title: 'Create Item',
+    actionText: 'Create',
+    content: <p>Unknown space type.</p>,
+  };
+  // switch (space) {
+  //   case 'files':
+  //     dialogTitle = 'Create New File';
+  //     actionText = fileToUpload ? 'Upload' : 'Create';
+  //     content = (
+  //       <FileCreationContent
+  //         newFileName={newFileName}
+  //         setNewFileName={setNewFileName}
+  //         fileInputRef={fileInputRef}
+  //         existingNames={existingNames}
+  //         handleFileUpload={handleFileUpload}
+  //         handleNewFileNameChange={handleNewFileNameChange}
+  //         fileNameError={fileNameError}
+  //       />
+  //     );
+  //     break;
 
-    case 'chat sessions':
-      dialogTitle = 'Create Chat Session';
-      actionText = 'Create Chat Session';
-      content = (
-        <ChatSessionCreationContent
-          chatSessionName={chatSessionName}
-          setChatSessionName={setChatSessionName}
-        />
-      );
-      break;
+  //   case 'assistants':
+  //     dialogTitle = 'Create Assistant';
+  //     actionText = 'Create Assistant';
+  //     content = (
+  //       <AssistantCreationContent
+  //         assistantName={assistantName}
+  //         setAssistantName={setAssistantName}
+  //       />
+  //     );
+  //     break;
 
-    default:
-      dialogTitle = 'Create Item';
-      actionText = 'Create';
-      content = <p>Unknown space type.</p>;
-      break;
-  }
+  //   case 'prompts':
+  //     dialogTitle = 'Create Prompt';
+  //     actionText = 'Create Prompt';
+  //     content = (
+  //       <PromptCreationContent
+  //         promptText={promptText}
+  //         setPromptText={setPromptText}
+  //       />
+  //     );
+  //     break;
+
+  //   case 'chat sessions':
+  //     dialogTitle = 'Create Chat Session';
+  //     actionText = 'Create Chat Session';
+  //     content = (
+  //       <ChatSessionCreationContent
+  //         chatSessionName={chatSessionName}
+  //         setChatSessionName={setChatSessionName}
+  //       />
+  //     );
+  //     break;
+
+  //   default:
+  //     dialogTitle = 'Create Item';
+  //     actionText = 'Create';
+  //     content = <p>Unknown space type.</p>;
+  //     break;
+  // }
   return (
     <RCDialog
       open={newFileDialog.open}

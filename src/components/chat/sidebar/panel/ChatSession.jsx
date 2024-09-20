@@ -1,33 +1,43 @@
-import { Box, Menu, MenuItem, Typography } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Menu,
+  MenuItem,
+  Typography,
+} from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { workspacesApi } from 'api/workspaces';
+import { ChatBotIcon } from 'assets/humanIcons/custom';
 import { RCTabs } from 'components/themed';
 import { useChatStore } from 'contexts/ChatProvider';
 import { useChatHandler } from 'hooks/chat';
 import { useTabManager } from 'hooks/chat/useTabManager';
 import { ConversationTab, SessionSettings } from './items';
-import FileManagementSidebar from './items/sidebar-items/FileManager';
+import { FileManagementSidebar } from './items/sidebar-items/FileManager';
 
 export const ChatSession = props => {
   const { folders = [], data = {}, title = '', files = [] } = props;
   const {
-    state: { messages, selectedChatSession },
-    actions: { setMessages },
+    state: { chatMessages, selectedChatSession },
+    actions: { setChatMessages },
   } = useChatStore();
   const { handleGetSessionMessages, handleGetSession } = useChatHandler(
-    messages,
-    setMessages
+    chatMessages,
+    setChatMessages
   );
   const { activeTabs, selectedTab, selectTab } = useTabManager('chatSessions');
   const [sessions, setSessions] = useState(null);
   const [selectedSession, setSelectedSession] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
-  const workspaceId = JSON.parse(sessionStorage.getItem('workspaceId'));
-  const userId = JSON.parse(sessionStorage.getItem('userId'));
+  const userId = sessionStorage.getItem('userId');
+  const workspaceId = sessionStorage.getItem('workspaceId');
 
   const fetchSessions = useCallback(async () => {
+    setIsLoading(true);
+
     try {
       const chatSessions =
         await workspacesApi.getWorkspaceSessionsByWorkspaceId({
@@ -38,6 +48,7 @@ export const ChatSession = props => {
       setSessions(
         chatSessions?.map(session => ({
           ...session,
+          id: session._id,
           name: session.name,
           messages: session.messages,
           summary: session.summary,
@@ -46,10 +57,13 @@ export const ChatSession = props => {
           stats: session.stats,
           settings: session.settings,
           langChainSettings: session.langChainSettings,
+          icon: ChatBotIcon,
         }))
       );
     } catch (error) {
       console.error('Error fetching sessions:', error);
+    } finally {
+      setIsLoading(false);
     }
   }, [workspaceId, userId]);
 
@@ -78,6 +92,18 @@ export const ChatSession = props => {
   );
 
   const renderContent = () => {
+    if (isLoading) {
+      return (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="100%"
+        >
+          <CircularProgress />
+        </Box>
+      );
+    }
     switch (selectedTab) {
       case 0:
         return (
@@ -94,11 +120,14 @@ export const ChatSession = props => {
           <ConversationTab
             anchorEl={anchorEl}
             sessions={sessions}
+            setChatMessages={setChatMessages}
+            setChatSessions={setSessions}
             selectedSession={selectedSession}
             setSelectedSession={setSelectedSession}
             handleMenuClick={handleMenuClick}
             handleMenuClose={handleMenuClose}
             handleDeleteConversation={handleDeleteConversation}
+            isLoading={isLoading}
           />
         );
       case 2:

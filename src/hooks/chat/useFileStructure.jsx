@@ -13,7 +13,7 @@ const useFileStructure = space => {
     setError(null);
     try {
       const currentSpace = space.toLowerCase();
-      const workspaceId = JSON.parse(sessionStorage.getItem('workspaceId'));
+      const workspaceId = sessionStorage.getItem('workspaceId');
 
       const [workspaceFolders, storedFiles] = await Promise.all([
         workspacesApi.getWorkspaceFoldersBySpace({

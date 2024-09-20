@@ -1,11 +1,8 @@
 // user/index.js
 import userReducer, {
   fetchUserProfileImage,
-  updateUserInfo,
   resetUserInfo,
   setUser,
-  setUserId,
-  setAuthTokens,
   setIsAuthenticated,
   setUserOpenAiSettings,
   setIsRedirectToSignin,
@@ -31,11 +28,8 @@ export {
   refreshAccessToken,
   setIsRedirectToSignin,
   fetchUserProfileImage,
-  updateUserInfo,
   resetUserInfo,
   setUser,
-  setUserId,
-  setAuthTokens,
   setIsAuthenticated,
   setUserOpenAiSettings,
   setAuthUserData,

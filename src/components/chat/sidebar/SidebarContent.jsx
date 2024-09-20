@@ -12,13 +12,11 @@ import {
 const SidebarContent = ({
   tab,
   user,
-  isAuthenticated,
   chatSessions,
   workspaces,
   prompts,
   files,
   assistants,
-  navigate,
   folders,
 }) => {
   const getFoldersBySpace = useCallback(
@@ -90,7 +88,7 @@ const SidebarContent = ({
 export const DefaultTab = () => <div style={{ color: 'white' }}></div>;
 // Add PropTypes for SidebarContent
 SidebarContent.propTypes = {
-  tab: PropTypes.number.isRequired, // Tab should be a number
+  // tab: PropTypes.number.isRequired, // Tab should be a number
   user: PropTypes.shape({
     folders: PropTypes.arrayOf(
       PropTypes.shape({
@@ -98,13 +96,11 @@ SidebarContent.propTypes = {
       })
     ),
   }).isRequired, // user is required and has a folders array
-  isAuthenticated: PropTypes.bool.isRequired, // isAuthenticated is a boolean
   chatSessions: PropTypes.array.isRequired, // chatSessions is an array
   workspaces: PropTypes.array.isRequired, // workspaces is an array
   prompts: PropTypes.array.isRequired, // prompts is an array
   files: PropTypes.array.isRequired, // files is an array
   assistants: PropTypes.array.isRequired, // assistants is an array
-  navigate: PropTypes.func.isRequired, // navigate is a function
   folders: PropTypes.array.isRequired, // folders is an array
 };
 

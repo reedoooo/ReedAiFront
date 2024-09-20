@@ -16,19 +16,21 @@ export const workspaceSlice = createSlice({
   reducers: {
     setWorkspaceId: (state, action) => {
       state.workspaceId = action.payload;
-      sessionStorage.setItem('workspaceId', JSON.stringify(action.payload));
+      sessionStorage.setItem('workspaceId', action.payload);
       setLocalWorkspaceData({ ...state, workspaceId: action.payload });
     },
     setWorkspaces: (state, action) => {
-      console.log('Setting workspaces:', action.payload);
+      console.log('WORKSPACES', action.payload);
       setLocalWorkspaceData({ ...state, workspaces: action.payload });
       state.workspaces = action.payload;
     },
     setSelectedWorkspace: (state, action) => {
+      console.log('SELECTED_WORKSPACE', action.payload);
       setLocalWorkspaceData({ ...state, selectedWorkspace: action.payload });
       state.selectedWorkspace = action.payload;
     },
     setHomeWorkSpace: (state, action) => {
+      console.log('HOME_WORKSPACE', action.payload);
       setLocalWorkspaceData({ ...state, homeWorkSpace: action.payload });
       state.homeWorkSpace = action.payload;
     },

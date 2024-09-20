@@ -18,6 +18,7 @@ import { userReducer } from './user';
 const reedAiReducer = combineReducers({
   app: appReducer,
   user: userReducer,
+
   workspace: workspaceReducer,
   baseChat: baseChatReducer,
   chatSession: chatSessionReducer,

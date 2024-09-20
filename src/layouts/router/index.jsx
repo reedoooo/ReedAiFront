@@ -6,6 +6,7 @@ import {
   useParams,
 } from 'react-router-dom';
 import { toast, Toaster } from 'sonner';
+import ToastProvider from 'contexts/ToastProvider';
 import { LoadingIndicator } from 'utils/app';
 
 export const RouterLayout = props => {
@@ -50,7 +51,9 @@ export const RouterLayout = props => {
     <>
       <HistoryTracker />
       <Toaster />
-      <Outlet {...rest} />
+      <ToastProvider>
+        <Outlet {...rest} />
+      </ToastProvider>{' '}
     </>
   );
 };

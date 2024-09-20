@@ -74,8 +74,8 @@ export const Prompts = props => {
       if (editingPrompt) {
         savedPrompt = await settingsApi.updatePrompt({
           id: editingPrompt.id,
-          userId: JSON.parse(sessionStorage.getItem('userId')),
-          workspaceId: JSON.parse(sessionStorage.getItem('workspaceId')),
+          userId: sessionStorage.getItem('userId'),
+          workspaceId: sessionStorage.getItem('workspaceId'),
           folderId: folderId,
           name: promptData.name,
           content: promptData.content,
@@ -85,8 +85,8 @@ export const Prompts = props => {
       } else {
         savedPrompt = await settingsApi.createPrompt({
           // id: editingPrompt.id,
-          userId: JSON.parse(sessionStorage.getItem('userId')),
-          workspaceId: JSON.parse(sessionStorage.getItem('workspaceId')),
+          userId: sessionStorage.getItem('userId'),
+          workspaceId: sessionStorage.getItem('workspaceId'),
           folderId: folders[0].id,
           name: promptData.name,
           content: promptData.content,
@@ -124,8 +124,8 @@ export const Prompts = props => {
       const promptFolderId = firstFolder ? firstFolder.id : null;
       const uploadedFile = await attachmentsApi.uploadFile(fileToUpload, {
         name: fileName,
-        userId: JSON.parse(sessionStorage.getItem('userId')),
-        workspaceId: JSON.parse(sessionStorage.getItem('workspaceId')),
+        userId: sessionStorage.getItem('userId'),
+        workspaceId: sessionStorage.getItem('workspaceId'),
         folderId: promptFolderId,
         fileId: 'local',
         space: 'prompts',

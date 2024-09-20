@@ -6,8 +6,9 @@ import 'styles/MarkdownBlockStyles.css';
 
 export const MessageBox = React.memo(props => {
   const { messages } = props;
+  console.log('Rendering MessageBox component', messages);
   const groupedMessages = useMemo(() => {
-    return messages.reduce((acc, message, index) => {
+    return messages?.reduce((acc, message, index) => {
       if (index % 2 === 0) {
         acc.push([message, messages[index + 1]].filter(Boolean));
       }

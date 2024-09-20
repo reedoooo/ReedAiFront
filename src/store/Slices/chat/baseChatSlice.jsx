@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { chatApi } from 'api/Ai/chat-sessions';
 import { getLocalData, setLocalData } from '../helpers';
-import { setUserOpenAiSettings } from '../user/userSlice';
 
 const LOCAL_NAME = 'baseChatStore';
 const REDUX_NAME = 'baseChat';
@@ -12,21 +11,36 @@ function setLocalBaseChatData(data) {
   setLocalData(LOCAL_NAME, data);
 }
 
+// Create a variable to store the last fetch timestamp
+let lastFetchTime = 0;
+const FETCH_INTERVAL = 30000; // 30 seconds
+
 export const syncChatMessages = createAsyncThunk(
   `${REDUX_NAME}/session/messages`,
-  async (_, { dispatch }) => {
-    console.log('Syncing chat messages');
+  async (_, { dispatch, getState }) => {
     const sessionId = sessionStorage.getItem('sessionId');
     if (!sessionId) return;
-    if (sessionId) {
-      const response = await chatApi.getChatSessionMessages(sessionId);
-      dispatch(
-        baseChatSlice.actions.setChatMessages({
-          ...response.messages,
-        })
-      );
-      return response;
+
+    const currentTime = Date.now();
+    // Only fetch if it's been more than 30 seconds since the last fetch
+    if (currentTime - lastFetchTime < FETCH_INTERVAL) {
+      console.log('Skipping fetch, too soon since last fetch');
+      return;
     }
+
+    lastFetchTime = currentTime; // Update the last fetch time
+    const response = await chatApi.getChatSessionMessages(sessionId);
+
+    const state = getState();
+    // Check if the messages have changed to avoid unnecessary dispatch
+    if (
+      JSON.stringify(state.baseChat.chatMessages) !==
+      JSON.stringify(response.messages)
+    ) {
+      dispatch(baseChatSlice.actions.setChatMessages(response.messages));
+    }
+
+    return response;
   }
 );
 
@@ -37,32 +51,36 @@ export const baseChatSlice = createSlice({
     setMode: (state, action) => {
       state.mode = action.payload;
     },
-    setLoading: (state, action) => {
-      state.baseChatRequest.status = 'loading';
-      state.baseChatRequest.error = null;
+    setLoading: state => {
+      state.baseChatRequest = { status: 'loading', error: null };
     },
     setError: (state, action) => {
-      state.baseChatRequest.status = 'failed';
-      state.baseChatRequest.error = action.payload;
-      state.baseChatRequest.message =
-        action.payload.message || 'An error occurred';
+      state.baseChatRequest = {
+        status: 'failed',
+        error: action.payload,
+        message: action.payload.message || 'An error occurred',
+      };
     },
     setChatRequestData: (state, action) => {
-      state.baseChatRequest.status = 'succeeded';
-      state.baseChatRequest.success = action.payload;
-      state.baseChatRequest.message =
-        action.payload.message || 'Chat request successful';
+      state.baseChatRequest = {
+        status: 'succeeded',
+        success: action.payload,
+        message: action.payload.message || 'Chat request successful',
+      };
     },
-    setApiKey: (state, action) => {
-      console.log('Setting API key:', action.payload);
-      state.apiKey = action.payload;
-      state.isApiKeySet = action.payload.length > 0 ? true : false;
-      sessionStorage.setItem('apiKey', action.payload);
-      setUserOpenAiSettings({ apiKey: action.payload });
-      setLocalBaseChatData({ ...state, apiKey: action.payload });
+    setUserInput: (state, action) => {
+      state.userInput = action.payload;
+      setLocalBaseChatData({ ...state, userInput: action.payload });
     },
-    setIsGenerating: (state, action) => {
-      state.isGenerating = action.payload;
+    setIsStreaming: (state, action) => {
+      state.isStreaming = action.payload;
+    },
+    setStreamingMessageIndex: (state, action) => {
+      state.streamingMessageIndex = action.payload;
+    },
+    setBooleanState: (state, action) => {
+      const { key, value } = action.payload;
+      state[key] = value;
     },
     setIsDisabled: (state, action) => {
       state.isDisabled = action.payload;
@@ -79,28 +97,7 @@ export const baseChatSlice = createSlice({
     setIsMessagesUpdated: (state, action) => {
       state.isMessagesUpdated = action.payload;
     },
-    setUserInput: (state, action) => {
-      state.userInput = action.payload;
-    },
-    setIsStreaming: (state, action) => {
-      state.isStreaming = action.payload;
-    },
-    setStreamingMessageIndex: (state, action) => {
-      state.streamingMessageIndex = action.payload;
-    },
-    setChatMessages: (state, action) => {
-      state.chatMessages = action.payload;
-      setLocalBaseChatData({ ...state, chatMessages: action.payload });
-    },
-    setChatSettings: (state, action) => {
-      state.chatSettings = action.payload;
-    },
-    setChatFileItems: (state, action) => {
-      state.chatFileItems = action.payload;
-    },
-    setPayload: (state, action) => {
-      state.payload = action.payload;
-    },
+    // -- secondary commands --
     setIsPromptPickerOpen: (state, action) => {
       state.isPromptPickerOpen = action.payload;
     },
@@ -144,33 +141,6 @@ export const baseChatSlice = createSlice({
       state.sourceCount = action.payload;
     },
   },
-  // extraReducers: builder => {
-  //   builder;
-  // .addCase(syncChatMessages.pending, state => {
-  //   state.baseChatRequest.status = 'loading';
-  // })
-  // .addCase(syncChatMessages.fulfilled, (state, action) => {
-  //   state.baseChatRequest.status = 'succeeded';
-  //   state.chatMessages = action.payload.messages;
-  // })
-  // .addCase(syncChatMessages.rejected, (state, action) => {
-  //   state.baseChatRequest.status = 'failed';
-  //   state.baseChatRequest.error = action.error.message;
-  // })
-  // .addCase(addEnvToUser.pending, state => {
-  //   state.baseChatRequest.status = 'loading';
-  // })
-  // .addCase(addEnvToUser.fulfilled, (state, action) => {
-  //   console.log('addEnvToUser.fulfilled:', action.payload);
-  //   state.baseChatRequest.status = 'succeeded';
-  //   state.baseChatRequest.success = action.payload;
-  //   state.baseChatRequest.message = 'Added API key successfully';
-  // })
-  // .addCase(addEnvToUser.rejected, (state, action) => {
-  //   state.baseChatRequest.status = 'failed';
-  //   state.baseChatRequest.error = action.error.message;
-  // });
-  // },
 });
 
 export const {
@@ -178,7 +148,12 @@ export const {
   setLoading,
   setError,
   setChatRequestData,
-  setApiKey,
+  setIsDisabled,
+  setUserInput,
+  setStreamingMessageIndex,
+  setIsStreaming,
+  setAbortController,
+  // -- secondary commands --
   setIsPromptPickerOpen,
   setSlashCommand,
   setIsFilePickerOpen,
@@ -191,123 +166,11 @@ export const {
   setFocusAssistant,
   setAtCommand,
   setIsAssistantPickerOpen,
-  setStreamingMessageIndex,
-  setIsGenerating,
   setFirstTokenReceived,
-  setAbortController,
-  setIsDisabled,
   setIsMessagesUpdated,
   setFirstMessageReceived,
-  setUserInput,
-  setChatMessages,
-  setChatSettings,
-  setChatFileItems,
-  setPayload,
   setUseRetrieval,
   setSourceCount,
-  setIsStreaming,
 } = baseChatSlice.actions;
 
 export default baseChatSlice.reducer;
-//     addChatSessionReducer: (state, action) => {
-//       state.history = [action.payload.history, ...state.history];
-//       state.chats = {
-//         ...state.chats,
-//         [action.payload.history.id]: action.payload.chatData,
-//       };
-//       state.active = action.payload.history.id;
-//     },
-//     updateChatSessionReducer: (state, action) => {
-//       state.history = state.history.map(item =>
-//         item.id === action.payload.id
-//           ? { ...item, ...action.payload.edit }
-//           : item
-//       );
-//     },
-//     deleteChatSessionReducer: (state, action) => {
-//       const updatedHistory = [...state.history];
-//       const deletedSession = updatedHistory.splice(action.payload.index, 1)[0];
-//       const newActive =
-//         updatedHistory.length === 0
-//           ? null
-//           : updatedHistory[
-//               Math.min(action.payload.index, updatedHistory.length - 1)
-//             ].id;
-//       state.history = updatedHistory;
-//       state.chats = Object.keys(state.chats)
-//         .filter(key => key !== deletedSession.id)
-//         .reduce((res, key) => ((res[key] = state.chats[key]), res), {});
-//       state.active = newActive;
-//     },
-//     addChatById: (state, action) => {
-//       const newChatState = { ...state.chats };
-//       if (!newChatState[action.payload.id]) {
-//         newChatState[action.payload.id] = [];
-//       }
-//       newChatState[action.payload.id].push(action.payload.chat);
-//       state.chats = newChatState;
-//     },
-//     updateChatById: (state, action) => {
-//       const { id, index, chat } = action.payload;
-//       state.chats = {
-//         ...state.chats,
-//         [id]: state.chats[id].map((item, i) => (i === index ? chat : item)),
-//       };
-//     },
-//     getChatByIdAndIndex: (state, action) => {
-//       state.chats = {
-//         ...state.chats,
-//         [action.payload.id]: state.chats[action.payload.id].map((item, i) =>
-//           i === action.payload.index ? action.payload.chat : item
-//         ),
-//       };
-//     },
-//     clearChatById: (state, action) => {
-//       state.chats = {
-//         ...state.chats,
-//         [action.payload.id]: [],
-//       };
-//     },
-//     updateChatPartialById: (state, action) => {
-//       const { id, index, chat } = action.payload;
-//       state.chats = {
-//         ...state.chats,
-//         [id]: state.chats[id].map((item, i) => (i === index ? chat : item)),
-//       };
-//     },
-//     deleteChatById: async (state, action) => {
-//       const { id, index } = action.payload;
-//       const [keys, keys_length] = Object.entries(state.chats);
-//       if (!id) {
-//         if (keys_length) {
-//           const chatData = state.chats[keys[0]];
-//           const chat = chatData[index];
-//           chatData.splice(index, 1);
-//           if (chat) await deleteChatData(chat);
-//         }
-//         return;
-//       }
-
-//       if (keys.includes(id)) {
-//         const chatData = state.chats[id];
-//         const chat = chatData[index];
-//         chatData.splice(index, 1);
-//         if (chat) await deleteChatData(chat);
-//       }
-//     },
-//     updateChatSessionIfEdited: async (state, action) => {
-//       const { id, edit } = action.payload;
-//       const session = state.history.find(item => item.id === id);
-//       if (session) {
-//         const updatedSession = { ...session, ...edit };
-//         state.history = state.history.map(item =>
-//           item.id === id ? updatedSession : item
-//         );
-//         await fetchUpdateChatById(id, edit);
-//       }
-//     },
-//     clearState: state => {
-//       state.history = [];
-//       state.active = null;
-//       state.chats = {};
-//     },

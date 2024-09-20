@@ -1,8 +1,20 @@
 // src/libs/api.js
 import axios from 'axios';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
+import { toast, Toaster } from 'sonner';
 import constants from '@/config';
+import { jwtDecode } from 'jwt-decode';
+
 const { BASE_URL } = constants;
+
+function safelyDecodeToken(token) {
+  try {
+    return jwtDecode(token);
+  } catch (error) {
+    console.error('Error decoding token:', error);
+    return null;
+  }
+}
 
 /**
  * Axios instance for making API requests.
@@ -40,48 +52,71 @@ const saveErrorToLocalStorage = error => {
 const refreshToken = async () => {
   try {
     const refreshToken = sessionStorage.getItem('refreshToken');
+    if (!refreshToken) {
+      throw new Error('No refresh token available');
+    }
+
     const response = await axios.post(
-      `http://localhost:3001/api/user/refresh-token`,
-      {
-        refreshToken,
-      }
+      `${BASE_URL}/user/refresh-token`,
+      { refreshToken },
+      { headers: { 'Content-Type': 'application/json' } }
     );
-    const { accessToken, newRefreshToken } = response.data;
+
+    if (!response.data.accessToken || !response.data.refreshToken) {
+      throw new Error('Invalid token response');
+    }
+
+    const { accessToken, refreshToken: newRefreshToken } = response.data;
     sessionStorage.setItem('accessToken', accessToken);
     sessionStorage.setItem('refreshToken', newRefreshToken);
     return accessToken;
   } catch (error) {
     console.error('Error refreshing token:', error);
-    // If refresh token is invalid, log out the user
     sessionStorage.clear();
     window.location.href = `${window.location.origin}/auth/sign-in`;
     throw error;
   }
 };
+const handleTokenExpiration = async config => {
+  let accessToken = sessionStorage.getItem('accessToken');
+  if (!accessToken) {
+    throw new Error('No access token available');
+  }
+
+  const decodedToken = safelyDecodeToken(accessToken);
+  if (!decodedToken) {
+    throw new Error('Invalid token payload');
+  }
+
+  if (!decodedToken.exp) {
+    throw new Error('Token has no expiration');
+  }
+  const tokenExpiration = decodedToken.expiresIn * 1000;
+  const currentTime = Math.floor(Date.now() / 1000);
+  // if (decodedToken.expiresIn && decodedToken.expiresIn < currentTime) {
+  //   console.log('Token has expired');
+  //   accessToken = await refreshToken();
+  // }
+  if (Date.now() >= tokenExpiration) {
+    console.log('Token has expired');
+    accessToken = await refreshToken();
+  }
+
+  config.headers.Authorization = `Bearer ${accessToken}`;
+  return config;
+};
 
 axiosInstance.interceptors.request.use(
   async config => {
-    let accessToken = sessionStorage.getItem('accessToken');
-    if (accessToken) {
-      try {
-        // Check if the token is expired
-        const tokenExpiration =
-          JSON.parse(atob(accessToken.split('.')[1])).exp * 1000;
-        if (Date.now() >= tokenExpiration) {
-          // Token is expired, try to refresh it
-          accessToken = await refreshToken();
-        }
-        // Set the token in the request headers
-        config.headers.Authorization = `Bearer ${accessToken}`;
-      } catch (error) {
-        console.error('Error decoding token:', error);
-        saveErrorToLocalStorage(error);
-        sessionStorage.removeItem('accessToken');
-        window.location.href = `${window.location.origin}/auth/sign-in`;
-        return Promise.reject(error);
-      }
+    try {
+      return await handleTokenExpiration(config);
+    } catch (error) {
+      console.error('Error handling token:', error);
+      saveErrorToLocalStorage(error);
+      sessionStorage.removeItem('accessToken');
+      window.location.href = `${window.location.origin}/auth/sign-in`;
+      return Promise.reject(error);
     }
-    return config;
   },
   error => {
     console.error('[AXIOS_REQUEST_ERROR]', error);
@@ -105,15 +140,21 @@ axiosInstance.interceptors.response.use(
     }
 
     const { status, data } = error.response;
-
     switch (status) {
       case 401:
         if (data.message === 'jwt expired') {
-          sessionStorage.clear();
-          window.location.href = `${window.location.origin}/auth/sign-in`;
+          try {
+            const newAccessToken = await refreshToken();
+            error.config.headers.Authorization = `Bearer ${newAccessToken}`;
+            return axiosInstance(error.config);
+          } catch (refreshError) {
+            console.error('Error refreshing token:', refreshError);
+            sessionStorage.clear();
+            window.location.href = `${window.location.origin}/auth/sign-in`;
+          }
         } else {
           toast.error('Unauthorized access. Please log in again.');
-          localStorage.clear();
+          sessionStorage.clear();
           window.location.href = `${window.location.origin}/auth/sign-in`;
         }
         break;
@@ -137,98 +178,3 @@ axiosInstance.interceptors.response.use(
 );
 
 export default axiosInstance;
-// import axios from 'axios';
-// import { toast } from 'react-toastify';
-
-// const axiosInstance = axios.create({
-//   baseURL: 'http://localhost:3001/api',
-//   timeout: 40000,
-//   headers: {
-//     'Content-Type': 'application/json',
-//     Accept: 'application/json',
-//   },
-// });
-
-// export const setupInterceptors = () => {
-
-//   axiosInstance.interceptors.request.use(
-//     config => {
-//       const accessToken = sessionStorage.getItem('accessToken');
-//       if (accessToken) {
-//         config.headers.Authorization = `Bearer ${accessToken}`;
-//       }
-//       console.log(
-//         'Request:',
-//         config.method,
-//         config.url,
-//         config.data,
-//         config.headers
-//       );
-//       return config;
-//     },
-//     error => {
-//       console.error('Request Error:', error);
-//       return Promise.reject(error);
-//     }
-//   );
-//   axiosInstance.interceptors.response.use(
-//     response => {
-//       console.log('Response:', response.status, response.data);
-//       return response;
-//     },
-//     error => {
-//       // console.error('Response Error:', error.response.data);
-//       // showMessage(message, 'error');
-//       if (error.response.data.message === 'jwt expired') {
-//         window.location.href = `${window.location.origin}/auth/sign-in`;
-//       }
-//       if (error.response.status === 401) {
-//         console.error('Unauthorized access - maybe redirect to login');
-//       }
-//       if (error.response.status === 404) {
-//         console.error('Resource not found');
-//       }
-//       if (error.response.status === 500) {
-//         console.error('Server error');
-//       }
-//       if (!error.response.data.message) {
-//         console.error('Unknown error');
-//       }
-//       return Promise.reject(error);
-//     }
-//     // function (error) {
-//     //   const originalRequest = error.config;
-
-//     //   if (
-//     //     error.response.status === 401 &&
-//     //     originalRequest.url === `${API}refresh`
-//     //   ) {
-//     //     // clear Auth Credentials in localstorage and then return
-//     //     return Promise.reject(error);
-//     //   }
-
-//     //   // The above code is just to make sure we don't go on an infinite loop and reject if the refreshToken is invalid or expired.
-//     //   if (error.response.status === 401 && !originalRequest._retry) {
-//     //     originalRequest._retry = true;
-//     //     const refreshToken = localStorage.getItem('refreshToken');
-//     //     const user = localStorage.getItem('userStore')?.user;
-//     //     return axios
-//     //       .post(`${API}refresh`, {
-//     //         email: user.email,
-//     //         refreshToken: refreshToken,
-//     //       })
-//     //       .then(res => {
-//     //         if (res.status === 201) {
-//     //           localStorageService.setToken(res.data.accessToken);
-//     //           axios.defaults.headers.common['Authorization'] =
-//     //             'Bearer ' + localStorageService.getAccessToken();
-//     //           return axios(originalRequest);
-//     //         }
-//     //       });
-//     //   }
-//     //   return Promise.reject(error);
-//     // }
-//   );
-// };
-
-// export default axiosInstance;

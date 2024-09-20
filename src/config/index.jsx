@@ -6,6 +6,7 @@ import {
   programmingLanguages,
   statsConfig,
   systemConfig,
+  promptsConfig,
 } from './data-configs';
 import { authConfigs, coverLetterConfigs } from './form-configs';
 import {
@@ -27,6 +28,7 @@ const data = {
   components: componentConfig,
   system: systemConfig,
   programmingLanguages: programmingLanguages,
+  prompts: promptsConfig,
 };
 const forms = {
   coverLetterConfigs: coverLetterConfigs,

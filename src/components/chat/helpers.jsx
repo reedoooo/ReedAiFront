@@ -1,33 +1,6 @@
 /* eslint-disable no-constant-condition */
 import mongoose from 'mongoose';
 
-export const validateProps = (
-  apiKey,
-  userId,
-  setRedirectToSignIn,
-  sessionId,
-  setSessionId,
-  chatId,
-  setChatId
-) => {
-  if (!apiKey) {
-    alert('Please enter an API key');
-    return false;
-  }
-  if (!userId) {
-    alert('Please login to continue');
-    setRedirectToSignIn(true);
-    return false;
-  }
-  if (!sessionId) {
-    setSessionId(new mongoose.Types.ObjectId().toString());
-  }
-  if (!chatId) {
-    setChatId(new mongoose.Types.ObjectId().toString());
-  }
-  return true;
-};
-
 export const extractJSXFromMarkdown = markdown => {
   const regex = /```jsx([\s\S]*?)```/;
   const match = markdown.match(regex);
@@ -89,7 +62,6 @@ const debounce = (func, delay) => {
   };
 };
 export default {
-  validateProps,
   extractJSXFromMarkdown,
   getContentType,
   consumeReadableStream,

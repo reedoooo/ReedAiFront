@@ -1,37 +1,57 @@
-import { apiUtils } from '@/lib/apiUtils';
+import axios from 'axios';
+import constants from '@/config';
+import axiosInstance from '@/lib/api';
+// import { apiUtils } from '@/lib/apiUtils';
 
+const BASE_URL = 'http://localhost:3001/api';
 export const authApi = {
   signup: async (username, email, password) => {
-    const data = await apiUtils.post(`/user/signup`, {
+    const response = await axios.post(`${BASE_URL}/user/signup`, {
       username,
       email,
       password,
     });
-    return data;
+    sessionStorage.setItem('accessToken', response.data.accessToken);
+    sessionStorage.setItem('refreshToken', response.data.refreshToken);
+    sessionStorage.setItem('expiresIn', response.data.expiresIn);
+    sessionStorage.setItem('userId', response.data.userId);
+    return response.data;
   },
 
   login: async (usernameOrEmail, password) => {
-    const data = await apiUtils.post(`/user/login`, {
+    const response = await axios.post(`${BASE_URL}/user/login`, {
       usernameOrEmail,
       password,
     });
-    return data;
+    sessionStorage.setItem('accessToken', response.data.accessToken);
+    sessionStorage.setItem('refreshToken', response.data.refreshToken);
+    sessionStorage.setItem('expiresIn', response.data.expiresIn);
+    sessionStorage.setItem('userId', response.data.userId);
+    console.log(response);
+    return response.data;
   },
+  // login: async (usernameOrEmail, password) => {
+  //   const data = await axios.post(`/user/login`, {
+  //     usernameOrEmail,
+  //     password,
+  //   });
+  //   return data;
+  // },
 
   logout: async token => {
-    const data = await apiUtils.post(`/user/logout`, token);
-    return data;
+    const response = await axios.post(`/user/logout`, { token });
+    return response;
   },
 
   validateToken: async token => {
-    const data = await apiUtils.get(`/user/validate-token`, {
+    const data = await axios.get(`/user/validate-token`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return data;
   },
 
   refreshToken: async refreshToken => {
-    const data = await apiUtils.post(`/user/refresh-token`, {
+    const data = await axios.post(`/user/refresh-token`, {
       token: refreshToken,
     });
     return data;

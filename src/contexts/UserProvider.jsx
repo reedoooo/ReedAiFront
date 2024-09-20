@@ -9,6 +9,7 @@ import {
   setProfile,
   setSelectedProfileImage,
   setIsAuthenticated,
+  fetchUserProfileImage,
 } from 'store/Slices';
 
 const UserContext = createContext(null);
@@ -20,6 +21,7 @@ export const UserProvider = ({ children }) => {
   const actions = {
     setProfile,
     setSelectedProfileImage,
+    getUserProfileImage: username => dispatch(fetchUserProfileImage(username)),
     setIsAuthenticated: isAuthenticated =>
       dispatch(setIsAuthenticated(isAuthenticated)),
     setUser: user => dispatch(setUser(user)),
@@ -47,6 +49,11 @@ export const UserProvider = ({ children }) => {
   );
 };
 
+/*
+ * Custom hook to access the user context
+ * @returns {Object} The user context
+ *
+ */
 export const useUserStore = () => useContext(UserContext);
 
 export default UserProvider;

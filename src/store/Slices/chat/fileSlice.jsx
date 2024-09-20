@@ -202,18 +202,6 @@ export const fileSlice = createSlice({
       console.log('Setting files:', action.payload);
       state.files = action.payload;
       setLocalFileData({ ...state, files: action.payload });
-      // state.files = state.files.filter(file => file.id !== action.payload);
-      // setLocalFileData({ ...state, files: state.files });
-      // if (Array.isArray(action.payload)) {
-      //   state.files = action.payload;
-      //   setLocalFileData({ ...state, files: action.payload });
-      // } else if (
-      //   typeof action.payload === 'object' &&
-      //   action.payload !== null
-      // ) {
-      //   const file = action.payload;
-      //   state.files[file.id] = file;
-      // }
     },
     setNewMessageFiles: (state, action) => {
       console.log('Setting newMessageFiles:', action.payload);

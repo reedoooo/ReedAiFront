@@ -10,7 +10,7 @@ import {
   MenuItem,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdInfoOutline, MdNotificationsNone } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -33,9 +33,14 @@ export const HeaderLinks = props => {
   const { secondary } = props;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [imageUrl, setImageUrl] = useState('');
   const {
-    state: { profileImage, isAuthenticated, user },
-    actions: { setIsAuthenticated },
+    state: { selectedProfileImage, isAuthenticated, user },
+    actions: {
+      setIsAuthenticated,
+      getUserProfileImage,
+      setSelectedProfileImage,
+    },
   } = useUserStore(); // Use the useChatStore hook to get state
   const {
     theme: {
@@ -44,6 +49,31 @@ export const HeaderLinks = props => {
   } = useMode();
   const [anchorEl2, setAnchorEl2] = useState(null);
   const iconColor = grey[400];
+  useEffect(() => {
+    if (selectedProfileImage) {
+      return;
+    }
+    if (user.username && !selectedProfileImage) {
+      const image = getUserProfileImage(user.username);
+      setSelectedProfileImage(image);
+    }
+  }, []);
+  // const fetchProfileImage = async imageName => {
+  //   try {
+  //     // Fetch the image from the server
+  //     const response = await fetch(
+  //       `http://localhost:3001/api/chat/files/images/${imageName}`
+  //     );
+  //     if (!response.ok) {
+  //       throw new Error('Image not found');
+  //     }
+
+  //     // The image will be available in the response as a URL
+  //     setImageUrl(response.url);
+  //   } catch (error) {
+  //     console.error('Error fetching profile image:', error);
+  //   }
+  // };
   const handleLogout = () => {
     setIsAuthenticated(false);
     // clear session storage
@@ -164,7 +194,7 @@ export const HeaderLinks = props => {
           onClick={handleClick2}
         >
           <Avatar
-            src={isAuthenticated ? profileImage : profileImage} // Use the authenticated profile image if authenticated
+            src={isAuthenticated ? selectedProfileImage : selectedProfileImage} // Use the authenticated profile image if authenticated
             alt="Profile"
             sx={{
               width: 35,

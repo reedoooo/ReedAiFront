@@ -5,6 +5,7 @@ import { authApi, userApi } from 'api/user';
 import avatar5 from 'assets/img/avatars/avatar5.png'; // Fallback avatar
 import {
   setAssistants,
+  setChatMessages,
   setChatSessions,
   setCollections,
   setFiles,
@@ -38,18 +39,11 @@ function setLocalUserData(data) {
 function dispatchUserUpdates(dispatch, updatedUserData) {
   console.log('Dispatching user updates:', updatedUserData);
   dispatch(setUser(updatedUserData));
+  dispatch(setEnvKeyMap(updatedUserData.profile.envKeyMap));
   dispatch(setProfile(updatedUserData.profile));
   dispatch(setWorkspaces(updatedUserData.workspaces));
   dispatch(setSelectedWorkspace(updatedUserData.workspaces[0]));
   dispatch(setChatSessions(updatedUserData.chatSessions));
-  dispatch(setUserId(updatedUserData._id));
-  dispatch(
-    setAuthTokens(
-      updatedUserData.authSession.accessToken,
-      updatedUserData.authSession.refreshToken,
-      updatedUserData.authSession.expiresIn
-    )
-  );
   dispatch(setIsAuthenticated(true));
 }
 
@@ -68,20 +62,8 @@ export const handleAuthSubmit = createAsyncThunk(
         const updatedUserData = {
           ...data.user,
           userId: data.user._id,
-          accessToken: data.accessToken,
-          refreshToken: data.refreshToken,
-          expiresIn: data.expiresIn,
-          authSession: data.user.authSession,
           isAuthenticated: true,
         };
-        sessionStorage.setItem(
-          'accessToken',
-          updatedUserData.authSession.accessToken
-        );
-        sessionStorage.setItem(
-          'refreshToken',
-          updatedUserData.authSession.refreshToken
-        );
         if (isSignup) {
           updatedUserData.authUserRegisterData = {
             hasOnboarded: true,
@@ -90,13 +72,6 @@ export const handleAuthSubmit = createAsyncThunk(
         }
 
         dispatchUserUpdates(dispatch, updatedUserData);
-        // setInitialItemStorage({
-        //   chatSessions: [updatedUserData.workspaces[0].chatSessions],
-        //   folders: [updatedUserData.workspaces[0].folders],
-        //   files: [updatedUserData.workspaces[0].files],
-        //   tools: [updatedUserData.workspaces[0].tools],
-        //   prompts: [updatedUserData.workspaces[0].prompts],
-        // });
         sessionStorage.setItem(
           'workspaceId',
           updatedUserData.workspaces[0]._id
@@ -108,12 +83,6 @@ export const handleAuthSubmit = createAsyncThunk(
         window.location.href = '/admin/dashboard';
         return {
           user: updatedUserData,
-          token: data.accessToken,
-          userId: data.user._id,
-          accessToken: data.accessToken,
-          refreshToken: data.refreshToken,
-          expiresIn: data.expiresIn,
-          isAuthenticated: true,
         };
       }
     } catch (error) {
@@ -143,11 +112,9 @@ export const refreshAccessToken = createAsyncThunk(
     try {
       const data = await authApi.refreshToken(token);
       console.log('DATA', data);
-      setAuthTokens(data.accessToken, data.refreshToken, data.expiresIn);
       return data.accessToken;
     } catch (error) {
       console.error('Failed to refresh token:', error);
-      setAuthTokens(null, null, null);
       navigate('/auth/sign-in');
       return rejectWithValue(error.response.data);
       // window.location.href = '/auth/sign-in';
@@ -158,15 +125,13 @@ export const refreshAccessToken = createAsyncThunk(
 export const logout = createAsyncThunk(
   'auth/logout',
   async (_, { dispatch, getState, rejectWithValue }) => {
-    const token = getState().user.accessToken;
+    const token = sessionStorage.getItem('accessToken');
     console.log('LOGOUT TOKEN', token);
     try {
       await authApi.logout(token);
       localStorage.clear();
       sessionStorage.clear();
       dispatch(setUser({}));
-      dispatch(setUserToken(null));
-      dispatch(setUserId(''));
       return true;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -176,21 +141,34 @@ export const logout = createAsyncThunk(
 
 export const fetchUserProfileImage = createAsyncThunk(
   'user/fetchUserProfileImage',
-  async (username, { rejectWithValue }) => {
+  async (username, { dispatch, rejectWithValue }) => {
     try {
       const imagename = username ? 'avatar1' : 'avatar5';
       const imgWithExt = `${imagename}.png`;
 
-      // Request the image as a buffer
-      const response = await staticDataApi.getProfileImage(imgWithExt, {
-        responseType: 'arraybuffer', // or 'blob'
-      });
-
+      const response = await staticDataApi.getProfileImage(imgWithExt);
+      console.log('Image response:', response);
+      // Convert the blob to a URL
+      // const imageSrc = URL.createObjectURL(response);
       // Convert the buffer to a base64 string if needed
-      const buffer = Buffer.from(response.data, 'binary').toString('base64');
-      const imageSrc = `data:image/png;base64,${buffer}`;
-
-      return imageSrc;
+      // const buffer = Buffer.from(response.data, 'binary').toString('base64');
+      // const imageSrc = `data:image/png;base64,${buffer}`;
+      // dispatch(
+      //   setUser(prevUser => ({
+      //     ...prevUser,
+      //     profileImageName: 'avatar1.png',
+      //     profileImage: response,
+      //     isImageRetrieved: true,
+      //   }))
+      // );
+      // dispatch(
+      //   setProfile(prevProfile => ({
+      //     ...prevProfile,
+      //     imagePath: response,
+      //   }))
+      // );
+      // dispatch(setSelectedProfileImage(response));
+      return response;
     } catch (error) {
       console.error('Error fetching profile image:', error);
       return rejectWithValue(error.message);
@@ -213,14 +191,11 @@ export const setAuthUserData = createAsyncThunk(
       const { username } = storedUserData.user;
       let imageUrl = null;
       let imageRetrievalStatus = false;
-      if (!storedUserData?.userInfo?.profileImage) {
-        const profileImageAction = await dispatch(
-          fetchUserProfileImage(username)
-        );
-        imageUrl = profileImageAction.payload || avatar5;
+      if (!storedUserData?.selectedProfileImage) {
+        imageUrl = (await dispatch(fetchUserProfileImage(username))).payload;
         imageRetrievalStatus = true;
+        dispatch(setSelectedProfileImage(imageUrl));
       }
-      // const { workspaces, folders } = storedUserData;
       const {
         workspaces,
         folders,
@@ -233,19 +208,9 @@ export const setAuthUserData = createAsyncThunk(
         assistants,
         tools,
       } = storedUserData.user;
-      // if (!workspaces || workspaces.length === 0) {
-      //   // console.error('No workspaces available or workspaces array is empty');
-      //   // return rejectWithValue('No workspaces available');
-      //   return;
-      // }
-      const { accessToken, refreshToken, userId } = storedUserData;
       const homeWorkSpace = workspaces?.find(
         workspace => workspace.isHome === true
       );
-      // if (!homeWorkSpace) {
-      //   console.error('Home workspace not found');
-      //   return rejectWithValue('Home workspace not found');
-      // }
       console.log('HOME_WORKSPACE', homeWorkSpace);
       const updatedHomeWorkSpace = {
         ...homeWorkSpace,
@@ -265,7 +230,14 @@ export const setAuthUserData = createAsyncThunk(
       dispatch(setSelectedWorkspace(updatedHomeWorkSpace));
       dispatch(setWorkspaceId(updatedHomeWorkSpace._id));
       dispatch(setChatSessions(workspaces[0].chatSessions));
-      dispatch(setSelectedChatSession(updatedHomeWorkSpace.chatSessions[0]));
+      const currentChatSession = updatedHomeWorkSpace.chatSessions[0];
+      // const currentChatSessionMessages = currentChatSession.messages;
+      dispatch(setSelectedChatSession(currentChatSession));
+      dispatch(setChatMessages(currentChatSession.messages));
+      // localStorage.setItem(
+      //   'chatMessages',
+      //   JSON.stringify(currentChatSessionMessages)
+      // );
       dispatch(setSessionId(workspaces[0].chatSessions[0]));
       dispatch(setPresets(presets));
       dispatch(setSelectedPreset(presets[0]));
@@ -279,11 +251,6 @@ export const setAuthUserData = createAsyncThunk(
       dispatch(setSelectedAssistant(assistants[0]));
       dispatch(setTools(tools));
       dispatch(setSelectedTools(tools));
-      sessionStorage.setItem('userToken', JSON.stringify(accessToken));
-      sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
-      sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));
-      sessionStorage.setItem('userId', JSON.stringify(userId));
-      sessionStorage.setItem('expiresIn', '1d');
       return {
         ...storedUserData.user,
         profileImage: imageUrl,
@@ -307,7 +274,7 @@ export const addEnvToUser = createAsyncThunk(
     try {
       console.log('Adding API key:', apiKey);
       const response = await userApi.addEnvToUser(
-        JSON.parse(sessionStorage.getItem('userId')),
+        sessionStorage.getItem('userId'),
         apiKey
       );
       // dispatch(setApiKey(apiKey));
@@ -325,11 +292,6 @@ export const userSlice = createSlice({
   name: REDUX_NAME,
   initialState,
   reducers: {
-    updateUserInfo: (state, action) => {
-      const updatedUserInfo = { ...state.userInfo, ...action.payload };
-      setLocalUserData({ ...state, userInfo: updatedUserInfo });
-      state.userInfo = updatedUserInfo;
-    },
     resetUserInfo: state => {
       const defaultUserInfo = {
         name: '',
@@ -344,7 +306,7 @@ export const userSlice = createSlice({
       const user = action.payload;
       console.log('USER SLICE ACTION PAYLOAD:', user);
       setLocalUserData({ ...state, ...user });
-      state.user = { ...user };
+      state.user = user;
     },
     setUserOpenAiSettings: (state, action) => {
       const openAiSettings = action.payload;
@@ -356,56 +318,21 @@ export const userSlice = createSlice({
       setLocalUserData({ ...state, user: updatedUser });
       state.openAiSettings = openAiSettings;
     },
-    setAuthTokens: (state, action) => {
-      console.log('setAuthTokens', action.payload);
-      const accessToken = action.payload;
-      setLocalUserData({
-        ...state,
-        user: {
-          ...state.user,
-          authSession: {
-            token: accessToken,
-            tokenType: null,
-            accessToken: accessToken,
-            refreshToken: accessToken,
-            expiresIn: null,
-            expiresAt: null,
-            createdAt: null,
-          },
-        },
-      });
-      sessionStorage.setItem('userToken', accessToken);
-      sessionStorage.setItem('accessToken', accessToken);
-      sessionStorage.setItem('refreshToken', accessToken);
-      sessionStorage.setItem('expiresIn', '1d');
-      state.accessToken = accessToken;
-      state.token = accessToken;
-      state.refreshToken = accessToken;
-      state.expiresIn = '1d';
-      // state.authSession.accessToken = accessToken;
-      // state.authSession.refreshToken = accessToken;
-      // state.authSession.expiresIn = '1d';
-    },
-    setUserId: (state, action) => {
-      state.userId = action.payload;
-      sessionStorage.setItem('userId', action.payload);
-      setLocalUserData({ ...state, userId: action.payload });
-    },
     setProfile: (state, action) => {
       state.profile = action.payload;
-      state.userInfo = {
-        ...state.userInfo,
-        profileImage: action.payload.imagePath,
-        isImageRetrieved: true,
-      };
-      setLocalUserData(action.payload);
+      setLocalUserData({ ...state, profile: action.payload });
     },
     setEnvKeyMap: (state, action) => {
       state.envKeyMap = action.payload;
     },
     setSelectedProfileImage: (state, action) => {
       state.selectedProfileImage = action.payload;
-      setLocalUserData({ ...state, selectedProfileImage: action.payload });
+      state.isImageRetrieved = Boolean(action.payload);
+      setLocalUserData({
+        ...state,
+        selectedProfileImage: action.payload,
+        isImageRetrieved: true,
+      });
     },
     setIsAuthenticated: (state, action) => {
       state.isAuthenticated = action.payload;
@@ -449,12 +376,8 @@ export const userSlice = createSlice({
 });
 
 export const {
-  updateUserInfo,
   resetUserInfo,
   setUser,
-  setUserToken,
-  setUserId,
-  setAuthTokens,
   setIsAuthenticated,
   setUserOpenAiSettings,
   setIsRedirectToSignin,

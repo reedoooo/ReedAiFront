@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
+import { Toaster } from 'sonner';
 
 export const ToastContext = React.createContext({
   toasts: null,
@@ -9,50 +10,62 @@ export const ToastContext = React.createContext({
 export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
 
-  function id(toast) {
-    return toast.__id;
-  }
+  const addToast = useCallback(toast => {
+    const toastId = toast.__id ?? new Date();
+    setToasts(prevToasts => [...prevToasts, { ...toast, __id: toastId }]);
+    return toastId;
+  }, []);
 
-  const addToast = toast => {
-    toast.__id ??= new Date();
-    setToasts(toasts => [...toasts, toast]);
-    return id(toast);
-  };
-
-  const removeToast = toast => {
-    setToasts(toastList => {
-      return toastList.filter(current => id(current) !== id(toast));
+  const removeToast = useCallback(toast => {
+    setToasts(prevToasts => {
+      const index = prevToasts.findIndex(t => t.__id === toast.__id);
+      if (index === -1) return prevToasts;
+      const newToasts = [...prevToasts];
+      newToasts.splice(index, 1);
+      return newToasts;
     });
-  };
+  }, []);
 
-  const contextValue = {
-    toasts: toasts,
-    addToast: useCallback(error => addToast(error), []),
-    removeToast: useCallback(error => removeToast(error), []),
-  };
+  const contextValue = useMemo(
+    () => ({
+      toasts,
+      addToast,
+      removeToast,
+    }),
+    [toasts, addToast, removeToast]
+  );
 
   return (
     <ToastContext.Provider value={contextValue}>
+      <Toaster />
       {children}
     </ToastContext.Provider>
   );
 };
 
 export const useToastStore = timeout => {
-  // function useToast(timeout) {
   const {
     toasts,
     addToast: originalAddToast,
     removeToast,
   } = React.useContext(ToastContext);
 
-  function addToast(toast) {
-    originalAddToast(toast);
-    let appliedTimeout = toast.timeout ?? timeout;
-    if (appliedTimeout > 0)
-      setTimeout(() => removeToast(toast), appliedTimeout);
-  }
+  const addToast = useCallback(
+    toast => {
+      const id = originalAddToast(toast);
+      const appliedTimeout = toast.timeout ?? timeout;
+      if (appliedTimeout > 0) {
+        setTimeout(() => removeToast({ __id: id }), appliedTimeout);
+      }
+      return id;
+    },
+    [originalAddToast, removeToast, timeout]
+  );
 
-  return { toasts, addToast, removeToast };
+  return useMemo(
+    () => ({ toasts, addToast, removeToast }),
+    [toasts, addToast, removeToast]
+  );
 };
+
 export default ToastProvider;

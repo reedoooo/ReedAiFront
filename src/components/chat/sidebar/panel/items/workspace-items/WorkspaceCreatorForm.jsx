@@ -46,41 +46,19 @@ const CustomIcon = createSvgIcon(
   />,
   'CustomIcon'
 );
-// export const ReusableTextField = ({
-//   label,
-//   value,
-//   onChange,
-//   multiline = false,
-//   rows = 1,
-//   fullWidth = true,
-// }) => (
-//   <FormSection label={label}>
-//     <TextFieldSection
-//       fullWidth={fullWidth}
-//       value={value}
-//       onChange={e => onChange(e.target.value)}
-//       multiline={multiline}
-//       rows={rows}
-//       variant="outlined"
-//       sx={{
-//         color: '#ffffff',
-//       }}
-//     />
-//   </FormSection>
-// );
+
 export const WorkspaceCreatorForm = () => {
-  const { theme } = useMode();
   const chatStore = useChatStore();
   const userStore = useUserStore();
-  const navigate = useNavigate();
   const {
-    state: { selectedPreset, presets, modelNames, workspaces, messages },
-    actions: { setMessages },
+    state: { selectedPreset, presets, modelNames, workspaces, chatMessages },
+    actions: { setChatMessages, setSelectedPreset },
   } = chatStore;
-  const { handleCreateNewWorkspace } = useChatHandler(messages, setMessages);
+  const { handleCreateNewWorkspace } = useChatHandler(
+    chatMessages,
+    setChatMessages
+  );
   const userId = userStore.state.userId;
-  const { setSelectedPreset, setSelectedWorkspace, setWorkspaces } =
-    chatStore.actions;
   const [name, setName] = useState('Default Workspace');
   const [instructions, setInstructions] = useState('Default instructions');
   const [temperature, setTemperature] = useState(0.5);
@@ -101,7 +79,6 @@ export const WorkspaceCreatorForm = () => {
   const [fileSearchEnabled, setFileSearchEnabled] = useState(true);
   const [codeInterpreterEnabled, setCodeInterpreterEnabled] = useState(true);
   const [codeInput, setCodeInput] = useState('');
-  const [anchorEl, setAnchorEl] = useState(null);
   const handlePresetChange = event => {
     const selectedPresetName = event.target.value;
     const preset = presets.find(p => p.name === selectedPresetName);
@@ -121,7 +98,7 @@ export const WorkspaceCreatorForm = () => {
 
   const workspaceData = {
     name,
-    userId: userId || JSON.parse(sessionStorage.getItem('userId')),
+    userId: userId || sessionStorage.getItem('userId'),
 
     customPreset: {
       name: selectedPreset?.name || '',
@@ -157,8 +134,6 @@ export const WorkspaceCreatorForm = () => {
         justifyContent: 'space-between',
       }}
     >
-      {/* <FormTitle label="Workspaces" /> */}
-      {/* <Divider sx={{ color: '#ffffff', marginBottom: '5px' }} /> */}
       <TextFieldSection
         label="Name"
         value={name}
@@ -200,11 +175,6 @@ export const WorkspaceCreatorForm = () => {
               transition:
                 'opacity 100ms ease-out, transform 100ms cubic-bezier(0.43, 0.29, 0.37, 1.48)',
             },
-            // '&:not(.Mui-focused)': {
-            //   opacity: 0,
-            //   transform: 'scale(0.95, 0.8)',
-            //   transition: 'opacity 200ms ease-in, transform 200ms ease-in',
-            // },
           }}
           MenuProps={{
             anchorOrigin: {

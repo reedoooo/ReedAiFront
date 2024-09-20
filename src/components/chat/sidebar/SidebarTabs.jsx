@@ -34,7 +34,7 @@ const SidebarTabs = ({
       id: 0,
       title: 'Workspaces',
       component: 'Workspace',
-      icon: HomeIcon,
+      icon: SettingsIcon,
       onClick: () => handleSidebarOpen(0), // Fixed to use item.id directly
     },
     {

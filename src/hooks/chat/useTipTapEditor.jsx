@@ -4,17 +4,18 @@ import { debounce } from 'lodash';
 import { useState, useCallback, useEffect } from 'react';
 import { useChatStore } from 'contexts/ChatProvider'; // Import the context
 import './Tppy.css';
+
 export const useTipTapEditor = (initialContent = '') => {
   const [content, setContent] = useState(initialContent);
   const [contentType, setContentType] = useState('markdown');
   const [isInitialMessageAdded, setIsInitialMessageAdded] = useState(false);
 
-  // Destructure the actions from the chat store
   const {
-    actions: { setUserInput, setMessages },
-    state: { messages },
+    actions: { setUserInput, setChatMessages },
+    state: { chatMessages },
   } = useChatStore();
-  // Create a debounced version of setUserInput
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSetUserInput = useCallback(
     debounce(input => {
       setUserInput(input);
@@ -22,7 +23,6 @@ export const useTipTapEditor = (initialContent = '') => {
     []
   );
 
-  // Initialize the editor with extensions and content
   const editor = useEditor({
     extensions: [StarterKit],
     content: initialContent,
@@ -40,7 +40,6 @@ export const useTipTapEditor = (initialContent = '') => {
     },
   });
 
-  // Handle content type change and update the state accordingly
   const handleContentTypeChange = useCallback(
     event => {
       setContentType(event.target.value);
@@ -69,9 +68,12 @@ export const useTipTapEditor = (initialContent = '') => {
       const updatedContent = editor.getText();
       setContent(updatedContent);
       debouncedSetUserInput(updatedContent);
-      setMessages([...messages, { role: 'user', content: updatedContent }]);
+      setChatMessages([
+        ...chatMessages,
+        { role: 'user', content: updatedContent },
+      ]);
     }
-  }, [editor, debouncedSetUserInput, setMessages, messages]);
+  }, [editor, debouncedSetUserInput, setChatMessages, chatMessages]);
 
   const insertContentAndSync = useCallback(
     newContent => {
@@ -80,18 +82,23 @@ export const useTipTapEditor = (initialContent = '') => {
         const updatedContent = editor.getText();
         setContent(updatedContent);
         debouncedSetUserInput(updatedContent); // Sync with chat store
-        setMessages([...messages, { role: 'user', content: updatedContent }]); // Update messages
+        // setChatMessages([
+        //   ...chatMessages,
+        //   { role: 'user', content: updatedContent },
+        // ]); // Update messages
       }
     },
-    [editor, debouncedSetUserInput, setMessages, messages]
+    [editor, debouncedSetUserInput]
   );
-  // Effect to handle the initial message setup
+
+  const clearInput = useCallback(() => setUserInput(''), [setUserInput]);
+
   useEffect(() => {
-    if (!isInitialMessageAdded && messages.length === 0) {
-      const savedMessages =
-        JSON.parse(localStorage.getItem('chatMessages')) || [];
-      if (savedMessages.length === 0) {
-        setMessages([
+    if (!isInitialMessageAdded && chatMessages.length === 0) {
+      // const savedMessages =
+      //   JSON.parse(localStorage.getItem('chatMessages')) || [];
+      if (chatMessages?.length === 0) {
+        setChatMessages([
           {
             role: 'system',
             content:
@@ -101,7 +108,8 @@ export const useTipTapEditor = (initialContent = '') => {
         setIsInitialMessageAdded(true);
       }
     }
-  }, [isInitialMessageAdded, messages, setMessages]);
+  }, [isInitialMessageAdded, chatMessages, setChatMessages]);
+
   return {
     editor,
     content,
@@ -110,6 +118,7 @@ export const useTipTapEditor = (initialContent = '') => {
     insertContentAndSync, // Expose the custom command
     insertCodeBlock, // Expose the custom command
     insertForm, // Expose the custom command
+    clearInput,
   };
 };
 

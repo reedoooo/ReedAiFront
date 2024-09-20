@@ -155,7 +155,7 @@ export const chatApi = {
   getChatSessionMessages: async props => {
     // const { sessionId } = props;
     // console.log('SESSION ID:', sessionId);
-    const sessionId = JSON.parse(sessionStorage.getItem('sessionId'));
+    const sessionId = sessionStorage.getItem('sessionId');
     try {
       const data = await apiUtils.get(
         `/chat/sessions/${encodeURIComponent(sessionId)}/messages`
@@ -166,52 +166,21 @@ export const chatApi = {
       throw error;
     }
   },
-  // getStreamCompletionWithFile: async function fetchMessageStream({
-  //   sessionId,
-  //   workspaceId,
-  //   regenerate,
-  //   prompt,
-  //   file,
-  //   userId,
-  //   clientApiKey,
-  //   role = 'assistant',
-  //   signal,
-  //   count,
-  //   // filePath,
-  // }) {
-  //   const formData = new FormData();
-  //   formData.append('prompt', prompt);
-  //   formData.append('file', file);
-
-  //   // Send the request to the backend
-  //   try {
-  //     const responseStream = await apiUtils.post(
-  //       '/api/upload-with-prompt',
-  //       formData,
-  //       {
-  //         headers: {
-  //           'Content-Type': 'multipart/form-data',
-  //         },
-  //         responseType: 'stream',
-  //       }
-  //     );
-
-  //     // Set up a reader to handle the streamed response
-  //     const reader = responseStream.data.getReader();
-  //     const decoder = new TextDecoder('utf-8');
-  //     let text = '';
-
-  //     // Read the streamed response chunk by chunk
-  //     while (true) {
-  //       const { done, value } = await reader.read();
-  //       if (done) break;
-  //       text += decoder.decode(value, { stream: true });
-  //       setResponse(prevResponse => prevResponse + text); // Update the response as it streams
-  //     }
-  //   } catch (error) {
-  //     console.error('Error uploading prompt and file:', error);
-  //   }
-  // },
+  getChatSessionByChatSessionId: async (workspaceId, chatSessionId) => {
+    try {
+      const data = await apiUtils.get(
+        `/chat/workspaces/${workspaceId}/chatSessions/${chatSessionId}`
+      );
+      console.log('Chat session fetched:', data);
+      return data;
+    } catch (error) {
+      console.error(
+        `Error fetching chat session with id ${chatSessionId} in workspace ${workspaceId}:`,
+        error
+      );
+      throw error;
+    }
+  },
 
   getAll: async () => {
     try {
